@@ -441,4 +441,4 @@ Regular expressions are typically used to specify tokens.
 
     token token-name = regexp
 
-In the grammar rules, the notation `element-name~opt` indicates an optional element. The notation `...` indicates repetition of the preceding non-terminal construct and the separator token. For example, `expr ',' ... ',' expr` means a sequence of one or more `expr` elements separated by commas.
+In the grammar rules, the notation `element-name?` indicates an optional element. The notation `...` indicates repetition of the preceding non-terminal construct and the separator token. For example, `expr ',' ... ',' expr` means a sequence of one or more `expr` elements separated by commas.
