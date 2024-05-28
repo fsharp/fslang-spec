@@ -22,8 +22,8 @@ To explore this program, you can:
 The F# language uses simplified, indentation-aware syntactic constructs known as lightweight syntax. The lines of the sample program in the previous section form a sequence of declarations and are aligned on the same column. For example, the two lines in the following code are two separate declarations:
 
 ```fsharp
-    let squares = List.map square numbers
-    printfn "N^2 = %A" squares
+let squares = List.map square numbers
+printfn "N^2 = %A" squares
 ```
 
 Lightweight syntax applies to all the major constructs of the F# syntax. In the next example, the code is incorrectly aligned. The declaration starts in the first line and continues to the second and subsequent lines, so those lines must be indented to the same column under the first line:
