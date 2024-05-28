@@ -71,7 +71,7 @@ Note that double semicolons delimit lines in F# Interactive, and that F# Interac
 
 F# supports several other highly effective techniques to simplify the process of modeling and manipulating data such as tuples, options, records, unions, and sequence expressions. A tuple is an ordered collection of values that is treated as an atomic unit. In many languages, if you want to pass around a group of related values as a single entity, you need to create a named type, such as a class or record, to store these values. A tuple allows you to keep things organized by grouping related values together, without introducing a new type.
 
-To define a tuple, you separate the individual components with commas.
+To define a tuple, you separate the individual components with commas:
 
     > let tuple = (1, false, "text");;
     val tuple : int * bool * string = (1, false, "text")
@@ -94,16 +94,16 @@ The next line of the sample program defines a function called `square`, which sq
 
 Most statically-typed languages require that you specify type information for a function declaration. However, F# typically infers this type information for you. This process is referred to as *type inference*.
 
-From the function signature, F# knows that `square` takes a single parameter named `x` and that the function returns `x * x`. The last thing evaluated in an F# function body is the return value; hence there is no “return” keyword here. Many primitive types support the multiplication (*) operator (such as `byte`, `uint64`, and `double`); however, for arithmetic operations, F# infers the type `int` (a signed 32-bit integer) by default.
+From the function signature, F# knows that `square` takes a single parameter named `x` and that the function returns `x * x`. The last thing evaluated in an F# function body is the return value; hence there is no "return" keyword here. Many primitive types support the multiplication (*) operator (such as `byte`, `uint64`, and `double`); however, for arithmetic operations, F# infers the type `int` (a signed 32-bit integer) by default.
 
 Although F# can typically infer types on your behalf, occasionally you must provide explicit type annotations in F# code. For example, the following code uses a type annotation for one of the parameters to tell the compiler the type of the input.
 
     > let concat (x : string) y = x + y;;
     val concat : string -> string -> string
 
-Because x is stated to be of type `string`, and the only version of the `+` operator that accepts a left-hand argument of type `string` also takes a `string` as the right-hand argument, the F# compiler infers that the parameter `y` must also be a string. Thus, the result of `x + y` is the concatenation of the strings. Without the type annotation, the F# compiler would not have known which version of the `+` operator was intended and would have assumed `int` data by default.
+Because `x` is stated to be of type `string`, and the only version of the `+` operator that accepts a left-hand argument of type `string` also takes a `string` as the right-hand argument, the F# compiler infers that the parameter `y` must also be a string. Thus, the result of `x + y` is the concatenation of the strings. Without the type annotation, the F# compiler would not have known which version of the `+` operator was intended and would have assumed `int` data by default.
 
-The process of type inference also applies *automatic generalization* to declarations. This automatically makes code generic when possible, which means the code can be used on many types of data. For example, the following code defines a function that returns a new tuple in which the two values are swapped:
+The process of type inference also applies *automatic generalization* to declarations. This automatically makes code *generic* when possible, which means the code can be used on many types of data. For example, the following code defines a function that returns a new tuple in which the two values are swapped:
 
     > let swap (x, y) = (y, x);;
     val swap : 'a * 'b -> 'b * 'a
@@ -131,7 +131,7 @@ Consider another example:
 
 The code `(fun x -> x % 2 = 0)` defines an anonymous function, called a *function expression*, that takes a single parameter `x` and returns the result `x % 2 = 0`, which is a Boolean value that indicates whether `x` is even. The `->` symbol separates the argument list (`x`) from the function body (`x % 2 = 0`).
 
-Both of these examples pass a function as a parameter to another function — the first parameter to `List.map` is itself another function. Using functions as function values is a hallmark of functional programming.
+Both of these examples pass a function as a parameter to another function — the first parameter to `List.map` is itself another function. Using functions as *function values* is a hallmark of functional programming.
 
 Another tool for data transformation and analysis is *pattern matching*. This powerful switch construct allows you to branch control flow and to bind new values. For example, we can match an F# list against a sequence of list elements.
 
@@ -159,7 +159,7 @@ Pattern matching can also be used as a control construct — for example, by usi
 
 The `:?` operator returns true if the value matches the specified type, so if `x` is a string, `getType` returns `"x is a string"`.
 
-Function values can also be combined with the pipeline operator, `|>`. For example, given these functions:
+Function values can also be combined with the *pipeline operator*, `|>`. For example, given these functions:
 
 ```fsharp
     let square x = x * x
@@ -172,7 +172,7 @@ We can use the functions as values in a pipeline:
     > let result = 32 |> square |> toStr |> reverse;;
     val it : string = "4201"
 
-Pipelining demonstrates one way in which F# supports compositionality, a key concept in functional programming. The pipeline operator simplifies the process of writing compositional code where the result of one function is passed into the next.
+Pipelining demonstrates one way in which F# supports *compositionality*, a key concept in functional programming. The pipeline operator simplifies the process of writing compositional code where the result of one function is passed into the next.
 
 ### Imperative Programming
 
@@ -194,19 +194,19 @@ The `printfn` function is an example of *imperative programming*, which means ca
 
 ### .NET Interoperability and CLI Fidelity
 
-The Common Language Infrastructure (CLI) function `System.Console.ReadKey` to pause the program before the console window closes.
+The Common Language Infrastructure (CLI) function `System.Console.ReadKey` can be used to pause the program before the console window closes:
 
 ```fsharp
     System.Console.ReadKey(true)
 ```
 
-Because F# is built on top of CLI implementations, you can call any CLI library from F#. Furthermore, other CLI languages can easily use any F# components.
+Because F# is built on top of CLI implementations, you can call any CLI library from F#. Furthermore, other CLI languages can easily use any F# component.
 
 ### Parallel and Asynchronous Programming
 
-F# is both a parallel and a reactive language. During execution, F# programs can have multiple parallel active evaluations and multiple pending reactions, such as callbacks and agents that wait to react to events and messages.
+F# is both a *parallel* and a *reactive* language. During execution, F# programs can have multiple parallel active evaluations and multiple pending reactions, such as callbacks and agents that wait to react to events and messages.
 
-One way to write parallel and reactive F# programs is to use F# async expressions. For example, the code below is similar to the original program in [§1.1](introduction.md#a-first-program) except that it computes the Fibonacci function (using a technique that will take some time) and schedules the computation of the numbers in parallel:
+One way to write parallel and reactive F# programs is to use F# *async* expressions. For example, the code below is similar to the original program in [§1.1](introduction.md#a-first-program) except that it computes the Fibonacci function (using a technique that will take some time) and schedules the computation of the numbers in parallel:
 
 ```fsharp
     let rec fib x = if x < 2 then 1 else fib(x-1) + fib(x-2)
@@ -225,37 +225,36 @@ The preceding code sample shows multiple, parallel, CPU-bound computations.
 F# is also a reactive language. The following example requests multiple web pages in parallel, reacts to the responses for each request, and finally returns the collected results.
 
 ```fsharp
-    open System
-    open System.IO
-    open System.Net
+open System
+open System.IO
+open System.Net
 
-    let http url =
-        async {
-            let req = WebRequest.Create(Uri url)
-            use! resp = req.AsyncGetResponse()
-            use stream = resp.GetResponseStream()
-            use reader = new StreamReader(stream)
-            let contents = reader.ReadToEnd()
-            return contents
-            }
+let http url =
+    async {
+        let req = WebRequest.Create(Uri url)
+        use! resp = req.AsyncGetResponse()
+        use stream = resp.GetResponseStream()
+        use reader = new StreamReader(stream)
+        let contents = reader.ReadToEnd()
+        return contents
+    }
 
-    let sites = [
-        "http://www.bing.com"
-        "http://www.google.com"
-        "http://www.yahoo.com"
-        "http://www.search.com"
-        ]
+let sites =
+    [ "http://www.bing.com"
+      "http://www.google.com"
+      "http://www.yahoo.com"
+      "http://www.search.com" ]
 
-    let htmlOfSites =
-        Async.Parallel [for site in sites -> http site ]
-        |> Async.RunSynchronously
+let htmlOfSites =
+    Async.Parallel [ for site in sites -> http site ]
+    |> Async.RunSynchronously
 ```
 
 By using asynchronous workflows together with other CLI libraries, F# programs can implement parallel tasks, parallel I/O operations, and message-receiving agents.
 
 ### Strong Typing for Floating-Point Code
 
-F# applies type checking and type inference to floating-point-intensive domains through units of measure inference and checking. This feature allows you to type-check programs that manipulate floating-point numbers that represent physical and abstract quantities in a stronger way than other typed languages, without losing any performance in your compiled code. You can think of this feature as providing a type system for floating-point code.
+F# applies type checking and type inference to floating-point-intensive domains through *units of measure inference and checking*. This feature allows you to type-check programs that manipulate floating-point numbers that represent physical and abstract quantities in a stronger way than other typed languages, without losing any performance in your compiled code. You can think of this feature as providing a type system for floating-point code.
 
 Consider the following example:
 
@@ -363,7 +362,7 @@ Other mechanisms aimed at supporting software engineering include *signatures*, 
 
 F# Information-rich programming addresses the trend toward greater availability of data, services, and information. The key to information-rich programming is to eliminate barriers to working with diverse information sources that are available on the Internet and in modern enterprise environments. Type providers and query expressions are a significant part of F# support for information-rich programming.
 
-The F# Type Provider mechanism allows you to seamlessly incorporate, in a strongly typed manner, data and services from external sources. A type provider presents your program with new types and methods that are typically based on the schemas of external information sources. For example, an F# type provider for Structured Query Language (SQL) supplies types and methods that allow programmers to work directly with the tables of any SQL database:
+The F# Type Provider mechanism allows you to seamlessly incorporate, in a strongly typed manner, data and services from external sources. A *type provider* presents your program with new types and methods that are typically based on the schemas of external information sources. For example, an F# type provider for Structured Query Language (SQL) supplies types and methods that allow programmers to work directly with the tables of any SQL database:
 
 ```fsharp
     // Add References to FSharp.Data.TypeProviders, System.Data, and System.Data.   Linq
@@ -393,22 +392,22 @@ This specification describes the F# language by using a mixture of informal and 
 
 Regular expressions are given in the usual notation, as shown in the table:
 
-| Notation | Meaning |
-| --- | --- |
-| regexp+ | One or more occurrences |
-| regexp* | Zero or more occurrences |
-| regexp? | Zero or one occurrences |
-| [ char - char ] | Range of ASCII characters |
+| Notation          | Meaning                                  |
+| ----------------- | ---------------------------------------- |
+| regexp+           | One or more occurrences                  |
+| regexp*           | Zero or more occurrences                 |
+| regexp?           | Zero or one occurrences                  |
+| [ char - char ]   | Range of ASCII characters                |
 | [ ^ char - char ] | Any characters except those in the range |
 
 Unicode character classes are referred to by their abbreviation as used in CLI libraries for regular expressions—for example, `\Lu` refers to any uppercase letter. The following characters are referred to using the indicated notation:
 
-| Character | Name | Notation |
-| --- | --- | --- |
-| \b | backspace | ASCII/UTF-8/UTF-16/UTF-32 code 08 |
-| \n | newline | ASCII/UTF-8/UTF-16/UTF-32 code 10 |
-| \r | return | ASCII/UTF-8/UTF-16/UTF-32 code 13 |
-| \t | tab | ASCII/UTF-8/UTF-16/UTF-32 code 09 |
+| Character | Name      | Notation                          |
+| --------- | --------- | --------------------------------- |
+| \b        | backspace | ASCII/UTF-8/UTF-16/UTF-32 code 08 |
+| \n        | newline   | ASCII/UTF-8/UTF-16/UTF-32 code 10 |
+| \r        | return    | ASCII/UTF-8/UTF-16/UTF-32 code 13 |
+| \t        | tab       | ASCII/UTF-8/UTF-16/UTF-32 code 09 |
 
 Strings of characters that are clearly not a regular expression are written verbatim. Therefore, the following string
 
