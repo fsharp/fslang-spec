@@ -5,10 +5,10 @@ F# is a scalable, succinct, type-safe, type-inferred, efficiently executing func
 Over the next few sections, we will look at some small F# programs, describing some important aspects of F# along the way. As an introduction to F#, consider the following program:
 
 ```fsharp
-    let numbers = [ 1 .. 10 ]
-    let square x = x * x
-    let squares = List.map square numbers
-    printfn "N^2 = %A" squares
+let numbers = [ 1 .. 10 ]
+let square x = x * x
+let squares = List.map square numbers
+printfn "N^2 = %A" squares
 ```
 
 To explore this program, you can:
