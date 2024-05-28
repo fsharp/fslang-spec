@@ -271,7 +271,7 @@ The `Measure` attribute tells F# that `kg`, `s`, and `m` are not really types in
 
 ### Object-Oriented Programming and Code Organization
 
-The sample program shown at the start of this chapter is a _script_. Although scripts are excellent for rapid prototyping, they are not suitable for larger software components. F# supports the transition from scripting to structured code through several techniques.
+The sample program shown at the start of this chapter is a *script*. Although scripts are excellent for rapid prototyping, they are not suitable for larger software components. F# supports the transition from scripting to structured code through several techniques.
 
 The most important of these is *object-oriented programming* through the use of *class type definitions*, *interface type definitions*, and *object expressions*. Object-oriented programming is a primary application programming interface (API) design technique for controlling the complexity of large software projects. For example, here is a class definition for an encoder/decoder object.
 
