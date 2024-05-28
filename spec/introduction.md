@@ -56,14 +56,16 @@ The first line in our sample simply declares a list of numbers from one through 
 
 An F# list is an immutable linked list, which is a type of data used extensively in functional programming. Some operators that are related to lists include `::` to add an item to the front of a list and `@` to concatenate two lists. If we try these operators in F# Interactive, we see the following results:
 
-    > let vowels = ['e'; 'i'; 'o'; 'u'];;
-    val vowels: char list = ['e'; 'i'; 'o'; 'u']
+```fsharp
+> let vowels = ['e'; 'i'; 'o'; 'u'];;
+val vowels: char list = ['e'; 'i'; 'o'; 'u']
 
-    > ['a'] @ vowels;;
-    val it: char list = ['a'; 'e'; 'i'; 'o'; 'u']
+> ['a'] @ vowels;;
+val it: char list = ['a'; 'e'; 'i'; 'o'; 'u']
     
-    > vowels @ ['y'];;
-    val it: char list = ['e'; 'i'; 'o'; 'u'; 'y']
+> vowels @ ['y'];;
+val it: char list = ['e'; 'i'; 'o'; 'u'; 'y']
+```
 
 Note that double semicolons delimit lines in F# Interactive, and that F# Interactive prefaces the result with val to indicate that the result is an immutable value, rather than a variable.
 
