@@ -379,8 +379,8 @@ F# Information-rich programming addresses the trend toward greater availability 
 The F# Type Provider mechanism allows you to seamlessly incorporate, in a strongly typed manner, data and services from external sources. A *type provider* presents your program with new types and methods that are typically based on the schemas of external information sources. For example, an F# type provider for Structured Query Language (SQL) supplies types and methods that allow programmers to work directly with the tables of any SQL database:
 
 ```fsharp
-// Add References to FSharp.Data.TypeProviders, System.Data, and System.Data.   Linq
-type schema = SqlDataConnection<"Data Source=localhost;Integrated   Security=SSPI;">
+// Add References to FSharp.Data.TypeProviders, System.Data, and System.Data.Linq
+type schema = SqlDataConnection<"Data Source=localhost;Integrated Security=SSPI;">
 
 let db = schema.GetDataContext()
 ```
