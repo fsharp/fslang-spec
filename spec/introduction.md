@@ -54,8 +54,7 @@ The first line in our sample simply declares a list of numbers from one through 
     let numbers = [1 .. 10]
 ```
 
-An F# list is an immutable linked list, which is a type of data used extensively in functional programming. Some operators that are related to lists include `::` to add an item to the front of a list and `@` to concatenate two lists. If we try these operators in F# Interactive, we see the following
-results:
+An F# list is an immutable linked list, which is a type of data used extensively in functional programming. Some operators that are related to lists include `::` to add an item to the front of a list and `@` to concatenate two lists. If we try these operators in F# Interactive, we see the following results:
 
     > let vowels = ['e'; 'i'; 'o'; 'u'];;
     val vowels: char list = ['e'; 'i'; 'o'; 'u']
