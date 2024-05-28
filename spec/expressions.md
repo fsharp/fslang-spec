@@ -484,7 +484,7 @@ issue a deprecation warning.
 
 A _copy-and-update record expression_ has the following form:
 
-```fsharp
+```fsgrammar
 { expr with field-initializers }
 ```
 where `field-initializers` is of the following form:
@@ -2674,7 +2674,7 @@ For details about the nodes that may be encountered, see the documentation for t
 - References to generic type parameters or uses of constructs whose type involves a generic
     parameter, such as the following:
     ```fsharp
-           let f (x:'T) = <@ (x, x) : 'T * 'T @>
+    let f (x:'T) = <@ (x, x) : 'T * 'T @>
     ```
 
     In this case, the actual value of the type parameter is implicitly substituted throughout the type
@@ -3123,7 +3123,7 @@ Expressions of the form `expr :?> ty` evaluate in the same way as the F# library
     for efficiency reasons ([§5.4.8](types-and-type-constraints.md#nullness)). For these  types, boxing and unboxing can lose type
     distinctions. For example, contrast the following two examples:
 
-    ```fsharp
+    ```fsother
     > (box([]:string list) :?> int list);;
     System.InvalidCastException...
     > (box(None:string option) :?> int option);;
