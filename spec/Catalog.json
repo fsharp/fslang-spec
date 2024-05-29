@@ -1,9 +1,9 @@
 {
     "FrontMatter": "front-matter",
     "MainBody": [
+        "introduction"
     ],
     "ToBeTransferedToMainBody": [
-        "introduction",
         "program-structure",
         "lexical-analysis",
         "basic-grammar-elements",
