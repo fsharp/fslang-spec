@@ -425,20 +425,24 @@ Unicode character classes are referred to by their abbreviation as used in CLI l
 
 Strings of characters that are clearly not a regular expression are written verbatim. Therefore, the following string
 
-    abstract
-
+```fsgrammar
+abstract
+```
 matches precisely the characters `abstract`.
 
 Where appropriate, apostrophes and quotation marks enclose symbols that are used in the specification of the grammar itself, such as `'<'` and `'|'`. For example, the following regular expression matches `(+)` or `(-)`:
 
-    '(' (+|-) ')'
-
+```fsgrammar
+'(' (+|-) ')'
+```
 This regular expression matches precisely the characters `#if`:
 
-    "#if"
-
+```fsgrammar
+"#if"
+```
 Regular expressions are typically used to specify tokens.
 
-    token token-name = regexp
-
+```fsgrammar
+token token-name = regexp
+```
 In the grammar rules, the notation `element-name?` indicates an optional element. The notation `...` indicates repetition of the preceding non-terminal construct and the separator token. For example, `expr ',' ... ',' expr` means a sequence of one or more `expr` elements separated by commas.
