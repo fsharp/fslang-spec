@@ -95,7 +95,7 @@ array < int >
 
 ## Checking Syntactic Types
 
-Syntactic types are checked and converted to static types as they are encountered. Static types are a
+Syntactic types are checked and converted to *static types* as they are encountered. Static types are a
 specification device used to describe
 
 - The process of type checking and inference.
@@ -108,41 +108,41 @@ For the remainder of this specification we use the same syntax to represent synt
 static types. For example `int32 * int32` is used to represent the syntactic type that appears in
 source code and the static type that is used during checking and type inference.
 
-The conversion from syntactic types to static types happens in the context of a name resolution
-environment (see [§14.1](inference-procedures.md#name-resolution)), a floating type variable environment, which is a mapping from names to type
-variables, and a type inference environment (see [§14.5](inference-procedures.md#constraint-solving)).
+The conversion from syntactic types to static types happens in the context of a *name resolution
+environment* (see [§14.1](inference-procedures.md#name-resolution)), a *floating type variable environment*, which is a mapping from names to type
+variables, and a *type inference environment* (see [§14.5](inference-procedures.md#constraint-solving)).
 
-The phrase “fresh type” means a static type that is formed from a `fresh type inference variable`. Type
-inference variables are either solved or generalized by type inference ([§14.5](inference-procedures.md#constraint-solving)). During conversion and
-throughout the checking of types, expressions, declarations, and entire files, a set of `current
-inference constraints` is maintained. That is, each static type is processed under input constraints `Χ` ,
+The phrase “fresh type” means a static type that is formed from a *fresh type inference variable*. Type
+inference variables are either solved or generalized by *type inference* ([§14.5](inference-procedures.md#constraint-solving)). During conversion and
+throughout the checking of types, expressions, declarations, and entire files, a set of *current
+inference constraints* is maintained. That is, each static type is processed under input constraints `Χ` ,
 and results in output constraints `Χ’`. Type inference variables and constraints are progressively
-`simplified` and `eliminated` based on these equations through `constraint solving` ([§14.5](inference-procedures.md#constraint-solving)).
+*simplified* and *eliminated* based on these equations through *constraint solving* ([§14.5](inference-procedures.md#constraint-solving)).
 
 ### Named Types
 
-`Named types` have several forms, as listed in the following table.
+*Named types* have several forms, as listed in the following table.
 
 | **Form**                   | **Description**                                                                                                                                                                                                      |
 |----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `long-ident <ty1,...,tyn>` | Named type with one or more suffixed type arguments.                                                                                                                                                                 |
+| `long-ident <ty1, ..., tyn>` | Named type with one or more suffixed type arguments.                                                                                                                                                                 |
 | `long-ident`               | Named type with no type arguments                                                                                                                                                                                    |
 | `type long-ident`          | Named type with one type argument; processed the same as `long-ident<type>`                                                                                                                                          |
-| `ty1 -> ty2`               | A function type, where: <br> ▪ ty1 is the domain of the function values associated with the type<br> ▪ ty2 is the range.<br>In compiled code it is represented by the named type<br>`FSharp.Core.FastFunc<ty1,ty2>`. |
+| `ty1 -> ty2`               | A function type, where: <br> ▪ ty1 is the domain of the function values associated with the type<br> ▪ ty2 is the range.<br>In compiled code it is represented by the named type<br>`FSharp.Core.FastFunc<ty1, ty2>`. |
 
 Named types are converted to static types as follows:
 
-- Name Resolution for Types (see [§14.1](inference-procedures.md#name-resolution)) resolves `long-ident` to a type definition with formal generic
-  parameters `<typar1,...,typarn>` and formal constraints `C`. The number of type arguments `n` is
+- *Name Resolution for Types* (see [§14.1](inference-procedures.md#name-resolution)) resolves `long-ident` to a type definition with formal generic
+  parameters `<typar1, ..., typarn>` and formal constraints `C`. The number of type arguments `n` is
   used during the name resolution process to distinguish between similarly named types that take
   different numbers of type arguments.
-- Fresh type inference variables `<ty'1,...,ty'n>` are generated for each formal type parameter. The
+- Fresh type inference variables `<ty'1, ..., ty'n>` are generated for each formal type parameter. The
   formal constraints `C` are added to the current inference constraints for the new type inference
   variables; and constraints `tyi = ty'i` are added to the current inference constraints.
 
 ### Variable Types
 
-A type of the form `'ident` is a variable type. For example, the following are all variable types:
+A type of the form `'ident` is a *variable* type. For example, the following are all variable types:
 
 ```fsharp
 'a
@@ -150,21 +150,21 @@ A type of the form `'ident` is a variable type. For example, the following are a
 'Key
 ```
 
-During checking, Name Resolution (see [§14.1](inference-procedures.md#name-resolution)) is applied to the identifier.
+During checking, *Name Resolution* (see [§14.1](inference-procedures.md#name-resolution)) is applied to the identifier.
 
 - If name resolution succeeds, the result is a variable type that refers to an existing declared type
   parameter.
-- If name resolution fails, the current floating type variable environment is consulted, although
+- If name resolution fails, the current *floating type variable environment* is consulted, although
   only in the context of a syntactic type that is embedded in an expression or pattern. If the type
   variable name is assigned a type in that environment, F# uses that mapping. Otherwise, a fresh
 
 type inference variable is created (see [§14.5](inference-procedures.md#constraint-solving)) and added to both the type inference environment
 and the floating type variable environment.
 
-A type of the form `_` is an anonymous variable type. A fresh type inference variable is created and
+A type of the form `_` is an *anonymous variable* type. A fresh type inference variable is created and
 added to the type inference environment (see [§14.5](inference-procedures.md#constraint-solving)) for such a type.
 
-A type of the form `^ident` is a `statically resolved type variable`. A fresh type inference variable is
+A type of the form `^ident` is a *statically resolved type variable*. A fresh type inference variable is
 created and added to the type inference environment (see [§14.5](inference-procedures.md#constraint-solving)). This type variable is tagged with
 an attribute that indicates that it can be generalized only at `inline` definitions (see [§14.6.7](inference-procedures.md#generalization)). The
 same restriction on generalization applies to any type variables that are contained in any type that is
@@ -175,14 +175,14 @@ equated with the `^ident` type in a type inference equation.
 
 ### Tuple Types
 
-A tuple type has the following form:
+A *tuple type* has the following form:
 
 ```fsgrammar
 ty 1 * ... * tyn
 ```
 
 The elaborated form of a tuple type is shorthand for a use of the family of F# library types
-`System.Tuple<_,...,_>`. (see [§6.3.2](expressions.md#tuple-expressions)) for the details of this encoding.
+`System.Tuple<_, ..., _>`. (see [§6.3.2](expressions.md#tuple-expressions)) for the details of this encoding.
 
 When considered as static types, tuple types are distinct from their encoded form. However, the
 encoded form of tuple types is visible in the F# type system through runtime types. For example,
@@ -197,8 +197,8 @@ ty []
 ty [ , ... , ]
 ```
 
-A type of the form `ty []` is a single-dimensional array type, and a type of the form `ty[ , ... , ]` is a
-multidimensional array type. For example, `int[,,]` is an array of integers of rank 3.
+A type of the form `ty []` is a *single-dimensional array* type, and a type of the form `ty[ , ... , ]` is a
+*multidimensional array type*. For example, `int[,,]` is an array of integers of rank 3.
 
 Except where specified otherwise in this document, these array types are treated as named types, as
 if they are an instantiation of a fictitious type definition `System.Arrayn<ty>` where `n` corresponds to
@@ -211,7 +211,7 @@ F# supports multidimensional array types only up to rank 4.
 
 ### Constrained Types
 
-A type with constraints has the following form:
+A *type with constraints* has the following form:
 
 ```fsgrammar
 type when constraints
@@ -221,15 +221,15 @@ During checking, `type` is first checked and converted to a static type, then `c
 and added to the current inference constraints. The various forms of constraints are described
 in (see [§5.2](types-and-type-constraints.md#type-constraints))
 
-A type of the form `typar :> type` is a type variable with a subtype constraint and is equivalent to
+A type of the form `typar :> type` is a *type variable with a subtype constraint* and is equivalent to
 `typar when typar :> type`.
 
-A type of the form `#type` is an anonymous type with a subtype constraint and is equivalent to `'a
+A type of the form `#type` is an *anonymous type with a subtype constraint* and is equivalent to `'a
 when 'a :> type` , where `'a` is a fresh type inference variable.
 
 ## Type Constraints
 
-A `type constraint `limits the types that can be used to create an instance of a type parameter or type
+A *type constraint* limits the types that can be used to create an instance of a type parameter or type
 variable. F# supports the following type constraints:
 
 - Subtype constraints
@@ -245,7 +245,7 @@ variable. F# supports the following type constraints:
 
 ### Subtype Constraints
 
-An `explicit subtype constraint` has the following form:
+An *explicit subtype constraint* has the following form:
 
 ```fsgrammar
 typar :> type
@@ -271,7 +271,7 @@ ensure the reporting of useful error messages.
 
 ### Nullness Constraints
 
-An `explicit nullness constraint` has the following form:
+An *explicit nullness constraint* has the following form:
 
 ```fsgrammar
 typar : null
@@ -289,11 +289,11 @@ In addition:
 
 > Note: Nullness constraints are primarily for use during type checking and are used relatively rarely in F# code.
 <br>
-Nullness constraints also arise from expressions of the form null.
+Nullness constraints also arise from expressions of the form `null`.
 
 ### Member Constraints
 
-An `explicit member constraint` has the following form:
+An *explicit member constraint* has the following form:
 
 ```fsgrammar
 ( typar or ... or typar ) : ( member-sig )
@@ -330,7 +330,7 @@ ensure the reporting of useful error messages.
 
 ### Default Constructor Constraints
 
-An `explicit default constructor constraint` has the following form:
+An *explicit default constructor constraint* has the following form:
 
 ```fsgrammar
 typar : (new : unit -> 'T)
@@ -343,7 +343,7 @@ parameterless object constructor.
 
 ### Value Type Constraints
 
-An `explicit value type constraint` has the following form:
+An *explicit value type constraint* has the following form:
 
 ```fsgrammar
 typar : struct
@@ -361,7 +361,7 @@ notably because types such as `System.Nullable<System.Nullable<_>>` and `System.
 
 ### Reference Type Constraints
 
-An `explicit reference type constraint` has the following form:
+An *explicit reference type constraint* has the following form:
 
 ```fsgrammar
 typar : not struct
@@ -373,7 +373,7 @@ During constraint solving (see [§14.5](inference-procedures.md#constraint-solvi
 
 ### Enumeration Constraints
 
-An `explicit enumeration constraint` has the following form:
+An *explicit enumeration constraint* has the following form:
 
 ```fsgrammar
 typar : enum<underlying-type>
@@ -387,7 +387,7 @@ The `enum` constraint does not imply anything about subtypes. For example, an `e
 
 ### Delegate Constraints
 
-An `explicit delegate constraint` has the following form:
+An *explicit delegate constraint* has the following form:
 
 ```fsgrammar
 typar : delegate< tupled-arg-type , return-type>
@@ -410,7 +410,7 @@ programmer.
 
 ### Unmanaged Constraints
 
-An `unmanaged constraint` has the following form:
+An *unmanaged constraint* has the following form:
 
 ```fsgrammar
 typar : unmanaged
@@ -426,7 +426,7 @@ specified below:
 
 ### Equality and Comparison Constraints
 
-`Equality constraints` and `comparison constraints` have the following forms, respectively:
+*Equality constraints* and *comparison constraints* have the following forms, respectively:
 
 ```fsgrammar
 typar : equality
@@ -529,12 +529,12 @@ form composed of:
 Type definitions include CLI type definitions such as `System.String` and types that are defined in F#
 code (see [§8](type-definitions.md#type-definitions)). The following terms are used to describe type definitions:
 
-- Type definitions may be `generic` , with one or more type parameters; for example,
+- Type definitions may be *generic* , with one or more type parameters; for example,
   `System.Collections.Generic.Dictionary<'Key,'Value>`.
 - The generic parameters of type definitions may have associated `formal type constraints`.
-- Type definitions may have `custom attributes` (see [§13.1](custom-attributes-and-reflection.md#custom-attributes)), some of which are relevant to checking and
+- Type definitions may have *custom attributes* (see [§13.1](custom-attributes-and-reflection.md#custom-attributes)), some of which are relevant to checking and
   inference.
-- Type definitions may be `type abbreviations` (see [§8.3](type-definitions.md#type-abbreviations)). These are eliminated for the purposes of
+- Type definitions may be *type abbreviations* (see [§8.3](type-definitions.md#type-abbreviations)). These are eliminated for the purposes of
   checking and inference (see [§5.4.2](types-and-type-constraints.md#expanding-abbreviations-and-inference-equations)).
 
 - Type definitions have a `kind` which is one of the following:
@@ -548,26 +548,26 @@ code (see [§8](type-definitions.md#type-definitions)). The following terms are 
     - `Measure`
     - `Abstract`
 
-The kind is determined at the point of declaration by Type Kind Inference (see [§8.2](type-definitions.md#type-kind-inference)) if it is not
-specified explicitly as part of the type definition. The kind of a type refers to the kind of its
-outermost named type definition, after expanding abbreviations. For example, a type is a class
-type if it is a named type `C<types>` where `C` is of kind class. Thus,
-`System.Collections.Generic.List<int>` is a class type.
+  The kind is determined at the point of declaration by Type Kind Inference (see [§8.2](type-definitions.md#type-kind-inference)) if it is not
+  specified explicitly as part of the type definition. The *kind* of a type refers to the kind of its
+  outermost named type definition, after expanding abbreviations. For example, a type is a *class*
+  type if it is a named type `C<types>` where `C` is of kind *class*. Thus,
+  `System.Collections.Generic.List<int>` is a class type.
 
-- Type definitions may be `sealed`. `Record`, `union`, `function`, `tuple`, `struct`, `delegate`, `enum`, and `array`
+- Type definitions may be *sealed*. Record, union, function, tuple, struct, delegate, enum, and array
   types are all sealed, as are class types that are marked with the `SealedAttribute` attribute.
-- Type definitions may have zero or one `base type declarations`. Each base type declaration
+- Type definitions may have zero or one *base type declarations*. Each base type declaration
   represents an additional type that is supported by any values that are formed using the type
   definition. Furthermore, some aspects of the base type are used to form the implementation of
   the type definition.
-- Type definitions may have one or more `interface declarations`. These represent additional
+- Type definitions may have one or more *interface declarations*. These represent additional
   encapsulated types that are supported by values that are formed using the type.
 
-Class, interface, delegate, function, tuple, record, and union types are all `reference` type definitions.
+Class, interface, delegate, function, tuple, record, and union types are all *reference* type definitions.
 A type is a reference type if its outermost named type definition is a reference type, after expanding
 type definitions.
 
-Struct types are `value types`.
+Struct types are *value types*.
 
 ### Expanding Abbreviations and Inference Equations
 
@@ -608,10 +608,10 @@ be preserved in the logical structure of types throughout the checking process.
 
 ### Type Variables and Definition Sites
 
-Static types may be type variables. During type inference, static types may be `partial`, in that they
+Static types may be type variables. During type inference, static types may be *partial*, in that they
 contain type inference variables that have not been solved or generalized. Type variables may also
-refer to explicit type parameter definitions, in which case the type variable is said to be `rigid` and
-have a `definition site`.
+refer to explicit type parameter definitions, in which case the type variable is said to be *rigid* and
+have a *definition site*.
 
 For example, in the following, the definition site of the type parameter 'T is the type definition of C:
 
@@ -619,10 +619,10 @@ For example, in the following, the definition site of the type parameter 'T is t
 type C<'T> = 'T * 'T
 ```
 
-Type variables that do not have a binding site are `inference variables`. If an expression is composed
+Type variables that do not have a binding site are *inference variables*. If an expression is composed
 of multiple sub-expressions, the resulting constraint set is normally the union of the constraints that
 result from checking all the sub-expressions. However, for some constructs (notably function, value
-and member definitions), the checking process applies `generalization` (see [§14.6.7](inference-procedures.md#generalization)). Consequently, some
+and member definitions), the checking process applies *generalization* (see [§14.6.7](inference-procedures.md#generalization)). Consequently, some
 intermediate inference variables and constraints are factored out of the intermediate constraint sets
 and new implicit definition site(s) are assigned for these variables.
 
@@ -646,7 +646,7 @@ of the type variable.
 
 ### Base Type of a Type
 
-The base type for the static types is shown in the table. These types are defined in the CLI
+The *base type* for the static types is shown in the table. These types are defined in the CLI
 specifications and corresponding implementation documentation.
 
 | **Static Type** | **Base Type**                                                                                                                                                                                        |
@@ -665,7 +665,7 @@ specifications and corresponding implementation documentation.
 
 ### Interfaces Types of a Type
 
-The `interface types` of a named type `C<type-inst>` are defined by the transitive closure of the
+The *interface types* of a named type `C<type-inst>` are defined by the transitive closure of the
 interface declarations of `C` and the interface types of the base type of `C`, where formal generic
 parameters are substituted for the actual type instantiation `type-inst`.
 
@@ -675,7 +675,7 @@ from the interface `System.Collections.Generic.IList<ty>`, which includes
 
 ### Type Equivalence
 
-Two static types `ty1` and `ty2` are definitely equivalent (with respect to a set of current inference
+Two static types `ty1` and `ty2` are *definitely equivalent* (with respect to a set of current inference
 constraints) if either of the following is true:
 
 - `ty1` has form `op<ty11, ..., ty1n>`, `ty2` has form `op<ty21, ..., ty2n>` and each `ty1i` is
@@ -689,13 +689,13 @@ constraints) if either of the following is true:
 This means that the addition of new constraints may make types definitely equivalent where
 previously they were not. For example, given `Χ = { 'a = int }`, we have `list<int>` = `list<'a>`.
 
-Two static types `ty1` and `ty2` are feasibly equivalent if `ty1` and `ty2` may become definitely equivalent if
+Two static types `ty1` and `ty2` are *feasibly equivalent* if `ty1` and `ty2` may become definitely equivalent if
 further constraints are added to the current inference constraints. Thus `list<int>` and `list<'a>` are
 feasibly equivalent for the empty constraint set.
 
 ### Subtyping and Coercion
 
-A static type `ty2` coerces to static type `ty1` (with respect to a set of current inference constraints X), if
+A static type `ty2` *coerces to* static type `ty1` (with respect to a set of current inference constraints X), if
 `ty1` is in the transitive closure of the base types and interface types of `ty2`. Static coercion is written
 with the `:>` symbol:
 
@@ -706,7 +706,7 @@ ty2 :> ty1
 Variable types `'T` coerce to all types `ty` if the current inference constraints include a constraint of the
 form `'T :> ty2`, and `ty` is in the inclusive transitive closure of the base and interface types of `ty2`.
 
-A static type `ty2` feasibly coerces to static type `ty1` if `ty2` coerces to `ty1` may hold through the addition
+A static type `ty2` *feasibly coerces* to static type `ty1` if `ty2` *coerces* to `ty1` may hold through the addition
 of further constraints to the current inference constraints. The result of adding constraints is defined
 in `Constraint Solving` (see [§14.5](inference-procedures.md#constraint-solving)).
 
@@ -722,13 +722,13 @@ because they generally result in error-prone code. However:
 As a result, F# types differ in their treatment of the `null` literal and `null` values. All named types and
 type definitions fall into one of the following categories:
 
-- **Types with the `null` literal.** These types have `null` as an “extra” value. The following types are in
+- **Types with the `null` literal.** These types have `null` as an "extra" value. The following types are in
   this category:
     - All CLI reference types that are defined in other CLI languages.
     - All types that are defined in F# and annotated with the `AllowNullLiteral` attribute.
 
-For example, `System.String` and other CLI reference types satisfy this constraint, and these types
-permit the direct use of the `null` literal.
+  For example, `System.String` and other CLI reference types satisfy this constraint, and these types
+  permit the direct use of the `null` literal.
 
 - **Types with `null` as an abnormal value.** These types do not permit the `null` literal, but do have
   `null` as an abnormal value. The following types are in this category:
@@ -736,11 +736,11 @@ permit the direct use of the `null` literal.
     - All F# union types except those that have `null` as a normal value, as discussed in the next
       bullet point.
 
-For types in this category, the use of the `null` literal is not directly allowed. However, strictly
-speaking, it is possible to generate a `null` value for these types by using certain functions such as
-`Unchecked.defaultof<type>`. For these types, `null` is considered an abnormal value. Operations
-differ in their use and treatment of `null` values; for details about evaluation of expressions that
-might include `null` values, see (see [§6.9](expressions.md#evaluation-of-elaborated-forms)).
+  For types in this category, the use of the `null` literal is not directly allowed. However, strictly
+  speaking, it is possible to generate a `null` value for these types by using certain functions such as
+  `Unchecked.defaultof<type>`. For these types, `null` is considered an abnormal value. Operations
+  differ in their use and treatment of `null` values; for details about evaluation of expressions that
+  might include `null` values, see (see [§6.9](expressions.md#evaluation-of-elaborated-forms)).
 
 - **Types with `null` as a representation value.** These types do not permit the `null` literal but use
   the `null` value as a representation.
@@ -756,14 +756,14 @@ might include `null` values, see (see [§6.9](expressions.md#evaluation-of-elabo
   All value types are in this category, including primitive integers, floating-point numbers, and any
   value of a CLI or F# `struct` type.
 
-A static type `ty` satisfies a nullness constraint `ty : null` if it:
+A static type `ty` satisfies a *nullness constraint* `ty : null` if it:
 
 - Has an outermost named type that has the `null` literal.
 - Is a variable type with a `typar : null` constraint.
 
 ### Default Initialization
 
-Related to nullness is the `default initialization` of values of some types to `zero values`. This technique
+Related to nullness is the *default initialization* of values of some types to *zero values*. This technique
 is common in some programming languages, but the design of F# deliberately de-emphasizes it.
 However, default initialization is allowed in some circumstances:
 
@@ -773,7 +773,7 @@ However, default initialization is allowed in some circumstances:
 - CLI libraries sometimes perform unchecked default initialization, as do the F# library primitives
   `Unchecked.defaultof<_>` and `Array.zeroCreate`.
 
-The following types `permit default initialization` :
+The following types permit *default initialization* :
 
 - Any type that satisfies the nullness constraint.
 - Primitive value types.
@@ -781,7 +781,7 @@ The following types `permit default initialization` :
 
 ### Dynamic Conversion Between Types
 
-A runtime type `vty` dynamically converts to a static type `ty` if any of the following are true:
+A runtime type `vty` *dynamically converts* to a static type `ty` if any of the following are true:
 
 - `vty` coerces to `ty`.
 - `vty` is `int32[]` and `ty` is `uint32[]`(or conversely). Likewise for `sbyte[]`/`byte[]`, `int16[]`/`uint16[]`,
