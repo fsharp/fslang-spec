@@ -45,7 +45,7 @@ expr :=
     match expr with rules               -- match expression
     try expr with rules                 -- try/with expression
     try expr finally expr               -- try/finally expression
-    if expr then expr elif-branches~opt else-branch opt -- conditional expression
+    if expr then expr elif-branches? else-branch? -- conditional expression
     while expr do expr done             -- while loop
     for ident = expr to expr do expr done -- simple for loop
     for pat in expr - or-range-expr do expr done -- enumerable for loop
@@ -80,10 +80,10 @@ function-or-value-defn :=
     value-defn
 
 function-defn :=
-    inline opt access~opt ident-or-op typar-defns~opt argument-pats return-type~opt = expr
+    inline? access? ident-or-op typar-defns? argument-pats return-type? = expr
 
 value-defn :=
-    mutable~opt access~opt pat typar-defns~opt return-type~opt = expr
+    mutable? access? pat typar-defns? return-type? = expr
 
 return-type :=
     : type
@@ -109,7 +109,7 @@ base-call :=
 interface-impls := interface-impl ... interface-impl
 
 interface-impl :=
-    interface type object-members~opt -- interface implementation
+    interface type object-members? -- interface implementation
 
 object-members := with member-defns end
 
@@ -556,7 +556,7 @@ let z = g 3 // MatchFailureException is raised
 An expression of the following form is an _object expression_ :
 
 ```fsharp
-{ new ty0 args-expr~opt object-members
+{ new ty0 args-expr? object-members
   interface ty1 object-members1
   ...
   interface tyn object-membersn }
@@ -565,7 +565,7 @@ In the case of the interface declarations, the `object-members` are optional and
 if absent. Each set of `object-members` has the form:
 
 ```fsgrammar
-with member-defns end~opt
+with member-defns end?
 ```
 Lexical filtering inserts simulated `$end` tokens when lightweight syntax is used.
 
@@ -2408,7 +2408,7 @@ let value-defn in expr
 where _value-defn_ has the form:
 
 ```fsgrammar
-mutable~opt access~opt pat typar-defns~opt return-type~opt = rhs-expr
+mutable? access? pat typar-defns? return-type? = rhs-expr
 ```
 Checking proceeds as follows:
 
@@ -2460,7 +2460,7 @@ let function-defn in expr
 where `function-defn` has the form:
 
 ```fsgrammar
-inline~opt access~opt ident-or-op typar-defns~opt pat1 ... patn return-type~opt = rhs-expr
+inline? access? ident-or-op typar-defns? pat1 ... patn return-type? = rhs-expr
 ```
 Checking proceeds as follows:
 
@@ -3035,7 +3035,7 @@ At runtime, an elaborated function expression `(fun v1 ... vn -> expr)` is evalu
 At runtime, elaborated object expressions
 
 ```fsgrammar
-{ new ty0 args-expr~opt object-members
+{ new ty0 args-expr? object-members
       interface ty1 object-members1
       interface tyn object-membersn }
 ```
