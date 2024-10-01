@@ -62,7 +62,7 @@ In the following example, the `MyCompany.MyLibrary` namespace contains `Values` 
 namespace MyCompany.MyLibrary
 
     module Values1 =
-l       et x = 1
+        let x = 1
 ```
 A namespace declaration group is the basic declaration unit within an F# implementation file and is
 of the form
