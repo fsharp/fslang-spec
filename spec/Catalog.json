@@ -1,0 +1,28 @@
+{
+    "FrontMatter": "front-matter",
+    "MainBody": [
+        "introduction",
+        "program-structure"
+    ],
+    "ToBeTransferedToMainBody": [
+        "lexical-analysis",
+        "basic-grammar-elements",
+        "types-and-type-constraints",
+        "expressions",
+        "patterns",
+        "type-definitions",
+        "units-of-measure",
+        "namespaces-and-modules",
+        "namespace-and-module-signatures",
+        "program-structure-and-execution",
+        "custom-attributes-and-reflection",
+        "inference-procedures",
+        "lexical-filtering",
+        "provided-types",
+        "special-attributes-and-types",
+        "the-f-library-fsharpcoredll",
+        "features-for-ml-compatibility"
+    ],
+    "Annexes": [
+    ]
+}
