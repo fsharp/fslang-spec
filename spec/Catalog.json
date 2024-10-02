@@ -2,9 +2,7 @@
     "FrontMatter": "front-matter",
     "MainBody": [
         "introduction",
-        "program-structure"
-    ],
-    "ToBeTransferedToMainBody": [
+        "program-structure",
         "lexical-analysis",
         "basic-grammar-elements",
         "types-and-type-constraints",
