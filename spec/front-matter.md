@@ -1,4 +1,4 @@
-The sources for this file can be found (soon) on [github](https://github.com/fsharp/fslang-spec).
+The sources for this file can be found on [github](https://github.com/fsharp/fslang-spec).
 
 > This documentation is work-in-progress, aiming at a F# 10 specification.
 <br>It has been built based on the [F# 4.1 spec](https://fsharp.org/specs/language-spec/4.1/FSharpSpec-4.1-latest.pdf)
