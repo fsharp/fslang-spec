@@ -341,41 +341,54 @@ regexp octaldigit = [0-7]
 regexp bitdigit = [0-1]
 
 regexp int =
-    | digit + For example, 34
+    | digit+                                     For example, 34
+    | int _ int                                  For example, 123_456_789
+
+regexp hexint =
+    | hexdigit+                                  For example, 1f
+    | hexint _ hexint                            For example, abc_456_78
+
+regexp octalint =
+    | octaldigit+                                For example, 34
+    | octalint _ octalint                        For example, 123_4_711
+
+regexp bitint =
+    | bitdigit+                                  For example, 11
+    | bitint _ bitint                            For example, 1110_0101_0100
 
 regexp xint =
-    | 0 (x|X) hexdigit + For example, 0x22
-    | 0 (o|O) octaldigit + For example, 0o42
-    | 0 (b|B) bitdigit + For example, 0b10010
+    | 0 (x|X) hexint                             For example, 0x22_1f
+    | 0 (o|O) octalint                           For example, 0o42
+    | 0 (b|B) bitint                             For example, 0b10010
 
-token sbyte = ( int | xint ) 'y' For example, 34y
-token byte = ( int | xint ) ' uy' For example, 34uy
-token int16 = ( int | xint ) ' s' For example, 34s
-token uint16 = ( int | xint ) ' us' For example, 34us
-token int32 = ( int | xint ) ' l' For example, 34l
-token uint32 = ( int | xint ) ' ul' For example, 34ul
-             | ( int | xint ) ' u' For example, 34u
-token nativeint = ( int | xint ) ' n' For example, 34n
-token unativeint = ( int | xint ) ' un' For example, 34un
-token int64 = ( int | xint ) ' L' For example, 34L
-token uint64 = ( int | xint ) ' UL' For example, 34UL
-             | ( int | xint ) ' uL' For example, 34uL
-
-token ieee32 =
-    | float [Ff]        For example, 3.0F or 3.0f
-    | xint 'lf'         For example, 0x00000000lf
-token ieee64 =
-    | float             For example, 3.0
-    | xint 'LF'         For example, 0x0000000000000000LF
-
-token bignum = int ('Q' | ' R' | 'Z' | 'I' | 'N' | 'G')
-                        For example, 34742626263193832612536171N
-
-token decimal = ( float | int ) [Mm]
+token sbyte = ( int | xint ) 'y'                 For example, 34y
+token byte = ( int | xint ) ' uy'                For example, 34uy
+token int16 = ( int | xint ) ' s'                For example, 34s
+token uint16 = ( int | xint ) ' us'              For example, 34us
+token int32 = ( int | xint ) ' l'                For example, 34l
+token uint32 = ( int | xint ) ' ul'              For example, 34ul
+             | ( int | xint ) ' u'               For example, 34u
+token nativeint = ( int | xint ) ' n'            For example, 34n
+token unativeint = ( int | xint ) ' un'          For example, 34un
+token int64 = ( int | xint ) ' L'                For example, 34L
+token uint64 = ( int | xint ) ' UL'              For example, 34UL
+             | ( int | xint ) ' uL'              For example, 34uL
 
 token float =
-    digit +. digit *
-    digit + (. digit * )? (e|E) (+|-)? digit +
+    int . int?
+    int (. int?)? (e|E) (+|-)? int
+
+token ieee32 =
+    | float [Ff]                                 For example, 3.0F or 3.0f
+    | xint 'lf'                                  For example, 0x00000000lf
+token ieee64 =
+    | float                                      For example, 3.0
+    | xint 'LF'                                  For example, 0x0000000000000000LF
+
+token bignum = int ('Q' | ' R' | 'Z' | 'I' | 'N' | 'G')
+                                                 For example, 34742626263193832612536171N
+
+token decimal = ( float | int ) [Mm]
 ```
 ### Post-filtering of Adjacent Prefix Tokens
 
