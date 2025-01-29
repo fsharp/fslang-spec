@@ -363,17 +363,17 @@ regexp xint =
 
 token sbyte = ( int | xint ) 'y'                 For example, 34y
 token byte = ( int | xint ) ' uy'                For example, 34uy
-token int16 = ( int | xint ) ' s'                For example, 34s
-token uint16 = ( int | xint ) ' us'              For example, 34us
-token int32 = ( int | xint ) ' l'                For example, 34l
-token uint32 = ( int | xint ) ' ul'              For example, 34ul
-             | ( int | xint ) ' u'               For example, 34u
-token nativeint = ( int | xint ) ' n'            For example, 34n
-token unativeint = ( int | xint ) ' un'          For example, 34un
-token int64 = ( int | xint ) ' L'                For example, 34L
-token uint64 = ( int | xint ) ' UL'              For example, 34UL
-             | ( int | xint ) ' uL'              For example, 34uL
-
+token int16 = ( int | xint ) 's'                 For example, 34s
+token uint16 = ( int | xint ) 'us'               For example, 34us
+token int32 = ( int | xint ) 'l'                 For example, 34l
+token uint32 = ( int | xint ) 'ul'               For example, 34ul
+             | ( int | xint ) 'u'                For example, 34u
+token nativeint = ( int | xint ) 'n'             For example, 34n
+token unativeint = ( int | xint ) 'un'           For example, 34un
+token int64 = ( int | xint ) 'L'                 For example, 34L
+token uint64 = ( int | xint ) 'UL'               For example, 34UL
+             | ( int | xint ) 'uL'               For example, 34uL
+ 
 token float =
     int . int?
     int (. int?)? (e|E) (+|-)? int
@@ -390,6 +390,7 @@ token bignum = int ('Q' | ' R' | 'Z' | 'I' | 'N' | 'G')
 
 token decimal = ( float | int ) [Mm]
 ```
+
 ### Post-filtering of Adjacent Prefix Tokens
 
 Negative integers are specified using the `–` token; for example, `-3`. The token steam is post-filtered
