@@ -20,7 +20,8 @@ pat :=
     pat '&' pat                         -- conjunctive pattern
     pat :: pat                          -- "cons" pattern
     pat : type                          -- pattern with type constraint
-    pat ,..., pat                       -- tuple pattern
+    pat , ... , pat                     -- tuple pattern
+    struct (pat , ... , pat)            -- struct tuple pattern
     ( pat )                             -- parenthesized pattern
     list-pat                            -- list pattern
     array-pat                           -- array pattern
