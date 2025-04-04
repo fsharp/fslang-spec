@@ -347,7 +347,7 @@ A disjunctive pattern matches an input value against one or the other of two pat
 ```fsgrammar
 pat | pat
 ```
-At runtime, the patterm input is matched against the first pattern. If that fails, the pattern input is
+At runtime, the pattern input is matched against the first pattern. If that fails, the pattern input is
 matched against the second pattern. Both patterns must bind the same set of variables with the
 same types. For example:
 
