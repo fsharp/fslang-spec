@@ -197,12 +197,12 @@ A *struct tuple type* has the following form:
 struct ( ty 1 * ... * tyn )
 ```
 
-The elaborated form of a tuple type is shorthand for a use of the family of F# library types
-`System.StructTuple<_, ..., _>`.
+The elaborated form of a tuple type is shorthand for a use of the family of .NET types
+[System.ValueTuple](https://learn.microsoft.com/dotnet/api/system.valuetuple).
 
 When considered as static types, tuple types are distinct from their encoded form. However, the
 encoded form of tuple types is visible in the F# type system through runtime types. For example,
-`typeof<int * int>` is equivalent to `typeof<System.StructTuple<int,int>>`.
+`typeof<int * int>` is equivalent to `typeof<System.ValueTuple<int,int>>`.
 
 Struct tuple types are value types (as opposed to tuple types which are reference types). Struct tuple types are primarily aimed at use in interop and performance tuning.
 

@@ -341,8 +341,8 @@ let pair = struct (1,2)
 
 A _struct tuple expression_ is checked in the same way as a _tuple expression_, but the pseudo-type `S` is resolved to struct tuple.
 
-Tuple types and expressions that have `S` resolved to reference tuple are translated into applications of a family of F# library types named
-`System.Tuple`. Tuple types `ty1 * ... * tyn` are translated as follows:
+Tuple types and expressions that have `S` resolved to reference tuple are translated into applications of a family of .NET types named
+[System.Tuple](https://learn.microsoft.com/dotnet/api/system.tuple). Tuple types `ty1 * ... * tyn` are translated as follows:
 
 - For `n <= 7` the elaborated form is `Tuple<ty1 ,... , tyn>`.
 - For larger `n` , tuple types are shorthand for applications of the additional F# library type
@@ -365,12 +365,12 @@ example, `typeof<int * int>` is equivalent to `typeof<System.Tuple<int,int>>`, a
 runtime type `System.Tuple<int,int>`. Likewise, `(1,2,3,4,5,6,7,8,9)` has the runtime type
 `Tuple<int,int,int,int,int,int,int,Tuple<int,int>>`.
 
-Tuple types and expressions that have `S` resolved to struct tuple are translated in the same way to `System.StructTuple`.
+Tuple types and expressions that have `S` resolved to struct tuple are translated in the same way to [System.ValueTuple](https://learn.microsoft.com/dotnet/api/system.valuetuple) .
 
 
 > Note: The above encoding is invertible and the substitution of types for type variables
 preserves this inversion. This means, among other things, that the F# reflection library
-can correctly report tuple types based on runtime System.Type values. The inversion is
+can correctly report tuple types based on runtime System.Type and System.ValueTuple values. The inversion is
 defined by:
 <br>- For the runtime type `Tuple<ty1, ..., tyN>` when `n <= 7`, the corresponding F# tuple
     type is `ty1 * ... * tyN`
