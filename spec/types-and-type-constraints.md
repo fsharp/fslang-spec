@@ -26,44 +26,45 @@ The following describes the syntactic forms of types as they appear in programs:
 ```fsgrammar
 type :=
     ( type )
-    type - > type         -- function type
-    type * ... * type     -- tuple type
-    typar                 -- variable type
-    long-ident            -- named type, such as int
-    long-ident <type-args>        -- named type, such as list<int>
-    long-ident < >        -- named type, such as IEnumerable< >
-    type long-ident       -- named type, such as int list
-    type [ , ... , ]      -- array type
-    type typar-defns      -- type with constraints
-    typar :> type         -- variable type with subtype constraint
-    # type                -- anonymous type with subtype constraint
+    type - > type                  -- function type
+    type * ... * type              -- tuple type
+    struct (type * ... * type)     -- struct tuple type
+    typar                          -- variable type
+    long-ident                     -- named type, such as int
+    long-ident <type-args>         -- named type, such as list<int>
+    long-ident < >                 -- named type, such as IEnumerable< >
+    type long-ident                -- named type, such as int list
+    type [ , ... , ]               -- array type
+    type typar-defns               -- type with constraints
+    typar :> type                  -- variable type with subtype constraint
+    # type                         -- anonymous type with subtype constraint
 
 type-args := type-arg , ..., type-arg
 
 type-arg :=
-    type                  -- type argument
-    measure               -- unit of measure argument
-    static-parameter      -- static parameter
+    type                           -- type argument
+    measure                        -- unit of measure argument
+    static-parameter               -- static parameter
 
 atomic-type :=
     type : one of
             #type typar ( type ) long-ident long-ident <type-args>
 
 typar :=
-    _                     -- anonymous variable type
-    ' ident               -- type variable
-    ^ ident               -- static head-type type variable
+    _                              -- anonymous variable type
+    ' ident                        -- type variable
+    ^ ident                        -- static head-type type variable
 
 constraint :=
-    typar :> type         -- coercion constraint
-    typar : null          -- nullness constraint
+    typar :> type                  -- coercion constraint
+    typar : null                   -- nullness constraint
     static-typars : ( member-sig ) -- member "trait" constraint
-    typar : (new : unit -> 'T) -- CLI default constructor constraint
-    typar : struct        -- CLI non-Nullable struct
-    typar : not struct    -- CLI reference type
-    typar : enum< type >  -- enum decomposition constraint
-    typar : unmanaged     -- unmanaged constraint
-    typar : delegate<type, type> -- delegate decomposition constraint
+    typar : (new : unit -> 'T)     -- CLI default constructor constraint
+    typar : struct                 -- CLI non-Nullable struct
+    typar : not struct             -- CLI reference type
+    typar : enum< type >           -- enum decomposition constraint
+    typar : unmanaged              -- unmanaged constraint
+    typar : delegate<type, type>   -- delegate decomposition constraint
     typar : equality
     typar : comparison
 
@@ -187,6 +188,25 @@ The elaborated form of a tuple type is shorthand for a use of the family of F# l
 When considered as static types, tuple types are distinct from their encoded form. However, the
 encoded form of tuple types is visible in the F# type system through runtime types. For example,
 `typeof<int * int>` is equivalent to `typeof<System.Tuple<int,int>>`.
+
+#### Struct Tuple Types
+
+A *struct tuple type* has the following form:
+
+```fsgrammar
+struct ( ty 1 * ... * tyn )
+```
+
+The elaborated form of a tuple type is shorthand for a use of the family of .NET types
+[System.ValueTuple](https://learn.microsoft.com/dotnet/api/system.valuetuple).
+
+When considered as static types, tuple types are distinct from their encoded form. However, the
+encoded form of tuple types is visible in the F# type system through runtime types. For example,
+`typeof<int * int>` is equivalent to `typeof<System.ValueTuple<int,int>>`.
+
+Struct tuple types are value types (as opposed to tuple types which are reference types). Struct tuple types are primarily aimed at use in interop and performance tuning.
+
+The "structness" (i.e. tuple type vs. struct tuple type) of tuple expressions and tuple patterns is inferred in the F# type inference process (unless they are explicitly tagged "struct"). However, code cannot be generic over structness, and there is no implicit conversion between struct tuples and reference tuples.
 
 ### Array Types
 

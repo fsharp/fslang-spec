@@ -18,6 +18,7 @@ expr :=
     expr .[ slice-ranges ]              -- slice expression
     expr <- expr                        -- assignment expression
     expr , ... , expr                   -- tuple expression
+    struct (expr , ... , expr)          -- struct tuple expression
     new type expr                       -- simple object expression
     { new base-call object-members interface-impls } -- object expression
     { field-initializers }              -- record expression
@@ -328,11 +329,20 @@ An expression of the form `expr1 , ..., exprn` is a _tuple expression_. For exam
 let three = (1,2,"3")
 let blastoff = (10,9,8,7,6,5,4,3,2,1,0)
 ```
-The expression has the type `(ty1 * ... * tyn)` for fresh types `ty1 ... tyn` , and each individual
-expression `expri` is checked using initial type `tyi`.
 
-Tuple types and expressions are translated into applications of a family of F# library types named
-System.Tuple. Tuple types `ty1 * ... * tyn` are translated as follows:
+The expression has the type `S<ty1 * ... * tyn>` for fresh types `ty1 ... tyn` and fresh pseudo-type `S` that indicates the "structness" (i.e. reference tuple or struct tuple) of the tuple. Each individual
+expression `expri` is checked using initial type `tyi`. The pseudo-type `S` participates in type checking similar to normal types until it is resolved to either reference or struct tuple, with a default of reference tuple.
+
+An expression of the form `struct (expr1 , ..., exprn)` is a _struct tuple expression_. For example:
+
+```fsharp
+let pair = struct (1,2)
+```
+
+A _struct tuple expression_ is checked in the same way as a _tuple expression_, but the pseudo-type `S` is resolved to struct tuple.
+
+Tuple types and expressions that have `S` resolved to reference tuple are translated into applications of a family of .NET types named
+[`System.Tuple`](https://learn.microsoft.com/dotnet/api/system.tuple). Tuple types `ty1 * ... * tyn` are translated as follows:
 
 - For `n <= 7` the elaborated form is `Tuple<ty1 ,... , tyn>`.
 - For larger `n` , tuple types are shorthand for applications of the additional F# library type
@@ -355,9 +365,12 @@ example, `typeof<int * int>` is equivalent to `typeof<System.Tuple<int,int>>`, a
 runtime type `System.Tuple<int,int>`. Likewise, `(1,2,3,4,5,6,7,8,9)` has the runtime type
 `Tuple<int,int,int,int,int,int,int,Tuple<int,int>>`.
 
+Tuple types and expressions that have `S` resolved to struct tuple are translated in the same way to [`System.ValueTuple`](https://learn.microsoft.com/dotnet/api/system.valuetuple) .
+
+
 > Note: The above encoding is invertible and the substitution of types for type variables
 preserves this inversion. This means, among other things, that the F# reflection library
-can correctly report tuple types based on runtime System.Type values. The inversion is
+can correctly report tuple types based on runtime System.Type and System.ValueTuple values. The inversion is
 defined by:
 <br>- For the runtime type `Tuple<ty1, ..., tyN>` when `n <= 7`, the corresponding F# tuple
     type is `ty1 * ... * tyN`
