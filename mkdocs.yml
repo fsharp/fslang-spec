@@ -1,0 +1,27 @@
+site_name: "F# Language Specification"
+site_url: https://bbatsov.github.io/fslang-spec
+repo_url: https://github.com/fsharp/fslang-spec
+copyright: "Copyright © 2005-2025 F# contributors. Made available under the <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons CC-by 4.0</a> licence."
+docs_dir: spec
+nav:
+- front-matter.md
+- introduction.md
+- program-structure.md
+- lexical-analysis.md
+- basic-grammar-elements.md
+- types-and-type-constraints.md
+- expressions.md
+- patterns.md
+- type-definitions.md
+- units-of-measure.md
+- namespaces-and-modules.md
+- namespace-and-module-signatures.md
+- program-structure-and-execution.md
+- custom-attributes-and-reflection.md
+- inference-procedures.md
+- lexical-filtering.md
+- provided-types.md
+- special-attributes-and-types.md
+- the-f-library-fsharpcoredll.md
+- features-for-ml-compatibility.md
+theme: material
