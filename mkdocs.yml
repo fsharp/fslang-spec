@@ -24,4 +24,6 @@ nav:
 - special-attributes-and-types.md
 - the-f-library-fsharpcoredll.md
 - features-for-ml-compatibility.md
-theme: material
+theme:
+  name: material
+  highlightjs: true
