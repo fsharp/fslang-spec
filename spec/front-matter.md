@@ -10,8 +10,9 @@ and does not yet incorporate all RFCs since F# 4.1 (including some of the 4.1 RF
 
 ## Included RFCs
 
-| RFC id | Title |
+| RFC id | Topic |
 | --- | --- |
+| FS-1005 | underscores in numerical fields |
 | FS-1006 | struct tuples |
 
 ## Notices
