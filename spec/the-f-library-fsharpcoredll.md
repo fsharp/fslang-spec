@@ -5,7 +5,7 @@ All compilations reference the following two base libraries:
 - The CLI base library `mscorlib.dll`.
 - The F# base library `FSharp.Core.dll`.
 
-The API documentation of these libraries can be found at [https://fsharp.github.io/fsharp-core-docs](https://fsharp.github.io/fsharp-core-docs) and [https://learn.microsoft.com/en-us/dotnet/standard/runtime-libraries-overview](https://learn.microsoft.com/en-us/dotnet/standard/runtime-libraries-overview), resp.
+The API documentation of these libraries can be found at [https://fsharp.github.io/fsharp-core-docs](https://fsharp.github.io/fsharp-core-docs) and [https://learn.microsoft.com/dotnet/standard/runtime-libraries-overview](https://learn.microsoft.com/dotnet/standard/runtime-libraries-overview), resp.
 
 
 The following namespaces are automatically opened for all F# code:
@@ -277,7 +277,7 @@ type 'T list =
     interface System.Collections.Generic.IEnumerable<'T>
     interface System.Collections.IEnumerable
 ```
-See also the [Language Guide](https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/lists) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-list-1.html).
+See also the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-reference/lists) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-list-1.html).
 
 ### The Option Type
 
@@ -296,15 +296,15 @@ type 'T option =
     member IsSome : bool
     member IsNone : bool
 ```
-See also the [Language Guide](https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/options) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-core-option-1.html).
+See also the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-reference/options) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-core-option-1.html).
 
 ## Lazy Computations (Lazy)
 
-Check the [Language Guide](https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/lazy-expressions) and the [FSharp.Core documentation]().
+Check the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-reference/lazy-expressions) and the [FSharp.Core documentation]().
 
 ## Asynchronous Computations (Async)
 
-Check the [Language Guide](https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/async-expressions) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync.html).
+Check the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-reference/async-expressions) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync.html).
 
 
 ## Query Expressions
@@ -318,15 +318,15 @@ Check the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/
 
 ## Event Types
 
-Check the [Language Guide](https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/members/events) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-eventmodule.html).
+Check the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-reference/members/events) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-eventmodule.html).
 
 ## Immutable Collection Types (Map, Set)
 
-Check the [Language Guide](https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/fsharp-collection-types) and the [FSharp.Core documentation for Map](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-fsharpmap-2.html) and for [Set](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-fsharpset-1.html).
+Check the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-reference/fsharp-collection-types) and the [FSharp.Core documentation for Map](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-fsharpmap-2.html) and for [Set](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-fsharpset-1.html).
 
 ## Text Formatting (printf)
 
-Check the [Language Guide](https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/plaintext-formatting) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-core-printfmodule.html)
+Check the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-reference/plaintext-formatting) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-core-printfmodule.html)
 
 ## Reflection
 
@@ -334,7 +334,7 @@ Check the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/
 
 ## Quotations
 
-Check the [Language Guide](https://learn.microsoft.com/en-us/dotnet/fsharp/language-reference/code-quotations) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-quotations.html).
+Check the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-reference/code-quotations) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-quotations.html).
 
 ## Native Pointer Operations
 
