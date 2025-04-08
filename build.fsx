@@ -4,15 +4,13 @@
 // this build script must be updated to add proper name tags to the headings.
 
 // Configuration of file locations and some document elements
-let specDir = "spec"
+let sourceDir = "spec"
 let outDir = "artifacts"
-let outName = "spec"
-let specPath filename = $"{specDir}/{filename}"
-let chapterPath chapterName = specPath chapterName + ".md"
-let catalogPath = specPath "Catalog.json"
-let outFilePath = $"{outDir}/{outName}.md"
-let title = ["The F# Language Specification"; "============================="; ""]
-let versionPlaceholder () = [$"_This is an inofficial version, created from sources on {System.DateTime.Now}_"; ""]
+let catalogPath = $"{sourceDir}/Catalog.json"
+let fullDocName = "spec"
+let outChapterDir = $"{outDir}/chapters"
+
+let versionPlaceholder () = [$"_This version was created from sources on {System.DateTime.Now}_"; ""]
 let tocHeader = [""; "# Table of Contents"]
 
 open System
@@ -21,7 +19,7 @@ open System.Text.Json
 open System.IO
 
 type Chapter = {name: string; lines: string list}
-type Chapters = {frontMatter: Chapter; clauses: Chapter list}
+type Sources = {frontMatter: Chapter; clauses: Chapter list}
 type Catalog = {FrontMatter: string; MainBody: string list; Annexes: string list}
 type BuildState = {
     chapterName: string
@@ -44,11 +42,11 @@ let initialState = {
     errors = []
 }
 
-let readChapters () =
+let readSources () =
     try
         use catalogStream = File.OpenRead catalogPath
         let catalog = JsonSerializer.Deserialize<Catalog> catalogStream
-        let getChapter name = {name = name; lines = File.ReadAllLines(chapterPath name) |> Array.toList}
+        let getChapter name = {name = name; lines = File.ReadAllLines($"{sourceDir}/{name}.md") |> Array.toList}
         let clauses = catalog.MainBody |> List.map getChapter
         let frontMatter = getChapter catalog.FrontMatter
         let totalChapters = clauses.Length + 1
@@ -58,12 +56,19 @@ let readChapters () =
     with e ->
         Error(IoFailure e.Message)
 
-let writeSpec (lines: string list) =
+let writeArtifacts (fullDoc, chapters) =
     try
         if not <| Directory.Exists outDir then
             Directory.CreateDirectory outDir |> ignore
-        File.WriteAllLines(outFilePath, lines)
-        printfn $"created {outFilePath}"
+        let fullDocPath = $"{outDir}/{fullDocName}.md"
+        File.WriteAllLines(fullDocPath, fullDoc.lines)
+        printfn $"created {fullDocPath}"
+        if not <| Directory.Exists outChapterDir then
+            Directory.CreateDirectory outChapterDir |> ignore
+        for chapter in chapters do
+            let chapterPath = $"{outChapterDir}/{chapter.name}.md"
+            File.WriteAllLines(chapterPath, chapter.lines)
+        printfn $"created {List.length chapters} chapters in {outChapterDir}"
         Ok()
     with e ->
         Error(IoFailure e.Message)
@@ -160,25 +165,27 @@ let adjustLinks state line =
             lineFragment, state
     adjustLinks' state line
 
-let processChapters chapters =
+let processSources chapters =
     // Add section numbers to the headers, collect the ToC information, and check for correct code fence info strings
-    let (processedClauses, state) = (initialState, chapters.clauses) ||> List.mapFold renumberClause
+    let (processedChapters, state) = (initialState, chapters.clauses) ||> List.mapFold renumberClause
     // Create the ToC and build the complete spec
     let lines =
         List.concat [
-            title
-            versionPlaceholder ()
             chapters.frontMatter.lines
+            versionPlaceholder ()
             tocHeader
             tocLines state.toc
-            List.collect _.lines processedClauses
+            List.collect _.lines processedChapters
         ]
     // Adjust the reference links to point to the correct header of the new spec
-    let (lines, state) = ({state with chapterName = outName; lineNumber = 0}, lines) ||> List.mapFold adjustLinks
-    if not state.errors.IsEmpty then Error(DocumentErrors(List.rev state.errors)) else Ok lines
+    let (lines, state) = ({state with chapterName = fullDocName; lineNumber = 0}, lines) ||> List.mapFold adjustLinks
+    let fullDoc = {name = fullDocName; lines = lines}
+    let indexLines = chapters.frontMatter.lines @ versionPlaceholder()
+    let outputChapters = {name = "index"; lines = indexLines} :: processedChapters
+    if not state.errors.IsEmpty then Error(DocumentErrors(List.rev state.errors)) else Ok(fullDoc, outputChapters)
 
 let build () =
-    match readChapters () |> Result.bind processChapters |> Result.bind writeSpec with
+    match readSources () |> Result.bind processSources |> Result.bind writeArtifacts with
     | Ok() -> 0
     | Error(IoFailure msg) ->
         printfn $"IO error: %s{msg}"
