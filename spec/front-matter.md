@@ -10,6 +10,7 @@ and does not yet incorporate all RFCs since F# 4.1 (including some of the 4.1 RF
 | --- | --- |
 | FS-1005 | underscores in numerical fields |
 | FS-1006 | struct tuples |
+| FS-1091 | units of measure for more types |
 
 ## Notices
 
