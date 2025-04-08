@@ -73,7 +73,7 @@ measure :=
 measure-simp                                    -- simple measure, such as 'U 'V
 ```
 
-Measure definitions use the special `Measure` attribute on type definitions. Measure parameters, meanwhile, use a variation on the syntax of generic parameters (see [§9.5](units-of-measure.md#measure-parameter-definitions)) to parameterize types and members by units of measure. The primitive types `byte`, `uint16`, `uint32`, `uint64`, `sbyte`, `int16`, `int32`, `int64`, `float`, `float32`, `decimal`, `unativeint`, and `nativeint` have non-parameterized (dimensionless) and parameterized versions.
+Measure definitions use the special `Measure` attribute on type definitions. Measure parameters, meanwhile, use a variation on the syntax of generic parameters (see [§9.5](units-of-measure.md#measure-parameter-definitions)) to parameterize types and members by units of measure. The primitive types `byte`, `uint16`, `uint`, `uint64`, `sbyte`, `int16`, `int`, `int64`, `float`, `float32`, `decimal`, `unativeint`, and `nativeint` have non-parameterized (dimensionless) and parameterized versions.
 
 Here is a simple example:
 
