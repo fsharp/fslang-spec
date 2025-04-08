@@ -1,6 +1,6 @@
 # Units of Measure
 
-F# supports static checking of _units of measure_. Units of measure, or _measures_ for short, are like types in that they can appear as parameters to other types and values (as in `float<kg>`, `vector<m/s>`, `add<m>`), can contain variables (as in `float<'U>`), and are checked for consistency by the type-checker.
+F# supports static checking of _units of measure_. Units of measure, or _measures_ for short, are like types in that they can appear as parameters to other types and values (as in `float<kg>`, `vector<m/s>`, `add<m>`), can be represented by variables (as in `float<'U>`), and are checked for consistency by the type-checker.
 
 However, measures differ from types in several important ways:
 
@@ -73,7 +73,7 @@ measure :=
 measure-simp                                    -- simple measure, such as 'U 'V
 ```
 
-Measure definitions use the special `Measure` attribute on type definitions. Measure parameters use the syntax of generic parameters with the same special `Measure` attribute to parameterize types and members by units of measure. The primitive types `byte`, `sbyte`, `int16`, `int32`, `int64`, `float`, `float32`, `decimal`, `unativeint`, and `nativeint` have non-parameterized (dimensionless) and parameterized versions.
+Measure definitions use the special `Measure` attribute on type definitions. Measure parameters use the syntax of generic parameters (annotating said parameters with the `Measure` attribute) to parameterize types and members by units of measure. The primitive types `byte`, `sbyte`, `int16`, `int32`, `int64`, `float`, `float32`, `decimal`, `unativeint`, and `nativeint` have non-parameterized (dimensionless) and parameterized versions.
 
 Here is a simple example:
 
@@ -289,18 +289,18 @@ These type definitions have the following special properties:
     ```fsother
     sbyte = sbyte<1>
     int16 = int16<1>
-    int32 = int32<1>
+    int = int<1>
     int64 = int64<1>
     byte = byte<1>
     uint16 = uint16<1>
-    uint32 = uint32<1>
+    uint = uint<1>
     uint64 = uint64<1>
     float = float<1>
     float32 = float32<1>
     decimal = decimal<1>
     ```
 
-- The measured type definitions `byte`, `sbyte`, `int16`, `int32`, `int64`, `float`, `float32`, `decimal`, `unativeint`, and `nativeint` are assumed to have additional static members that have the measure types that are listed in the table. Note that `N` is any of these types, and `F` is either `float32` or `float`.
+- The measured type definitions `byte`,  `uint16`, `uint`, `uint64`, `sbyte`, `int16`, `int`, `int64`, `float`, `float32`, `decimal`, `unativeint`, and `nativeint` are assumed to have additional static members that have the measure types that are listed in the table. Note that `N` is any of these types, and `F` is either `float32` or `float`.
 
 | Member                                            | Measure Type                  |
 | ------------------------------------------------- | ----------------------------- |
