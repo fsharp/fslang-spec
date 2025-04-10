@@ -264,9 +264,9 @@ let htmlOfSites =
 
 By using asynchronous workflows together with other CLI libraries, F# programs can implement parallel tasks, parallel I/O operations, and message-receiving agents.
 
-### Strong Typing for Floating-Point Code
+### Strong Typing for Numerical Code
 
-F# applies type checking and type inference to floating-point-intensive domains through *units of measure inference and checking*. This feature allows you to type-check programs that manipulate floating-point numbers that represent physical and abstract quantities in a stronger way than other typed languages, without losing any performance in your compiled code. You can think of this feature as providing a type system for floating-point code.
+F# applies type checking and type inference to numerically-intensive domains through *units of measure inference and checking*. This feature allows you to type-check programs that manipulate numerical values that represent physical and abstract quantities in a stronger way than other typed languages, without losing any performance in your compiled code. You can think of this feature as providing a type system for numerical code.
 
 Consider the following example:
 
