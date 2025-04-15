@@ -24,21 +24,20 @@ important only if ambiguities occur in referencing the contents of assemblies—
 two assemblies define the type `MyNamespace.C`.
 
 - _ExprItems_ : a table that maps names to the following items:
-    - A value
-    - A union case for use when constructing data
-    - An active pattern result tag for use when returning results from active patterns
-    - A type name for each class or struct type
+  - A value
+  - A union case for use when constructing data
+  - An active pattern result tag for use when returning results from active patterns
+  - A type name for each class or struct type
 - _FieldLabels_ : a table that maps names to sets of field references for record types
 - _PatItems_ : a table that maps names to the following items:
-    - A union case, for use when pattern matching on data
-    - An active pattern case name, for use when specifying active patterns
-    - A literal definition
+  - A union case, for use when pattern matching on data
+  - An active pattern case name, for use when specifying active patterns
+  - A literal definition
 - _Types_ : a table that maps names to type definitions. Two queries are supported on this table:
-    - Find a type by name alone. This query may return multiple types. For example, in the default
+  - Find a type by name alone. This query may return multiple types. For example, in the default
        type-checking environment, the resolution of `System.Tuple` returns multiple tuple types.
 
-
-    - Find a type by name and generic arity `n`. This query returns at most one type. For example, in
+  - Find a type by name and generic arity `n`. This query returns at most one type. For example, in
     the default type-checking environment, the resolution of `System.Tuple` with `n = 2` returns a
     single type.
 - _ExtensionsInScope_ : a table that maps type names to one or more member definitions
@@ -183,6 +182,7 @@ module M =
     let test6 = C.Prop1         // error: the value C does not have a property Prop
     let test7 = M.E.Prop2       // resolves to M.E, and then a property lookup
 ```
+
 The following example shows the resolution behavior for type lookups that are ambiguous by
 generic arity:
 
@@ -227,6 +227,7 @@ module M =
 let _ = M.C< >.P            // no error, resolves to C
     let _ = M.C<_>.P        // no error, resolves to C<'T>
 ```
+
 In the following example, the procedure issues a warning for an incomplete type. In this case, the
 type parameter `'T` cannot be inferred from the use `M.C.P`, because `'T` does not appear at all in the
 type of the resolved element `M.C<'T>.P`.
@@ -238,6 +239,7 @@ module M =
 
     let _ = M.C.P // no error, resolves to C<'T>.P, warning given
 ```
+
 The effect of these rules is to prefer value names over module names for single identifiers. For
 example, consider this case:
 
@@ -248,6 +250,7 @@ module Foo =
     let ABC = 2
 let x1 = Foo // evaluates to 1
 ```
+
 The rules, however, prefer type names over value names for single identifiers, because type names
 appear in the _ExprItems_ table. For example, consider this case:
 
@@ -258,6 +261,7 @@ type Foo() =
 let x1 = Foo.ABC // evaluates to 2
 let x2 = Foo() // evaluates to a new Foo()
 ```
+
 ### Name Resolution for Members
 
 _Name Resolution for Members_ is a sub-procedure used to resolve `.member-ident[.rest]` to a
@@ -295,6 +299,7 @@ let b = new B()
 b.Foo(1)        // resolves to method in A
 b.Foo("abc")    // resolves to method in B
 ```
+
 ### Name Resolution in Patterns
 
 _Name Resolution for Patterns_ is used to resolve `long-ident` in the context of pattern expressions.
@@ -312,9 +317,9 @@ match 4 with
 | C -> sprintf "matched, C = %d" C
 | _ -> sprintf "no match, C = %d" C
 ```
+
 results in `"matched, C = 4"`, because `C` is _not_ present in the _PatItems_ table, and hence becomes a
 value pattern. In contrast,
-
 
 ```fsharp
 [<Literal>]
@@ -324,6 +329,7 @@ match 4 with
 | C -> sprintf "matched, C = %d" C
 | _ -> sprintf "no match, C = %d" C
 ```
+
 results in `"no match, C = 3"`, because `C` is a literal and therefore _is_ present in the _PatItems_ table.
 
 ### Name Resolution for Types
@@ -373,12 +379,14 @@ function:
 ```fsharp
 let f x y = (x:'T), (y:'T)
 ```
+
 In this case, the compiler assigns the identifiers `x` and `y` the same static type - that is, the same type
 inference variable is associated with the name `'T`. The full inferred type of the function is:
 
 ```fsharp
 val f<'T> : 'T -> 'T -> 'T * 'T
 ```
+
 The map is used throughout the processing of expressions and types in a left-to-right order. It is
 initially empty for any member or any other top-level construct that contains expressions and types.
 Entries are eliminated from the map after they are generalized. As a result, the following code
@@ -390,6 +398,7 @@ let f () =
     let g2 (y:'T) = (y:string)
     g1 3, g1 "3", g2 "4"
 ```
+
 The compiler generalizes `g1`, which is applied to both integer and string types. The type variable `'T` in
 `(y:'T)` on the third line refers to a different type inference variable, which is eventually constrained to
 be type `string`.
@@ -460,7 +469,6 @@ is invoked with an unknown number of type arguments.
 
 2. Apply _Item-Qualified Lookup_ for `item` and (`rest` + `projs`).
 
-
 ### Item-Qualified Lookup
 
 Given an input item `item` and projections `projs`, _Item-Qualified Lookup_ computes the projection
@@ -493,7 +501,7 @@ _Item-Qualified Lookup_ proceeds as follows:
         - If the value has type `byref<ty2>`, add a byref dereference to the elaborated
         expression.
         - Insert implicit flexibility for the use of the value ([§14.4.3](inference-procedures.md#implicit-insertion-of-flexibility-for-uses-of-functions-and-members)).
-        
+
         Then Apply _Expression-Qualified Lookup_ for type `ty` and any remaining projections.
 
     - If `item` is a type name, where `projs` begins with `<types>.long-ident`
@@ -505,7 +513,7 @@ _Item-Qualified Lookup_ proceeds as follows:
         - Apply _Item-Qualified Lookup_ to the new `item` and any remaining projections.
 
     - If `item` is a group of type names where `projs` begins with `<types>` or `expr` or `projs` is empty
-        
+
         - Process the types and use the results as the arguments to instantiate the named
         type reference, thus generating a type `ty`.
         - Process the object construction `ty(expr)` as an object constructor call in the same
@@ -516,7 +524,7 @@ _Item-Qualified Lookup_ proceeds as follows:
 
     - If `item` is a group of method references
 
-        - Apply _Method Application Resolution_ for the method group. _Method Application Resolution_ 
+        - Apply _Method Application Resolution_ for the method group. _Method Application Resolution_
           accepts an optional set of type arguments and a syntactic expression
             argument. Determine the arguments based on what `projs` begins with:
             - `<types> expr`, then use `<types>` as the type arguments and `expr` as the
@@ -557,7 +565,7 @@ _Item-Qualified Lookup_ proceeds as follows:
         - Apply _Expression-Qualified Lookup_ to `fty` and `projs`.
 
     - If `item` is an implicitly resolved symbolic operator name `op`
-        
+
         - If `op` is a unary, binary or the ternary operator ?<-, resolve to the following
         expressions, respectively:
 
@@ -568,6 +576,7 @@ _Item-Qualified Lookup_ proceeds as follows:
             (fun (x:^a) (y:^b) (z:^c)
                 -> ((^a or ^b or ^c) : static member (op) : ^a * ^b * ^c -> ^d) (x,y,z))
             ```
+
         - The resulting expressions are static member constraint invocation expressions ([§6.4.8](expressions.md#member-constraint-invocation-expressions)),
         which enable the default interpretation of operators by using type-directed
         member resolution.
@@ -657,6 +666,7 @@ method as a first class value, such as the method call in the following example:
 ```fsharp
 List.map System.Environment.GetEnvironmentVariable ["PATH"; "USERNAME"]
 ```
+
 _Method Application Resolution_ proceeds through the following steps:
 
 1. Restrict the candidate method group `M` to those methods that are _accessible_ from the point of
@@ -693,7 +703,7 @@ _Method Application Resolution_ proceeds through the following steps:
           parentheses around the argument, equate this type with a type `byref<ty>` for a fresh
           type `ty`.
        - If the argument has the syntactic form of a function expression `fun pat1 ... patn -> expr`
-          after ignoring parentheses around the argument, equate this type with a 
+          after ignoring parentheses around the argument, equate this type with a
           type `ty1 -> ... tyn -> rty` for fresh types `ty1 ... tyn`.
     - If no argument `arg` is present:
 
@@ -713,7 +723,7 @@ _Method Application Resolution_ proceeds through the following steps:
             - The method application is considered to have one unnamed actual argument for
             each prospective unnamed actual argument type.
 
-            -    The method application is considered to have no named actual arguments.
+            - The method application is considered to have no named actual arguments.
 
 4. For each candidate method in `M`, attempt to produce zero, one, or two _prospective method calls_
     `M~possible` as follows:
@@ -748,7 +758,7 @@ _Method Application Resolution_ proceeds through the following steps:
 
     - Associate each `name = arg` in `NamedActualArgs` with a target. A target is a _named formal
       parameter_, a _settable return property_, or a _settable return field_ as follows:
-    
+
         - If one of the arguments in `NamedFormalArgs` has name `name`, that argument is the target.
         - If the return type of `M`, before the application of any type arguments `ActualTypeArgs`,
             contains a settable property `name`, then `name` is the target. The available properties
@@ -841,10 +851,9 @@ _Method Application Resolution_ proceeds through the following steps:
     the property.
     - If `arg` is not present, return a function expression that represents a first class function value.
 
-
 Two additional rules apply when checking arguments (see [§8.13.7](type-definitions.md#type-directed-conversions-at-member-invocations) for examples):
 
-  - If a formal parameter has delegate type `D`, an actual argument `farg` has known type
+- If a formal parameter has delegate type `D`, an actual argument `farg` has known type
       `ty1 -> ... -> tyn -> rty`, and the number of arguments of the Invoke method of delegate type
       `D` is precisely `n`, interpret the formal parameter in the same way as the following:
          `new D (fun arg1 ... argn -> farg arg1 ... argn)`.
@@ -852,7 +861,7 @@ Two additional rules apply when checking arguments (see [§8.13.7](type-definiti
     For more information on the conversions that are automatically applied to arguments, see
   [§8.13.6](type-definitions.md#optional-arguments-to-method-members).
   
-  - If a formal parameter is an `out` parameter of type `byref<ty>`, and an actual argument type is
+- If a formal parameter is an `out` parameter of type `byref<ty>`, and an actual argument type is
       not a byref type, interpret the actual parameter in the same way as type `ref<ty>`. That is, an F#
       reference cell can be passed where a `byref<ty>` is expected.
 
@@ -870,6 +879,7 @@ library, `System.Random.Next` is overloaded:
 ```fsharp
 val roll : int -> int
 ```
+
 The reason is that if the initial type contains no information about the expected number of
 arguments, the F# compiler assumes that the method has one argument.
 
@@ -881,11 +891,13 @@ overloaded set of methods
 ```fsgrammar
 callerObjArgTy.Method(callerArgExpr1 , ... callerArgExprN)
 ```
+
 calling
 
 ```fsgrammar
 calledObjArgTy.Method(calledArgTy1, ... calledArgTyN)
 ```
+
 In F# 3.1 and subsequently, immediately prior to checking argument expressions, each argument
 position of the unnamed caller arguments for the method call is analysed to propagate type
 information extracted from method overloads to the expected types of lambda expressions. The
@@ -896,9 +908,9 @@ new rule is applied when
     parenthesized
 - all the corresponding formal called arguments have `calledArgTy` either of
 
-    - function type `calledArgDomainTy1 -> ... -> calledArgDomainTyN -> calledArgRangeTy`
+  - function type `calledArgDomainTy1 -> ... -> calledArgDomainTyN -> calledArgRangeTy`
         (after taking into account “function to delegate” adjustments), or
-    - some other type which would cause an overload to be discarded
+  - some other type which would cause an overload to be discarded
 
 - at least one overload has enough curried lambda arguments for it corresponding expected
     function type
@@ -924,8 +936,8 @@ the member is adjusted as follows:
     application expressions that resolve to calls to members that have the `Conditional` attribute and
     ensures that arguments are not evaluated. Elimination of such expressions proceeds first with
     static members and then with instance members, as follows:
-    - Static members: `Type.M(args)` => `()`
-    - Instance members: `expr.M(args)` => `()`
+  - Static members: `Type.M(args)` => `()`
+  - Instance members: `expr.M(args)` => `()`
 
 ### Implicit Insertion of Flexibility for Uses of Functions and Members
 
@@ -943,6 +955,7 @@ member as follows:
     ```fsgrammar
     ty11 * ... * ty1n -> ... -> tym1 * ... * tymn -> rty
     ```
+
 - If the type does not decompose to this form, no flexibility is added.
 - The positions `tyij` are called the “parameter positions” for the type. For each parameter position
     where `tyij` is not a sealed type, and is not a variable type, the type is replaced by a fresh type
@@ -977,6 +990,7 @@ let res = f d
 // Use f as a first-class function value of type : Derived -> int
 let res2 = (f : Derived -> int)
 ```
+
 The F# compiler determines whether to insert flexibility after explicit instantiation, but before any
 arguments are checked. For example, given the following:
 
@@ -985,6 +999,7 @@ let M<'b>(c :'b, d :'b) = 1
 let obj = new obj()
 let str = ""
 ```
+
 these expressions pass type-checking:
 
 ```fsharp
@@ -995,12 +1010,14 @@ M<obj>(str, str)
 M(obj, obj)
 M(str, str)
 ```
+
 These expressions do not, because the target type is a variable type:
 
 ```fsharp
 M(obj, str)
 M(str, obj)
 ```
+
 ## Constraint Solving
 
 Constraint solving involves processing (“solving”) non-primitive constraints to reduce them to
@@ -1024,8 +1041,8 @@ typar : not struct
 typar : enum< type >
 typar : delegate< type, type >
 ```
-Each newly introduced constraint is solved as described in the following sections.
 
+Each newly introduced constraint is solved as described in the following sections.
 
 ### Solving Equational Constraints
 
@@ -1043,7 +1060,7 @@ Primitive constraints in the form `typar :> obj` are discarded.
 New constraints in the form `type1 :> type2`, where `type2` is a sealed type, are reduced to the
 constraint `type1` = `type2` and solved again.
 
-New constraints in either of these two forms are reduced to the constraints 
+New constraints in either of these two forms are reduced to the constraints
 `tyarg11 = tyarg 21 ... tyarg1n = tyarg2n` and solved again:
 
 ```fsother
@@ -1066,11 +1083,13 @@ For example, if `MySubClass<'T>` is derived from `MyBaseClass<list<'T>>`, then t
 ```fsother
 MySubClass<'T> :> MyBaseClass<int>
 ```
+
 is reduced to the constraint
 
 ```fsother
 MyBaseClass<list<'T>> :> MyBaseClass<list<int>>
 ```
+
 and solved again, so that the constraint `'T = int` will eventually be derived.
 
 > Note : Subtype constraints on single-dimensional array types `ty[] :> ty` are reduced to
@@ -1107,6 +1126,7 @@ type : enum< type >
 type : delegate< type, type >
 type : unmanaged
 ```
+
 The compiler then resolves them according to the requirements for each kind of constraint listed in
 [§5.2](types-and-type-constraints.md#type-constraints) and [§5.4.8](types-and-type-constraints.md#nullness).
 
@@ -1117,6 +1137,7 @@ New constraints in the following form are solved as _member constraints_ ([§5.2
 ```fsother
 (type1 or ... or typen) : (member-sig)
 ```
+
 A member constraint is satisfied if one of the types in the _support set_ `type1 ... typen` satisfies the
 member constraint. A static type `type` satisfies a member constraint in the form
 `(static~opt member ident : arg-type1 * ... * arg-typen -> ret-type)`
@@ -1135,6 +1156,7 @@ variable is in the support set of more than one such constraint, the argument an
 themselves constrained to be equal.
 
 #### Simulation of Solutions for Member Constraints
+
 Certain types are assumed to implicitly define static members even though the actual CLI metadata
 for types does not define these operators. This mechanism is used to implement the extensible
 conversion and math functions of the F# library including `sin`, `cos`, `int`, `float`, `(+)`, and `(-)`. The
@@ -1157,6 +1179,7 @@ the following results in a warning because `'T` has been constrained to be preci
 ```fsharp
 let f (x:'T) = (x:string)
 ```
+
 During the resolution of overloaded methods, resolutions that do not give such a warning are
 preferred over resolutions that do give such a warning.
 
@@ -1180,15 +1203,19 @@ Each definition is one of the following:
     ```fsgrammar
     inline~opt ident1 pat1 ... patn :~opt return-type~opt = rhs-expr
     ```
+
 - A value definition, which defines one or more values by matching a pattern against an expression:
+
     ```fsgrammar
     mutable~opt pat :~opt type~opt = rhs-expr
     ```
+
 - A member definition:
 
     ```fsgrammar
     static~opt member ident~opt ident pat1 ... patn = expr
     ```
+
 For a function, value, or member definition in a class:
 
 1. If the definition is an instance function, value or member, checking uses an environment to
@@ -1210,6 +1237,7 @@ type OneInteger = Id of int
 
 let Id x = x
 ```
+
 In this case, the ambiguity is whether `Id x` is a pattern that matches values of type `OneInteger` or is
 the function name and argument list of a function called `Id`. In F# this ambiguity is always resolved
 as a function definition. In this case, to make a value definition, use the following syntax in which the
@@ -1219,6 +1247,7 @@ ambiguous pattern is enclosed in parentheses:
 let v = if 3 = 4 then Id "yes" else Id "no"
 let (Id answer) = v
 ```
+
 ### Mutable Value Definitions
 
 Value definitions may be marked as mutable. For example:
@@ -1229,6 +1258,7 @@ while v < 10 do
     v <- v + 1
     printfn "v = %d" v
 ```
+
 These variables are implicitly dereferenced when used.
 
 ### Processing Value Definitions
@@ -1248,6 +1278,7 @@ A value definition `pat = rhs-expr` with optional pattern type `type` is process
     ident<typars1> = expr
     body-expr
     ```
+
 6. Otherwise, the resulting elaborated definitions are the following, where `tmp` is a fresh identifier
     and each `expri` results from the compilation of the pattern `pat` ([§7](patterns.md#patterns)) against input `tmp`.
 
@@ -1257,6 +1288,7 @@ A value definition `pat = rhs-expr` with optional pattern type `type` is process
     ...
     identn<typarsn> = exprn
     ```
+
 ### Processing Function Definitions
 
 A function definition `ident1 pat1 ... patn = rhs-expr` is processed as follows:
@@ -1269,15 +1301,18 @@ A function definition `ident1 pat1 ... patn = rhs-expr` is processed as follows:
 3. The `ident1` (of type `ty1`) is then generalized ([§14.6.7](inference-procedures.md#generalization)) and yields generic parameters `<typars1>`.
 4. The following rules are checked:
     - Function definitions may not be `mutable`. Mutable function values should be written as follows:
+
     ```fsother
     let mutable f = (fun args -> ...)`
     ```
+
     - The patterns of functions may not include optional arguments ([§8.13.6](type-definitions.md#optional-arguments-to-method-members)).
 5. The resulting elaborated definition is:
 
     ```fsgrammar
     ident1<typars1> = expr1
     ```
+
 ### Processing Recursive Groups of Definitions
 
 A group of functions and values may be declared recursive through the use of `let rec`. Groups of
@@ -1296,6 +1331,7 @@ and oneBack count =
     printfn "at %d, taking one step back " count
     twoForward (count – 1)
 ```
+
 When one or more definitions specifies a value, the recursive expressions are analyzed for safety
 ([§14.6.6](inference-procedures.md#recursive-safety-analysis)). This analysis may result in warnings—including some reported at compile time—and
 runtime checks.
@@ -1314,9 +1350,9 @@ let rec countDown count x =
     else
         1
 ```
+
 In this example, the definition is not valid because the recursive uses of `f` result in inconsistent
 constraints on `x`.
-
 
 If a definition has a full signature, early generalization applies and recursive calls at different types
 are permitted ([§14.6.7](inference-procedures.md#generalization)). For example:
@@ -1328,6 +1364,7 @@ module M =
         let b = f "Hello"
         x
 ```
+
 In this example, the definition is valid because `f` is subject to early generalization, and so the
 recursive uses of `f` do not result in inconsistent constraints on `x`.
 
@@ -1344,11 +1381,13 @@ let const n =
     let rec r = React((fun c -> r), n)
     r
 ```
+
 Recursive value definitions may result in invalid recursive cycles, such as the following:
 
 ```fsharp
 let rec x = x + 1
 ```
+
 The _Recursive Safety Analysis_ process partially checks the safety of these definitions and convert
 thems to a form that uses lazy initialization, where runtime checks are inserted to check
 initialization.
@@ -1364,12 +1403,11 @@ A right-hand side expression is _safe_ if it is any of the following:
     safe.
 - A value that is not being recursively bound.
 - A value that is being recursively bound and appears in one of the following positions:
-    - As a field initializer for a field of a record type where the field is marked `mutable`.
-    - As a field initializer for an immutable field of a record type that is defined in the current
+  - As a field initializer for a field of a record type where the field is marked `mutable`.
+  - As a field initializer for an immutable field of a record type that is defined in the current
        assembly.
        If record fields contain recursive references to values being bound, the record fields must be
        initialized in the same order as their declared type, as described later in this section.
-
 
 - Any expression that refers only to earlier variables defined by the sequence of recursive
     definitions.
@@ -1380,11 +1418,13 @@ is
 ```fsharp
 u = expr
 ```
+
 then a fresh value (say v) is generated with the definition:
 
 ```fsharp
 v = lazy expr
 ```
+
 and occurrences of the original variable `u` on the right-hand side are replaced by `Lazy.force v`. The
 following definition is then added at the end of the definition list:
 
@@ -1403,6 +1443,7 @@ such as forms, controls, and services that respond to various inputs. For exampl
 elements that store and retrieve the state of the GUI elements as part of their
 specification typically involve recursive value definitions. A simple example is the
 following menu item, which prints out part of its state when invoked:
+
 ```fsharp
 open System.Windows.Form
 let rec menuItem : MenuItem =
@@ -1411,6 +1452,7 @@ let rec menuItem : MenuItem =
                      printfn "Text = %s" menuItem.Text),
                  Shortcut.CtrlH)
 ```
+
 > This code results in a compiler warning because, in theory, the
 `new MenuItem(...)` constructor might evaluate the callback as part of the construction
 process. However, because the `System.Windows.Forms` library is well designed, in this
@@ -1437,16 +1479,20 @@ means that runtime checks and forces are inserted.
 generalization because a generic value definition is not executed immediately, but is
 instead represented as a generic method. For example, the following value definitions
 are generic because each right-hand-side is generalizable:
+
 ```fsharp
 let rec a = b
 and b = a
 ```
+
 > In compiled code they are represented as a pair of generic methods, as if the code had
 been written as follows:
+
 ```fsharp
 let rec a<'T>() = b<'T>()
 and b<'T>() = a<'T>()
 ```
+
 > As a result, the definitions are not executed immediately unless the functions are called.
 Such definitions indicate a programmer error, because executing such generic,
 immediately recursive definitions results in an infinite loop or an exception. In practice
@@ -1454,13 +1500,16 @@ these definitions only occur in pathological examples, because value definitions
 generalizable only when the right-hand-side is very simple, such as a single value. Where
 this issue is a concern, type annotations can be added to existing value definitions to
 ensure they are not generic. For example:
+
 ```fsharp
 let rec a : int = b
 and b : int = a
 ```
+
 > In this case, the definitions are not generic. The compiler performs immediate
 dependency analysis and reports an error. In addition, record fields in recursive data
 expressions must be initialized in the order they are declared. For example:
+
 ```fsharp
 type Foo = {
     x: int
@@ -1474,6 +1523,7 @@ and children = [{ x = 1; y = 1; parent = Some parent; children = [] }]
 
 printf "%A" parent
 ```
+
 > Here, if the order of the fields x and y is swapped, a type-checking error occurs.
 
 ### Generalization
@@ -1484,7 +1534,6 @@ all function, value, and member definitions, except where listed later in this s
 also applies to member definitions that implement generic virtual methods in object expressions.
 
 Generalization is applied incrementally to items in a recursive group after each item is checked.
-
 
 Generalization takes a set of ungeneralized but type-checked definitions _checked-defns_ that form
 part of a recursive group, plus a set of unchecked definitions _unchecked-defns_ that have not yet been
@@ -1529,7 +1578,6 @@ environment or present in ungeneralizable definitions.
 
 5. Repeat steps 2 through 4.
 
-
 Informally, generalizable expressions represent a subset of expressions that can be freely copied and
 instantiated at multiple types without affecting the typical semantics of an F# program. The
 following expressions are generalizable:
@@ -1557,18 +1605,21 @@ will not be generalized beyond those generic parameters. For example, consider t
 ```fsharp
 let f<'T> (x : 'T) y = x
 ```
+
 During type inference, this will result in a function of the following type, where `'_b` is a type
 inference variable that is yet to be resolved.
 
 ```fsharp
 f<'T> : 'T -> '_b -> '_b
 ```
+
 To permit generalization at these definitions, either remove the explicit generic parameters (if they
 can be inferred), or use the required number of parameters, as the following example shows:
 
 ```fsharp
 let throw<'T,'U> (x:'T) (y:'U) = x
 ```
+
 ### Condensation of Generalized Types
 
 After a function or member definition is generalized, its type is condensed by removing generic type
@@ -1580,6 +1631,7 @@ Condensation decomposes the type of a value or member to the following form:
 ```fsgrammar
 ty11 * ... * ty1n -> ... -> tym1 * ... * tymn -> rty
 ```
+
 The positions `tyij` are called the parameter positions for the type.
 
 Condensation applies to a type parameter `'a` if all of the following are true:
@@ -1601,37 +1653,44 @@ constraint `ty`. For example:
 ```fsharp
 let F x = (x :> System.IComparable).CompareTo(x)
 ```
+
 After generalization, the function is inferred to have the following type:
 
 ```fsharp
 F : 'a -> int when 'a :> System.IComparable
 ```
+
 In this case, the actual inferred, generalized type for `F` is condensed to:
 
 ```fsharp
 F : System.IComparable -> R
 ```
+
 Condensation does not apply to arguments of unconstrained variable type. For example:
 
 ```fsharp
 let ignore x = ()
 ```
+
 with type
 
 ```fsharp
 ignore: 'a -> unit
 ```
+
 In particular, this is not condensed to
 
 ```fsharp
 ignore: obj -> unit
 ```
+
 In rare cases, condensation affects the points at which value types are boxed. In the following
 example, the value `3` is now boxed at uses of the function:
 
 ```fsharp
 F 3
 ```
+
 If a function is not generalized, condensation is not applied. For example, consider the following:
 
 ```fsharp
@@ -1639,6 +1698,7 @@ let test1 =
     let ff = Seq.map id >> Seq.length
     (ff [1], ff [| 1 |]) // error here
 ```
+
 In this example, `ff` is not generalized, because it is not defined by using a generalizable expression—
 computed functions such as `Seq.map id >> Seq.length` are not generalizable. This means that its
 inferred type, after processing the definition, is
@@ -1646,12 +1706,14 @@ inferred type, after processing the definition, is
 ```fsharp
 F : '_a -> int when '_a :> seq<'_b>
 ```
+
 where the type variables are not generalized and are unsolved inference variables. The application
 of `ff` to `[1]` equates `'a` with `int list`, making the following the type of `F`:
 
 ```fsharp
 F : int list -> int
 ```
+
 The application of `ff` to an array type then causes an error. This is similar to the error returned by
 the following:
 
@@ -1660,6 +1722,7 @@ let test1 =
     let ff = Seq.map id >> Seq.length
     (ff [1], ff ["one"]) // error here
 ```
+
 Again, `ff` is not generalized, and its use with arguments of type `int list` and `string list` is not
 permitted.
 
@@ -1689,6 +1752,7 @@ type IA = interface abstract P : int end
 type IB = interface inherit IA end
 type ID = interface inherit IB end
 ```
+
 With these definitions, the following object expression is legal. Type `IB` is the most-specific
 implemented type that encompasses `IA`, and therefore the implementation mapping for `P` must be
 listed under `IB`:
@@ -1698,8 +1762,8 @@ let x = { new ID
           interface IB with
             member x.P = 2 }
 ```
-But given:
 
+But given:
 
 ```fsharp
 type IA = interface abstract P : int end
@@ -1707,6 +1771,7 @@ type IB = interface inherit IA end
 type IC = interface inherit IB end
 type ID = interface inherit IB inherit IC end
 ```
+
 then the following object expression causes an error, because both `IB` and `IC` include the interface
 `IA`, and consequently the implementation mapping for `P` is ambiguous.
 
@@ -1717,6 +1782,7 @@ let x = { new ID
           interface IC with
             member x.P = 2 }
 ```
+
 The ambiguity can be resolved by explicitly implementing interface `IA`.
 
 After dispatch slots are assigned to types, the compiler tries to associate each member with a
@@ -1728,17 +1794,21 @@ proceeds as follows:
     ```fsgrammar
     abstract M : aty1 ... atyN -> rty
     ```
+
     with name `M`, argument count `N`, and most-specific implementing type `tyi`.
 
 - To determine the argument counts, analyze the syntax of patterns and look specifically for
     tuple and unit patterns. Thus, the following members have argument count 1, even though
     the argument type is unit:
+
     ```fsgrammar
     member obj.ToString(() | ()) = ...
     member obj.ToString(():unit) = ...
     member obj.ToString(_:unit) = ...
     ```
+
 - A member may have a return type, which is ignored when determining argument counts:
+
     ```fsother
     member obj.ToString() : string = ...
     ```
@@ -1750,6 +1820,7 @@ let obj1 =
     { new System.Collections.Generic.IComparer<int> with
         member x.Compare(a,b) = compare (a % 7) (b % 7) }
 ```
+
 the types of `a` and `b` are inferred by looking at the signature of the implemented dispatch slot, and
 are hence both inferred to be `int`.
 
@@ -1760,7 +1831,6 @@ properties, such as ensuring that all abstract members are implemented.
 
 After the compiler checks all bodies of all methods, it checks that a one-to-one mapping exists
 between dispatch slots and implementing members based on exact signature matching.
-
 
 The interface methods and abstract method slots of a type are collectively known as _dispatch slots_.
 Each object expression and type definition results in an elaborated _dispatch map_. This map is keyed
@@ -1787,10 +1857,10 @@ To ensure the safety of byref arguments, the following checks are made:
 
 - Byref types may not be used as generic arguments.
 - Byref values may not be used in any of the following:
-    - The argument types or body of function expressions `(fun ... -> ...)`.
-    - The member implementations of object expressions.
-    - The signature or body of let-bound functions in classes.
-    - The signature or body of let-bound functions in expressions.
+  - The argument types or body of function expressions `(fun ... -> ...)`.
+  - The member implementations of object expressions.
+  - The signature or body of let-bound functions in classes.
+  - The signature or body of let-bound functions in expressions.
 
 Note that function expressions occur in:
 
@@ -1808,7 +1878,6 @@ As a result, a byref-typed expression can occur only in these situations:
 
 - As an argument to a call to a module-defined function or class-defined function.
 
-
 - On the right-hand-side of a value definition for a byref-typed local.
 
 These restrictions also apply to uses of the prefix && operator for generating native pointer values.
@@ -1824,6 +1893,7 @@ let sumSquares n =
     [ 1 .. n ] |> Seq.iter (fun x -> total <- total + x*x)
     total
 ```
+
 is considered equivalent to the following definition:
 
 ```fsharp
@@ -1833,6 +1903,7 @@ let sumSquares n =
                     (fun x -> total.contents <- total.contents + x*x)
     total.contents
 ```
+
 because the following would be subject to byref safety analysis:
 
 ```fsharp
@@ -1840,6 +1911,7 @@ let sumSquares n =
     let mutable total = 0
     &total
 ```
+
 ## Arity Inference
 
 During checking, members within types and function definitions within modules are inferred to have
@@ -1855,23 +1927,26 @@ where each `Ai` is derived from the tuple length for the final inferred types of
 ```fsother
 let ident pat 1 ... patn = ...
 ```
+
 For example, the following is given arity [1; 2]:
 
 ```fsharp
 let f x (y,z) = x + y + z
 ```
+
 Arities are also inferred from function expressions that appear on the immediate right of a value
 definition. For example, the following has an arity of [1]:
 
 ```fsharp
 let f = fun x -> x + 1
 ```
-Similarly, the following has an arity of [1;1]:
 
+Similarly, the following has an arity of [1;1]:
 
 ```fsharp
 let f x = fun y -> x + y
 ```
+
 Arity inference is applied partly to help define the elaborated form of a function definition. This is
 the form that other CLI languages see. In particular:
 
@@ -1890,11 +1965,13 @@ For example, consider a function in a module with the following definition:
 ```fsharp
 let AddThemUp x (y, z) = x + y + z
 ```
+
 This function compiles to a CLI static method with the following C# signature:
 
 ```fsharp
 int AddThemUp(int x, int y, int z);
 ```
+
 Arity inference applies differently to function and member definitions. Arity inference on function
 definitions is fully type-directed. Arity inference on members is limited if parentheses or other
 patterns are used to specify the member arguments. For example:
@@ -1932,6 +2009,7 @@ type Bar() =
     // compiles as a static method taking 1 tupled argument
     static member Test5 (a1, a2, a3 : int * float * string) = ()
 ```
+
 ## Additional Constraints on CLI Methods
 
 F# treats some CLI methods and types specially, because they are common in F# programming and

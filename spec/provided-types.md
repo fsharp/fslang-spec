@@ -178,15 +178,15 @@ and named static arguments must come after all other arguments.
 
 ### Kind
 
-- Provided type definitions may be classes. This includes both erased and concrete types. 
+- Provided type definitions may be classes. This includes both erased and concrete types.
 This corresponds to the `type.IsClass` property returning true for the provided type definition.
 
-- Provided type definitions may be interfaces. This includes both erased and concrete types. 
+- Provided type definitions may be interfaces. This includes both erased and concrete types.
 This corresponds to the `type.IsInterface` property returning true. Only one of `IsInterface`, `IsClass`, `IsStruct`, `IsEnum`, `IsDelegate`, `IsArray` may return true.
 
 - Provided type definitions may be static classes. This includes both erased and concrete types.
 
-- Provided type definitions may be sealed. 
+- Provided type definitions may be sealed.
 
 - Provided type definitions may not be arrays. This means the `type.IsArray` property must
 always return false. Provided types used in return types and argument positions may be
@@ -210,17 +210,17 @@ which case the type is considered to have null as an abnormal value.
     This corresponds to non-null results from the `type.GetMethod` and `type.GetMethods` of the
     provided type definition. The results returned by these methods must be consistent.
 
-    - Provided methods may be static, instance and abstract
-    - Provided methods may not be class constructors (.cctor). By .NET rules these would have to be private anyway.
-    - Provided methods may be operators such as op_Addition.
+  - Provided methods may be static, instance and abstract
+  - Provided methods may not be class constructors (.cctor). By .NET rules these would have to be private anyway.
+  - Provided methods may be operators such as op_Addition.
 
 - Provided type definitions may report properties.
 
     This corresponds to non-null results from the `type.GetProperty` and `type.GetProperties` of the
     provided type definition. The results returned by these methods must be consistent.
-    
-    - Provided properties may be static or instance
-    - Provided properties may be indexers. This corresponds to reporting methods with
+
+  - Provided properties may be static or instance
+  - Provided properties may be indexers. This corresponds to reporting methods with
     name Item , or as identified by `DefaultMemberAttribute` non-null results from the
     `type.GetEvent` and `type.GetEvents` of the provided type definition. The results
     returned by these methods must be consistent. This includes 1D, 2D, 3D and 4D
@@ -242,10 +242,9 @@ which case the type is considered to have null as an abnormal value.
     This corresponds to non-null results from the type.GetNestedType and type.GetNestedTypes of
     the provided type definition. The results returned by these methods must be consistent.
 
-    - The nested types of an erased type may be generated types in a generated
+  - The nested types of an erased type may be generated types in a generated
     assembly. The `type.DeclaringType` property of the nested type need not report the
     erased type.
-
 
 - Provided type definitions may report literal (constant) fields.
 
@@ -284,22 +283,22 @@ referenced assemblies in the compilation context according to the following quot
 - Expr.NewArray
 - Expr.NewObject
 - Expr.WhileLoop
-- Expr.NewDelegate 
-- Expr.ForIntegerRangeLoop 
-- Expr.Sequential 
-- Expr.TryWith 
-- Expr.TryFinally 
-- Expr.Lambda 
-- Expr.Call 
-- Expr.Constant 
-- Expr.DefaultValue 
-- Expr.NewTuple 
-- Expr.TupleGet 
-- Expr.TypeAs 
-- Expr.TypeTest 
-- Expr.Let 
-- Expr.VarSet 
-- Expr.IfThenElse 
+- Expr.NewDelegate
+- Expr.ForIntegerRangeLoop
+- Expr.Sequential
+- Expr.TryWith
+- Expr.TryFinally
+- Expr.Lambda
+- Expr.Call
+- Expr.Constant
+- Expr.DefaultValue
+- Expr.NewTuple
+- Expr.TupleGet
+- Expr.TypeAs
+- Expr.TypeTest
+- Expr.Let
+- Expr.VarSet
+- Expr.IfThenElse
 - Expr.Var
 
 The type of the quotation expression returned by `GetInvokerExpression` must be an erased type. The
@@ -314,6 +313,6 @@ an extension member
 - Provided type and method definitions may not be generic
 
     This corresponds to
-    - `GetGenericArguments` returning length 0
-    - For type definitions, `IsGenericType` and `IsGenericTypeDefinition` returning false
-    - For method definitions, `IsGenericMethod` and `IsGenericMethodDefinition` returning false
+  - `GetGenericArguments` returning length 0
+  - For type definitions, `IsGenericType` and `IsGenericTypeDefinition` returning false
+  - For method definitions, `IsGenericMethod` and `IsGenericMethodDefinition` returning false

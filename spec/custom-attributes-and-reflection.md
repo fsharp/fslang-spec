@@ -25,6 +25,7 @@ attribute-target :=
     constructor
     event
 ```
+
 ## Custom Attributes
 
 CLI languages support the notion of _custom attributes_ which can be added to most declarations.
@@ -41,6 +42,7 @@ expressions. Attributes on parameters are given as follows:
 ```fsharp
 let foo([<SomeAttribute>] a) = a + 5
 ```
+
 If present, the arguments to a custom attribute must be _literal constant expressions_ , or arrays of the
 same.
 
@@ -60,6 +62,7 @@ type Foo1 [<System.Obsolete("don't use me")>] () =
 type Foo2 [<System.Obsolete("don't use me")>] private () =
     member x.Bar() = 1
 ```
+
 Custom attributes are mapped to compiled CLI metadata as follows:
 
 - Custom attributes map to the element that is specified by their target, if a target is given.
@@ -71,8 +74,8 @@ Custom attributes are mapped to compiled CLI metadata as follows:
     that is named `_F`.
 - A custom attribute on a union case `ABC` for a type `T` is compiled to a custom attribute on a static
     method on the CLI type definition `T`. This method is called:
-    - `get_ABC` if the union case takes no arguments
-    - `ABC` otherwise
+  - `get_ABC` if the union case takes no arguments
+  - `ABC` otherwise
 - Custom attributes on arguments are propagated only for arguments of member definitions, and
     not for “let”-bound function definitions.
 - Custom attributes on generic parameters are not propagated.
@@ -147,7 +150,6 @@ In addition:
     `System.Type` object, although the `System.Type` object is not accessible by using the `typeof`
     operator.
 
-
 However:
 
 - Internal and private function and value definitions are not guaranteed to be given corresponding
@@ -158,5 +160,3 @@ However:
     abbreviations and F# unit-of-measure annotations.
 - The definition of new units of measure results in corresponding compiled CLI type declarations
     with an associated `System.Type`.
-
-

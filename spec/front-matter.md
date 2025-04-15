@@ -23,5 +23,3 @@ _© 2005 - 2025 various contributors. Made available under the [Creative Commons
 _Product and company names mentioned herein may be the trademarks of their respective owners._
 
 _The sources for this content can be found on [github](https://github.com/fsharp/fslang-spec)._
-
-
