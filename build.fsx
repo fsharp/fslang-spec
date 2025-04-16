@@ -21,6 +21,7 @@ open System.IO
 type Chapter = {name: string; lines: string list}
 type Sources = {frontMatter: Chapter; clauses: Chapter list}
 type Catalog = {FrontMatter: string; MainBody: string list; Annexes: string list}
+type FilenameHandling = KeepFilename | DiscardFilename
 type BuildState = {
     chapterName: string
     lineNumber: int
@@ -147,7 +148,7 @@ let tocLines toc =
         String.replicate (number.Length - 1) "  " + $"- [{sText} {heading}]({anchor})"
     toc |> Map.toList |> List.map tocLine
 
-let adjustLinks keepFilenames state line =
+let adjustLinks fileNameHandling state line =
     let state = {state with lineNumber = state.lineNumber + 1}
     let rec adjustLinks' state lineFragment =
         let m = Regex.Match(lineFragment, "(.*)\[§(\d+\.[\.\d]*)\]\(([^#)]+)#([^)]+)\)(.*)")
@@ -157,11 +158,10 @@ let adjustLinks keepFilenames state line =
             match Map.tryPick (fun n heading -> if sectionText n = sText then Some heading else None) state.toc with
             | Some _ ->
                 let post', state' = adjustLinks' state post  // recursive check for multiple links in a line
-                let adjustedLine = 
-                    if keepFilenames then
-                        $"{pre}[§{sText}]({filename}#{kebabCase sText}-{anchor}){post'}"
-                    else
-                        $"{pre}[§{sText}](#{kebabCase sText}-{anchor}){post'}"
+                let adjustedLine =
+                    match fileNameHandling with
+                    | KeepFilename -> $"{pre}[§{sText}]({filename}#{kebabCase sText}-{anchor}){post'}"
+                    | DiscardFilename -> $"{pre}[§{sText}](#{kebabCase sText}-{anchor}){post'}"
                 adjustedLine, state'
             | None ->
                 let msg = $"unknown link target {filename}#{anchor} ({sText})"
@@ -183,12 +183,14 @@ let processSources chapters =
             List.collect _.lines processedChapters
         ]
     // Adjust the reference links to point to the correct header of the new spec
-    let (allLines, state) =
-        ({state with chapterName = fullDocName; lineNumber = 0}, allLines) ||> List.mapFold (adjustLinks false)
+    let (allLines, _) =
+        ({state with chapterName = fullDocName; lineNumber = 0}, allLines)
+        ||> List.mapFold (adjustLinks DiscardFilename)
     let fullDoc = {name = fullDocName; lines = allLines}
     let adjustChapterLinks chapter =
         let adjustedLines, _ =
-            ({state with chapterName = chapter.name; lineNumber = 0}, chapter.lines) ||> List.mapFold (adjustLinks true)
+            ({state with chapterName = chapter.name; lineNumber = 0}, chapter.lines)
+            ||> List.mapFold (adjustLinks KeepFilename)
         {name = chapter.name; lines = adjustedLines}
     let frontMatterLines = chapters.frontMatter.lines @ versionPlaceholder()
     let adjustedChapters = processedChapters |> List.map adjustChapterLinks
