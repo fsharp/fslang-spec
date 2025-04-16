@@ -82,7 +82,7 @@ member-sig := <see Section 10>
 ```
 
 In a type instantiation, the type name and the opening angle bracket must be syntactically adjacent
-with no intervening whitespace, as determined by lexical filtering (15). Specifically:
+with no intervening whitespace, as determined by lexical filtering ([§15.](lexical-filtering.md#lexical-filtering)). Specifically:
 
 ```fsharp
 array<int>
