@@ -89,7 +89,7 @@ All PRs need to be accepted by two team reviewers for merging.
 | F# 6.0 | FS-1039 | Struct Representation for Active Patterns | [FS-1039-struct-representation-for-active-patterns.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-6.0/FS-1039-struct-representation-for-active-patterns.md) |
 | F# 6.0 | FS-1056 | Allow Custom Operation Overloads | [FS-1056-allow-custom-operation-overloads.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-6.0/FS-1056-allow-custom-operation-overloads.md) |
 | F# 6.0 | FS-1087 | Resumable Code | [FS-1087-resumable-code.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-6.0/FS-1087-resumable-code.md) |
-| F# 6.0 | FS-1091 | Extend Units of Measure | [FS-1091-Extend-Units-of-Measure.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-6.0/FS-1091-Extend-Units-of-Measure.md) |
+| F# 6.0 | FS-1091 | Extend Units of Measure | [FS-1091-Extend-Units-of-Measure.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-6.0/FS-1091-Extend-Units-of-Measure.md) | done |
 | F# 6.0 | FS-1093 | Additional Conversions | [FS-1093-additional-conversions.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-6.0/FS-1093-additional-conversions.md) |
 | F# 6.0 | FS-1097 | Task Builder | [FS-1097-task-builder.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-6.0/FS-1097-task-builder.md) |
 | F# 6.0 | FS-1098 | Inline If Lambda | [FS-1098-inline-if-lambda.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-6.0/FS-1098-inline-if-lambda.md) |
