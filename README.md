@@ -42,8 +42,8 @@ All PRs need to be accepted by two team reviewers for merging.
 | F# 4.0 | N/A | Static Method Arguments | [StaticMethodArgumentsDesignAndSpec.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.0/StaticMethodArgumentsDesignAndSpec.md) |
 | F# 4.1 | FS-1002 | Cartesian Product for Collections | [FS-1002-cartesian-product-for-collections.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1002-cartesian-product-for-collections.md) |
 | F# 4.1 | FS-1004 | Result Type | [FS-1004-result-type.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1004-result-type.md) |
-| F# 4.1 | FS-1005 | Underscores in Numeric Literals | [FS-1005-underscores-in-numeric-literals.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1005-underscores-in-numeric-literals.md) |
-| F# 4.1 | FS-1006 | Struct Tuples | [FS-1006-struct-tuples.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1006-struct-tuples.md) |
+| F# 4.1 | FS-1005 | Underscores in Numeric Literals | [FS-1005-underscores-in-numeric-literals.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1005-underscores-in-numeric-literals.md) | done |
+| F# 4.1 | FS-1006 | Struct Tuples | [FS-1006-struct-tuples.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1006-struct-tuples.md) | done |
 | F# 4.1 | FS-1007 | Additional Option Module Functions | [FS-1007-additional-Option-module-functions.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1007-additional-Option-module-functions.md) |
 | F# 4.1 | FS-1008 | Struct Records | [FS-1008-struct-records.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1008-struct-records.md) |
 | F# 4.1 | FS-1009 | Mutually Referential Types and Modules in Single Scope | [FS-1009-mutually-referential-types-and-modules-single-scope.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1009-mutually-referential-types-and-modules-single-scope.md) |

@@ -3,21 +3,21 @@
 The notion of _type_ is central to both the static checking of F# programs and to dynamic type tests
 and reflection at runtime. The word is used with four distinct but related meanings:
 
-- **Type definitions,** such as the actual CLI or F# definitions of `System.String` or
+- **Type definitions**, such as the actual CLI or F# definitions of `System.String` or
   `FSharp.Collections.Map<_,_>`.
-- **Syntactic types,** such as the text `option<_>` that might occur in a program text. Syntactic types
+- **Syntactic types**, such as the text `option<_>` that might occur in a program text. Syntactic types
   are converted to static types during the process of type checking and inference.
-- **Static types** , which result from type checking and inference, either by the translation of syntactic
+- **Static types**, which result from type checking and inference, either by the translation of syntactic
   types that appear in the source text, or by the application of constraints that are related to
   particular language constructs. For example, `option<int>` is the fully processed static type that is
   inferred for an expression `Some(1+1)`. Static types may contain `type variables` as described later
   in this section.
-- **Runtime types** , which are objects of type `System.Type` and represent some or all of the
+- **Runtime types**, which are objects of type `System.Type` and represent some or all of the
   information that type definitions and static types convey at runtime. The `obj.GetType()` method,
   which is available on all F# values, provides access to the runtime type of an object. An object’s
   runtime type is related to the static type of the identifiers and expressions that correspond to
   the object. Runtime types may be tested by built-in language operators such as `:?` and `:?>`, the
-  expression form downcast `expr` , and pattern matching type tests. Runtime types of objects do
+  expression form downcast `expr`, and pattern matching type tests. Runtime types of objects do
   not contain type variables. Runtime types that `System.Reflection` reports may contain type
   variables that are represented by `System.Type` values.
 
@@ -82,7 +82,7 @@ member-sig := <see Section 10>
 ```
 
 In a type instantiation, the type name and the opening angle bracket must be syntactically adjacent
-with no intervening whitespace, as determined by lexical filtering (15). Specifically:
+with no intervening whitespace, as determined by lexical filtering ([§15.](lexical-filtering.md#lexical-filtering)). Specifically:
 
 ```fsharp
 array<int>
@@ -854,4 +854,3 @@ printf "%b" y // true
 
 In the previous code, the type `int32` does not coerce to `System.Nullable<int32>`, but the
 expression `x :? System.Nullable<int32>` evaluates to true.
-
