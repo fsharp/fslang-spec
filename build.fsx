@@ -147,7 +147,7 @@ let tocLines toc =
         String.replicate (number.Length - 1) "  " + $"- [{sText} {heading}]({anchor})"
     toc |> Map.toList |> List.map tocLine
 
-let adjustLinks state line =
+let adjustLinks keepFilenames state line =
     let state = {state with lineNumber = state.lineNumber + 1}
     let rec adjustLinks' state lineFragment =
         let m = Regex.Match(lineFragment, "(.*)\[§(\d+\.[\.\d]*)\]\(([^#)]+)#([^)]+)\)(.*)")
@@ -157,10 +157,15 @@ let adjustLinks state line =
             match Map.tryPick (fun n heading -> if sectionText n = sText then Some heading else None) state.toc with
             | Some _ ->
                 let post', state' = adjustLinks' state post  // recursive check for multiple links in a line
-                $"{pre}[§{sText}](#{kebabCase sText}-{anchor}){post'}", state'
+                let adjustedLine = 
+                    if keepFilenames then
+                        $"{pre}[§{sText}]({filename}#{kebabCase sText}-{anchor}){post'}"
+                    else
+                        $"{pre}[§{sText}](#{kebabCase sText}-{anchor}){post'}"
+                adjustedLine, state'
             | None ->
                 let msg = $"unknown link target {filename}#{anchor} ({sText})"
-                lineFragment, {state with errors = (mkError state msg) :: state.errors}
+                lineFragment, {state with errors = mkError state msg :: state.errors}
         else
             lineFragment, state
     adjustLinks' state line
@@ -169,7 +174,7 @@ let processSources chapters =
     // Add section numbers to the headers, collect the ToC information, and check for correct code fence info strings
     let (processedChapters, state) = (initialState, chapters.clauses) ||> List.mapFold renumberClause
     // Create the ToC and build the complete spec
-    let lines =
+    let allLines =
         List.concat [
             chapters.frontMatter.lines
             versionPlaceholder ()
@@ -178,10 +183,16 @@ let processSources chapters =
             List.collect _.lines processedChapters
         ]
     // Adjust the reference links to point to the correct header of the new spec
-    let (lines, state) = ({state with chapterName = fullDocName; lineNumber = 0}, lines) ||> List.mapFold adjustLinks
-    let fullDoc = {name = fullDocName; lines = lines}
-    let indexLines = chapters.frontMatter.lines @ versionPlaceholder()
-    let outputChapters = {name = "index"; lines = indexLines} :: processedChapters
+    let (allLines, state) =
+        ({state with chapterName = fullDocName; lineNumber = 0}, allLines) ||> List.mapFold (adjustLinks false)
+    let fullDoc = {name = fullDocName; lines = allLines}
+    let adjustChapterLinks chapter =
+        let adjustedLines, _ =
+            ({state with chapterName = chapter.name; lineNumber = 0}, chapter.lines) ||> List.mapFold (adjustLinks true)
+        {name = chapter.name; lines = adjustedLines}
+    let frontMatterLines = chapters.frontMatter.lines @ versionPlaceholder()
+    let adjustedChapters = processedChapters |> List.map adjustChapterLinks
+    let outputChapters = {name = "index"; lines = frontMatterLines} :: adjustedChapters
     if not state.errors.IsEmpty then Error(DocumentErrors(List.rev state.errors)) else Ok(fullDoc, outputChapters)
 
 let build () =
