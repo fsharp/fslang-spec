@@ -65,6 +65,7 @@ pats := pat , ... , pat
 field-pats := field-pat ; ... ; field-pat
 rules := '|'~opt rule '|' ... '|' rule
 ```
+
 Patterns are elaborated to expressions through a process called _pattern match compilation_. This
 reduces pattern matching to _decision trees_ which operate on an input value, called the _pattern input_.
 The decision tree is composed of the following constructs:
@@ -89,13 +90,13 @@ let rotate3 x =
     | 2 -> "one"
     | _ -> failwith "rotate3"
 ```
+
 In this example, the constant patterns are 0, 1, and 2. Any constant listed in [§6.3.1](expressions.md#simple-constant-expressions) may be used as a
 constant pattern except for integer literals that have the suffixes `Q`, `R`, `Z`, `I`, `N`, `G`.
 
 Simple constant patterns have the corresponding simple type. Such patterns elaborate to a call to
 the F# structural equality function `FSharp.Core.Operators.(=)` with the pattern input and the
 constant as arguments. The match succeeds if this call returns `true`; otherwise, the match fails.
-
 
 > **Note**: The use of `FSharp.Core.Operators.(=)` means that CLI floating-point equality is
 used to match floating-point values, and CLI ordinal string equality is used to match
@@ -156,6 +157,7 @@ let result =
     | Kind1 (a, b) -> a + b
     | Kind2 (s1, s2) -> s1.Length + s2.Length
 ```
+
 In this case, result is given the value 5.
 
 When a union case has named fields, these names may be referenced in a union case pattem. When
@@ -172,6 +174,7 @@ let getArea (s: Shape) =
     | Rectangle (width = w; height = h) -> w*h
     | Square (width = w) -> w*w
 ```
+
 ### Literal Patterns
 
 If `long-ident` from [§7.2](patterns.md#named-patterns) resolves to a literal value, the pattern is a literal pattern. The pattern is
@@ -193,6 +196,7 @@ let result =
     | Case2 -> "Case 2 "
     | _ -> "Some other case"
 ```
+
 In this case, `result` is given the value `Case2`.
 
 ### Active Patterns
@@ -221,7 +225,6 @@ limitation n ≤ 7 applies.
 
   Single case with parameters. The function accepts `n+1` arguments, where the last argument (`inp`)
 is the value to match, and can return any type.
-
 
 - `(| CaseName |_|) arg1 ... argn inp`
 
@@ -255,6 +258,7 @@ match 3 with
 | Negative n -> printfn "negative, n = %d" n
 | _ -> printfn "zero"
 ```
+
 The following example shows how to define and use a multi-case active pattern function:
 
 ```fsharp
@@ -265,6 +269,7 @@ match 3 with
 | B -> "zero"
 | C - > "positive"
 ```
+
 The following example shows how to define and use a parameterized active pattern function:
 
 ```fsharp
@@ -274,6 +279,7 @@ match 16 with
 | MultipleOf 4 n -> printfn "x = 4*%d" n
 | _ -> printfn "not a multiple of 4"
 ```
+
 An active pattern function is executed only if a left-to-right, top-to-bottom reading of the entire
 pattern indicates that execution is required. For example, consider the following active patterns:
 
@@ -296,6 +302,7 @@ let f x =
     | C -> 3
     | _ -> 4
 ```
+
 These patterns evaluate as follows:
 
 ```fsharp
@@ -305,6 +312,7 @@ f 2 // failwith "x is two"
 f 3 // failwith "x is three"
 f 4 // failwith "got to C"
 ```
+
 An active pattern function may be executed multiple times against the same pattern input during
 resolution of a single overall pattern match. The precise number of times that the active pattern
 function is executed against a particular pattern input is implementation-dependent.
@@ -316,6 +324,7 @@ An “as” pattern is of the following form:
 ```fsgrammar
 pat as ident
 ```
+
 The “as” pattern defines `ident` to be equal to the pattern input and matches the pattern input
 against `pat`. For example:
 
@@ -324,6 +333,7 @@ let t1 = (1, 2)
 let (x, y) as t2 = t1
 printfn "%d-%d-%A" x y t2 // 1- 2 - (1, 2)
 ```
+
 This example binds the identifiers `x`, `y`, and `t1` to the values `1` , `2` , and `(1,2)`, respectively.
 
 ## Wildcard Patterns
@@ -337,8 +347,8 @@ let categorize x =
     | 0 -> 1
     | _ -> 0
 ```
-In the example, if `x` is `0`, the match returns `1`. If `x` has any other value, the match returns `0`.
 
+In the example, if `x` is `0`, the match returns `1`. If `x` has any other value, the match returns `0`.
 
 ## Disjunctive Patterns
 
@@ -347,6 +357,7 @@ A disjunctive pattern matches an input value against one or the other of two pat
 ```fsgrammar
 pat | pat
 ```
+
 At runtime, the pattern input is matched against the first pattern. If that fails, the pattern input is
 matched against the second pattern. Both patterns must bind the same set of variables with the
 same types. For example:
@@ -361,6 +372,7 @@ let isYearLimit date =
 
 let result = isYearLimit (Date (2010,12,31))
 ```
+
 In this example, `result` is given the value `true`, because the pattern input matches the second
 pattern.
 
@@ -371,6 +383,7 @@ A conjunctive pattern matches the pattern input against two patterns.
 ```fsgrammar
 pat1 & pat2
 ```
+
 For example:
 
 ```fsharp
@@ -381,6 +394,7 @@ match 56 with
     | MultipleOf 4 m & MultipleOf 7 n -> m + n
     | _ -> false
 ```
+
 In this example, `result` is given the value `22` (= 16 + 8), because the pattern input match matches
 both patterns.
 
@@ -408,6 +422,7 @@ let result2 =
     | [a;b;c] -> a + b + c
     | _ -> 0
 ```
+
 In this example, both `result1` and `result2` are given the value `6`.
 
 ## Type-annotated Patterns
@@ -417,6 +432,7 @@ A _type-annotated pattern_ specifies the type of the value to match to a pattern
 ```fsgrammar
 pat : type
 ```
+
 For example:
 
 ```fsharp
@@ -425,6 +441,7 @@ let rec sum xs =
     | [] -> 0
     | (h : int) :: t -> h + sum t
 ```
+
 In this example, the initial type of `h` is asserted to be equal to `int` before the pattern `h` is checked.
 Through type inference, this in turn implies that `xs` and `t` have static type `int list`, and `sum` has
 static type
@@ -438,6 +455,7 @@ _Dynamic type-test patterns_ have the following two forms:
 :? type
 :? type as ident
 ```
+
 A dynamic type-test pattern matches any value whose runtime type is `type` or a subtype of `type`. For
 example:
 
@@ -448,6 +466,7 @@ let message (x : System.Exception) =
     | :? System.ArgumentException -> "invalid argument"
     | _ -> "unknown error"
 ```
+
 If the type-test pattern is of the form `:? type as ident`, then the value is coerced to the given type
 and `ident` is bound to the result. For example:
 
@@ -480,6 +499,7 @@ match box "3" with
 | :? string -> 1 // a warning is reported that this rule is "never matched"
 | _ -> 2
 ```
+
 At runtime, a dynamic type-test pattern succeeds if and only if the corresponding dynamic type-test
 expression `e :? ty` would return true where `e` is the pattern input. The value of the pattern is bound
 to the results of a dynamic coercion expression `e :?> ty`.
@@ -491,6 +511,7 @@ The following is a _record pattern_ :
 ```fsgrammar
 { long-ident1 = pat1 ; ... ; long-identn = patn }
 ```
+
 For example:
 
 ```fsharp
@@ -502,6 +523,7 @@ let totalSize data =
     | { Header = "UDP"; Size = size } -> size
     | _ -> failwith "unknown header"
 ```
+
 The `long-identi` are resolved in the same way as field labels for record expressions and must
 together identify a single, unique F# record type. Not all record fields for the type need to be
 specified in the pattern.
@@ -523,6 +545,7 @@ let checkPackets data =
     | [| "HeaderB"; data2; data1 |] -> (data1, data2)
     | _ -> failwith "unknown packet"
 ```
+
 ## Null Patterns
 
 The _null pattern_ null matches values that are represented by the CLI value null. For example:
@@ -533,6 +556,7 @@ let path =
     | null -> failwith "no path set!"
     | res -> res
 ```
+
 Most F# types do not use `null` as a representation; consequently, the null pattern is generally used
 to check values passed in by CLI method calls and properties. For a list of F# types that use `null` as a
 representation, see [§5.4.8](types-and-type-constraints.md#nullness).
@@ -544,6 +568,7 @@ _Guarded pattern rules_ have the following form:
 ```fsgrammar
 pat when expr
 ```
+
 For example:
 
 ```fsharp
@@ -553,6 +578,7 @@ let categorize x =
     | _ when x < 0 -> 1
     | _ -> 0
 ```
+
 The guards on a rule are executed only after the match value matches the corresponding pattern.
 For example, the following evaluates to `2` with no output.
 

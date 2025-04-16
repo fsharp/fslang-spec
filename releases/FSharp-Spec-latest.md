@@ -23,11 +23,10 @@ _Product and company names mentioned herein may be the trademarks of their respe
 
 _The sources for this content can be found on [github](https://github.com/fsharp/fslang-spec)._
 
-
 _This version was created from sources on 4/7/2025 8:46:09 PM_
 
-
 # Table of Contents
+
 - [1. Introduction](#1-introduction)
   - [1.1 A First Program](#11-a-first-program)
     - [1.1.1 Lightweight Syntax](#111-lightweight-syntax)
@@ -418,10 +417,13 @@ _This version was created from sources on 4/7/2025 8:46:09 PM_
   - [19.2 Extra Syntactic Forms for ML Compatibility](#192-extra-syntactic-forms-for-ml-compatibility)
   - [19.3 Extra Operators](#193-extra-operators)
   - [19.4 File Extensions and Lexical Matters](#194-file-extensions-and-lexical-matters)
+
 # 1. Introduction
+
 F# is a scalable, succinct, type-safe, type-inferred, efficiently executing functional/imperative/object-oriented programming language. It aims to be the premier typed functional programming language for .NET and other implementations of the [ECMA-335 Common Language Infrastructure (CLI) specification](https://ecma-international.org/publications-and-standards/standards/ecma-335/). F# was partly inspired by the [OCaml language](https://ocaml.org/) and shares some common core constructs with it.
 
 ## 1.1 A First Program
+
 Over the next few sections, we will look at some small F# programs, describing some important aspects of F# along the way. As an introduction to F#, consider the following program:
 
 ```fsharp
@@ -482,7 +484,7 @@ val vowels: char list = ['e'; 'i'; 'o'; 'u']
 
 > ['a'] @ vowels;;
 val it: char list = ['a'; 'e'; 'i'; 'o'; 'u']
-    
+
 > vowels @ ['y'];;
 val it: char list = ['e'; 'i'; 'o'; 'u'; 'y']
 ```
@@ -514,7 +516,7 @@ The next line of the sample program defines a function called `square`, which sq
 let square x = x * x
 ```
 
-Most statically-typed languages require that you specify type information for a function declaration. However, F# typically infers this type information for you. This process is referred to as *type inference*.
+Most statically-typed languages require that you specify type information for a function declaration. However, F# typically infers this type information for you. This process is referred to as _type inference_.
 
 From the function signature, F# knows that `square` takes a single parameter named `x` and that the function returns `x * x`. The last thing evaluated in an F# function body is the return value; hence there is no "return" keyword here. Many primitive types support the multiplication (*) operator (such as `byte`, `uint64`, and `double`); however, for arithmetic operations, F# infers the type `int` (a signed 32-bit integer) by default.
 
@@ -527,7 +529,7 @@ val concat : string -> string -> string
 
 Because `x` is stated to be of type `string`, and the only version of the `+` operator that accepts a left-hand argument of type `string` also takes a `string` as the right-hand argument, the F# compiler infers that the parameter `y` must also be a string. Thus, the result of `x + y` is the concatenation of the strings. Without the type annotation, the F# compiler would not have known which version of the `+` operator was intended and would have assumed `int` data by default.
 
-The process of type inference also applies *automatic generalization* to declarations. This automatically makes code *generic* when possible, which means the code can be used on many types of data. For example, the following code defines a function that returns a new tuple in which the two values are swapped:
+The process of type inference also applies _automatic generalization_ to declarations. This automatically makes code _generic_ when possible, which means the code can be used on many types of data. For example, the following code defines a function that returns a new tuple in which the two values are swapped:
 
 ```fsother
 > let swap (x, y) = (y, x);;
@@ -544,7 +546,7 @@ Here the function `swap` is generic, and `'a` and `'b` represent type variables,
 
 ### 1.1.4 Functional Programming
 
-Continuing with the sample, we have a list of integers named `numbers`, and the `square` function, and we want to create a new list in which each item is the result of a call to our function. This is called *mapping* our function over each item in the list. The F# library function `List.map` does just that:
+Continuing with the sample, we have a list of integers named `numbers`, and the `square` function, and we want to create a new list in which each item is the result of a call to our function. This is called _mapping_ our function over each item in the list. The F# library function `List.map` does just that:
 
 ```fsharp
 let squares = List.map square numbers
@@ -557,11 +559,11 @@ Consider another example:
 val it : bool list = [false; true; false; true; false]
 ```
 
-The code `(fun x -> x % 2 = 0)` defines an anonymous function, called a *function expression*, that takes a single parameter `x` and returns the result `x % 2 = 0`, which is a Boolean value that indicates whether `x` is even. The `->` symbol separates the argument list (`x`) from the function body (`x % 2 = 0`).
+The code `(fun x -> x % 2 = 0)` defines an anonymous function, called a _function expression_, that takes a single parameter `x` and returns the result `x % 2 = 0`, which is a Boolean value that indicates whether `x` is even. The `->` symbol separates the argument list (`x`) from the function body (`x % 2 = 0`).
 
-Both of these examples pass a function as a parameter to another function — the first parameter to `List.map` is itself another function. Using functions as *function values* is a hallmark of functional programming.
+Both of these examples pass a function as a parameter to another function — the first parameter to `List.map` is itself another function. Using functions as _function values_ is a hallmark of functional programming.
 
-Another tool for data transformation and analysis is *pattern matching*. This powerful switch construct allows you to branch control flow and to bind new values. For example, we can match an F# list against a sequence of list elements.
+Another tool for data transformation and analysis is _pattern matching_. This powerful switch construct allows you to branch control flow and to bind new values. For example, we can match an F# list against a sequence of list elements.
 
 ```fsharp
 let checkList alist =
@@ -587,7 +589,7 @@ let getType (x : obj) =
 
 The `:?` operator returns true if the value matches the specified type, so if `x` is a string, `getType` returns `"x is a string"`.
 
-Function values can also be combined with the *pipeline operator*, `|>`. For example, given these functions:
+Function values can also be combined with the _pipeline operator_, `|>`. For example, given these functions:
 
 ```fsharp
 let square x = x * x
@@ -602,7 +604,7 @@ We can use the functions as values in a pipeline:
 val it : string = "4201"
 ```
 
-Pipelining demonstrates one way in which F# supports *compositionality*, a key concept in functional programming. The pipeline operator simplifies the process of writing compositional code where the result of one function is passed into the next.
+Pipelining demonstrates one way in which F# supports _compositionality_, a key concept in functional programming. The pipeline operator simplifies the process of writing compositional code where the result of one function is passed into the next.
 
 ### 1.1.5 Imperative Programming
 
@@ -622,7 +624,7 @@ val it : unit = ()
 
 The format specifiers `%d`, `%f`, and `%s` are placeholders for integers, floats, and strings. The `%A` format can be used to print arbitrary data types (including lists).
 
-The `printfn` function is an example of *imperative programming*, which means calling functions for their side effects. Other commonly used imperative programming techniques include arrays and dictionaries (also called hash tables). F# programs typically use a mixture of functional and imperative techniques.
+The `printfn` function is an example of _imperative programming_, which means calling functions for their side effects. Other commonly used imperative programming techniques include arrays and dictionaries (also called hash tables). F# programs typically use a mixture of functional and imperative techniques.
 
 ### 1.1.6 .NET Interoperability and CLI Fidelity
 
@@ -636,9 +638,9 @@ Because F# is built on top of CLI implementations, you can call any CLI library 
 
 ### 1.1.7 Parallel and Asynchronous Programming
 
-F# is both a *parallel* and a *reactive* language. During execution, F# programs can have multiple parallel active evaluations and multiple pending reactions, such as callbacks and agents that wait to react to events and messages.
+F# is both a _parallel_ and a _reactive_ language. During execution, F# programs can have multiple parallel active evaluations and multiple pending reactions, such as callbacks and agents that wait to react to events and messages.
 
-One way to write parallel and reactive F# programs is to use F# *async* expressions. For example, the code below is similar to the original program in [§1.1](#11-a-first-program) except that it computes the Fibonacci function (using a technique that will take some time) and schedules the computation of the numbers in parallel:
+One way to write parallel and reactive F# programs is to use F# _async_ expressions. For example, the code below is similar to the original program in [§1.1](#11-a-first-program) except that it computes the Fibonacci function (using a technique that will take some time) and schedules the computation of the numbers in parallel:
 
 ```fsharp
 let rec fib x = if x < 2 then 1 else fib(x-1) + fib(x-2)
@@ -686,7 +688,7 @@ By using asynchronous workflows together with other CLI libraries, F# programs c
 
 ### 1.1.8 Strong Typing for Floating-Point Code
 
-F# applies type checking and type inference to floating-point-intensive domains through *units of measure inference and checking*. This feature allows you to type-check programs that manipulate floating-point numbers that represent physical and abstract quantities in a stronger way than other typed languages, without losing any performance in your compiled code. You can think of this feature as providing a type system for floating-point code.
+F# applies type checking and type inference to floating-point-intensive domains through _units of measure inference and checking_. This feature allows you to type-check programs that manipulate floating-point numbers that represent physical and abstract quantities in a stronger way than other typed languages, without losing any performance in your compiled code. You can think of this feature as providing a type system for floating-point code.
 
 Consider the following example:
 
@@ -704,9 +706,9 @@ The `Measure` attribute tells F# that `kg`, `s`, and `m` are not really types in
 
 ### 1.1.9 Object-Oriented Programming and Code Organization
 
-The sample program shown at the start of this chapter is a *script*. Although scripts are excellent for rapid prototyping, they are not suitable for larger software components. F# supports the transition from scripting to structured code through several techniques.
+The sample program shown at the start of this chapter is a _script_. Although scripts are excellent for rapid prototyping, they are not suitable for larger software components. F# supports the transition from scripting to structured code through several techniques.
 
-The most important of these is *object-oriented programming* through the use of *class type definitions*, *interface type definitions*, and *object expressions*. Object-oriented programming is a primary application programming interface (API) design technique for controlling the complexity of large software projects. For example, here is a class definition for an encoder/decoder object.
+The most important of these is _object-oriented programming_ through the use of _class type definitions_, _interface type definitions_, and _object expressions_. Object-oriented programming is a primary application programming interface (API) design technique for controlling the complexity of large software projects. For example, here is a class definition for an encoder/decoder object.
 
 ```fsharp
 open System
@@ -775,7 +777,7 @@ let nullEncoder =
         member x.Decode(s) = s }
 ```
 
-*Modules* are a simple way to encapsulate code during rapid prototyping when you do not want to spend the time to design a strict object-oriented type hierarchy. In the following example, we place a portion of our original script in a module.
+_Modules_ are a simple way to encapsulate code during rapid prototyping when you do not want to spend the time to design a strict object-oriented type hierarchy. In the following example, we place a portion of our original script in a module.
 
 ```fsharp
 module ApplicationLogic =
@@ -790,13 +792,13 @@ System.Console.ReadKey(true)
 
 Modules are also used in the F# library design to associate extra functionality with types. For example, `List.map` is a function in a module.
 
-Other mechanisms aimed at supporting software engineering include *signatures*, which can be used to give explicit types to components, and namespaces, which serve as a way of organizing the name hierarchies for larger APIs.
+Other mechanisms aimed at supporting software engineering include _signatures_, which can be used to give explicit types to components, and namespaces, which serve as a way of organizing the name hierarchies for larger APIs.
 
 ### 1.1.10 Information-rich Programming
 
 F# Information-rich programming addresses the trend toward greater availability of data, services, and information. The key to information-rich programming is to eliminate barriers to working with diverse information sources that are available on the Internet and in modern enterprise environments. Type providers and query expressions are a significant part of F# support for information-rich programming.
 
-The F# Type Provider mechanism allows you to seamlessly incorporate, in a strongly typed manner, data and services from external sources. A *type provider* presents your program with new types and methods that are typically based on the schemas of external information sources. For example, an F# type provider for Structured Query Language (SQL) supplies types and methods that allow programmers to work directly with the tables of any SQL database:
+The F# Type Provider mechanism allows you to seamlessly incorporate, in a strongly typed manner, data and services from external sources. A _type provider_ presents your program with new types and methods that are typically based on the schemas of external information sources. For example, an F# type provider for Structured Query Language (SQL) supplies types and methods that allow programmers to work directly with the tables of any SQL database:
 
 ```fsharp
 // Add References to FSharp.Data.TypeProviders, System.Data, and System.Data.Linq
@@ -848,6 +850,7 @@ Strings of characters that are clearly not a regular expression are written verb
 ```fsgrammar
 abstract
 ```
+
 matches precisely the characters `abstract`.
 
 Where appropriate, apostrophes and quotation marks enclose symbols that are used in the specification of the grammar itself, such as `'<'` and `'|'`. For example, the following regular expression matches `(+)` or `(-)`:
@@ -855,25 +858,29 @@ Where appropriate, apostrophes and quotation marks enclose symbols that are used
 ```fsgrammar
 '(' (+|-) ')'
 ```
+
 This regular expression matches precisely the characters `#if`:
 
 ```fsgrammar
 "#if"
 ```
+
 Regular expressions are typically used to specify tokens.
 
 ```fsgrammar
 token token-name = regexp
 ```
+
 In the grammar rules, the notation `element-name?` indicates an optional element. The notation `...` indicates repetition of the preceding non-terminal construct and the separator token. For example, `expr ',' ... ',' expr` means a sequence of one or more `expr` elements separated by commas.
+
 # 2. Program Structure
 
 The inputs to the F# compiler or the F# Interactive dynamic compiler consist of:
 
 - Source code files, with extensions `.fs`, `.fsi`, `.fsx`, or `.fsscript`.
-    - Files with extension `.fs` must conform to grammar element `implementation-file` in [§12.1](#121-implementation-files).
-    - Files with extension `.fsi` must conform to grammar element `signature-file` in [§12.2](#122-signature-files).
-    - Files with extension `.fsx` or `.fsscript` must conform to grammar element `script-file` in
+  - Files with extension `.fs` must conform to grammar element `implementation-file` in [§12.1](#121-implementation-files).
+  - Files with extension `.fsi` must conform to grammar element `signature-file` in [§12.2](#122-signature-files).
+  - Files with extension `.fsx` or `.fsscript` must conform to grammar element `script-file` in
       [§12.3](#123-script-files).
 - Script fragments (for F# Interactive). These must conform to grammar element `script-fragment`.
   Script fragments can be separated by `;;` tokens.
@@ -904,7 +911,7 @@ Processing the source code portions of these inputs consists of the following st
 6. **Checking**. The results of parsing are checked one by one. Checking involves such procedures as
    Name Resolution (§14.1), Constraint Solving (§14.5), and Generalization ([§14.6.7](#1467-generalization)), as well as the
    application of other rules described in this specification.
-   
+
    Type inference uses variables to represent unknowns in the type inference problem. The various
    checking processes maintain tables of context information including a name resolution
    environment and a set of current inference constraints. After the processing of a file or program
@@ -917,6 +924,7 @@ Processing the source code portions of these inputs consists of the following st
 8. **Execution**. Elaborated program fragments that are successfully checked are added to a
    collection of available program fragments. Each fragment has a static initializer. Static initializers
    are executed as described in ([§12.5](#125-program-execution)).
+
 # 3. Lexical Analysis
 
 Lexical analysis converts an input stream of Unicode characters into a stream of tokens by iteratively
@@ -932,6 +940,7 @@ regexp whitespace = ' '+
 regexp newline = '\n' | '\r' '\n'
 token whitespace-or-newline = whitespace | newline
 ```
+
 Whitespace tokens `whitespace-or-newline` are discarded from the returned token stream.
 
 ## 3.2 Comments
@@ -944,6 +953,7 @@ token block-comment-start = "(*"
 token block-comment-end = "*)"
 token end-of-line-comment = "//" [^'\n' '\r']*
 ```
+
 When the input stream matches a `block-comment-start` token, the subsequent text is tokenized
 recursively against the tokens that are described in §3 until a `block-comment-end` token is found. The
 intermediate tokens are discarded.
@@ -956,17 +966,18 @@ marks. As a result of this rule, the following is a valid comment:
 ```fsharp
 (* Here's a code snippet: let s = "*)" *)
 ```
+
 However, the following construct, which was valid in F# 2.0, now produces a syntax error because a
 closing comment token *) followed by a triple-quoted mark is parsed as part of a string:
 
 ```fsharp
 (* """ *)
 ```
+
 For the purposes of this specification, comment tokens are discarded from the returned lexical
 stream. In practice, XML documentation tokens are `end-of-line-comments` that begin with ///. The
 delimiters are retained and are associated with the remaining elements to generate XML
 documentation.
-
 
 ## 3.3 Conditional Compilation
 
@@ -996,6 +1007,7 @@ if-expression-or =
 
 if-expression = if-expression-or
 ```
+
 A preprocessing directive always occupies a separate line of source code and always begins with a #
 character followed immediately by a preprocessing directive name, with no intervening whitespace.
 However, whitespace can appear before the # character. A source line that contains the `#if`, `#else`,
@@ -1043,6 +1055,7 @@ token ident =
     | `` ( [^'`' '\n' '\r' '\t'] | '`' [^ '`' '\n' '\r' '\t'] )+ ``
          example, ``value.with odd#name``
 ```
+
 Any sequence of characters that is enclosed in double-backtick marks (` `` `` `), excluding newlines,
 tabs, and double-backtick pairs themselves, is treated as an identifier. Note that when an identifier is
 used for the name of a types, union type case, module, or namespace, the following characters are
@@ -1051,6 +1064,7 @@ not allowed even inside double-backtick marks:
 ```fsgrammar
 ‘.', '+', '$', '&', '[', ']', '/', '\\', '*', '\"', '`'
 ```
+
 All input files are currently assumed to be encoded as UTF-8. See the C# specification for a list of the
 Unicode characters that are accepted for the Unicode character classes \Lu, \Li, \Lt, \Lm, \Lo, \Nl,
 \Pc, \Mn, \Mc, and \Cf.
@@ -1066,6 +1080,7 @@ token ident-keyword =
     override private public rec return sig static struct then to
     true try type upcast use val void when while with yield
 ```
+
 The following identifiers are reserved for future use:
 
 ```fsgrammar
@@ -1075,6 +1090,7 @@ token reserved-ident-keyword =
     measure method mixin object parallel params process protected pure
     recursive sealed tailcall trait virtual volatile
 ```
+
 A future revision of the F# language may promote any of these identifiers to be full keywords.
 
 The following token forms are reserved, except when they are part of a symbolic keyword ([§3.6](#36-symbolic-keywords)).
@@ -1083,9 +1099,9 @@ The following token forms are reserved, except when they are part of a symbolic 
 token reserved-ident-formats =
     | ident-text ( '!' | '#')
 ```
+
 In the remainder of this specification, we refer to the token that is generated for a keyword simply
 by using the text of the keyword itself.
-
 
 ## 3.5 Strings and Characters
 
@@ -1163,6 +1179,7 @@ subsequent line are ignored. Thus, the following gives `s` the value `"abcdef"`:
 let s = "abc\
     def"
 ```
+
 Without the backslash, the resulting string includes the newline and whitespace characters. For
 example:
 
@@ -1170,6 +1187,7 @@ example:
 let s = "abc
     def"
 ```
+
 In this case, s has the value `abc\010    def` where `\010` is the embedded control character for `\n`,
 which has Unicode UTF-16 value 10.
 
@@ -1179,6 +1197,7 @@ the following assigns the value `"abc\def"` to `s`.
 ```fsharp
 let s = @"abc\def"
 ```
+
 String-like and character-like literals can also be specified for unsigned byte arrays (type `byte[]`).
 These tokens cannot contain Unicode characters that have surrogate-pair UTF-16 encodings or UTF-
 16 encodings greater than 127.
@@ -1202,6 +1221,7 @@ let catalog = """
 </catalog>
 """
 ```
+
 ## 3.6 Symbolic Keywords
 
 The following symbolic or partially symbolic character sequences are treated as keywords:
@@ -1213,12 +1233,14 @@ token symbolic-keyword =
     ' # :?> :? :> .. :: := ;; ; =
     _? ?? (*) <@ @> <@@ @@>
 ```
+
 The following symbols are reserved for future use:
 
 ```fsgrammar
 token reserved-symbolic-sequence =
     ~ `
 ```
+
 ## 3.7 Symbolic Operators
 
 User-defined and library-defined symbolic operators are sequences of characters as shown below,
@@ -1241,6 +1263,7 @@ token symbolic-op =
     | quote-op-left
     | quote-op-right
 ```
+
 For example, `&&&` and `|||` are valid symbolic operators. Only the operators `?` and `?<-` may start with
 `?`.
 
@@ -1296,6 +1319,7 @@ token float =
     digit +. digit *
     digit + (. digit * )? (e|E) (+|-)? digit +
 ```
+
 ### 3.8.1 Post-filtering of Adjacent Prefix Tokens
 
 Negative integers are specified using the `–` token; for example, `-3`. The token steam is post-filtered
@@ -1317,6 +1341,7 @@ according to the following rules:
 ```fsharp
     a-b
 ```
+
 - Otherwise, the usual grammar rules apply to the uses of `–` and `+`, with an addition for
   `ADJACENT_PREFIX_OP`:
 
@@ -1333,6 +1358,7 @@ Tokens of the form
 ```fsgrammar
 token intdotdot = int..
 ```
+
 such as `34..` are post-filtered to two tokens: one `int` and one `symbolic-keyword` , “`..`”.
 
 This rule allows “`..`” to immediately follow an integer. This construction is used in expressions of the
@@ -1347,6 +1373,7 @@ The following token forms are reserved for future numeric literal formats:
 token reserved-literal-formats =
     | (xint | ieee32 | ieee64) ident-char+
 ```
+
 ### 3.8.4 Shebang
 
 A shebang (#!) directive may exist at the beginning of F# source files. Such a line is treated as a
@@ -1357,6 +1384,7 @@ the #! directive.
 ```fsharp
 #!/bin/usr/env fsharpi --exec
 ```
+
 ## 3.9 Line Directives
 
 Line directives adjust the source code filenames and line numbers that are reported in error
@@ -1372,6 +1400,7 @@ token line-directive =
     #line int string
     #line int verbatim-string
 ```
+
 A line directive applies to the line that immediately follows the directive. If no line directive is
 present, the first line of a file is numbered 1.
 
@@ -1379,7 +1408,6 @@ present, the first line of a file is numbered 1.
 
 Some hidden tokens are inserted by lexical filtering (§ 15 ) or are used to replace existing tokens. See
 § 15 for a full specification and for the augmented grammar rules that take these into account.
-
 
 ## 3.11 Identifier Replacements
 
@@ -1390,6 +1418,7 @@ The following table lists identifiers that are automatically replaced by express
 | `__SOURCE_DIRECTORY__` | A literal verbatim string that specifies the name of the directory that contains the <br> current file. For example:<br>`C:\source`<br>The name of the current file is derived from the most recent line directive in the file. If no line directive has appeared, the name is derived from the name that was specificed to the command-line compiler in combination with<br> `System.IO.Path.GetFullPath`.<br> In F# Interactive, the name `stdin` is used. When F# Interactive is used from tools such as Visual Studio, a line directive is implicitly added before the interactive execution of each script fragment. |
 | `__SOURCE_FILE__` | A literal verbatim string that contains the name of the current file. For example:<br>`file.fs` |
 | `__LINE__`| A literal string that specifies the line number in the source file, after taking into account adjustments from line directives. |
+
 # 4. Basic Grammar Elements
 
 This section defines grammar elements that are used repeatedly in later sections.
@@ -1414,11 +1443,13 @@ active-pattern-op-name :=
     | | ident | ... | ident |
     | | ident | ... | ident | _ |
 ```
+
 In operator definitions, the operator name is placed in parentheses. For example:
 
 ```fsgrammar
 let (+++) x y = (x, y)
 ```
+
 This example defines the binary operator `+++`. The text `(+++)` is an `ident-or-op` that acts as an
 identifier with associated text `+++`. Likewise, for active pattern definitions (§ 7), the active pattern
 case names are placed in parentheses, as in the following example:
@@ -1426,16 +1457,19 @@ case names are placed in parentheses, as in the following example:
 ```fsgrammar
 let (|A|B|C|) x = if x < 0 then A elif x = 0 then B else C
 ```
+
 Because an `ident-or-op` acts as an identifier, such names can be used in expressions. For example:
 
 ```fsgrammar
 List.map ((+) 1) [ 1; 2; 3 ]
 ```
+
 The three character token `(*)` defines the `*` operator:
 
 ```fsgrammar
 let (*) x y = (x + y)
 ```
+
 To define other operators that begin with `*`, whitespace must follow the opening parenthesis;
 otherwise `(*` is interpreted as the start of a comment:
 
@@ -1541,6 +1575,7 @@ long-ident-or-op :=
     | long-ident '.' ident-or-op
     | ident-or-op
 ```
+
 ## 4.3 Constants
 
 The constants in the following table may be used in patterns and expressions. The individual lexical
@@ -1570,6 +1605,7 @@ const :=
     | false | true          -- Boolean constant of type "bool"
     | '(' ')'               -- unit constant of type "unit"
 ```
+
 ## 4.4 Operators and Precedence
 
 ### 4.4.1 Categorization of Symbolic Operators
@@ -1607,10 +1643,12 @@ prefix operators include the `~` character:
 // To completely redefine the prefix + operator:
 let (~+) x = x
 ```
+
 ```fsgrammar
 // To completely redefine the infix + operator to be addition modulo- 7
 let (+) a b = (a + b) % 7
 ```
+
 ```fsgrammar
 // To define the operator on a type:
 type C(n:int) =
@@ -1621,6 +1659,7 @@ let n = n % 7
     static member (+) (x1:C,x2:C) = C(x1.N+x2.N)
     static member (-) (x1:C,x2:C) = C(x1.N-x2.N)
 ```
+
 The `::` operator is special. It represents the union case for the addition of an element to the head of
 an immutable linked list, and cannot be redefined, although it may be used to form infix expressions.
 It always accepts arguments in tupled form — as do all union cases — rather than in curried form.
@@ -1676,7 +1715,8 @@ For example, consider the following token stream:
 ```fsharp
 a + b * c
 ```
-In this expression, the `expr infix-op expr` rule for `b * c` takes precedence over the 
+
+In this expression, the `expr infix-op expr` rule for `b * c` takes precedence over the
 `expr infix-op expr` rule for `a + b`, because the `*` operator has higher precedence than the `+` operator. Thus, this
 expression can be pictured as follows:
 
@@ -1685,6 +1725,7 @@ expression can be pictured as follows:
 // _________
 //     _____
 ```
+
 rather than
 
 ```fsharp
@@ -1692,11 +1733,13 @@ rather than
 // _________
 // _____
 ```
+
 Likewise, given the tokens
 
 ```fsharp
 a * b * c
 ```
+
 the left associativity of `*` means we can picture the resolution of the ambiguity as:
 
 ```fsharp
@@ -1710,6 +1753,7 @@ operators. For example, `.*` has the same precedence as `*.` This rule ensures t
 
 The table entries marked as “High-precedence application” and “High-precedence type application”
 are the result of the augmentation of the lexical token stream, as described in §15.2 and [§15.3](#153-lexical-analysis-of-type-applications).
+
 # 5. Types and Type Constraints
 
 The notion of _type_ is central to both the static checking of F# programs and to dynamic type tests
@@ -1808,7 +1852,7 @@ array < int >
 
 ## 5.1 Checking Syntactic Types
 
-Syntactic types are checked and converted to *static types* as they are encountered. Static types are a
+Syntactic types are checked and converted to _static types_ as they are encountered. Static types are a
 specification device used to describe
 
 - The process of type checking and inference.
@@ -1821,20 +1865,20 @@ For the remainder of this specification we use the same syntax to represent synt
 static types. For example `int32 * int32` is used to represent the syntactic type that appears in
 source code and the static type that is used during checking and type inference.
 
-The conversion from syntactic types to static types happens in the context of a *name resolution
-environment* (see [§14.1](#141-name-resolution)), a *floating type variable environment*, which is a mapping from names to type
-variables, and a *type inference environment* (see [§14.5](#145-constraint-solving)).
+The conversion from syntactic types to static types happens in the context of a _name resolution
+environment_ (see [§14.1](#141-name-resolution)), a _floating type variable environment_, which is a mapping from names to type
+variables, and a _type inference environment_ (see [§14.5](#145-constraint-solving)).
 
-The phrase “fresh type” means a static type that is formed from a *fresh type inference variable*. Type
-inference variables are either solved or generalized by *type inference* ([§14.5](#145-constraint-solving)). During conversion and
-throughout the checking of types, expressions, declarations, and entire files, a set of *current
-inference constraints* is maintained. That is, each static type is processed under input constraints `Χ` ,
+The phrase “fresh type” means a static type that is formed from a _fresh type inference variable_. Type
+inference variables are either solved or generalized by _type inference_ ([§14.5](#145-constraint-solving)). During conversion and
+throughout the checking of types, expressions, declarations, and entire files, a set of _current
+inference constraints_ is maintained. That is, each static type is processed under input constraints `Χ` ,
 and results in output constraints `Χ’`. Type inference variables and constraints are progressively
-*simplified* and *eliminated* based on these equations through *constraint solving* ([§14.5](#145-constraint-solving)).
+_simplified_ and _eliminated_ based on these equations through _constraint solving_ ([§14.5](#145-constraint-solving)).
 
 ### 5.1.1 Named Types
 
-*Named types* have several forms, as listed in the following table.
+_Named types_ have several forms, as listed in the following table.
 
 | **Form**                   | **Description**                                                                                                                                                                                                      |
 |----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -1845,7 +1889,7 @@ and results in output constraints `Χ’`. Type inference variables and constrai
 
 Named types are converted to static types as follows:
 
-- *Name Resolution for Types* (see [§14.1](#141-name-resolution)) resolves `long-ident` to a type definition with formal generic
+- _Name Resolution for Types_ (see [§14.1](#141-name-resolution)) resolves `long-ident` to a type definition with formal generic
   parameters `<typar1, ..., typarn>` and formal constraints `C`. The number of type arguments `n` is
   used during the name resolution process to distinguish between similarly named types that take
   different numbers of type arguments.
@@ -1855,7 +1899,7 @@ Named types are converted to static types as follows:
 
 ### 5.1.2 Variable Types
 
-A type of the form `'ident` is a *variable* type. For example, the following are all variable types:
+A type of the form `'ident` is a _variable_ type. For example, the following are all variable types:
 
 ```fsharp
 'a
@@ -1863,21 +1907,21 @@ A type of the form `'ident` is a *variable* type. For example, the following are
 'Key
 ```
 
-During checking, *Name Resolution* (see [§14.1](#141-name-resolution)) is applied to the identifier.
+During checking, _Name Resolution_ (see [§14.1](#141-name-resolution)) is applied to the identifier.
 
 - If name resolution succeeds, the result is a variable type that refers to an existing declared type
   parameter.
-- If name resolution fails, the current *floating type variable environment* is consulted, although
+- If name resolution fails, the current _floating type variable environment_ is consulted, although
   only in the context of a syntactic type that is embedded in an expression or pattern. If the type
   variable name is assigned a type in that environment, F# uses that mapping. Otherwise, a fresh
 
 type inference variable is created (see [§14.5](#145-constraint-solving)) and added to both the type inference environment
 and the floating type variable environment.
 
-A type of the form `_` is an *anonymous variable* type. A fresh type inference variable is created and
+A type of the form `_` is an _anonymous variable_ type. A fresh type inference variable is created and
 added to the type inference environment (see [§14.5](#145-constraint-solving)) for such a type.
 
-A type of the form `^ident` is a *statically resolved type variable*. A fresh type inference variable is
+A type of the form `^ident` is a _statically resolved type variable_. A fresh type inference variable is
 created and added to the type inference environment (see [§14.5](#145-constraint-solving)). This type variable is tagged with
 an attribute that indicates that it can be generalized only at `inline` definitions (see [§14.6.7](#1467-generalization)). The
 same restriction on generalization applies to any type variables that are contained in any type that is
@@ -1888,7 +1932,7 @@ equated with the `^ident` type in a type inference equation.
 
 ### 5.1.3 Tuple Types
 
-A *tuple type* has the following form:
+A _tuple type_ has the following form:
 
 ```fsgrammar
 ty 1 * ... * tyn
@@ -1903,7 +1947,7 @@ encoded form of tuple types is visible in the F# type system through runtime typ
 
 #### 5.1.3.1 Struct Tuple Types
 
-A *struct tuple type* has the following form:
+A _struct tuple type_ has the following form:
 
 ```fsgrammar
 struct ( ty 1 * ... * tyn )
@@ -1929,8 +1973,8 @@ ty []
 ty [ , ... , ]
 ```
 
-A type of the form `ty []` is a *single-dimensional array* type, and a type of the form `ty[ , ... , ]` is a
-*multidimensional array type*. For example, `int[,,]` is an array of integers of rank 3.
+A type of the form `ty []` is a _single-dimensional array_ type, and a type of the form `ty[ , ... , ]` is a
+_multidimensional array type_. For example, `int[,,]` is an array of integers of rank 3.
 
 Except where specified otherwise in this document, these array types are treated as named types, as
 if they are an instantiation of a fictitious type definition `System.Arrayn<ty>` where `n` corresponds to
@@ -1943,7 +1987,7 @@ F# supports multidimensional array types only up to rank 4.
 
 ### 5.1.5 Constrained Types
 
-A *type with constraints* has the following form:
+A _type with constraints_ has the following form:
 
 ```fsgrammar
 type when constraints
@@ -1953,15 +1997,15 @@ During checking, `type` is first checked and converted to a static type, then `c
 and added to the current inference constraints. The various forms of constraints are described
 in (see [§5.2](#52-type-constraints))
 
-A type of the form `typar :> type` is a *type variable with a subtype constraint* and is equivalent to
+A type of the form `typar :> type` is a _type variable with a subtype constraint_ and is equivalent to
 `typar when typar :> type`.
 
-A type of the form `#type` is an *anonymous type with a subtype constraint* and is equivalent to `'a
+A type of the form `#type` is an _anonymous type with a subtype constraint_ and is equivalent to `'a
 when 'a :> type` , where `'a` is a fresh type inference variable.
 
 ## 5.2 Type Constraints
 
-A *type constraint* limits the types that can be used to create an instance of a type parameter or type
+A _type constraint_ limits the types that can be used to create an instance of a type parameter or type
 variable. F# supports the following type constraints:
 
 - Subtype constraints
@@ -1977,7 +2021,7 @@ variable. F# supports the following type constraints:
 
 ### 5.2.1 Subtype Constraints
 
-An *explicit subtype constraint* has the following form:
+An _explicit subtype constraint_ has the following form:
 
 ```fsgrammar
 typar :> type
@@ -2003,7 +2047,7 @@ ensure the reporting of useful error messages.
 
 ### 5.2.2 Nullness Constraints
 
-An *explicit nullness constraint* has the following form:
+An _explicit nullness constraint_ has the following form:
 
 ```fsgrammar
 typar : null
@@ -2025,7 +2069,7 @@ Nullness constraints also arise from expressions of the form `null`.
 
 ### 5.2.3 Member Constraints
 
-An *explicit member constraint* has the following form:
+An _explicit member constraint_ has the following form:
 
 ```fsgrammar
 ( typar or ... or typar ) : ( member-sig )
@@ -2062,7 +2106,7 @@ ensure the reporting of useful error messages.
 
 ### 5.2.4 Default Constructor Constraints
 
-An *explicit default constructor constraint* has the following form:
+An _explicit default constructor constraint_ has the following form:
 
 ```fsgrammar
 typar : (new : unit -> 'T)
@@ -2075,7 +2119,7 @@ parameterless object constructor.
 
 ### 5.2.5 Value Type Constraints
 
-An *explicit value type constraint* has the following form:
+An _explicit value type constraint_ has the following form:
 
 ```fsgrammar
 typar : struct
@@ -2093,7 +2137,7 @@ notably because types such as `System.Nullable<System.Nullable<_>>` and `System.
 
 ### 5.2.6 Reference Type Constraints
 
-An *explicit reference type constraint* has the following form:
+An _explicit reference type constraint_ has the following form:
 
 ```fsgrammar
 typar : not struct
@@ -2105,7 +2149,7 @@ During constraint solving (see [§14.5](#145-constraint-solving)), the constrain
 
 ### 5.2.7 Enumeration Constraints
 
-An *explicit enumeration constraint* has the following form:
+An _explicit enumeration constraint_ has the following form:
 
 ```fsgrammar
 typar : enum<underlying-type>
@@ -2119,7 +2163,7 @@ The `enum` constraint does not imply anything about subtypes. For example, an `e
 
 ### 5.2.8 Delegate Constraints
 
-An *explicit delegate constraint* has the following form:
+An _explicit delegate constraint_ has the following form:
 
 ```fsgrammar
 typar : delegate< tupled-arg-type , return-type>
@@ -2142,7 +2186,7 @@ programmer.
 
 ### 5.2.9 Unmanaged Constraints
 
-An *unmanaged constraint* has the following form:
+An _unmanaged constraint_ has the following form:
 
 ```fsgrammar
 typar : unmanaged
@@ -2158,7 +2202,7 @@ specified below:
 
 ### 5.2.10 Equality and Comparison Constraints
 
-*Equality constraints* and *comparison constraints* have the following forms, respectively:
+_Equality constraints_ and _comparison constraints_ have the following forms, respectively:
 
 ```fsgrammar
 typar : equality
@@ -2261,45 +2305,45 @@ form composed of:
 Type definitions include CLI type definitions such as `System.String` and types that are defined in F#
 code (see [§8](type-definitions.md#type-definitions)). The following terms are used to describe type definitions:
 
-- Type definitions may be *generic* , with one or more type parameters; for example,
+- Type definitions may be _generic_ , with one or more type parameters; for example,
   `System.Collections.Generic.Dictionary<'Key,'Value>`.
 - The generic parameters of type definitions may have associated `formal type constraints`.
-- Type definitions may have *custom attributes* (see [§13.1](#131-custom-attributes)), some of which are relevant to checking and
+- Type definitions may have _custom attributes_ (see [§13.1](#131-custom-attributes)), some of which are relevant to checking and
   inference.
-- Type definitions may be *type abbreviations* (see [§8.3](#83-type-abbreviations)). These are eliminated for the purposes of
+- Type definitions may be _type abbreviations_ (see [§8.3](#83-type-abbreviations)). These are eliminated for the purposes of
   checking and inference (see [§5.4.2](#542-expanding-abbreviations-and-inference-equations)).
 
 - Type definitions have a `kind` which is one of the following:
-    - `Class`
-    - `Interface`
-    - `Delegate`
-    - `Struct`
-    - `Record`
-    - `Union`
-    - `Enum`
-    - `Measure`
-    - `Abstract`
+  - `Class`
+  - `Interface`
+  - `Delegate`
+  - `Struct`
+  - `Record`
+  - `Union`
+  - `Enum`
+  - `Measure`
+  - `Abstract`
 
   The kind is determined at the point of declaration by Type Kind Inference (see [§8.2](#82-type-kind-inference)) if it is not
-  specified explicitly as part of the type definition. The *kind* of a type refers to the kind of its
-  outermost named type definition, after expanding abbreviations. For example, a type is a *class*
-  type if it is a named type `C<types>` where `C` is of kind *class*. Thus,
+  specified explicitly as part of the type definition. The _kind_ of a type refers to the kind of its
+  outermost named type definition, after expanding abbreviations. For example, a type is a _class_
+  type if it is a named type `C<types>` where `C` is of kind _class_. Thus,
   `System.Collections.Generic.List<int>` is a class type.
 
-- Type definitions may be *sealed*. Record, union, function, tuple, struct, delegate, enum, and array
+- Type definitions may be _sealed_. Record, union, function, tuple, struct, delegate, enum, and array
   types are all sealed, as are class types that are marked with the `SealedAttribute` attribute.
-- Type definitions may have zero or one *base type declarations*. Each base type declaration
+- Type definitions may have zero or one _base type declarations_. Each base type declaration
   represents an additional type that is supported by any values that are formed using the type
   definition. Furthermore, some aspects of the base type are used to form the implementation of
   the type definition.
-- Type definitions may have one or more *interface declarations*. These represent additional
+- Type definitions may have one or more _interface declarations_. These represent additional
   encapsulated types that are supported by values that are formed using the type.
 
-Class, interface, delegate, function, tuple, record, and union types are all *reference* type definitions.
+Class, interface, delegate, function, tuple, record, and union types are all _reference_ type definitions.
 A type is a reference type if its outermost named type definition is a reference type, after expanding
 type definitions.
 
-Struct types are *value types*.
+Struct types are _value types_.
 
 ### 5.4.2 Expanding Abbreviations and Inference Equations
 
@@ -2340,10 +2384,10 @@ be preserved in the logical structure of types throughout the checking process.
 
 ### 5.4.3 Type Variables and Definition Sites
 
-Static types may be type variables. During type inference, static types may be *partial*, in that they
+Static types may be type variables. During type inference, static types may be _partial_, in that they
 contain type inference variables that have not been solved or generalized. Type variables may also
-refer to explicit type parameter definitions, in which case the type variable is said to be *rigid* and
-have a *definition site*.
+refer to explicit type parameter definitions, in which case the type variable is said to be _rigid_ and
+have a _definition site_.
 
 For example, in the following, the definition site of the type parameter 'T is the type definition of C:
 
@@ -2351,10 +2395,10 @@ For example, in the following, the definition site of the type parameter 'T is t
 type C<'T> = 'T * 'T
 ```
 
-Type variables that do not have a binding site are *inference variables*. If an expression is composed
+Type variables that do not have a binding site are _inference variables_. If an expression is composed
 of multiple sub-expressions, the resulting constraint set is normally the union of the constraints that
 result from checking all the sub-expressions. However, for some constructs (notably function, value
-and member definitions), the checking process applies *generalization* (see [§14.6.7](#1467-generalization)). Consequently, some
+and member definitions), the checking process applies _generalization_ (see [§14.6.7](#1467-generalization)). Consequently, some
 intermediate inference variables and constraints are factored out of the intermediate constraint sets
 and new implicit definition site(s) are assigned for these variables.
 
@@ -2378,7 +2422,7 @@ of the type variable.
 
 ### 5.4.4 Base Type of a Type
 
-The *base type* for the static types is shown in the table. These types are defined in the CLI
+The _base type_ for the static types is shown in the table. These types are defined in the CLI
 specifications and corresponding implementation documentation.
 
 | **Static Type** | **Base Type**                                                                                                                                                                                        |
@@ -2397,7 +2441,7 @@ specifications and corresponding implementation documentation.
 
 ### 5.4.5 Interfaces Types of a Type
 
-The *interface types* of a named type `C<type-inst>` are defined by the transitive closure of the
+The _interface types_ of a named type `C<type-inst>` are defined by the transitive closure of the
 interface declarations of `C` and the interface types of the base type of `C`, where formal generic
 parameters are substituted for the actual type instantiation `type-inst`.
 
@@ -2407,7 +2451,7 @@ from the interface `System.Collections.Generic.IList<ty>`, which includes
 
 ### 5.4.6 Type Equivalence
 
-Two static types `ty1` and `ty2` are *definitely equivalent* (with respect to a set of current inference
+Two static types `ty1` and `ty2` are _definitely equivalent_ (with respect to a set of current inference
 constraints) if either of the following is true:
 
 - `ty1` has form `op<ty11, ..., ty1n>`, `ty2` has form `op<ty21, ..., ty2n>` and each `ty1i` is
@@ -2421,13 +2465,13 @@ constraints) if either of the following is true:
 This means that the addition of new constraints may make types definitely equivalent where
 previously they were not. For example, given `Χ = { 'a = int }`, we have `list<int>` = `list<'a>`.
 
-Two static types `ty1` and `ty2` are *feasibly equivalent* if `ty1` and `ty2` may become definitely equivalent if
+Two static types `ty1` and `ty2` are _feasibly equivalent_ if `ty1` and `ty2` may become definitely equivalent if
 further constraints are added to the current inference constraints. Thus `list<int>` and `list<'a>` are
 feasibly equivalent for the empty constraint set.
 
 ### 5.4.7 Subtyping and Coercion
 
-A static type `ty2` *coerces to* static type `ty1` (with respect to a set of current inference constraints X), if
+A static type `ty2` _coerces to_ static type `ty1` (with respect to a set of current inference constraints X), if
 `ty1` is in the transitive closure of the base types and interface types of `ty2`. Static coercion is written
 with the `:>` symbol:
 
@@ -2438,7 +2482,7 @@ ty2 :> ty1
 Variable types `'T` coerce to all types `ty` if the current inference constraints include a constraint of the
 form `'T :> ty2`, and `ty` is in the inclusive transitive closure of the base and interface types of `ty2`.
 
-A static type `ty2` *feasibly coerces* to static type `ty1` if `ty2` *coerces* to `ty1` may hold through the addition
+A static type `ty2` _feasibly coerces_ to static type `ty1` if `ty2` _coerces_ to `ty1` may hold through the addition
 of further constraints to the current inference constraints. The result of adding constraints is defined
 in `Constraint Solving` (see [§14.5](#145-constraint-solving)).
 
@@ -2456,16 +2500,16 @@ type definitions fall into one of the following categories:
 
 - **Types with the `null` literal.** These types have `null` as an "extra" value. The following types are in
   this category:
-    - All CLI reference types that are defined in other CLI languages.
-    - All types that are defined in F# and annotated with the `AllowNullLiteral` attribute.
+  - All CLI reference types that are defined in other CLI languages.
+  - All types that are defined in F# and annotated with the `AllowNullLiteral` attribute.
 
   For example, `System.String` and other CLI reference types satisfy this constraint, and these types
   permit the direct use of the `null` literal.
 
 - **Types with `null` as an abnormal value.** These types do not permit the `null` literal, but do have
   `null` as an abnormal value. The following types are in this category:
-    - All F# list, record, tuple, function, class, and interface types.
-    - All F# union types except those that have `null` as a normal value, as discussed in the next
+  - All F# list, record, tuple, function, class, and interface types.
+  - All F# union types except those that have `null` as a normal value, as discussed in the next
       bullet point.
 
   For types in this category, the use of the `null` literal is not directly allowed. However, strictly
@@ -2479,8 +2523,8 @@ type definitions fall into one of the following categories:
   For these types, the use of the null literal is not directly permitted. However, one or all of the
   “normal” values of the type is represented by the null value. The following types are in this
   category:
-    - The unit type. The `null` value is used to represent all values of this type.
-    - Any union type that has the
+  - The unit type. The `null` value is used to represent all values of this type.
+  - Any union type that has the
       `FSharp.Core.CompilationRepresentation(CompilationRepresentationFlags.UseNullAsTrueV
       alue)` attribute flag and a single null union case. The null value represents this case. In
       particular, `null` represents `None` in the F# `option<_>` type.
@@ -2488,14 +2532,14 @@ type definitions fall into one of the following categories:
   All value types are in this category, including primitive integers, floating-point numbers, and any
   value of a CLI or F# `struct` type.
 
-A static type `ty` satisfies a *nullness constraint* `ty : null` if it:
+A static type `ty` satisfies a _nullness constraint_ `ty : null` if it:
 
 - Has an outermost named type that has the `null` literal.
 - Is a variable type with a `typar : null` constraint.
 
 ### 5.4.9 Default Initialization
 
-Related to nullness is the *default initialization* of values of some types to *zero values*. This technique
+Related to nullness is the _default initialization_ of values of some types to _zero values_. This technique
 is common in some programming languages, but the design of F# deliberately de-emphasizes it.
 However, default initialization is allowed in some circumstances:
 
@@ -2505,7 +2549,7 @@ However, default initialization is allowed in some circumstances:
 - CLI libraries sometimes perform unchecked default initialization, as do the F# library primitives
   `Unchecked.defaultof<_>` and `Array.zeroCreate`.
 
-The following types permit *default initialization* :
+The following types permit _default initialization_ :
 
 - Any type that satisfies the nullness constraint.
 - Primitive value types.
@@ -2513,7 +2557,7 @@ The following types permit *default initialization* :
 
 ### 5.4.10 Dynamic Conversion Between Types
 
-A runtime type `vty` *dynamically converts* to a static type `ty` if any of the following are true:
+A runtime type `vty` _dynamically converts_ to a static type `ty` if any of the following are true:
 
 - `vty` coerces to `ty`.
 - `vty` is `int32[]` and `ty` is `uint32[]`(or conversely). Likewise for `sbyte[]`/`byte[]`, `int16[]`/`uint16[]`,
@@ -2732,6 +2776,7 @@ slice-range :=
     expr .. expr                    -- slice from index to index
     '*'                             -- slice from start to end
 ```
+
 ## 6.1 Some Checking and Inference Terminology
 
 The rules applied to check individual expressions are described in the following subsections. Where
@@ -2745,7 +2790,6 @@ following terminology:
 
 - The phrase “the type `ty1` is asserted to be equal to the type `ty2`” or simply “`ty1 = ty2` is asserted”
     indicates that the constraint “`ty1 = ty2`” is added to the current inference constraints.
-
 
 - The phrase “`ty1` is asserted to be a subtype of `ty2`” or simply “`ty1 :> ty2` is asserted” indicates
     that the constraint `ty1 :> ty2` is added to the current inference constraints.
@@ -2791,10 +2835,10 @@ form. This specification uses the following elaborated forms:
 - Try-with: `try expr with expr`
 - Try-finally: `try expr finally expr`
 - The constructs required for the elaboration of pattern matching ([§7](patterns.md#patterns)).
-    - Null tests
-    - Switches on integers and other types
-    - Switches on union cases
-    - Switches on the runtime types of objects
+  - Null tests
+  - Switches on integers and other types
+  - Switches on union cases
+  - Switches on the runtime types of objects
 
 The following constructs are used in the elaborated forms of expressions that make direct
 assignments to local variables and arrays and generate “byref” pointer values. The operations are
@@ -2877,6 +2921,7 @@ xxxx<suffix>
     For xxxx in the Int64 range → NumericLiteral<suffix>.FromInt64(xxxx)
     For other numbers           → NumericLiteral<suffix>.FromString("xxxx")
 ```
+
 For example, defining a module `NumericLiteralZ` as below enables the use of the literal form `32Z` to
 generate a sequence of 32 ‘Z’ characters. No literal syntax is available for numbers outside the range
 of 32-bit integers.
@@ -2887,6 +2932,7 @@ module NumericLiteralZ =
     let FromOne() = "Z"
     let FromInt32 n = String.replicate n "Z"
 ```
+
 F# compilers may optimize on the assumption that calls to numeric literal functions always
 terminate, are idempotent, and do not have observable side effects.
 
@@ -2916,8 +2962,8 @@ Tuple types and expressions that have `S` resolved to reference tuple are transl
 - For `n <= 7` the elaborated form is `Tuple<ty1 ,... , tyn>`.
 - For larger `n` , tuple types are shorthand for applications of the additional F# library type
     System.Tuple<_> as follows:
-    - For `n = 8` the elaborated form is `Tuple<ty1, ..., ty7, Tuple<ty8>>`.
-    - For `9 <= n` the elaborated form is `Tuple<ty1, ..., ty7, tyB>` where `tyB` is the converted form of
+  - For `n = 8` the elaborated form is `Tuple<ty1, ..., ty7, Tuple<ty8>>`.
+  - For `9 <= n` the elaborated form is `Tuple<ty1, ..., ty7, tyB>` where `tyB` is the converted form of
        the type `(ty8 * ... * tyn)`.
 
 Tuple expressions `(expr1, ..., exprn)` are translated as follows:
@@ -2935,7 +2981,6 @@ runtime type `System.Tuple<int,int>`. Likewise, `(1,2,3,4,5,6,7,8,9)` has the ru
 `Tuple<int,int,int,int,int,int,int,Tuple<int,int>>`.
 
 Tuple types and expressions that have `S` resolved to struct tuple are translated in the same way to [`System.ValueTuple`](https://learn.microsoft.com/dotnet/api/system.valuetuple) .
-
 
 > Note: The above encoding is invertible and the substitution of types for type variables
 preserves this inversion. This means, among other things, that the F# reflection library
@@ -2991,6 +3036,7 @@ type Data = { Count : int; Name : string }
 let data1 = { Count = 3; Name = "Hello"; }
 let data2 = { Name = "Hello"; Count= 3 }
 ```
+
 In the following example, `data4` uses a long identifier to indicate the relevant field:
 
 ```fsharp
@@ -3000,6 +3046,7 @@ module M =
 let data3 = { M.Age = 17; M.Name = "John"; M.Height = 186.0 }
 let data4 = { data3 with M.Name = "Bill"; M.Height = 176.0 }
 ```
+
 Fields may also be referenced by using the name of the containing type:
 
 ```fsharp
@@ -3013,6 +3060,7 @@ open M2
 let data7 = { Data.Age = 17; Data.Name = "John"; Data.Height = 186.0 }
 let data8 = { data5 with Data.Name = "Bill"; Data.Height=176.0 }
 ```
+
 Each `field-initializeri` has the form `field-labeli = expri`. Each `field-labeli` is a `long-ident`,
 which must resolve to a field `F` i in a unique record type `R` as follows:
 
@@ -3044,8 +3092,8 @@ field definitions appear in the original expression. For example:
 type R = {b : int; a : int }
 { a = 1 + 1; b = 2 }
 ```
-The expression on the last line elaborates to `let v = 1 + 1 in { b = 2; a = v }`.
 
+The expression on the last line elaborates to `let v = 1 + 1 in { b = 2; a = v }`.
 
 Records expressions are also used for object initializations in additional object constructor
 definitions ([§8.6.3](#863-additional-object-constructors-in-classes)). For example:
@@ -3056,6 +3104,7 @@ type C =
     val y : int
     new() = { x = 1; y = 2 }
 ```
+
 > Note: The following record initialization form is deprecated:
 <br>`{ new type with Field1 = expr1 and ... and Fieldn = exprn }`
 <br>The F# implementation allows the use of this form only with uppercase identifiers.
@@ -3069,11 +3118,13 @@ A _copy-and-update record expression_ has the following form:
 ```fsgrammar
 { expr with field-initializers }
 ```
+
 where `field-initializers` is of the following form:
 
 ```fsgrammar
 field-label1 = expr1; ...; field-labeln = exprn
 ```
+
 Each `field-labeli` is a `long-ident`. In the following example, `data2` is defined by using such an
 expression:
 
@@ -3082,6 +3133,7 @@ type Data = { Age : int; Name : string; Height : float }
 let data1 = { Age = 17; Name = "John"; Height = 186.0 }
 let data2 = { data1 with Name = "Bill"; Height = 176.0 }
 ```
+
 The expression `expr` is first checked with the same initial type as the overall expression. Next, the
 field definitions are resolved by using the same technique as for record expressions. Each field label
 must resolve to a field `Fi` in a single record type `R` , all of whose fields are accessible. After all field
@@ -3100,7 +3152,6 @@ A copy-and-update record expression elaborates as if it were a record expression
 where `F1 ... FM` are the fields of `R` that are not defined in `field-initializers` and `v` is a fresh
 variable.
 
-
 ### 6.3.7 Function Expressions
 
 An expression of the form `fun pat1 ... patn -> expr` is a _function expression_. For example:
@@ -3111,6 +3162,7 @@ An expression of the form `fun pat1 ... patn -> expr` is a _function expression_
 (fun [x] -> x) // note, incomplete match
 (fun (x,y) (z,w) -> x + y + z + w)
 ```
+
 Function expressions that involve only variable patterns are a primitive elaborated form. Function
 expressions that involve non-variable patterns elaborate as if they had been written as follows:
 
@@ -3121,6 +3173,7 @@ fun v1 ... vn ->
     let patn = vn
     expr
 ```
+
 No pattern matching is performed until all arguments have been received. For example, the
 following does not raise a `MatchFailureException` exception:
 
@@ -3128,11 +3181,13 @@ following does not raise a `MatchFailureException` exception:
 let f = fun [x] y -> y
 let g = f [] // ok
 ```
+
 However, if a third line is added, a `MatchFailureException` exception is raised:
 
 ```fsharp
 let z = g 3 // MatchFailureException is raised
 ```
+
 ### 6.3.8 Object Expressions
 
 An expression of the following form is an _object expression_ :
@@ -3143,12 +3198,14 @@ An expression of the following form is an _object expression_ :
   ...
   interface tyn object-membersn }
 ```
+
 In the case of the interface declarations, the `object-members` are optional and are considered empty
 if absent. Each set of `object-members` has the form:
 
 ```fsgrammar
 with member-defns end?
 ```
+
 Lexical filtering inserts simulated `$end` tokens when lightweight syntax is used.
 
 Each member of an object expression members can use the keyword `member`, `override`, or `default`.
@@ -3175,6 +3232,7 @@ let obj4 =
     interface System.IDisposable with
         member x.Dispose() = printfn "Dispose"; }
 ```
+
 An object expression can specify additional interfaces beyond those required to fulfill the abstract
 slots of the type being implemented. For example, `obj4` in the preceding examples has static type
 `System.Object` but the object additionally implements the interface `System.IDisposable`. The
@@ -3213,7 +3271,6 @@ result of _dispatch slot checking_ ([§14.8](#148-dispatch-slot-checking)).
 The following example shows how to both implement an interface and override a method from
 `System.Object`. The overall type of the expression is `INewIdentity`.
 
-
 ```fsharp
 type public INewIdentity =
     abstract IsAnonymous : bool
@@ -3224,6 +3281,7 @@ let anon =
   interface INewIdentity with
     member i.IsAnonymous = true }
 ```
+
 ### 6.3.9 Delayed Expressions
 
 An expression of the form `lazy expr` is a _delayed expression_. For example:
@@ -3231,11 +3289,13 @@ An expression of the form `lazy expr` is a _delayed expression_. For example:
 ```fsharp
 lazy (printfn "hello world")
 ```
+
 is syntactic sugar for
 
 ```fsharp
 new System.Lazy (fun () -> expr )
 ```
+
 The behavior of the `System.Lazy` library type ensures that expression `expr` is evaluated on demand in
 response to a `.Value` operation on the lazy value.
 
@@ -3255,11 +3315,13 @@ expr { try ... }
 expr { return ... }
 expr { return! ... }
 ```
+
 More specifically, computation expressions have the following form:
 
 ```fsgrammar
 builder-expr { cexpr }
 ```
+
 where `cexpr` is, syntactically, the grammar of expressions with the additional constructs that are
 defined in `comp-expr`. Computation expressions are used for sequences and other non-standard
 interpretations of the F# expression syntax. For a fresh variable `b`, the expression
@@ -3267,11 +3329,13 @@ interpretations of the F# expression syntax. For a fresh variable `b`, the expre
 ```fsgrammar
 builder-expr { cexpr }
 ```
+
 translates to
 
 ```fsgrammar
 let b = builder-expr in {| cexpr |}C
 ```
+
 The type of `b` must be a named type after the checking of builder-expr. The subscript indicates that
 custom operations (`C`) are acceptable but are not required.
 
@@ -3279,10 +3343,10 @@ If the inferred type of `b` has one or more of the `Run`, `Delay`, or `Quote` me
 checked, the translation involves those methods. For example, when all three methods exist, the
 same expression translates to:
 
-
 ```fsgrammar
 let b = builder-expr in b.Run (<@ b.Delay(fun () -> {| cexpr |}C) >@)
 ```
+
 If a `Run` method does not exist on the inferred type of b, the call to `Run` is omitted. Likewise, if no
 `Delay` method exists on the type of `b`, that call and the inner lambda are omitted, so the expression
 translates to the following:
@@ -3290,7 +3354,8 @@ translates to the following:
 ```fsgrammar
 let b = builder-expr in b.Run (<@ {| cexpr |}C >@)
 ```
-Similarly, if a `Quote` method exists on the inferred type of `b`, at-signs `<@ @>` are placed around `{| cexpr |}C` 
+
+Similarly, if a `Quote` method exists on the inferred type of `b`, at-signs `<@ @>` are placed around `{| cexpr |}C`
 or `b.Delay(fun () -> {| cexpr |}C)` if a `Delay` method also exists.
 
 The translation `{| cexpr |}C` , which rewrites computation expressions to core language expressions,
@@ -3342,7 +3407,6 @@ Assert(not q); **C** (b.TryWith(b.Delay(fun () -> {| `ce` |} 0 ), fun pi - > {| 
 Assert(not q); **C** (b.TryFinally(b.Delay(fun () -> {| `ce` |} 0 ), fun () -> e))
 
 **T** (if e then ce, **V** , **C** , q) = **T** (ce, **V** , v. **C** (if e then v else b.Zero()), q)
-
 
 **T** (if e then ce1 else ce2 , **V** , **C** , q) = Assert(not q); **C** (if e then {| `ce` 1 |} 0 ) else {| `ce` 2 |} 0 )
 
@@ -3398,7 +3462,6 @@ The following notes apply to the translations:
 - The auxiliary function exp ( **V** ) denotes a tuple expression that represents a set of variables in **V**.
     For example, exp ({x,y}) becomes (x,y), where x and y represent variable expressions.
 
-
 - The auxiliary function src (e) denotes b.Source(e) if the innermost ForEach is from the user
     code instead of generated by the translation, and a builder b contains a Source method.
     Otherwise, src (e) denotes e.
@@ -3438,6 +3501,7 @@ CL (cop arg; e, V , e’, bind) = CL (e, [], [| cop arg, e’ |] V , false)
 CL (e, V , e’, true) = T (let! pat ( V ) = e’ in e, V , v.v, true)
 CL (e, V , e’, false) = T (for pat ( V ) in e’ do e, V , v.v, true)
 ```
+
 - The auxiliary translation [| e1, e2 |]V is defined as follows:
 
 [|[ e1, e2 |] **V** where e1: the custom operator available in a build
@@ -3449,6 +3513,7 @@ e2 : the context argument that will be passed to a custom operator
 b.Cop (e, fun pat ( V) - > arg)
 [|[<CustomOperator("Cop")>] cop arg, e |] V = b.Cop (e, arg)
 ```
+
 - The final two translation rules (for do! e; and do! e;) apply only for the final expression in the
     computation expression. The semicolon (;) can be omitted.
 
@@ -3457,17 +3522,17 @@ The following attributes specify custom operations:
 - `CustomOperationAttribute` indicates that a member of a builder type implements a custom
     operation in a computation expression. The attribute has one parameter: the name of the
     custom operation. The operation can have the following properties:
-    - `MaintainsVariableSpace` indicates that the custom operation maintains the variable space of
+  - `MaintainsVariableSpace` indicates that the custom operation maintains the variable space of
        a computation expression.
-    - `MaintainsVariableSpaceUsingBind` indicates that the custom operation maintains the
+  - `MaintainsVariableSpaceUsingBind` indicates that the custom operation maintains the
        variable space of a computation expression through the use of a bind operation.
-    - `AllowIntoPattern` indicates that the custom operation supports the use of ‘into’ immediately
+  - `AllowIntoPattern` indicates that the custom operation supports the use of ‘into’ immediately
        following the operation in a computation expression to consume the result of the operation.
-    - `IsLikeJoin` indicates that the custom operation is similar to a join in a sequence
+  - `IsLikeJoin` indicates that the custom operation is similar to a join in a sequence
        computation, which supports two inputs and a correlation constraint.
-    - `IsLikeGroupJoin` indicates that the custom operation is similar to a group join in a sequence
+  - `IsLikeGroupJoin` indicates that the custom operation is similar to a group join in a sequence
        computation, which support two inputs and a correlation constraint, and generates a group.
-    - `JoinConditionWord` indicates the names used for the ‘on’ part of the custom operator for
+  - `JoinConditionWord` indicates the names used for the ‘on’ part of the custom operator for
        join-like operators.
 - `ProjectionParameterAttribute` indicates that, when a custom operation is used in a
     computation expression, a parameter is automatically parameterized by the variable space of
@@ -3486,6 +3551,7 @@ type SimpleSequenceBuilder() =
 
 let myseq = SimpleSequenceBuilder()
 ```
+
 Then, the expression
 
 ```fsharp
@@ -3494,6 +3560,7 @@ myseq {
     yield i*i
     }
 ```
+
 translates to
 
 ```fsharp
@@ -3515,6 +3582,7 @@ type SimpleSequenceBuilder() =
 
 let myseq = SimpleSequenceBuilder()
 ```
+
 Then, the expression
 
 ```fsharp
@@ -3523,6 +3591,7 @@ myseq {
     where (fun x -> x > 5)
     }
 ```
+
 translates to
 
 ```fsharp
@@ -3532,6 +3601,7 @@ let b = myseq
             b.Yield (i)),
         fun x -> x > 5)
 ```
+
 `ProjectionParameterAttribute` automatically adds a parameter from the variable space of the
 computation expression. For example, `ProjectionParameterAttribute` can be attached to the second
 argument of the `where` operator:
@@ -3547,6 +3617,7 @@ type SimpleSequenceBuilder() =
 
 let myseq = SimpleSequenceBuilder()
 ```
+
 Then, the expression
 
 ```fsharp
@@ -3555,6 +3626,7 @@ myseq {
     where (i > 5)
     }
 ```
+
 translates to
 
 ```fsharp
@@ -3564,6 +3636,7 @@ b.Where(
         b.Yield (i)),
     fun i -> i > 5)
 ```
+
 `ProjectionParameterAttribute` is useful when a let binding appears between `ForEach` and the
 custom operators. For example, the expression
 
@@ -3574,6 +3647,7 @@ myseq {
     where (i > 5 && j < 49)
     }
 ```
+
 translates to
 
 ```fsharp
@@ -3584,6 +3658,7 @@ b.Where(
         b.Yield (i,j)),
     fun (i,j) -> i > 5 && j < 49)
 ```
+
 Without `ProjectionParameterAttribute`, a user would be required to write “`fun (i,j) ->`” explicitly.
 
 Now, assume that we want to write the condition “`where (i > 5 && j < 49)`” in the following
@@ -3593,6 +3668,7 @@ syntax:
 where (i > 5)
 where (j < 49)
 ```
+
 To support this style, the `where` custom operator should produce a computation that has the same
 variable space as the input computation. That is, `j` should be available in the second `where`. The
 following example uses the `MaintainsVariableSpace` property on the custom operator to specify this
@@ -3609,6 +3685,7 @@ type SimpleSequenceBuilder() =
 
 let myseq = SimpleSequenceBuilder()
 ```
+
 Then, the expression
 
 ```fsharp
@@ -3619,6 +3696,7 @@ myseq {
     where (j < 49)
     }
 ```
+
 translates to
 
 ```fsharp
@@ -3631,6 +3709,7 @@ b.Where(
         fun (i,j) -> i > 5),
     fun (i,j) -> j < 49)
 ```
+
 When we may not want to produce the variable space but rather want to explicitly express the chain
 of the `where` operator, we can design this simple sequence builder in a slightly different way. For
 example, we can express the same expression in the following way:
@@ -3642,6 +3721,7 @@ myseq {
     where (j*j < 49)
     }
 ```
+
 In this example, instead of having a let-binding (for `j` in the previous example) and passing variable
 space (including `j`) down to the chain, we can introduce a special syntax that captures a value into a
 pattern variable and passes only this variable down to the chain, which is arguably more readable.
@@ -3659,6 +3739,7 @@ type SimpleSequenceBuilder() =
 
 let myseq = SimpleSequenceBuilder()
 ```
+
 Then, the expression
 
 ```fsharp
@@ -3668,6 +3749,7 @@ myseq {
     where (j*j < 49)
     }
 ```
+
 translates to
 
 ```fsharp
@@ -3680,6 +3762,7 @@ b.Where(
         fun j -> b.Yield (j)),
     fun j -> j*j < 49)
 ```
+
 Note that the `into` keyword is not customizable, unlike `join` and `on`.
 
 In addition to `MaintainsVariableSpace`, `MaintainsVariableSpaceUsingBind` is provided to pass
@@ -3697,6 +3780,7 @@ type SimpleSequenceBuilder() =
 
 let myseq = SimpleSequenceBuilder()
 ```
+
 The presence of `MaintainsVariableSpaceUsingBindAttribute` requires `Return` and `Bind` methods
 during the translation.
 
@@ -3709,6 +3793,7 @@ myseq {
     return j
     }
 ```
+
 translates to
 
 ```fsharp
@@ -3718,6 +3803,7 @@ b.Bind(
         fun i -> i > 5 && i*i < 49),
     fun j -> b.Return (j))
 ```
+
 where `Bind` is called to capture the pattern variable `j`. Note that `For` and `Yield` are called to capture
 the pattern variable when `MaintainsVariableSpace` is used.
 
@@ -3734,10 +3820,11 @@ type SimpleSequenceBuilder() =
         seq { for a in src1 do
             for b in src2 do
             if ks1 a = ks2 b then yield((ret a ) b)
-        }   
+        }
 
 let myseq = SimpleSequenceBuilder()
 ```
+
 `IsLikeJoin` indicates that the custom operation is similar to a join in a sequence computation; that
 is, it supports two inputs and a correlation constraint.
 
@@ -3750,6 +3837,7 @@ myseq {
     yield j
     }
 ```
+
 translates to
 
 ```fsharp
@@ -3760,6 +3848,7 @@ b.For(
             fun i -> fun j -> (i,j)),
     fun j -> b.Yield (j))
 ```
+
 This translation implicitly places type constraints on the expected form of the builder methods. For
 example, for the `async` builder found in the `FSharp.Control` library, the translation phase
 corresponds to implementing a builder of a type that has the following member signatures:
@@ -3778,6 +3867,7 @@ type AsyncBuilder with
     member TryFinally: Async<'T> * (unit -> unit) -> Async<'T>
     member TryWith: Async<'T> * (exn -> Async<'T>) -> Async<'T>
 ```
+
 The following example shows a common approach to implementing a new computation expression
 builder for a monad. The example uses computation expressions to define computations that can be
 partially run by executing them step-by-step, for example, up to a time limit.
@@ -3884,6 +3974,7 @@ type EventuallyBuilder() =
 
 let eventually = new EventuallyBuilder()
 ```
+
 After the computations are defined, they can be built by using eventually { ... }:
 
 ```fsharp
@@ -3893,6 +3984,7 @@ let comp =
             printfn " x = %d" x
         return 3 + 4 }
 ```
+
 These computations can now be stepped. For example:
 
 ```fsharp
@@ -3914,6 +4006,7 @@ comp |> step |> step |> step |> step |> step |> step |> step |> step
 // prints "x = 2"
 // returns "Done 7"
 ```
+
 ### 6.3.11 Sequence Expressions
 
 An expression in one of the following forms is a _sequence expression_ :
@@ -3922,6 +4015,7 @@ An expression in one of the following forms is a _sequence expression_ :
 seq { comp-expr }
 seq { short-comp-expr }
 ```
+
 For example:
 
 ```fsharp
@@ -3929,6 +4023,7 @@ seq { for x in [ 1; 2; 3 ] do for y in [5; 6] do yield x + y }
 seq { for x in [ 1; 2; 3 ] do yield x + x }
 seq { for x in [ 1; 2; 3 ] -> x + x }
 ```
+
 Logically speaking, sequence expressions can be thought of as computation expressions with a
 builder of type `FSharp.Collections.SeqBuilder`. This type can be considered to be defined as
 follows:
@@ -3945,6 +4040,7 @@ type SeqBuilder() =
         SequenceExpressionHelpers.EnumerateThenFinally xs compensation
     member x.Using (resource,xs) = SequenceExpressionHelpers.EnumerateUsing resource xs
 ```
+
 > Note that this builder type is not actually defined in the F# library. Instead, sequence expressions are
 elaborated directly. For details, see page 79 of the old pdf spec.
 
@@ -3960,12 +4056,14 @@ Expressions of the following forms are _range expressions_.
 seq { e1 .. e2 }
 seq { e1 .. e2 .. e3 }
 ```
+
 Range expressions generate sequences over a specified range. For example:
 
 ```fsgrammar
 seq { 1 .. 10 } // 1; 2; 3; 4; 5; 6; 7; 8; 9; 10
 seq { 1 .. 2 .. 10 } // 1; 3; 5; 7; 9
 ```
+
 Range expressions involving `expr1 .. expr2` are translated to uses of the `(..)` operator, and those
 involving `expr1 .. expr1 .. expr3` are translated to uses of the `(.. ..)` operator:
 
@@ -3973,6 +4071,7 @@ involving `expr1 .. expr1 .. expr3` are translated to uses of the `(.. ..)` oper
 seq { e1 .. e2 } → ( .. ) e1 e2
 seq { e1 .. e2 .. e3 } → ( .. .. ) e1 e2 e3
 ```
+
 The default definition of these operators is in `FSharp.Core.Operators`. The ( `..` ) operator generates
 an `IEnumerable<_>` for the range of values between the start (`expr1`) and finish (`expr2`) values, using
 an increment of 1 (as defined by `FSharp.Core.LanguagePrimitives.GenericOne`). The `(.. ..)`
@@ -4001,6 +4100,7 @@ A _list sequence expression_ is an expression in one of the following forms
 [ short-comp-expr ]
 [ range-expr ]
 ```
+
 In all cases `[ cexpr ]` elaborates to `FSharp.Collections.Seq.toList(seq { cexpr })`.
 
 For example:
@@ -4014,6 +4114,7 @@ let x3 = [ yield 1
            if System.DateTime.Now.DayOfWeek = System.DayOfWeek.Monday then
                yield 2]
 ```
+
 ### 6.3.14 Arrays Sequence Expressions
 
 An expression in one of the following forms is an _array sequence expression_ :
@@ -4023,6 +4124,7 @@ An expression in one of the following forms is an _array sequence expression_ :
 [| short-comp-expr |]
 [| range-expr |]
 ```
+
 In all cases `[| cexpr |]` elaborates to `FSharp.Collections.Seq.toArray(seq { cexpr })`.
 
 For example:
@@ -4033,6 +4135,7 @@ let x3 = [| yield 1
     if System.DateTime.Now.DayOfWeek = System.DayOfWeek.Monday then
         yield 2 |]
 ```
+
 ### 6.3.15 Null Expressions
 
 An expression in the form `null` is a _null expression_. A null expression imposes a nullness constraint
@@ -4120,8 +4223,10 @@ System.Math.PI.ToString()
 System.Environment.GetEnvironmentVariable("PATH").Length
 System.Console.WriteLine("Hello World")
 ```
+
 Application expressions may start with object construction expressions that do not include the `new`
 keyword:
+
 ```fsharp
 System.Object()
 System.Collections.Generic.List<int>(10)
@@ -4129,11 +4234,14 @@ System.Collections.Generic.KeyValuePair(3,"Three")
 System.Object().GetType()
 System.Collections.Generic.Dictionary<int,int>(10).[1]
 ```
+
 If the `long-ident-or-op` starts with the special pseudo-identifier keyword `global`, F# resolves the
 identifier with respect to the global namespace — that is, ignoring all `open` directives (see [§14.2](#142-resolving-application-expressions)). For example:
+
 ```fsharp
 global.System.Math.PI
 ```
+
 is resolved to `System.Math.PI` ignoring all `open` directives.
 
 The checking of application expressions is described in detail as an algorithm in [§14.2](#142-resolving-application-expressions). To check an
@@ -4154,7 +4262,6 @@ contains a series of lookups and method calls. The elaborated expression may inc
 - Uses of active pattern result elements
 
 Additional constructs may be inserted when resolving method calls into simpler primitives:
-
 
 - The use of a method or value as a first-class function may result in a function expression.
 
@@ -4183,6 +4290,7 @@ An expression of the following form is an _object construction expression_:
 ```fsgrammar
 new ty ( e1 ... en )
 ```
+
 An object construction expression constructs a new instance of a type, usually by calling a
 constructor method on the type. For example:
 
@@ -4192,6 +4300,7 @@ new System.Collections.Generic.List<int>()
 new System.Windows.Forms.Form (Text="Hello World")
 new 'T()
 ```
+
 The initial type of the expression is first asserted to be equal to `ty`. The type `ty` must not be an array,
 record, union or tuple type. If `ty` is a named class or struct type:
 
@@ -4255,12 +4364,14 @@ specific definition of a user-defined or library-defined operator. For example:
 let (+++) a b = (a,b)
 3 +++ 4
 ```
+
 In some cases, the operator name resolves to a standard definition of an operator from the F#
 library. For example, in the absence of an explicit definition of (+),
 
 ```fsharp
 3 + 4
 ```
+
 resolves to a use of the infix operator FSharp.Core.Operators.(+).
 
 Some operators that are defined in the F# library receive special treatment in this specification. In
@@ -4270,7 +4381,6 @@ particular:
 - The `expr && expr` and `expr || expr` shortcut control flow operators ([§6.5.4](#654-shortcut-operator-expressions))
 - The `%expr` and `%%expr` expression splice operators in quotations ([§6.8.3](#683-expression-splices))
 - The library-defined operators, such as `+`, `-`, `*`, `/`, `%`, `**`, `<<<`, `>>>`, `&&&`, `|||`, and `^^^` ([§18.2](#182-basic-operators-and-functions-fsharpcoreoperators)).
-
 
 If the operator does not resolve to a user-defined or library-defined operator, the name resolution
 rules ([§14.1](#141-name-resolution)) ensure that the operator resolves to an expression that implicitly uses a static member
@@ -4294,6 +4404,7 @@ r <-- "Message One"
 
 "Message Two" --> r
 ```
+
 ### 6.4.4 Dynamic Operator Expressions
 
 Expressions of the following forms are _dynamic operator expressions:_
@@ -4302,6 +4413,7 @@ Expressions of the following forms are _dynamic operator expressions:_
 expr1 ? expr2
 expr1 ? expr2 <- expr3
 ```
+
 These expressions are defined by their syntactic translation:
 
 `expr ? ident` → `(?) expr "ident"`
@@ -4325,6 +4437,7 @@ However, it does not apply to uses of the parenthesized operator names, as in th
 ```fsharp
 (?) x y
 ```
+
 ### 6.4.5 The AddressOf Operators
 
 Under default definitions, expressions of the following forms are _address-of expressions,_ called
@@ -4392,6 +4505,7 @@ type 'T[,,] with
 type 'T[,,,] with
     member arr.Item : int * int * int * int -> 'T
 ```
+
 In addition, if type checking determines that the type of `e1` is a named type that supports the
 `DefaultMember` attribute, then the member name identified by the `DefaultMember` attribute is used
 instead of Item.
@@ -4432,6 +4546,7 @@ matrix.[1..3,1,.3] // get a 3x3 sub-matrix (returning a matrix)
 matrix.[3,*] // get row 3 from a matrix as a vector
 matrix.[*,3] // get column 3 from a matrix as a vector
 ```
+
 In addition, CIL array types of rank 1 to 4 are assumed to support a type extension that defines a
 method `GetSlice` that has the following signature:
 
@@ -4443,7 +4558,7 @@ type 'T[,] with
     member arr.GetSlice : idx1:int * ?start2:int * ?end2:int -> 'T[]
     member arr.GetSlice : ?start1:int * ?end1:int * idx2:int - > 'T[]
 type 'T[,,] with
-    member arr.GetSlice : ?start1:int * ?end1:int * ?start2:int * ?end2:int * 
+    member arr.GetSlice : ?start1:int * ?end1:int * ?start2:int * ?end2:int *
                           ?start3:int * ?end3:int
                             -> 'T[,,]
 type 'T[,,,] with
@@ -4451,6 +4566,7 @@ type 'T[,,,] with
                           ?start3:int * ?end3:int * ?start4:int * ?end4:int
                             -> 'T[,,,]
 ```
+
 In addition, CIL array types of rank 1 to 4 are assumed to support a type extension that defines a
 method `SetSlice` that has the following signature:
 
@@ -4465,7 +4581,7 @@ type 'T[,] with
     member arr.SetSlice : ?start1:int * ?end1:int * idx2:int * values:T[] -> unit
 
 type 'T[,,] with
-    member arr.SetSlice : ?start1:int * ?end1:int * ?start2:int * ?end2:int * 
+    member arr.SetSlice : ?start1:int * ?end1:int * ?start2:int * ?end2:int *
                           ?start3:int * ?end3:int *
                           values:T[,,] -> unit
 
@@ -4474,6 +4590,7 @@ type 'T[,,,] with
                           ?start3:int * ?end3:int * ?start4:int * ?end4:int *
                           values:T[,,,] -> unit
 ```
+
 ### 6.4.8 Member Constraint Invocation Expressions
 
 An expression of the following form is a member constraint invocation expression:
@@ -4481,6 +4598,7 @@ An expression of the following form is a member constraint invocation expression
 ```fsgrammar
 (static-typars : (member-sig) expr)
 ```
+
 Type checking proceeds as follows:
 
 1. The expression is checked with initial type `ty`.
@@ -4519,6 +4637,7 @@ Then it went: quack
 It said: I'm a dog
 Then it went: grrrr
 ```
+
 ### 6.4.9 Assignment Expressions
 
 An expression of the following form is an _assignment expression_ :
@@ -4526,6 +4645,7 @@ An expression of the following form is an _assignment expression_ :
 ```fsharp
 expr1 <- expr2
 ```
+
 A modified version of _Unqualified Lookup_ ([§14.2.1](#1421-unqualified-lookup)) is applied to the expression `expr1` using a fresh
 expected result type `ty` , thus producing an elaborate expression `expr1`. The last qualification for `expr1`
 must resolve to one of the following constructs:
@@ -4555,7 +4675,6 @@ must resolve to one of the following constructs:
 
 - A array lookup `expr1a.[expr1b]` where `expr1a` has type `ty[]`.
 
-
     Type checking of expr2 uses the expected result type ty and generates thean elaborated
     expression expr2. The overall elaborated expression is an assignment to a field (see [§6.9.4](#694-taking-the-address-of-an-elaborated-expression)):
 
@@ -4566,18 +4685,17 @@ must resolve to one of the following constructs:
     immediate contents. In this context, “immediate” contents means the contents of a
     mutable value type. For example, given
 
-
     ```fsharp
     [<Struct>]
     type SA =
         new(v) = { x = v }
         val mutable x : int
-    
+
     [<Struct>]
     type SB =
         new(v) = { sa = v }
         val mutable sa : SA
-    
+
     let s1 = SA(0)
     let mutable s2 = SA(0)
     let s3 = SB(0)
@@ -4590,7 +4708,9 @@ must resolve to one of the following constructs:
     s1.x <- 3
     s3.sa.x <- 3
     ```
+
     and these are:
+
     ```fsharp
     s2.x <- 3
     s4.sa.x <- 3
@@ -4606,11 +4726,13 @@ A _parenthesized expression_ has the following form:
 ```fsgrammar
 (expr)
 ```
+
 A _block expression_ has the following form:
 
 ```fsgrammar
 begin expr end
 ```
+
 The expression `expr` is checked with the same initial type as the overall expression.
 
 The elaborated form of the expression is simply the elaborated form of `expr`.
@@ -4622,11 +4744,13 @@ A _sequential execution expression_ has the following form:
 ```fsgrammar
 expr1 ; expr2
 ```
+
 For example:
 
 ```fsharp
 printfn "Hello"; printfn "World"; 3
 ```
+
 The `;` token is optional when both of the following are true:
 
 - The expression `expr2` occurs on a subsequent line that starts in the same column as `expr1`.
@@ -4656,12 +4780,14 @@ elif expr3a then expr2b
 elif exprna then exprnb
 else exprlast
 ```
+
 The `elif` and `else` branches may be omitted. For example:
 
 ```fsharp
 if (1 + 1 = 2) then "ok" else "not ok"
 if (1 + 1 = 2) then printfn "ok"
 ```
+
 Conditional expressions are equivalent to pattern matching on Boolean values. For example, the
 following expression forms are equivalent:
 
@@ -4669,12 +4795,14 @@ following expression forms are equivalent:
 if expr1 then expr2 else expr3
 match (expr1: bool) with true -> expr2 | false -> expr3
 ```
+
 If the `else` branch is omitted, the expression is a _sequential conditional expression_ and is equivalent
 to:
 
 ```fsgrammar
 match (expr1: bool) with true -> expr2 | false -> ()
 ```
+
 with the exception that the initial type of the overall expression is first asserted to be `unit`.
 
 ### 6.5.4 Shortcut Operator Expressions
@@ -4685,6 +4813,7 @@ Under default definitions, expressions of the following form are respectively an
 expr && expr
 expr || expr
 ```
+
 These expressions are defined by their syntactic translation:
 
 ```fsgrammar
@@ -4707,6 +4836,7 @@ A _pattern-matching expression_ has the following form:
 ```fsgrammar
 match expr with rules
 ```
+
 Pattern matching is used to evaluate the given expression and select a rule ([§7](patterns.md#patterns)). For example:
 
 ```fsharp
@@ -4715,11 +4845,13 @@ match (3, 2) with
 | i, 2 - > printfn "i = %d" i
 | _ - > printfn "no match"
 ```
+
 A _pattern-matching function_ is an expression of the following form:
 
 ```fsgrammar
 function rules
 ```
+
 A pattern-matching function is syntactic sugar for a single-argument function expression that is
 followed by immediate matches on the argument. For example:
 
@@ -4728,6 +4860,7 @@ function
 | 1, j -> printfn "j = %d" j
 | _ - > printfn "no match"
 ```
+
 is syntactic sugar for the following, where x is a fresh variable:
 
 ```fsharp
@@ -4744,6 +4877,7 @@ An expression of the following form is a _sequence iteration expression_ :
 ```fsgrammar
 for pat in expr1 do expr2 done
 ```
+
 The done token is optional if `expr2` appears on a later line and is indented from the column position
 of the for token. In this case, parsing inserts a `$done` token automatically and applies an additional
 syntax rule for lightweight syntax ([§15.1.1](#1511-basic-lightweight-syntax-rules-by-example)).
@@ -4771,6 +4905,7 @@ finally
     | :? System.IDisposable as d - > d .Dispose()
     | _ -> ()
 ```
+
 If the assertion fails, the type `tyexpr` may also be of any static type that satisfies the “collection
 pattern” of CLI libraries. If so, the _enumerable extraction_ process is used to enumerate the type. In
 particular, `tyexpr` may be any type that has an accessible GetEnumerator method that accepts zero
@@ -4785,6 +4920,7 @@ A sequence iteration of the form
 ```fsgrammar
 for var in expr1 .. expr2 do expr3 done
 ```
+
 where the type of `expr1` or `expr2` is equivalent to `int`, is elaborated as a simple for-loop expression
 ([§6.5.7](#657-simple-for-loop-expressions))
 
@@ -4795,6 +4931,7 @@ An expression of the following form is a _simple for loop expression_ :
 ```fsgrammar
 for var = expr1 to expr2 do expr3 done
 ```
+
 The `done` token is optional when `e2` appears on a later line and is indented from the column position
 of the `for` token. In this case, a `$done` token is automatically inserted, and an additional syntax rule
 for lightweight syntax applies ([§15.1.1](#1511-basic-lightweight-syntax-rules-by-example)). For example:
@@ -4803,6 +4940,7 @@ for lightweight syntax applies ([§15.1.1](#1511-basic-lightweight-syntax-rules-
 for x = 1 to 30 do
     printfn "x = %d, x^2 = %d" x (x*x)
 ```
+
 The bounds `expr1` and `expr2` are checked with initial type `int`. The overall type of the expression is
 `unit`. A warning is reported if the body `expr3` of the `for` loop does not have static type `unit`.
 
@@ -4824,6 +4962,7 @@ An expression of the form
 ```fsgrammar
 for var in expr1 .. expr2 do expr3 done
 ```
+
 is always elaborated as a simple for-loop expression whenever the type of `expr1` or `expr2` is
 equivalent to `int`.
 
@@ -4834,6 +4973,7 @@ A _while loop expression_ has the following form:
 ```fsgrammar
 while expr1 do expr2 done
 ```
+
 The `done` token is optional when `expr2` appears on a subsequent line and is indented from the
 column position of the `while`. In this case, a `$done` token is automatically inserted, and an additional
 syntax rule for lightweight syntax applies ([§15.1.1](#1511-basic-lightweight-syntax-rules-by-example)).
@@ -4844,6 +4984,7 @@ For example:
 while System.DateTime.Today.DayOfWeek = System.DayOfWeek.Monday do
     printfn "I don't like Mondays"
 ```
+
 The overall type of the expression is `unit`. The expression `expr1` is checked with initial type `bool`. A
 warning is reported if the body `expr2` of the while loop cannot be asserted to have type `unit`.
 
@@ -4854,6 +4995,7 @@ A _try-with expression_ has the following form:
 ```fsgrammar
 try expr with rules
 ```
+
 For example:
 
 ```fsharp
@@ -4865,6 +5007,7 @@ with
     | Failure msg -> "caught"
     | :? System.InvalidOperationException -> "unexpected"
 ```
+
 Expression `expr` is checked with the same initial type as the overall expression. The pattern matching
 clauses are then checked with the same initial type and with input type `System.Exception`.
 
@@ -4881,6 +5024,7 @@ try
     failwith "fail"
 with e -> printfn "Failing"; reraise()
 ```
+
 > Note: The rules in this section apply to any use of the function
   `FSharp.Core.Operators.reraise`, which is defined in the F# core library.
 
@@ -4893,6 +5037,7 @@ A _try-finally expression_ has the following form:
 ```fsgrammar
 try expr1 finally expr2
 ```
+
 For example:
 
 ```fsharp
@@ -4903,6 +5048,7 @@ try
 finally
     printfn "Finally block"
 ```
+
 Expression `expr1` is checked with the initial type of the overall expression. Expression `expr2` is
 checked with arbitrary initial type, and a warning occurs if this type cannot then be asserted to be
 equal to `unit`.
@@ -4916,6 +5062,7 @@ An _assertion expression_ has the following form:
 ```fsgrammar
 assert expr
 ```
+
 The expression `assert expr` is syntactic sugar for `System.Diagnostics.Debug.Assert(expr)`
 
 > Note: `System.Diagnostics.Debug.Assert` is a conditional method call. This means that
@@ -4931,9 +5078,9 @@ let value-defn in expr
 let rec function-or-value-defns in expr
 use ident = expr1 in expr
 ```
+
 Such an expression establishes a local function or value definition within the lexical scope of `expr`
 and has the same overall type as `expr`.
-
 
 In each case, the `in` token is optional if `expr` appears on a subsequent line and is aligned with the
 token `let`. In this case, a `$in` token is automatically inserted, and an additional syntax rule for
@@ -4945,28 +5092,33 @@ For example:
 let x = 1
 x + x
 ```
+
 and
 
 ```fsharp
 let x, y = ("One", 1)
 x.Length + y
 ```
+
 and
 
 ```fsharp
 let id x = x in (id 3, id "Three")
 ```
+
 and
 
 ```fsharp
 let swap (x, y) = (y,x)
 List.map swap [ (1, 2); (3, 4) ]
 ```
+
 and
 
 ```fsharp
 let K x y = x in List.map (K 3) [ 1; 2; 3; 4 ]
 ```
+
 Function and value definitions in expressions are similar to function and value definitions in class
 definitions ([§8.6](type-definitions.md#class-type-definitions)), modules ([§10.2.1](namespaces-and-modules.md#function-and-value-definitions-in-modules)), and computation expressions ([§6.3.10](#6310-computation-expressions)), with the following
 exceptions:
@@ -4987,11 +5139,13 @@ A value definition expression has the following form:
 ```fsgrammar
 let value-defn in expr
 ```
+
 where _value-defn_ has the form:
 
 ```fsgrammar
 mutable? access? pat typar-defns? return-type? = rhs-expr
 ```
+
 Checking proceeds as follows:
 
 1. Check the _value-defn_ ([§14.6](#146-checking-and-elaborating-function-value-and-member-definitions)), which defines a group of identifiers `identj` with inferred types `tyj`
@@ -5008,6 +5162,7 @@ In this case, the following rules apply:
     let ident1 <typars1> = expr1 in
     body-expr
     ```
+
     where ident1 , typars1 and expr1 are defined in [§14.6](#146-checking-and-elaborating-function-value-and-member-definitions).
 
 - Otherwise, the resulting elaborated form of the entire expression is
@@ -5019,6 +5174,7 @@ In this case, the following rules apply:
     let identn <typarsn> = exprn in
     body-expr
     ```
+
     where `tmp` is a fresh identifier and `identi`, `typarsi`, and `expri` all result from the compilation of
     the pattern `pat` ([§7](patterns.md#patterns)) against the input `tmp`.
 
@@ -5030,6 +5186,7 @@ while v < 10 do
     v <- v + 1
     printfn "v = %d" v
 ```
+
 Such variables are implicitly dereferenced each time they are used.
 
 ### 6.6.2 Function Definition Expressions
@@ -5039,11 +5196,13 @@ A function definition expression has the form:
 ```fsgrammar
 let function-defn in expr
 ```
+
 where `function-defn` has the form:
 
 ```fsgrammar
 inline? access? ident-or-op typar-defns? pat1 ... patn return-type? = rhs-expr
 ```
+
 Checking proceeds as follows:
 
 1. Check the `function-defn` ([§14.6](#146-checking-and-elaborating-function-value-and-member-definitions)), which defines `ident1`, `ty1`, `typars1` and `expr1`
@@ -5056,8 +5215,8 @@ The resulting elaborated form of the entire expression is
 let ident1 < typars1 > = expr1 in
 expr
 ```
-where `ident1` , `typars1` and `expr1` are as defined in [§14.6](#146-checking-and-elaborating-function-value-and-member-definitions).
 
+where `ident1` , `typars1` and `expr1` are as defined in [§14.6](#146-checking-and-elaborating-function-value-and-member-definitions).
 
 ### 6.6.3 Recursive Definition Expressions
 
@@ -5066,6 +5225,7 @@ An expression of the following form is a _recursive definition expression_:
 ```fsgrammar
 let rec function-or-value-defns in expr
 ```
+
 The defined functions and values are available for use within their own definitions—that is can be
 used within any of the expressions on the right-hand side of `function-or-value-defns`. Multiple
 functions or values may be defined by using `let rec ... and ...`. For example:
@@ -5084,6 +5244,7 @@ let test() =
 
 test()
 ```
+
 In the example, the expression defines a set of recursive functions. If one or more recursive values
 are defined, the recursive expressions are analyzed for safety ([§14.6.6](#1466-recursive-safety-analysis)). This may result in warnings
 (including some reported as compile-time errors) and runtime checks.
@@ -5095,6 +5256,7 @@ A _deterministic disposal expression_ has the form:
 ```fsgrammar
 use ident = expr1 in expr2
 ```
+
 For example:
 
 ```fsharp
@@ -5103,11 +5265,13 @@ let line1 = inStream.ReadLine()
 let line2 = inStream.ReadLine()
 (line1,line2)
 ```
+
 The expression is first checked as an expression of form `let ident = expr1 in expr2` ([§6.6.1](#661-value-definition-expressions)), which results in an elaborated expression of the following form:
 
 ```fsgrammar
 let ident1 : ty1 = expr1 in expr2.
 ```
+
 Only one value may be defined by a deterministic disposal expression, and the definition is not
 generalized ([§14.6.7](#1467-generalization)). The type `ty1` , is then asserted to be a subtype of `System.IDisposable`. If the
 dynamic value of the expression after coercion to type `obj` is non-null, the `Dispose` method is called
@@ -5130,12 +5294,14 @@ A _type-annotated expression_ has the following form, where `ty` indicates the s
 ```fsgrammar
 expr : ty
 ```
+
 For example:
 
 ```fsharp
 (1 : int)
 let f x = (x : string) + x
 ```
+
 When checked, the initial type of the overall expression is asserted to be equal to `ty`. Expression `expr`
 is then checked with initial type `ty`. The expression elaborates to the elaborated form of `expr`. This
 ensures that information from the annotation is used during the analysis of `expr` itself.
@@ -5147,6 +5313,7 @@ A _static coercion expression_ — also called a flexible type constraint — ha
 ```fsgrammar
 expr :> ty
 ```
+
 The expression `upcast expr` is equivalent to `expr :> _`, so the target type is the same as the initial
 type of the overall expression. For example:
 
@@ -5156,6 +5323,7 @@ type of the overall expression. For example:
 ([1;2;3] :> seq<int>).GetEnumerator()
 (upcast 1 : obj)
 ```
+
 The initial type of the overall expression is `ty`. Expression `expr` is checked using a fresh initial type
 `tye`, with constraint `tye :> ty`. Static coercions are a primitive elaborated form.
 
@@ -5166,12 +5334,14 @@ A dynamic type-test expression has the following form:
 ```fsgrammar
 expr :? ty
 ```
+
 For example:
 
 ```fsharp
 ((1 :> obj) :? int)
 ((1 :> obj) :? string)
 ```
+
 The initial type of the overall expression is `bool`. Expression `expr` is checked using a fresh initial type
 `tye`. After checking:
 
@@ -5190,6 +5360,7 @@ A dynamic coercion expression has the following form:
 ```fsgrammar
 expr :?> ty
 ```
+
 The expression downcast `e1` is equivalent to `expr :?> _` , so the target type is the same as the initial
 type of the overall expression. For example:
 
@@ -5199,6 +5370,7 @@ let obj1 = (1 :> obj)
 (obj1 :?> string)
 (downcast obj1 : int)
 ```
+
 The initial type of the overall expression is `ty`. Expression `expr` is checked using a fresh initial type
 `tye`. After these checks:
 
@@ -5213,11 +5385,13 @@ Dynamic coercions are a primitive elaborated form.
 ## 6.8 Quoted Expressions
 
 An expression in one of these forms is a quoted expression:
+
 ```fsgrammar
 <@ expr @>
 
 <@@ expr @@>
 ```
+
 The former is a _strongly typed quoted expression_ , and the latter is a _weakly typed quoted expression_.
 In both cases, the expression forms capture the enclosed expression in the form of a typed abstract
 syntax tree.
@@ -5255,6 +5429,7 @@ For details about the nodes that may be encountered, see the documentation for t
 
 - References to generic type parameters or uses of constructs whose type involves a generic
     parameter, such as the following:
+
     ```fsharp
     let f (x:'T) = <@ (x, x) : 'T * 'T @>
     ```
@@ -5276,6 +5451,7 @@ A strongly typed quoted expression has the following form:
 ```fsgrammar
 <@ expr @>
 ```
+
 For example:
 
 ```fsharp
@@ -5283,6 +5459,7 @@ For example:
 
 <@ (fun x -> x + 1) @>
 ```
+
 In the first example, the type of the expression is `FSharp.Quotations.Expr<int>`. In the second
 example, the type of the expression is `FSharp.Quotations.Expr<int -> int>`.
 
@@ -5297,15 +5474,16 @@ A _weakly typed quoted expression_ has the following form:
 ```fsgrammar
 <@@ expr @@>
 ```
+
 Weakly typed quoted expressions are similar to strongly quoted expressions but omit any type
 annotation. For example:
-
 
 ```fsharp
 <@@ 1 + 1 @@>
 
 <@@ (fun x -> x + 1) @@>
 ```
+
 In both these examples, the type of the expression is `FSharp.Quotations.Expr`.
 
 When checked, the initial type of a weakly typed quoted expression `<@@ expr @@>` is asserted to be
@@ -5320,14 +5498,17 @@ forms:
 %expr
 %%expr
 ```
+
 These are respectively strongly typed and weakly typed splicing operators.
 
 #### 6.8.3.1 Strongly Typed Expression Splices
+
 An expression of the following form is a _strongly typed expression splice_ :
 
 ```fsgrammar
 %expr
 ```
+
 For example, given
 
 ```fsharp
@@ -5335,6 +5516,7 @@ open FSharp.Quotations
 let f1 (v:Expr<int>) = <@ %v + 1 @>
 let expr = f1 <@ 3 @>
 ```
+
 the identifier `expr` evaluates to the same expression tree as `<@ 3 + 1 @>`. The expression tree
 for `<@ 3 @>` replaces the splice in the corresponding expression tree node.
 
@@ -5352,6 +5534,7 @@ An expression of the following form is a _weakly typed expression splice_ :
 ```fsgrammar
 %%expr
 ```
+
 For example, given
 
 ```fsharp
@@ -5359,9 +5542,9 @@ open FSharp.Quotations
 let f1 (v:Expr) = <@ %%v + 1 @>
 let tree = f1 <@@ 3 @@>
 ```
+
 the identifier `tree` evaluates to the same expression tree as `<@ 3 + 1 @>`. The expression tree
 replaces the splice in the corresponding expression tree node.
-
 
 A weakly typed expression splice may appear only in a quotation. Assuming that the splice
 expression `%%expr` is checked with initial type `ty`, then the expression `expr` is checked with initial type
@@ -5393,12 +5576,12 @@ The execution of elaborated F# expressions results in values. Values include:
 Evaluation assumes the following evaluation context:
 
 - A global heap of object values. Each object value contains:
-    - A runtime type and dispatch map
-    - A set of fields with associated values
-    - For array objects, an array of values in index order
-    - For function objects, an expression which is the body of the function
-    - An optional _union case label_ , which is an identifier
-    - A closure environment that assigns values to all variables that are referenced in the method
+  - A runtime type and dispatch map
+  - A set of fields with associated values
+  - For array objects, an array of values in index order
+  - For function objects, an expression which is the body of the function
+  - An optional _union case label_ , which is an identifier
+  - A closure environment that assigns values to all variables that are referenced in the method
        bodies that are associated with the object
 - A global environment that maps runtime-type/name pairs to values.Each name identifies a static
     field in a type definition or a value in a module.
@@ -5407,7 +5590,6 @@ Evaluation assumes the following evaluation context:
 
 Evaluation may also raise an exception. In this case, the stack of active exception handlers is
 processed until the exception is handled, in which case additional expressions may be executed (for
-
 
 try/finally handlers), or an alternative expression may be evaluated (for try/with handlers), as
 described below.
@@ -5475,6 +5657,7 @@ Async.Parallel [ async { return obj.WriteValues() };
                  async { return obj.ReadValues() };
                  async { return obj.ReadValues() } ]
 ```
+
 ### 6.9.3 Zero Values
 
 Some types have a _zero value_. The zero value is the “default” value for the type in the CLI execution
@@ -5513,7 +5696,6 @@ assumption changes the errors and warnings reported.
 
 - If `mutation` is `DefinitelyMutates`, then an error is given if a defensive copy must be created.
 - If `mutation` is `PossiblyMutates`, then a warning is given if a defensive copy arises.
-
 
 An F# compiler can optionally upgrade `PossiblyMutates` to `DefinitelyMutates` for calls to property
 setters and methods named `MoveNext` and `GetNextArg`, which are the most common cases of struct-
@@ -5560,7 +5742,6 @@ At runtime an elaborated application of a method is evaluated as follows:
     member is chosen according to the dispatch maps of the value of `e0` ([§14.8](#148-dispatch-slot-checking)).
 - The formal parameters of the method are mapped to corresponding argument values. The body
     of the method member is evaluated in the resulting environment.
-
 
 ### 6.9.8 Evaluating Union Cases
 
@@ -5611,7 +5792,6 @@ At runtime, an elaborated function expression `(fun v1 ... vn -> expr)` is evalu
 - The result of calling the `obj.GetType()` method on the resulting object is under-specified (see
     [§6.9.24](#6924-values-with-underspecified-object-identity-and-type-identity)).
 
-
 ### 6.9.13 Evaluating Object Expressions
 
 At runtime, elaborated object expressions
@@ -5621,6 +5801,7 @@ At runtime, elaborated object expressions
       interface ty1 object-members1
       interface tyn object-membersn }
 ```
+
 is evaluated as follows:
 
 - The expression evaluates to an object whose runtime type is compatible with all of the `tyi` and
@@ -5701,7 +5882,7 @@ At runtime, elaborated dynamic coercion expressions `expr :?> ty` are evaluated 
 Expressions of the form `expr :?> ty` evaluate in the same way as the F# library function
 `unbox<ty>(expr)`.
 
->   Note: Some F# types — most notably the `option<_>` type — use `null` as a representation
+> Note: Some F# types — most notably the `option<_>` type — use `null` as a representation
     for efficiency reasons ([§5.4.8](#548-nullness)). For these  types, boxing and unboxing can lose type
     distinctions. For example, contrast the following two examples:
 
@@ -5712,11 +5893,10 @@ Expressions of the form `expr :?> ty` evaluate in the same way as the F# library
     val it : int option = None
     ```
 
->    In the first case, the conversion from an empty list of strings to an empty list of integers
+> In the first case, the conversion from an empty list of strings to an empty list of integers
     (after first boxing) fails. In the second case, the conversion from a string option to an
     integer option (after first boxing) succeeds.
-    
-    
+
 ### 6.9.20 Evaluating Sequential Execution Expressions
 
 At runtime, elaborated sequential expressions `expr1 ; expr2` are evaluated as follows:
@@ -5731,8 +5911,8 @@ At runtime, elaborated try-with expressions try `expr1 with rules` are evaluated
 - The expression `expr1` is evaluated to a value `v1`.
 - If no exception occurs, the result is the value `v1`.
 - If an exception occurs, the pattern rules are executed against the resulting exception value.
-    - If no rule matches, the exception is reraised.
-    - If a rule `pat -> expr2` matches, the mapping `pat = v1` is added to the local environment,
+  - If no rule matches, the exception is reraised.
+  - If a rule `pat -> expr2` matches, the mapping `pat = v1` is added to the local environment,
        and `expr2` is evaluated.
 
 ### 6.9.22 Evaluating Try-finally Expressions
@@ -5740,10 +5920,10 @@ At runtime, elaborated try-with expressions try `expr1 with rules` are evaluated
 At runtime, elaborated try-finally expressions try `expr1 finally expr2` are evaluated as follows:
 
 - The expression `expr1` is evaluated.
-    - If the result of this evaluation is a value `v` , then `expr2` is evaluated.
+  - If the result of this evaluation is a value `v` , then `expr2` is evaluated.
        1) If this evaluation results in an exception, then the overall result is that exception.
        2) If this evaluation does not result in an exception, then the overall result is `v`.
-    - If the result of this evaluation is an exception, then `expr2` is evaluated.
+  - If the result of this evaluation is an exception, then `expr2` is evaluated.
        3) If this evaluation results in an exception, then the overall result is that exception.
        4) If this evaluation does not result in an exception, then the original exception is re-
           raised.
@@ -5768,6 +5948,7 @@ taking the address of array elements may fail at runtime with a
 `System.ArrayTypeMismatchException` if the runtime type of the target array does not
 match the runtime type of the element being assigned. For example, the following code
 fails at runtime:
+
 ```fsharp
 let f (x: byref<obj>) = ()
 
@@ -5778,10 +5959,11 @@ let bb = ((b :> obj) :?> obj[])
 // The next line raises a System.ArrayTypeMismatchException exception.
 F (&bb.[1])
 ```
+
 ### 6.9.24 Values with Underspecified Object Identity and Type Identity
 
 The CLI and F# support operations that detect object identity—that is, whether two object
-references refer to the same “physical” object. For example, `System.Object.ReferenceEquals(obj1, obj2)` 
+references refer to the same “physical” object. For example, `System.Object.ReferenceEquals(obj1, obj2)`
 returns true if the two object references refer to the same object. Similarly,
 `System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode()` returns a hash code that is partly
 based on physical object identity, and the `AddHandler` and `RemoveHandler` operations (which register
@@ -5809,6 +5991,7 @@ operations are underspecified in the same way:
 For union types the results of the following operations are underspecified in the same way:
 
 - `Object.GetType()`
+
 # 7. Patterns
 
 Patterns are used to perform simultaneous case analysis and decomposition on values together with
@@ -5876,6 +6059,7 @@ pats := pat , ... , pat
 field-pats := field-pat ; ... ; field-pat
 rules := '|'~opt rule '|' ... '|' rule
 ```
+
 Patterns are elaborated to expressions through a process called _pattern match compilation_. This
 reduces pattern matching to _decision trees_ which operate on an input value, called the _pattern input_.
 The decision tree is composed of the following constructs:
@@ -5900,13 +6084,13 @@ let rotate3 x =
     | 2 -> "one"
     | _ -> failwith "rotate3"
 ```
+
 In this example, the constant patterns are 0, 1, and 2. Any constant listed in [§6.3.1](#631-simple-constant-expressions) may be used as a
 constant pattern except for integer literals that have the suffixes `Q`, `R`, `Z`, `I`, `N`, `G`.
 
 Simple constant patterns have the corresponding simple type. Such patterns elaborate to a call to
 the F# structural equality function `FSharp.Core.Operators.(=)` with the pattern input and the
 constant as arguments. The match succeeds if this call returns `true`; otherwise, the match fails.
-
 
 > **Note**: The use of `FSharp.Core.Operators.(=)` means that CLI floating-point equality is
 used to match floating-point values, and CLI ordinal string equality is used to match
@@ -5967,6 +6151,7 @@ let result =
     | Kind1 (a, b) -> a + b
     | Kind2 (s1, s2) -> s1.Length + s2.Length
 ```
+
 In this case, result is given the value 5.
 
 When a union case has named fields, these names may be referenced in a union case pattem. When
@@ -5983,6 +6168,7 @@ let getArea (s: Shape) =
     | Rectangle (width = w; height = h) -> w*h
     | Square (width = w) -> w*w
 ```
+
 ### 7.2.2 Literal Patterns
 
 If `long-ident` from [§7.2](#72-named-patterns) resolves to a literal value, the pattern is a literal pattern. The pattern is
@@ -6004,6 +6190,7 @@ let result =
     | Case2 -> "Case 2 "
     | _ -> "Some other case"
 ```
+
 In this case, `result` is given the value `Case2`.
 
 ### 7.2.3 Active Patterns
@@ -6032,7 +6219,6 @@ limitation n ≤ 7 applies.
 
   Single case with parameters. The function accepts `n+1` arguments, where the last argument (`inp`)
 is the value to match, and can return any type.
-
 
 - `(| CaseName |_|) arg1 ... argn inp`
 
@@ -6066,6 +6252,7 @@ match 3 with
 | Negative n -> printfn "negative, n = %d" n
 | _ -> printfn "zero"
 ```
+
 The following example shows how to define and use a multi-case active pattern function:
 
 ```fsharp
@@ -6076,6 +6263,7 @@ match 3 with
 | B -> "zero"
 | C - > "positive"
 ```
+
 The following example shows how to define and use a parameterized active pattern function:
 
 ```fsharp
@@ -6085,6 +6273,7 @@ match 16 with
 | MultipleOf 4 n -> printfn "x = 4*%d" n
 | _ -> printfn "not a multiple of 4"
 ```
+
 An active pattern function is executed only if a left-to-right, top-to-bottom reading of the entire
 pattern indicates that execution is required. For example, consider the following active patterns:
 
@@ -6107,6 +6296,7 @@ let f x =
     | C -> 3
     | _ -> 4
 ```
+
 These patterns evaluate as follows:
 
 ```fsharp
@@ -6116,6 +6306,7 @@ f 2 // failwith "x is two"
 f 3 // failwith "x is three"
 f 4 // failwith "got to C"
 ```
+
 An active pattern function may be executed multiple times against the same pattern input during
 resolution of a single overall pattern match. The precise number of times that the active pattern
 function is executed against a particular pattern input is implementation-dependent.
@@ -6127,6 +6318,7 @@ An “as” pattern is of the following form:
 ```fsgrammar
 pat as ident
 ```
+
 The “as” pattern defines `ident` to be equal to the pattern input and matches the pattern input
 against `pat`. For example:
 
@@ -6135,6 +6327,7 @@ let t1 = (1, 2)
 let (x, y) as t2 = t1
 printfn "%d-%d-%A" x y t2 // 1- 2 - (1, 2)
 ```
+
 This example binds the identifiers `x`, `y`, and `t1` to the values `1` , `2` , and `(1,2)`, respectively.
 
 ## 7.4 Wildcard Patterns
@@ -6148,8 +6341,8 @@ let categorize x =
     | 0 -> 1
     | _ -> 0
 ```
-In the example, if `x` is `0`, the match returns `1`. If `x` has any other value, the match returns `0`.
 
+In the example, if `x` is `0`, the match returns `1`. If `x` has any other value, the match returns `0`.
 
 ## 7.5 Disjunctive Patterns
 
@@ -6158,6 +6351,7 @@ A disjunctive pattern matches an input value against one or the other of two pat
 ```fsgrammar
 pat | pat
 ```
+
 At runtime, the pattern input is matched against the first pattern. If that fails, the pattern input is
 matched against the second pattern. Both patterns must bind the same set of variables with the
 same types. For example:
@@ -6172,6 +6366,7 @@ let isYearLimit date =
 
 let result = isYearLimit (Date (2010,12,31))
 ```
+
 In this example, `result` is given the value `true`, because the pattern input matches the second
 pattern.
 
@@ -6182,6 +6377,7 @@ A conjunctive pattern matches the pattern input against two patterns.
 ```fsgrammar
 pat1 & pat2
 ```
+
 For example:
 
 ```fsharp
@@ -6192,6 +6388,7 @@ match 56 with
     | MultipleOf 4 m & MultipleOf 7 n -> m + n
     | _ -> false
 ```
+
 In this example, `result` is given the value `22` (= 16 + 8), because the pattern input match matches
 both patterns.
 
@@ -6219,6 +6416,7 @@ let result2 =
     | [a;b;c] -> a + b + c
     | _ -> 0
 ```
+
 In this example, both `result1` and `result2` are given the value `6`.
 
 ## 7.8 Type-annotated Patterns
@@ -6228,6 +6426,7 @@ A _type-annotated pattern_ specifies the type of the value to match to a pattern
 ```fsgrammar
 pat : type
 ```
+
 For example:
 
 ```fsharp
@@ -6236,6 +6435,7 @@ let rec sum xs =
     | [] -> 0
     | (h : int) :: t -> h + sum t
 ```
+
 In this example, the initial type of `h` is asserted to be equal to `int` before the pattern `h` is checked.
 Through type inference, this in turn implies that `xs` and `t` have static type `int list`, and `sum` has
 static type
@@ -6249,6 +6449,7 @@ _Dynamic type-test patterns_ have the following two forms:
 :? type
 :? type as ident
 ```
+
 A dynamic type-test pattern matches any value whose runtime type is `type` or a subtype of `type`. For
 example:
 
@@ -6259,6 +6460,7 @@ let message (x : System.Exception) =
     | :? System.ArgumentException -> "invalid argument"
     | _ -> "unknown error"
 ```
+
 If the type-test pattern is of the form `:? type as ident`, then the value is coerced to the given type
 and `ident` is bound to the result. For example:
 
@@ -6291,6 +6493,7 @@ match box "3" with
 | :? string -> 1 // a warning is reported that this rule is "never matched"
 | _ -> 2
 ```
+
 At runtime, a dynamic type-test pattern succeeds if and only if the corresponding dynamic type-test
 expression `e :? ty` would return true where `e` is the pattern input. The value of the pattern is bound
 to the results of a dynamic coercion expression `e :?> ty`.
@@ -6302,6 +6505,7 @@ The following is a _record pattern_ :
 ```fsgrammar
 { long-ident1 = pat1 ; ... ; long-identn = patn }
 ```
+
 For example:
 
 ```fsharp
@@ -6313,6 +6517,7 @@ let totalSize data =
     | { Header = "UDP"; Size = size } -> size
     | _ -> failwith "unknown header"
 ```
+
 The `long-identi` are resolved in the same way as field labels for record expressions and must
 together identify a single, unique F# record type. Not all record fields for the type need to be
 specified in the pattern.
@@ -6334,6 +6539,7 @@ let checkPackets data =
     | [| "HeaderB"; data2; data1 |] -> (data1, data2)
     | _ -> failwith "unknown packet"
 ```
+
 ## 7.12 Null Patterns
 
 The _null pattern_ null matches values that are represented by the CLI value null. For example:
@@ -6344,6 +6550,7 @@ let path =
     | null -> failwith "no path set!"
     | res -> res
 ```
+
 Most F# types do not use `null` as a representation; consequently, the null pattern is generally used
 to check values passed in by CLI method calls and properties. For a list of F# types that use `null` as a
 representation, see [§5.4.8](#548-nullness).
@@ -6355,6 +6562,7 @@ _Guarded pattern rules_ have the following form:
 ```fsgrammar
 pat when expr
 ```
+
 For example:
 
 ```fsharp
@@ -6364,6 +6572,7 @@ let categorize x =
     | _ when x < 0 -> 1
     | _ -> 0
 ```
+
 The guards on a rule are executed only after the match value matches the corresponding pattern.
 For example, the following evaluates to `2` with no output.
 
@@ -6372,6 +6581,7 @@ match (1, 2) with
 | (3, x) when (printfn "not printed"; true) -> 0
 | (_, y) -> y
 ```
+
 # 8. Type Definitions
 
 Type definitions define new named types. The grammar of type definitions is shown below.
@@ -6544,6 +6754,7 @@ arg-name-spec :=
 interface-spec :=
     interface type
 ```
+
 For example:
 
 ```fsharp
@@ -6551,6 +6762,7 @@ type int = System.Int32
 type Color = Red | Green | Blue
 type Map<'T> = { entries: 'T[] }
 ```
+
 Type definitions can be declared in:
 
 - Module definitions
@@ -6578,6 +6790,7 @@ A _type definition group_ defines several type definitions or extensions simulta
 ```fsgrammar
 type ... and ...
 ```
+
 For example:
 
 ```fsharp
@@ -6590,6 +6803,7 @@ and ColumnVector(entries: seq<int>) =
     member x.Length = entries.Length
     member x.Permute = RowVector(entries)
 ```
+
 A type definition group can include any type definitions except for exception type definitions and
 module definitions.
 
@@ -6606,6 +6820,7 @@ apply to the first type definition, or immediately before the name of the type d
 type [<Obsolete>] X2() = class end
 and [<Obsolete>] Y2() = class end
 ```
+
 ## 8.1 Type Definition Group Checking and Elaboration
 
 F# checks type definition groups by determining the basic shape of the definitions and then filling in
@@ -6651,7 +6866,6 @@ First, check the individual type definitions. For each type definition:
     ([§8.2](#82-type-kind-inference)).
 4. Mark the type definition as a measure type definition if a `Measure` attribute is present.
 
-
 5. If the type definition is generic, infer whether the type definition supports equality and/or
 comparison.
 
@@ -6690,7 +6904,6 @@ comparison.
 15. Collectively add the elaborated member items that represent the members for all new type
     definitions to the environment as a recursive group ([§8.13](#813-members)), excluding interface implementation
     members.
-
 
 16. If the type definition has a primary constructor, create a member item to represent the primary
     constructor.
@@ -6742,6 +6955,7 @@ type AbstractName(n:string) =
     abstract Name : string
     default x.Name = "<no-name>"
 ```
+
 If a type is not an anonymous type, any use of the `Class` attribute, `Interface` attribute, or `Struct`
 attribute must match the `class`/`end`, `interface`/`end`, and `struct`/`end` tokens, if such tokens are
 present. These attributes cannot be used with other kinds of type definitions such as type
@@ -6754,6 +6968,7 @@ Type abbreviations define new names for other types. For example:
 ```fsharp
 type PairOfInt = int * int
 ```
+
 Type abbreviations are expanded and erased during compilation and do not appear in the
 elaborated form of F# declarations, nor can they be referred to or accessed at runtime.
 
@@ -6766,6 +6981,7 @@ type X = option<X>
 type Identity<'T> = 'T
 and Y = Identity<Y>
 ```
+
 The constraints on a type abbreviation must satisfy any constraints that the abbreviated type
 requires.
 
@@ -6781,16 +6997,19 @@ type IB =
 type C<'T when 'T :> IB>() =
     static member StaticMember(x : 'a) = x.AbstractMember(1)
 ```
+
 the following is permitted:
 
 ```fsharp
 type D<'T when 'T :> IB> = C<'T>
 ```
+
 whereas the following is not permitted:
 
 ```fsharp
 type E<'T> = C<'T> // invalid: missing constraint
 ```
+
 Type abbreviations can define additional constraints, so the following is permitted:
 
 ```fsharp
@@ -6817,6 +7036,7 @@ abbreviation. For example, the following type is disallowed:
 ```fsharp
 type BadType = #Exception -> int // disallowed
 ```
+
 Type abbreviations may be declared `internal` or `private`.
 
 > Note: Private type abbreviations are still, for all purposes, considered equivalent to the
@@ -6833,6 +7053,7 @@ type R1 =
     y : int }
     member this.Sum = this.x + this.y
 ```
+
 In this example, the integers x and y can be accessed as properties on values of type R1.
 
 Record fields may be marked mutable. For example:
@@ -6845,13 +7066,13 @@ type R2 =
         this.x <- this.x + dx
         this.y <- this.y + dy
 ```
+
 The `mutable` attribute on `x` and `y` makes the assignments valid.
 
 Record types are implicitly sealed and may not be given the `Sealed` attribute. Record types may not
 be given the `AbstractClass` attribute.
 
 Record types are implicitly marked serializable unless the `AutoSerializable(false)` attribute is used.
-
 
 ### 8.4.1 Members in Record Types
 
@@ -6871,6 +7092,7 @@ Record field labels in the _FieldLabels_ table play a special role in _Name Reso
 type R = { dx : int; dy: int }
 let f x = x.dx // x is inferred to have type R
 ```
+
 In this example, the lookup `.dx` is resolved to be a field lookup.
 
 ### 8.4.3 Structural Hashing, Equality, and Comparison for Record Types
@@ -6885,6 +7107,7 @@ interface System.IComparable
 override GetHashCode : unit -> int
 override Equals : obj -> bool
 ```
+
 The implicit implementations of these interfaces and overrides are described in [§8.15](#815-equality-hashing-and-comparison).
 
 ### 8.4.4 With/End in Record Type Definitions
@@ -6899,6 +7122,7 @@ type R1 =
         member this.Sum = this.x + this.y
     end
 ```
+
 The `with`/`end` tokens can be omitted if the type-defn-elements vertically align with the `{` in the
 `record-fields`. The semicolon (`;`) tokens can be omitted if the next `record-field` vertically aligns
 with the previous `record-field`.
@@ -6911,7 +7135,6 @@ Adding the default constructor and mutable properties makes objects of the recor
 .NET tools and frameworks such as database queries, serialization frameworks, and data models in
 XAML programming.
 
-
 For example, an F# immutable record cannot be serialized because it does not have a constructor.
 However, if you attach the CLIMutable attribute as in the following example, the XmlSerializer is
 enable to serialize or deserialize this record type:
@@ -6920,6 +7143,7 @@ enable to serialize or deserialize this record type:
 [<CLIMutable>]
 type R1 = { x : string; y : int }
 ```
+
 ## 8.5 Union Type Definitions
 
 A _union type definition_ is a type definition that includes one or more _union cases_. For example:
@@ -6930,6 +7154,7 @@ type Message =
     | Request of int * string
     member x.Name = match x with Result(nm) -> nm | Request(_,nm) -> nm
 ```
+
 Union case names must begin with an uppercase letter, which is defined to mean any character for
 which the CLI library function `System.Char.IsUpper` returns `true` and `System.Char.IsLower` returns
 `false`.
@@ -6945,6 +7170,7 @@ Parentheses are significant in union definitions. Thus, the following two defini
 type CType = C of int * int
 type CType = C of (int * int)
 ```
+
 The lack of parentheses in the first example indicates that the union case takes two arguments. The
 parentheses in the second example indicate that the union case takes one argument that is a first-
 class tuple value.
@@ -6957,6 +7183,7 @@ type Shape =
     | Circle of radius: float
     | Prism of width: float * float * height: float
 ```
+
 The names are referenced when pattern matching on union values of this type. When using pattern
 matching with multiple fields, semicolons are used to delimit the named fields, e.g. `Prism(width=w; height=h).`
 
@@ -6973,6 +7200,7 @@ To disambiguate this case and declare an explicit union type, use the following:
 type OneChoice =
     | A
 ```
+
 Union types are implicitly marked serializable unless the `AutoSerializable(false)` attribute is used.
 
 ### 8.5.1 Members in Union Types
@@ -6993,6 +7221,7 @@ interface System.IComparable
 override GetHashCode : unit -> int
 override Equals : obj -> bool
 ```
+
 The implicit implementations of these interfaces and overrides are described in [§8.15](#815-equality-hashing-and-comparison).
 
 ### 8.5.3 With/End in Union Type Definitions
@@ -7007,6 +7236,7 @@ type R1 =
         member this.Sum = this.x + this.y
     end
 ```
+
 The `with`/`end` tokens can be omitted if the type-defn-elements vertically align with the `{` in the
 record-fields. The semicolon (`;`) tokens can be omitted if the next _record-field_ vertically aligns
 with the previous _record-field_.
@@ -7068,12 +7298,12 @@ type type-name pat~opt as-defn~opt =
         type-defn-elements
     end
 ```
+
 The `class`/`end` tokens can be omitted, in which case _Type Kind Inference_ ([§8.2](#82-type-kind-inference)) is used to determine
 the kind of the type.
 
 In F#, class types are implicitly marked serializable unless the `AutoSerializable(false)` attribute is
 present.
-
 
 ### 8.6.1 Primary Constructors in Classes
 
@@ -7091,6 +7321,7 @@ type Vector2D(dx : float, dy : float) =
     member v.DX = dx
     member v.DY = dy
 ```
+
 Class definitions that have a primary constructor may contain function and value definitions,
 including those that use `let rec`.
 
@@ -7099,6 +7330,7 @@ The pattern for a primary constructor must have zero or more patterns of the fol
 ```fsgrammar
 ( simple-pat , ..., simple-pat )
 ```
+
 Each `simple-pat` has this form:
 
 ```fsgrammar
@@ -7106,6 +7338,7 @@ simple-pat :=
     | ident
     | simple-pat : type
 ```
+
 Specifically, nested patterns may not be used in the primary constructor arguments. For example,
 the following is not permitted because the primary constructor arguments contain a nested tuple
 pattern:
@@ -7114,6 +7347,7 @@ pattern:
 type TwoVectors((px, py), (qx, qy)) =
     member v.Length = sqrt((qx-px)*(qx-px) + (qy-py)*(qy-py))
 ```
+
 Instead, one or more value definitions should be used to accomplish the same effect:
 
 ```fsharp
@@ -7122,10 +7356,12 @@ type TwoVectors(pv, qv) =
     let (qx, qy) = qv
     member v.Length = sqrt((qx-px)*(qx-px) + (qy-py)*(qy-py))
 ```
+
 When a primary constructor is evaluated, the inheritance and function and value definitions are
 evaluated in order.
 
 #### 8.6.1.1 Object References in Primary Constructors
+
 For types that have a primary constructor, the name of the object parameter can be bound and used
 in the non-static function, value, and member definitions of the type definition as follows:
 
@@ -7152,22 +7388,26 @@ type C() as self =
 
 let r = new C() // raises InvalidOperationException
 ```
+
 The exception is raised because an attempt may be made to access the value of the field `y` before
 initialization is complete.
 
 #### 8.6.1.2 Inheritance Declarations in Primary Constructors
+
 An `inherit` declaration specifies that the type being defined is an extension of an existing type. Such
 declarations have the following form:
 
 ```fsgrammar
 class-inherits-decl := inherit type expr~opt
 ```
+
 For example:
 
 ```fsharp
 type MyDerived(...) =
     inherit MyBase(...)
 ```
+
 If a class definition does not contain an `inherit` declaration, the class inherits `fromSystem.Object` by
 default.
 
@@ -7192,12 +7432,12 @@ let r = new C() // does not raise InvalidOperationException
 ```
 
 #### 8.6.1.3 Instance Function and Value Definitions in Primary Constructors
+
 Classes that have primary constructors may include function definitions, value definitions, and “do”
 statements. The following rules apply to these definitions:
 
 - Each definition may be marked `static` (see [§8.6.1.4](#8614-static-function-and-value-definitions-in-primary-constructors)). If the definition is not marked `static`, it is
     called an instance definition.
-
 
 - The functions and values defined by instance definitions are lexically scoped (and thus implicitly
     private) to the object being defined.
@@ -7205,13 +7445,14 @@ statements. The following rules apply to these definitions:
 - A group of function and value definitions may optionally be marked `rec`.
 - Function and value definitions are generalized.
 - Value definitions that declared in classes are represented in compiled code as follows:
-    - If a value definition is not mutable, and is not used in any function or member, then the
+  - If a value definition is not mutable, and is not used in any function or member, then the
        value is represented as a local value in the object constructor.
-    - If a value definition is mutable, or used in any function or member, then the value is
+  - If a value definition is mutable, or used in any function or member, then the value is
        represented as an instance field in the corresponding CLI type.
 - Function definitions are represented in compiled code as private members of the corresponding
     CLI type.
     For example, consider this type:
+
     ```fsharp
        type C(x:int,y:int) =
            let z = x + y
@@ -7219,6 +7460,7 @@ statements. The following rules apply to these definitions:
            member this.Z = z
            member this.Add(w) = f w
     ```
+
 The input `y` is used only during construction, and no field is stored for it. Likewise the function `f`
 is represented as a member rather than a field that is a function value.
 
@@ -7228,6 +7470,7 @@ anonymous function, as in this example:
 ```fsharp
 let f = (fun w -> x + w)
 ```
+
 Function and value definitions may have attributes as follows:
 
 - Value definitions represented as fields may have attributes that target fields.
@@ -7243,13 +7486,14 @@ type C(x:int) =
     let unused = x
     member __.P = 1
 ```
+
 In this example, no field is generated for `unused`, and no corresponding compiled CLI attribute is
 generated.
 
 #### 8.6.1.4 Static Function and Value Definitions in Primary Constructors
+
 Classes that have primary constructors may have function definitions, value definitions, and “do”
 statements that are marked as static:
-
 
 - The values that are defined by static function and value definitions are lexically scoped (and thus
     implicitly private) to the type being defined.
@@ -7261,9 +7505,9 @@ statements that are marked as static:
     generic instantiation of the generated class. Static initializers are executed on demand in the
     same way as static initializers for implementation files [§12.5](#125-program-execution).
 - The compiled representation for static value definitions is as follows:
-    - If the value is not used in any function or member then the value is represented as a local
+  - If the value is not used in any function or member then the value is represented as a local
        value in the CLI class initializer of the type.
-    - If the value is used in any function or member, then the value is represented as a static field
+  - If the value is used in any function or member, then the value is represented as a static field
        of the CLI class for the type.
 - The compiled representation for a static function definition is a private static member of the
     corresponding CLI type.
@@ -7290,6 +7534,7 @@ printfn "check: %d = 3" (new C<string>()).P
 printfn "check: %d = 6" (C<int>.P2)
 printfn "check: %d = 6" (C<string>.P2)
 ```
+
 In this example, the value `v` is represented as a static field in the CLI type for `C`. One instance of this
 field exists for each generic instantiation of `C`. The output of the program is
 
@@ -7322,6 +7567,7 @@ constructor:
 type PairOfIntegers(x:int,y:int) =
     new (x) = PairOfIntegers(x,x)
 ```
+
 The next example declares a class without a primary constructor:
 
 ```fsharp
@@ -7331,6 +7577,7 @@ type PairOfStrings =
     new (s) = { s1 = s; s2 = s }
     new (s1,s2) = { s1 = s1; s2 = s2 }
 ```
+
 If a primary constructor is present, additional object constructors must call another object
 constructor in the same type, which may be another additional constructor or the primary
 constructor.
@@ -7355,6 +7602,7 @@ type SubClass =
     new (s1,s2) = { inherit BaseClass(s1); s2 = s2 }
     new (s2) = { inherit BaseClass(); s2 = s2 }
 ```
+
 To implement additional object constructors, F# uses a restricted subset of expressions that ensure
 that the code generated for the constructor is valid according to the rules of object construction for
 CLI objects. Note that precisely one `additional-constr-init-expr` occurs for each branch of a
@@ -7371,6 +7619,7 @@ type PairOfIntegers(x:int,y:int) =
         then
             printfn "Initialized with only one integer"
 ```
+
 The name of the object parameter can be bound within additional constructors. For example:
 
 ```fsharp
@@ -7379,6 +7628,7 @@ type X =
     val mutable b : string
     new() as x = { a = (fun () -> x.b); b = "b" }
 ```
+
 A warning is given if x occurs syntactically in or before the `additional-constr-init-expr` of the
 construction expression. If any member is called before the completion of execution of the
 `additional-constr-init-expr` within the `additional-constr-expr` then an `InvalidOperationException`
@@ -7396,6 +7646,7 @@ type PairOfIntegers =
     val y : int
     new(x, y) = {x = x; y = y}
 ```
+
 The following shows an additional field declaration as a static field in an explicit class type:
 
 ```fsharp
@@ -7403,6 +7654,7 @@ type TypeWithADefaultMutableBooleanField =
     [<DefaultValue>]
     static val mutable ready : bool
 ```
+
 At runtime, such a field is initially assigned the zero value for its type ([§6.9.3](#693-zero-values)). For example:
 
 ```fsharp
@@ -7427,6 +7679,7 @@ type X() =
     [<DefaultValue>]
     val mutable x : int
 ```
+
 The `DefaultValue` attribute takes a check parameter, which indicates whether to ensure that the `val`
 specification does not create unexpected `null` values. The default value for `check` is `true`. If this
 parameter is `true`, the type of the field must permit default initialization ([§5.4.8](#548-nullness)). For example, the
@@ -7437,6 +7690,7 @@ type MyClass<'T>() =
     [<DefaultValue>]
     static val mutable uninitialized : 'T
 ```
+
 The reason is that the type `'T` does not admit default initialization. However, in compiler-generated
 and hand-optimized code it is sometimes essential to be able to emit fields that are completely
 uninitialized. In this case, `DefaultValue(false)` can be used. For example:
@@ -7449,6 +7703,7 @@ type MyNullable<'T>() =
     [<DefaultValue(false)>]
     static val mutable uninitialized : 'T
 ```
+
 ## 8.7 Interface Type Definitions
 
 An _interface type definition_ represents a contract that an object may implement. Such a type
@@ -7465,6 +7720,7 @@ type IThinker<'Thought> =
     abstract Think: ('Thought -> unit) -> unit
     abstract StopThinking: (unit -> unit)
 ```
+
 >Note: The `interface`/`end` tokens can be omitted when lightweight syntax is used, in
 which case Type Kind Inference ([§8.2](#82-type-kind-inference)) is used to determine the kind of the type. The
 presence of any non-abstract members or constructors means a type is not an interface
@@ -7486,6 +7742,7 @@ type IC =
     inherit IB
     abstract Three: int -> int
 ```
+
 Each `inherit` declaration must itself be an interface type. Circular references are not allowed among
 `inherit` declarations. F# uses the named types of the inherited interface types to determine
 whether references are circular.
@@ -7505,6 +7762,7 @@ type Complex =
         member x.I = x.imaginary
     end
 ```
+
 > Note: The `struct`/`end` tokens can be omitted when lightweight syntax is used, in which
 case Type Kind Inference ([§8.2](#82-type-kind-inference)) is used to determine the kind of the type.
 
@@ -7516,6 +7774,7 @@ type Complex(r:float, i:float) =
     member x.R = r
     member x.I = i
 ```
+
 Structs may have primary constructors:
 
 ```fsharp
@@ -7524,6 +7783,7 @@ type Complex(r : float, I : float) =
     member x.R = r
     member x.I = i
 ```
+
 Structs that have primary constructors must accept at least one argument.
 
 Structs may have additional constructors. For example:
@@ -7549,6 +7809,7 @@ type MutableComplex =
     member x.Change(r, i) = x.real <- r; x.imaginary <- i
     new (r, i) = { real = r; imaginary = i }
 ```
+
 Struct types may declare members, overrides, and interface implementations. As for all types that
 declare overrides and interface implementations, struct types are subject to _Dispatch Slot Checking_
 ([§14.8](#148-dispatch-slot-checking)).
@@ -7563,6 +7824,7 @@ not valid:
 type BadStruct1 (def : int) =
     do System.Console.WriteLine("Structs cannot use 'do'!")
 ```
+
 Structs may have static “let” or “do” statements. For example, the following is valid:
 
 ```fsharp
@@ -7570,6 +7832,7 @@ Structs may have static “let” or “do” statements. For example, the follo
 type GoodStruct1 (def : int) =
     static do System.Console.WriteLine("Structs can use 'static do'")
 ```
+
 A struct type must be valid according to the CLI rules for structs; in particular, recursively
 constructed structs are not permitted. For example, the following type definition is not permitted,
 because the size of `BadStruct2` would be infinite:
@@ -7581,6 +7844,7 @@ type BadStruct 2 =
     val rest : BadStruct 2
     new (data, rest) = { data = data; rest = rest }
 ```
+
 Likewise, the implied size of the following struct would be infinite:
 
 ```fsharp
@@ -7589,6 +7853,7 @@ type BadStruct 3 (data : float, rest : BadStruct 3 ) =
     member s.Data = data
     member s.Rest = rest
 ```
+
 If the types of all the fields in a struct type permit default initialization, the struct type has an _implicit
 default constructor_, which initializes all the fields to the default value. For example, the `Complex` type
 defined earlier in this section permits default initialization.
@@ -7603,6 +7868,7 @@ type Complex(r : float, I : float) =
 
 let zero = Complex()
 ```
+
 > Note : The existence of the implicit default constructor for structs is not recorded in CLI
 metadata and is an artifact of the CLI specification and implementation itself. A CLI
 implementation permits default constructors for all struct types, although F# does not
@@ -7633,6 +7899,7 @@ let show(colorScheme) =
     | (Color.Red, Color.Green, Color.Blue) -> printfn "RGB in use"
     | _ -> printfn "Unknown color scheme in use"
 ```
+
 The example defines the enum type `Color`, which has the values `Red`, `Green`, and `Blue`, mapped to
 the constants `0`, `1`, and `2` respectively. The values are accessed by their qualified names: `Color.Red`,
 `Color.Green`, and `Color.Blue`.
@@ -7651,7 +7918,6 @@ typing environment:
 Enum types coerce to `System.Enum` and satisfy the `enum<underlying-type>` constraint for their
 underlying type.
 
-
 Each enum type declaration is implicitly annotated with the `RequiresQualifiedAccess` attribute and
 does not add the tags of the enumeration to the name environment.
 
@@ -7663,6 +7929,7 @@ type Color =
 
 let red = Red // not accepted, must use Color.Red
 ```
+
 Unlike unions, enumeration types are fundamentally “incomplete,” because CLI enumerations can
 be converted to and from their underlying primitive type representation. For example, a `Color` value
 that is not in the above enumeration can be generated by using the `enum` function from the F#
@@ -7671,6 +7938,7 @@ library:
 ```fsharp
 let unknownColor : Color = enum<Color>(7)
 ```
+
 This statement adds the value named `unknownColor`, equal to the constant `7`, to the `Color`
 enumeration.
 
@@ -7683,6 +7951,7 @@ type definition is declared by using the `delegate` keyword with a member signat
 ```fsharp
 type Handler<'T> = delegate of obj * 'T -> unit
 ```
+
 Delegates are often used when using Platform Invoke (P/Invoke) to interface with CLI libraries, as in
 the following example:
 
@@ -7692,6 +7961,7 @@ type ControlEventHandler = delegate of int -> bool
 [<DllImport("kernel32.dll")>]
 extern void SetConsoleCtrlHandler(ControlEventHandler callback, bool add)
 ```
+
 ## 8.11 Exception Definitions
 
 An _exception definition_ defines a new way of constructing values of type `exn` (a type abbreviation for
@@ -7700,6 +7970,7 @@ An _exception definition_ defines a new way of constructing values of type `exn`
 ```fsgrammar
 exception ident of type1 * ... * typen
 ```
+
 An exception definition has the following effect:
 
 - The identifier `ident` can be used to generate values of type `exn`.
@@ -7717,6 +7988,7 @@ try
 with
     | Error(sev, msg) -> printfn "severity = %d, message = %s" sev msg
 ```
+
 The type that corresponds to the exception definition can be used as a type in F# code. For example:
 
 ```fsharp
@@ -7725,6 +7997,7 @@ let checkException() =
     if (exn :? Error) then printfn "It is of type Error"
     if (exn.GetType() = typeof<Error>) then printfn "Yes, it really is of type Error"
 ```
+
 Exception abbreviations may abbreviate existing exception constructors. For example:
 
 ```fsharp
@@ -7735,6 +8008,7 @@ let checkForBadDay() =
     if System.DateTime.Today.DayOfWeek = System.DayOfWeek.Monday then
         raise (ThatWentWrongBadly("yes indeed",123))
 ```
+
 Exception values may also be generated by defining and using classes that extend `System.Exception`.
 
 ## 8.12 Type Extensions
@@ -7746,6 +8020,7 @@ associates the additional member `IsLong` with the existing type `System.String`
 type System.String with
     member x.IsLong = (x.Length > 1000)
 ```
+
 Type extensions may be applied to any accessible type definition except those defined by type
 abbreviations. For example, to add an extension method to a list type, use `'a List` because `'a list`
 is a type abbreviation of `'a List`. For example:
@@ -7759,6 +8034,7 @@ let intlst = [1; 2; 3]
 intlst.GetOrDefault(1) //2
 intlst.GetOrDefault(4) //0
 ```
+
 For an array type, backtick marks can be used to define an extension method to the array type:
 
 ```fsharp
@@ -7770,6 +8046,7 @@ let arrlist = [| 1; 2; 3 |]
 arrlist.GetOrDefault(1) //2
 arrlist.GetOrDefault(4) //0
 ```
+
 A type can have any number of extensions.
 
 If the type extension is in the same module or namespace declaration group as the original type
@@ -7815,6 +8092,7 @@ module ComplexExtensions =
         member x.Magnitude = ...
         member x.Phase = ...
 ```
+
 Extensions may define both instance members and static members.
 
 Extensions are checked as follows:
@@ -7827,9 +8105,9 @@ Extensions are checked as follows:
     (interface and override) implementations.
 - Extension members must be in modules.
 - Extension members are compiled as CLI static members with encoded names.
-    - The elaborated form of an application of a static extension member `C.M(arg1, ..., argn)` is a call
+  - The elaborated form of an application of a static extension member `C.M(arg1, ..., argn)` is a call
        to this static member with arguments `arg1, ..., argn`.
-    - The elaborated form of an application of an instance extension member `obj.M(arg1, ..., argn)`
+  - The elaborated form of an application of an instance extension member `obj.M(arg1, ..., argn)`
        is an invocation of the static instance member where the object parameter is supplied as the
        first argument to the extension member followed by arguments `arg1 ... argn`.
 
@@ -7857,6 +8135,7 @@ module EnumerableExtensions =
             for x in this do
                 System.Console.WriteLine (box x)
 ```
+
 C#-style extension members may also be declared directly in F#. When combined with the “inline”
 feature of F#, this allows the definition of generic, constrained extension members that are not
 otherwise definable in C# or F#.
@@ -7867,6 +8146,7 @@ type ExtraCSharpStyleExtensionMethodsInFSharp () =
     [<Extension>]
     static member inline Sum(xs: seq<'T>) = Seq.sum xs
 ```
+
 Such an extension member can be used as follows:
 
 ```fsharp
@@ -7915,6 +8195,7 @@ type MyClass() =
         with get (idx1) = staticArray.[idx1]
         and set (idx1) (v:string) = staticArray.[idx1] <- v
 ```
+
 An _instance member_ is a member without `static`. Here are some examples of instance members:
 
 ```fsharp
@@ -7944,6 +8225,7 @@ type MyClass() =
         with get (idx1) = instanceArray.[idx1]
         and set (idx1) (v:string) = instanceArray.[idx1] <- v
 ```
+
 Members from a set of mutually recursive type definitions are checked as a single mutually recursive
 group. As with collections of recursive functions, recursive calls to potentially-generic methods may
 result in inconsistent type constraints:
@@ -7954,6 +8236,7 @@ type Test() =
     member t.M1 (x: int) = Test.Id(x)
     member t.M2 (x: string) = Test.Id(x) // error, x has type 'string' not 'int'
 ```
+
 A target method that has a full type annotation is eligible for early generalization ([§14.6.7](#1467-generalization)).
 
 ```fsharp
@@ -7962,6 +8245,7 @@ type Test() =
     member t.M1 (x: int) = Test.Id(x)
     member t.M2 (x: string) = Test.Id(x)
 ```
+
 ### 8.13.1 Property Members
 
 A _property member_ is a `method-or-prop-defn` in one of the following forms:
@@ -7973,28 +8257,36 @@ static~opt member ident.~opt ident with set pat~opt pat = expr
 static~opt member ident.~opt ident with get pat = expr and set pat~opt pat = expr
 static~opt member ident.~opt ident with set pat~opt pat = expr and get pat = expr
 ```
+
 A property member in the form
 
 ```fsgrammar
 static~opt member ident.~opt ident with get pat1 = expr1 and set pat2a pat2b~opt = expr2
 ```
+
 is equivalent to two property members of the form:
 
 ```fsgrammar
 static~opt member ident.~opt ident with get pat1 = expr1
 static~opt member ident.~opt ident with set pat2a pat2b~opt = expr2
 ```
+
 Furthermore, the following two members are equivalent:
+
 ```fsgrammar
 static~opt member ident.~opt ident = expr
 static~opt member ident.~opt ident with get() = expr
 ```
+
 These two are also equivalent:
+
 ```fsgrammar
 static~opt member ident.~opt ident with set pat = expr
 static~opt member ident.~opt ident with set() pat = expr
 ```
+
 Thus, property members may be reduced to the following two forms:
+
 ```fsgrammar
 static~opt member ident.~opt ident with get patidx = expr
 static~opt member ident.~opt ident with set patidx pat = expr
@@ -8028,12 +8320,14 @@ example, in the following, the body of the member is evaluated each time `C.Time
 type C () =
     static member Time = System.DateTime.Now
 ```
+
 Note that a static property member may also be written with an explicit `get` method:
 
 ```fsharp
 static member ComputerName
     with get() = System.Environment.GetEnvironmentVariable("COMPUTERNAME")
 ```
+
 Property members that have the same name may not appear in the same type definition even if
 their signatures are different. For example:
 
@@ -8042,6 +8336,7 @@ type C () =
     static member P = false // error: Duplicate property.
     member this.P = true
 ```
+
 However, methods that have the same name can be overloaded when their signatures are different.
 
 ### 8.13.2 Auto-implemented Properties
@@ -8056,13 +8351,13 @@ the following are true for the declaration:
 
 To create a mutable property, include `with get`, `with set`,or both:
 
-
 ```fsgrammar
 static~opt member val access~opt ident : ty~opt = expr
 static~opt member val access~opt ident : ty~opt = expr with get
 static~opt member val access~opt ident : ty~opt = expr with set
 static~opt member val access~opt ident : ty~opt = expr with get, set
 ```
+
 Automatically implemented properties are part of the initialization of a type, so they must be
 included before any other member definitions, in the same way as let bindings and do bindings in a
 type definition. The expression that initializes an automatically implemented property is evaluated
@@ -8078,6 +8373,7 @@ type D (x:int) =
     member val Property1 = x
     member val Property2 = "" with get, set
 ```
+
 Auto-implemented properties can also be used to implement default or override properties:
 
 ```fsharp
@@ -8089,6 +8385,7 @@ type MyDerived() =
     inherit MyBase()
     override val Property = "derived" with get, set
 ```
+
 The following example shows how to use an auto-implemented property to implement an interface:
 
 ```fsharp
@@ -8099,6 +8396,7 @@ type MyImplementation () =
     interface MyInterface with
         member val Property = "implemented" with get, set
 ```
+
 ### 8.13.3 Method Members
 
 A _method member_ is of the form:
@@ -8106,6 +8404,7 @@ A _method member_ is of the form:
 ```fsgrammar
 static~opt member ident.~opt ident pat1 ... patn = expr
 ```
+
 The `ident.~opt` can be present if and only if the property member is an instance member. In this case,
 the identifier `ident` corresponds to the “this” (or “self”) variable associated with the object on which
 the member is being invoked.
@@ -8121,6 +8420,7 @@ Methods that take multiple arguments may be written in iterated (“curried”) 
 static member StaticMethod2 s1 s2 =
     sprintf "In StaticMethod(%s,%s)" s1 s2
 ```
+
 The rules of arity analysis ([§14.10](#1410-arity-inference)) determine the compiled form of these members.
 
 The following limitations apply to curried method members:
@@ -8147,6 +8447,7 @@ System.Console.WriteLine(format = "Hello {0}", arg0 = "World")
 System.Console.WriteLine("Hello {0}", arg0 = "World")
 System.Console.WriteLine(arg0 = "World", format = "Hello {0}")
 ```
+
 The argument names that are associated with a method declaration are derived from the names
 that appear in the first pattern of a member definition, or from the names used in the signature for a
 method member. For example:
@@ -8158,6 +8459,7 @@ let c = C()
 c.Swap(first = 1,second = 2) // result is '(2,1)'
 c.Swap(second = 1,first = 2) // result is '(1,2)'
 ```
+
 Named arguments may be used only with the arguments that correspond to the arity of the
 member. That is, because members have an arity only up to the first set of tupled arguments, named
 arguments may not be used with subsequent curried arguments of the member.
@@ -8170,11 +8472,11 @@ the following code resolves the named argument to a settable property:
 ```fsharp
 System.Windows.Forms.Form(Text = "Hello World")
 ```
+
 If an ambiguity exists, assigning the named argument is assigned to a formal parameter rather than
 to a settable return property.
 
 The _Method Application Resolution_ ([§14.4](#144-method-application-resolution)) rules ensure that:
-
 
 - Named arguments must appear after all other arguments, including optional arguments that
     are matched by position.
@@ -8191,6 +8493,7 @@ For example, the following code is invalid:
 // error: unnamed args after named
 System.Console.WriteLine(arg0 = "World", "Hello {0}")
 ```
+
 Similarly, the following code is invalid:
 
 ```fsharp
@@ -8199,6 +8502,7 @@ type Foo() =
 // error: arg1, arg3 not a prefix of the argument list
 Foo.M(1, 2, arg2 = 3)
 ```
+
 The following code is valid:
 
 ```fsharp
@@ -8207,6 +8511,7 @@ type Foo() =
 
 Foo.M (1, 2, arg 3 = 3)
 ```
+
 The names of arguments to members may be listed in member signatures. For example, in a
 signature file:
 
@@ -8215,6 +8520,7 @@ type C =
     static member ThreeArgs : arg1:int * arg2:int * arg3:int -> int
     abstract TwoArgs : arg1:int * arg2:int -> int
 ```
+
 ### 8.13.6 Optional Arguments to Method Members
 
 Method members—but not functions definitions—may have optional arguments. Optional
@@ -8233,13 +8539,14 @@ type T() =
         let arg3 = defaultArg arg3 10
         arg1 + arg2 + arg3
 ```
+
 Optional arguments may be used in interface and abstract members. In a signature, optional
 arguments appear as follows:
-
 
 ```fsharp
 static member OneNormalTwoOptional : arg1:int * ?arg2:int * ?arg3:int -> int
 ```
+
 Callers may specify values for optional arguments in the following ways:
 
 - By name, such as `arg2 = 1`.
@@ -8264,6 +8571,7 @@ T.OneNormalTwoOptional(arg2 = 3, arg1 = 0, arg3 = 11)
 T.OneNormalTwoOptional(?arg2 = Some 3, arg1 = 0, arg3 = 11)
 T.OneNormalTwoOptional(0, 3, ?arg3 = Some 11)
 ```
+
 The resolution of calls that use optional arguments is specified in _Method Application Resolution_ (see
 [§14.4](#144-method-application-resolution)).
 
@@ -8285,6 +8593,7 @@ uses named and optional arguments.
                                   CategoryTitle = "Sample Category Type",
                                   ValueTitle = "Sample Value Type")
 ```
+
 > CLI optional arguments are not passed as values of type `Option<_>`. If the optional
 argument is present, its value is passed. If the optional argument is omitted, the default
 value from the CLI metadata is supplied instead. The value
@@ -8310,6 +8619,7 @@ As described in _Method Application Resolution_ (see [§14.4](#144-method-applic
 applied at method invocations.
 
 #### 8.13.7.1 Conversion to Delegates
+
 The first type-directed conversion converts anonymous function expressions and other function-
 valued arguments to delegate types. Given:
 
@@ -8324,6 +8634,7 @@ Then:
     ```fsgrammar
     new D (fun arg1 ... argn -> farg arg1 ... argn)
     ```
+
 If the type of the formal parameter is a variable type, then F# uses the known inferred type of the
 argument including instantiations to determine whether a formal parameter has delegate type. For
 example, if an explicit type instantiation is given that instantiates a generic type parameter to a
@@ -8335,7 +8646,9 @@ type GenericClass<'T>() =
 
 GenericClass<System.Action>.M(fun () -> ()) // allowed
 ```
+
 #### 8.13.7.2 Conversion to Reference Cells
+
 The second type-directed conversion enables an F# reference cell to be passed where a `byref<ty>` is
 expected. Given:
 
@@ -8345,7 +8658,6 @@ expected. Given:
 Then:
 
 - The actual parameter is interpreted as if it had type `ref<ty>`.
-
 
 For example:
 
@@ -8381,6 +8693,7 @@ public class D
     virtual public void IntegerOutParam(out int x) { x = 3; }
 }
 ```
+
 This C# code can be called by the following F# code:
 
 ```fsharp
@@ -8388,6 +8701,7 @@ let res1 = ref 0
 C.IntegerOutParam(res 1 )
 // res1.contents now equals 3
 ```
+
 Likewise, the abstract signature can be implemented as follows:
 
 ```fsharp
@@ -8396,7 +8710,9 @@ let res2 = ref 0
 x.IntegerOutParam(res2);
 // res2.contents now equals 4
 ```
+
 #### 8.13.7.3 Conversion to Quotation Values
+
 The third type-directed conversion enables an F# expression to be implicitly quoted at a member
 call.
 
@@ -8406,6 +8722,7 @@ of type FSharp.Quotations.Expr<_>:
 ```fsharp
 static member Plot([<ReflectedDefinition>] values:Expr<int>) = (...)
 ```
+
 The intention is that this gives an implicit quotation from X --> <@ X @> at the callsite. So for
 
 ```fsharp
@@ -8417,22 +8734,26 @@ the caller becomes:
 ```fsharp
 Chart.Plot(<@ f x + f y @>)
 ```
+
 Additionally, the method can declare that it wants both the quotation and the evaluation of the
 expression, by giving `true` as the `includeValue` argument of the `ReflectedDefinitionAttribute`.
 
 ```fsharp
 static member Plot([<ReflectedDefinition(true)>] values:Expr<X>) = (...)
 ```
+
 So for
 
 ```fsharp
 Chart.Plot(f x + f y)
 ```
+
 the caller becomes:
 
 ```fsharp
 Chart.Plot(Expr.WithValue(f x + f y, <@ f x + f y @>))
 ```
+
 and the quotation value `Q` received by `Chart.Plot` matches:
 
 ```fsharp
@@ -8461,9 +8782,10 @@ if the caller-argument type is not of the form Expr for any U.
 The caller-argument-type is determined as normal, with the addition that a caller
 argument of the form <@ ... @> is always considered to have a type of the form Expr<>,
 in the same way that caller arguments of the form (fun x -> ...) are always assumed to
-have type of the form `` -> _`` (i.e. a function type)
+have type of the form ``-> _`` (i.e. a function type)
 
 #### 8.13.7.4 Conversion to LINQ Expressions
+
 The third type-directed conversion enables an F# expression to be implicitly converted to a LINQ
 expression at a method call. Conversion is driven by an argument of type
 `System.Linq.Expressions.Expression`.
@@ -8478,12 +8800,14 @@ helper function. So for
 ```fsharp
 Chart.Plot(f x + f y)
 ```
+
 the caller becomes:
 
 ```fsharp
 Chart.Plot(FSharp.Linq.RuntimeHelpers.LeafExpressionConverter.
 QuotationToLambdaExpression <@ f x + f y @>)
 ```
+
 ### 8.13.8 Overloading of Methods
 
 Multiple methods that have the same name may appear in the same type definition or extension.
@@ -8500,6 +8824,7 @@ type MyForm() =
         x.Text <- text
         System.Windows.Forms.MessageBox.Show ("changing text due to " + reason)
 ```
+
 Methods must be distinct based on their name and fully inferred types, after erasure of type
 abbreviations and unit-of-measure annotations.
 
@@ -8535,6 +8860,7 @@ type Handler<'T> = delegate of sender : obj * 'T -> unit
 
 type IEvent<'T> = IEvent<Handler<'T>, 'T>
 ```
+
 The following shows a sample use of events:
 
 ```fsharp
@@ -8551,6 +8877,7 @@ form.Redraw.Add(fun args -> printfn "OnRedraw")
 form.Activate()
 Application.Run(form)
 ```
+
 Events from CLI languages are revealed as object properties of type
 `FSharp.Control.IEvent<tydelegate, tyargs>`. The F# compiler determines the type arguments, which
 are derived from the CLI delegate type that is associated with the event.
@@ -8569,6 +8896,7 @@ type C() =
     [<CLIEvent>]
     member self.ChannelChanged = channelChanged.Publish
 ```
+
 Similarly, the following shows the definition and implementation of an abstract event:
 
 ```fsharp
@@ -8582,6 +8910,7 @@ type ImplI() =
         [<CLIEvent>]
         member self.ChannelChanged = channelChanged.Publish
 ```
+
 ### 8.13.11 Members Represented as Static Members
 
 Most members are represented as their corresponding CLI method or property. However, in certain
@@ -8591,7 +8920,6 @@ following is true:
 - The type definition uses `null` as a representation by placing the
     `CompilationRepresentation(CompilationRepresentationFlags.UseNullAsTrueValue)` attribute on
     the type that declares the member.
-
 
 - The member is an extension member.
 
@@ -8617,6 +8945,7 @@ type option<'T> =
         | Some x -> x
         | None -> failwith "Option.Item"
 ```
+
 The `IsNone` and `IsSome` properties are represented as CLI static methods. The `Item` property is
 represented as an instance property.
 
@@ -8634,6 +8963,7 @@ an implementation for a dispatch slot. For example:
 type IX =
     abstract M : int -> int
 ```
+
 The abstract member `M` indicates that an object of type `IX` will implement a displatch slot for a
 member that returns an `int`.
 
@@ -8645,13 +8975,14 @@ the `AbstractClass` attribute:
 type X() =
     abstract M : int -> int
 ```
+
 An abstract member definition has the form
 
 ```fsgrammar
 abstract access~opt member-sig
 ```
-where a member signature has one of the following forms
 
+where a member signature has one of the following forms
 
 ```fsgrammar
 ident typar-defns~opt : curried-sig
@@ -8660,11 +8991,13 @@ ident typar-defns~opt : curried-sig with set
 ident typar-defns~opt : curried-sig with get, set
 ident typar-defns~opt : curried-sig with set, get
 ```
+
 and the curried signature has the form
 
 ```fsgrammar
 args-spec1 -> ... -> args-specn -> type
 ```
+
 If `n` ≥ 2, then `args-spec2 ... args-specn` must all be patterns without attribute or optional argument
 specifications.
 
@@ -8680,6 +9013,7 @@ An _implementation member_ has the form:
 override ident. ident pat 1 ... patn = expr
 default ident. ident pat 1 ... patn = expr
 ```
+
 Implementation members implement dispatch slots. For example:
 
 ```fsharp
@@ -8696,6 +9030,7 @@ let v2 = (SubClass(7) :> BaseClass)
 
 v2.AbstractMethod 6 // evaluates to 13
 ```
+
 In this example, `BaseClass()` declares the abstract slot `AbstractMethod` and the `SubClass` type
 supplies an implementation member `obj.AbstractMethod`, which takes an argument `n` and returns
 the sum of `n` and the argument that was passed in the instantiation of `SubClass`. The `v2` object
@@ -8725,6 +9060,7 @@ v1.AbstractMethodWithDefaultImplementation 6 // evaluates to 6
 v2.AbstractMethodWithDefaultImplementation 6 // evaluates to 13
 v3.AbstractMethodWithDefaultImplementation 6 // evaluates to 6
 ```
+
 Here, the `BaseClass` type contains a default implementation, so F# allows the instantiation of `v1`. The
 instantiation of `v2` is the same as in the previous example. The instantiation of `v3` is similar to that of
 `v1`, because `SubClass2` inherits directly from `BaseClass` and does not override the `default` method.
@@ -8744,6 +9080,7 @@ type SubClass(x: int) =
     inherit BaseClass()
     override obj.ToString() = "I'm an instance of SubClass"
 ```
+
 In this example, `BaseClass` inherits from `System.Object` and overrides the `ToString` method from
 that class. The `SubClass`, in turn, inherits from `BaseClass` and overrides its version of the `ToString`
 method.
@@ -8779,6 +9116,7 @@ type SubClass(x: int) =
         with get() = data2b + x
         and set v = data2b <- v - x
 ```
+
 The same rules apply to both property members and method members. In the preceding example,
 `BaseClass` includes abstract properties named `AbstractProperty`, `AbstractSettableProperty`,
 `AbstractPropertyWithDefaultImplementation`, and
@@ -8809,6 +9147,7 @@ type SubClass() =
         with get () = channel
         and set v = channel <- v; channelChanged.Trigger(self, channel)
 ```
+
 `BaseClass` implements the CLI event `IEvent`, so the abstract member `ChannelChanged` is marked with
 `[<CLIEvent>]` as described earlier in §8.13.10. SubClass provides an implementation of the abstract
 member, so the [<CLIEvent>] attribute must also precede the `override` declaration in `SubClass`.
@@ -8848,6 +9187,7 @@ type ClassThatTriesToImplemenTwoInstantiations() =
     interface System.IComparable<string> with
         member x.CompareTo(n : string) = 1
 ```
+
 Each member of an interface implementation is checked as follows:
 
 - The member must be an instance member definition.
@@ -8863,6 +9203,7 @@ type C() =
     interface IDecrement with
         member x.M(n) = n - 1
 ```
+
 All interface implementations are made explicit. In its first implementation, every interface must be
 completely implemented, even in an abstract class. However, interface implementations may be
 inherited from a base class. In particular, if a class `C` implements interface `I`, and a base class of `C`
@@ -8898,6 +9239,7 @@ type C4() =
     interface I1 with
         member this.V2 = "C2b"
 ```
+
 ## 8.15 Equality, Hashing, and Comparison
 
 Functional programming in F# frequently involves the use of structural equality, structural hashing,
@@ -8907,12 +9249,14 @@ types support structural equality:
 ```fsharp
 (1, 1 + 1) = (1, 2)
 ```
+
 Likewise, these two function calls return identical values:
 
 ```fsharp
 hash (1, 1 +1 )
 hash (1,2)
 ```
+
 Similarly, an ordering on constituent parts of a tuple induces an ordering on tuples themselves, so all
 the following evaluate to `true`:
 
@@ -8922,12 +9266,14 @@ the following evaluate to `true`:
 (1, 2) < (2, 1)
 (1, 2) > (1, 0)
 ```
+
 The same applies to lists, options, arrays, and user-defined record, union, and struct types whose
 constituent field types permit structural equality, hashing, and comparison. For example, given:
 
 ```fsharp
 type R = R of int * int
 ```
+
 then all of the following also evaluate to `true`:
 
 ```fsharp
@@ -8942,6 +9288,7 @@ R (1, 2) < R (2, 3)
 R (1, 2) < R (2, 1)
 R (1, 2) > R (1, 0)
 ```
+
 To facilitate this, by default, record, union, and struct type definitions—called _structural types_ —
 implicitly include compiler-generated declarations for structural equality, hashing, and comparison.
 These implicit declarations consist of the following for structural equality and hashing:
@@ -8962,6 +9309,7 @@ interface System.IComparable with
 interface System.Collections.IStructuralComparable with
     member x.CompareTo(yobj: obj, comparer: System.Collections.IComparer) = ...
 ```
+
 For exception types, implicit declarations for structural equality and hashings are generated, but
 declarations for structural comparison are not generated. Implicit declarations are never generated
 for interface, delegate, class, or enum types. Enum types implicitly derive support for equality,
@@ -8977,6 +9325,7 @@ FSharp.Core.ReferenceEquality
 FSharp.Core.StructuralEquality
 FSharp.Core.CustomEquality
 ```
+
 The following table lists the effects of each attribute on a type:
 
 | Attrribute | Effect |
@@ -9002,6 +9351,7 @@ FSharp.Core.NoComparison
 FSharp.Core.StructuralComparison
 FSharp.Core.CustomComparison
 ```
+
 The following table lists the effects of each attribute on a type.
 
 | Attribute | Effect |
@@ -9023,12 +9373,14 @@ For example:
 [<StructuralEquality; StructuralComparison>]
 type X = X of (int -> int)
 ```
+
 results in the following message:
 
 ```fsother
 The struct, record or union type 'X' has the 'StructuralEquality' attribute
 but the component type '(int -> int)' does not satisfy the 'equality' constraint
 ```
+
 For example, given
 
 ```fsharp
@@ -9046,6 +9398,7 @@ type R3 =
     { someType : System.Type }
     static member Make() = { someType = typeof<int> }
 ```
+
 then the following expressions all evaluate to `true`:
 
 ```fsharp
@@ -9080,6 +9433,7 @@ implementation is as follows.
     override x.Equals(y : obj) =
         ((x :> System.IComparable).CompareTo(y) = 0)
     ```
+
 2. Otherwise:
     - Convert the `y` argument to type `T`. If the conversion fails, return `false`.
     - Return `false` if `T` is a reference type and `y` is null.
@@ -9116,6 +9470,7 @@ interface System.IComparable with
             | null -> 1
             | _ -> ...
 ```
+
 ### 8.15.5 Behavior of the Generated GetHashCode Implementations
 
 For a type `T`, the generated `System.Object.GetHashCode()` override implements a combination hash
@@ -9168,6 +9523,7 @@ let rec compare x y =
     // Otherwise raise a runtime error
     | _ -> raise (new ArgumentException(...))
 ```
+
 #### 8.15.6.2 Pseudo code for FSharp.Core.Operators.(=)
 
 > Note: In practice, fast (but semantically equivalent) code is emitted for direct calls to
@@ -9200,6 +9556,7 @@ let rec (=) x y =
     // or explicitly).
     | _ -> xobj.Equals(yobj)
 ```
+
 # 9. Units of Measure
 
 F# supports static checking of _units of measure_. Units of measure, or _measure_ s for short, are like
@@ -9273,6 +9630,7 @@ measure :=
     _                           -- anonymous measure
 measure-simp                    -- simple measure, such as 'U 'V
 ```
+
 Measure definitions use the special `Measure` attribute on type definitions. Measure parameters use
 the syntax of generic parameters with the same special `Measure` attribute to parameterize types and
 members by units of measure. The primitive types `sbyte`, `int16`, `int32`, `int64`, `float`, `float32`, and
@@ -9289,6 +9647,7 @@ let areaOfTriangle (baseLength:float<m>, height:float<m>) : float<sqm> =
 
 let distanceTravelled (speed:float<m/s>, time:float<s>) : float<m> = speed*time
 ```
+
 As with ordinary types, F# can infer that functions are generic in their units. For example, consider
 the following function definitions:
 
@@ -9297,6 +9656,7 @@ let sqr (x:float<_>) = x*x
 
 let sumOfSquares x y = sqr x + sqr y
 ```
+
 The inferred types are:
 
 ```fsother
@@ -9304,6 +9664,7 @@ val sqr : float<'u> -> float<'u ^ 2>
 
 val sumOfSquares : float<'u> -> float<'u> -> float<'u ^ 2>
 ```
+
 Measures are type-like annotations such as `kg` or `m/s` or `m^2`. Their special syntax includes the use of `*`
 and `/` for product and quotient of measures, juxtaposition as shorthand for product, and `^` for
 integer powers.
@@ -9345,6 +9706,7 @@ let earthGravity = 9.81f<m/s^2>
 let atmosphere = 101325.0<N m^-2>
 let zero = 0.0f<_>
 ```
+
 Constants that are annotated with units of measure are assigned a corresponding numeric type with
 the measure parameter that is specified in the annotation. In the example above, `earthGravity` is
 assigned the type `float32<m/s^2>`, `atmosphere` is assigned the type `float<N/m^2>` and `zero` is assigned
@@ -9357,6 +9719,7 @@ After measures are parsed and checked, they are maintained in the following norm
 ```fsgrammar
 measure-int := 1 | long-ident | measure-par | measure-int measure-int | / measure-int
 ```
+
 Powers of measures are expanded. For example, `kg^3` is equivalent to `kg` `kg` `kg`.
 
 Two measures are indistinguishable if they can be made equivalent by repeated application of the
@@ -9399,12 +9762,14 @@ following definitions:
 [<Measure>] type b = a * a
 let x = 1<b> / 1<a>
 ```
+
 The inferred type is presented as `int<b/a>`, not `int<a>`. If a measure is equivalent to `1` , however, abbreviations
 are expanded to cancel each other and are presented without units:
 
 ```fsharp
 let y = 1<b> / 1<a a> // val y : int = 1
 ```
+
 ### 9.3.1 Constraint Solving
 
 The mechanism described in [§14.5](#145-constraint-solving) is extended to support equational constraints between measure
@@ -9422,6 +9787,7 @@ If constraints cannot be solved, a type error occurs. For example, the following
 ```fsharp
 fun (x : float<m^2>, y : float<s>) -> x + y
 ```
+
 would eventually result in the constraint `m^2 = s`, which cannot be solved, indicating a type error.
 
 ### 9.3.2 Generalization of Measure Variables
@@ -9440,6 +9806,7 @@ definitions, with the addition of the `Measure` attribute. For example:
 [<Measure>] type s
 [<Measure>] type N = kg / m s^2
 ```
+
 A primitive measure abbreviation defines a fresh, named measure that is distinct from other
 measures. Measure abbreviations, like type abbreviations, define new names for existing measures.
 Also like type abbreviations, repeatedly eliminating measure abbreviations in favor of their
@@ -9449,6 +9816,7 @@ not a valid measure definition because it results in the infinite squaring of `X
 ```fsharp
 [<Measure>] type X = X^2
 ```
+
 Measure definitions and abbreviations may not have type or measure parameters.
 
 ## 9.5 Measure Parameter Definitions
@@ -9478,6 +9846,7 @@ type SceneObject<[<Measure>] 'U> =
     | Sphere of Sphere<'U>
     | Disc of Disc<'U>
 ```
+
 Internally, the type checker distinguishes between type parameters and measure parameters by
 assigning one of two _sorts_ (Type or Measure) to each parameter. This technique is used to check the
 actual arguments to types and other parameterized definitions. The type checker rejects ill-formed
@@ -9524,6 +9893,7 @@ These type definitions have the following special properties:
 - For the purposes of constraint solving and other logical operations on types, a type equivalence
     holds between the unparameterized primitive type and the corresponding measured type
     definition that is instantiated at `<1>`:
+
     ```fsother
     sbyte = sbyte<1>
     int16 = int16<1>
@@ -9533,6 +9903,7 @@ These type definitions have the following special properties:
     float32 = float32<1>
     decimal = decimal<1>
     ```
+
 - The measured type definitions `sbyte`, `int16`, `int32`, `int64`, `float32`, `float`, and `decimal` are
     assumed to have additional static members that have the measure types that are listed in the
     table. Note that `N` is any of these types, and `F` is either `float32` or `float`.
@@ -9561,11 +9932,13 @@ these are not allowed:
 [1<s> .. 5<s>] // error: The type 'int<s>' does not match the type 'int'
 [1<s> .. 1 .. 5<s>] // error: The type 'int<s>' does not match the type 'int'
 ```
+
 However, the following range expression is valid:
 
 ```fsharp
 [1<s> .. 1<s> .. 5<s>] // int<s> list = [1; 2; 3; 4; 5]
 ```
+
 # 10. Namespaces and Modules
 
 F# is primarily an expression-based language. However, F# source code units are made up of
@@ -9617,6 +9990,7 @@ access :=
     internal
     public
 ```
+
 ## 10.1 Namespace Declaration Groups
 
 Modules and types in an F# program are organized into _namespaces_, which encompass the
@@ -9632,6 +10006,7 @@ namespace MyCompany.MyLibrary
     module Values1 =
         let x = 1
 ```
+
 A namespace declaration group is the basic declaration unit within an F# implementation file and is
 of the form
 
@@ -9640,6 +10015,7 @@ namespace long-ident
 
 module-elems
 ```
+
 The `long-ident` must be fully qualified. Each such group contains a series of module and type
 definitions that contribute to the indicated namespace. An implementation file may contain multiple
 namespace declaration groups, as in this example:
@@ -9659,6 +10035,7 @@ namespace MyCompany.MyOtherLibrary.Collections
     type MyCollection(x : int) =
         member v.P = x
 ```
+
 Namespace declaration groups may not be nested.
 
 A namespace declaration group can contain type and module definitions, but not function or value
@@ -9679,6 +10056,7 @@ type MyType() =
 // The following is not allowed: value definitions are not allowed in namespaces
 let addOne x = x + 1
 ```
+
 When a namespace declaration group `N` is checked in an environment `env` , the individual
 declarations are checked in order and an overall _namespace declaration group signature_ `Nsig` is
 inferred for the module. An entry for `N` is then added to the _ModulesAndNamespaces_ table in the
@@ -9702,6 +10080,7 @@ namespace Utilities.Part2
     module Module2 =
         let x = Utilities.Part1.Module1.x + 2
 ```
+
 Within a namespace declaration group, the namespace itself is implicitly opened if any preceding
 namespace declaration groups or referenced assemblies contribute to it. For example:
 
@@ -9717,6 +10096,7 @@ namespace MyCompany.MyLibrary
     module Values2 =
         let x = Values1.x
 ```
+
 ## 10.2 Module Definitions
 
 A module definition is a named collection of declarations such as values, types, and function values.
@@ -9731,6 +10111,7 @@ module MyModule =
         let f y = y + 1
         type Bar = C | D
 ```
+
 When a module definition `M` is checked in an environment `env0`, the individual declarations are
 checked in order and an overall _module signature_ `Msig` is inferred for the module. An entry for `M` is
 then added to the _ModulesAndNamespaces_ table to environment `env0` to form the new environment
@@ -9749,6 +10130,7 @@ module Part2 =
     type StorageCache() =
         member cache.Clear() = ()
 ```
+
 No two types or modules may have identical names in the same namespace. The
 `[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]` attribute adds the
 suffix `Module` to the name of a module to distinguish the module name from a type of a similar name.
@@ -9771,6 +10153,7 @@ module Cat =
 
 Cat.tabby |> Cat.purr |> Cat.purrTwice
 ```
+
 ### 10.2.1 Function and Value Definitions in Modules
 
 Function and value definitionsin modules introduce named values and functions.
@@ -9778,6 +10161,7 @@ Function and value definitionsin modules introduce named values and functions.
 ```fsgrammar
 let rec~opt function-or-value-defn1 and ... and function-or-value-defnn
 ```
+
 The following example defines value `x` and functions `id` and `fib`:
 
 ```fsharp
@@ -9786,6 +10170,7 @@ module M =
     let id x = x
     let rec fib x = if x <= 2 then 1 else fib (n - 1) + fib (n - 2)
 ```
+
 Function and value definitions in modules may declare explicit type variables and type constraints:
 
 ```fsharp
@@ -9793,6 +10178,7 @@ let pair<'T>(x : 'T) = (x, x)
 let dispose<'T when 'T :> System.IDisposable>(x : 'T) = x.Dispose()
 let convert<'T, 'U>(x) = unbox<'U>(box<'T>(x))
 ```
+
 A value definition that has explicit type variables is called a type function ([§10.2.3](#1023-type-function-definitions-in-modules)).
 
 Function and value definitions may specify attributes:
@@ -9806,6 +10192,7 @@ let oneTwoPair = ( 1 , 2 )
 [<System.Obsolete("Don't use this either")>]
 let pear v = (v, v)
 ```
+
 By the use of pattern matching, a value definition can define more than one value. In such cases,
 the attributes apply to each value.
 
@@ -9814,6 +10201,7 @@ the attributes apply to each value.
 [<System.Obsolete("Don't use this")>]
 let (a, b) = (1, 2)
 ```
+
 Values may be declared mutable:
 
 ```fsharp
@@ -9821,6 +10209,7 @@ Values may be declared mutable:
 let mutable count = 1
 let freshName() = (count <- count + 1; count)
 ```
+
 Function and value definitions in modules are processed in the same way as function and value
 definitions in expressions ([§14.6](#146-checking-and-elaborating-function-value-and-member-definitions)), with the following adjustments:
 
@@ -9843,6 +10232,7 @@ compiled as a constant. For example:
 [<Literal>]
 let PI = 3.141592654
 ```
+
 Literal values may be used in custom attributes and pattern matching. For example:
 
 ```fsharp
@@ -9855,26 +10245,30 @@ let feeling(day) =
     | StartOfWeek -> "rough"
     | _ -> "great"
 ```
-A value that has the `Literal` attribute is subject to the following restrictions:
 
+A value that has the `Literal` attribute is subject to the following restrictions:
 
 - It may not be marked `mutable` or `inline`.
 - It may not also have the `ThreadStatic` or `ContextStatic` attributes.
 - The right-hand side expression must be a _literal constant expression_ that is both a valid
     expression after checking, and is made up of either:
-    - A simple constant expression, with the exception of `()`, native integer literals, unsigned native
+  - A simple constant expression, with the exception of `()`, native integer literals, unsigned native
        integer literals, byte array literals, BigInteger literals, and user-defined numeric literals.
 
 — OR —
+
 - A reference to another literal
 
 — OR —
+
 - A bitwise combination of literal constant expressions
 
 — OR —
+
 - A `+` concatenation of two literal constant expressions which are strings
 
 — OR —
+
 - `enum x` or `LanguagePrimitives.EnumOfValue x` where `x` is a literal constant expression.
 
 ### 10.2.3 Type Function Definitions in Modules
@@ -9885,6 +10279,7 @@ parameter to the value `empty`:
 ```fsharp
 let empty<'T> : (list<'T> * Set<'T>) = ([], Set.empty)
 ```
+
 A value that has explicit generic parameters but has arity `[]` (that is, no explicit function parameters)
 is called a _type function_. The following are some example type functions from the F# library:
 
@@ -9896,6 +10291,7 @@ module Set =
 module Map =
     val empty<'Key,'Value> : Map<'Key,'Value>
 ```
+
 Type functions are rarely used in F# programming, although they are convenient in certain
 situations. Type functions are typically used for:
 
@@ -9907,7 +10303,6 @@ Type functions receive special treatment during generalization ([§14.6.7](#1467
 ([§11.2](#112-signature-conformance)). They typically have either the `RequiresExplicitTypeArguments` attribute or the
 `GeneralizableValue` attribute. Type functions may not be defined inside types, expressions, or
 computation expressions.
-
 
 In general, type functions should be used only for computations that do not have observable side
 effects. However, type functions may still perform computations. In this example, `r` is a type function
@@ -9924,17 +10319,20 @@ let x2 = r<int>
 let z0 = x1
 // count = 3
 ```
+
 The elaborated form of a type function is that of a function definition that takes one argument of
 type `unit`. That is, the elaborated form of
 
 ```fsgrammar
 let ident typar-defns = expr
 ```
+
 is the same as the compiled form for the following declaration:
 
 ```fsgrammar
 let ident typar-defns () = expr
 ```
+
 References to type functions are elaborated to invocations of such a function.
 
 ### 10.2.4 Active Pattern Definitions in Modules
@@ -9945,6 +10343,7 @@ tags into the environment when the module is accessed or opened. For example,
 ```fsharp
 let (|A|B|C|) x = if x < 0 then A elif x = 0 then B else C
 ```
+
 introduces pattern tags `A`, `B`, and `C` into the _PatItems_ table in the name resolution environment.
 
 ### 10.2.5 “do” statements in Modules
@@ -9954,6 +10353,7 @@ A `do` statement within a module has the following form:
 ```fsgrammar
 do expr
 ```
+
 The expression `expr` is checked with an arbitrary initial type `ty`. After checking `expr`, `ty` is asserted to
 be equal to `unit`. If the assertion fails, a warning rather than an error is reported. This warning is
 suppressed for plain expressions without do in script files (that is, .fsx and .fsscript files).
@@ -9978,6 +10378,7 @@ following form:
 ```fsgrammar
 open long-ident
 ```
+
 Import declarations make elements of other namespace declaration groups and modules accessible
 by the use of unqualified names. For example:
 
@@ -9985,6 +10386,7 @@ by the use of unqualified names. For example:
 open FSharp.Collections
 open System
 ```
+
 Import declarations can be used in:
 
 - Module definitions and their signatures.
@@ -10005,11 +10407,13 @@ A module abbreviation defines a local name for a module long identifier, as foll
 ```fsgrammar
 module ident = long-ident
 ```
+
 For example:
 
 ```fsharp
 module Ops = FSharp.Core.Operators
 ```
+
 Module abbreviations can be used in:
 
 - Module definitions and their signatures.
@@ -10023,7 +10427,6 @@ Resolution in Module and Namespace Paths_ (see [§14.1](#141-name-resolution)). 
 names that are associated with `ident` in the _ModulesAndNamespaces_ table.
 
 Module abbreviations may not be used to abbreviate namespaces.
-
 
 ## 10.5 Accessibility Annotations
 
@@ -10076,7 +10479,6 @@ Accessibility modifiers can appear only in the locations summarized in the follo
 | Member definition | Precedes identifier, but cannot appear on <br>`inherit` definitions, <br>`interface` definitions, <br>`abstract` definitions, <br>individual union cases. <br>Accessibility for <br>`inherit`, `interface`, <br>and `abstract` definitions is <br>always the same as that of <br>the enclosing class. | `member private x.X = 1` |
 | Explicit property get <br>or set in a class | Precedes identifier | `member __.Item`<br> `with private get i = 1` <br>`and private set i v = ()` |
 | Type representation | Precedes identifier | `type Cases = private \| A \| B` |
-
 
 # 11. Namespace and Module Signatures
 
@@ -10152,6 +10554,7 @@ type-extension-signature := type-name type-extension-elements-signature
 
 type-extension-elements-signature := with type-elements-signature end
 ```
+
 The `begin` and `end` tokens are optional when lightweight syntax is used.
 
 Like module declarations, signature declarations are processed sequentially rather than
@@ -10169,6 +10572,7 @@ namespace Utilities.Part2
     type StorageCache =
         new : unit -> unit
 ```
+
 ## 11.1 Signature Elements
 
 A namespace or module signature declares one or more _value signatures_ and one or more _type
@@ -10186,6 +10590,7 @@ module MyMap =
     val mapForward : index1: int * index2: int -> string
     val mapBackward : name: string -> (int * int)
 ```
+
 The corresponding implementation file might contain the following implementation:
 
 ```fsharp
@@ -10207,6 +10612,7 @@ type IMap =
         abstract Backward : name: string -> (int * int)
     end
 ```
+
 A member signature indicates that a corresponding member appears on the corresponding type
 definition in the implementation. Member specifications must specify argument and return types,
 and can optionally specify names and attributes for parameters.
@@ -10220,6 +10626,7 @@ type Cat =
     member Kind : string
     member Purr : unit -> Cat
 ```
+
 The corresponding implementation file might contain the following implementation:
 
 ```fsharp
@@ -10228,6 +10635,7 @@ type Cat(kind: string) =
     member x.Purr() = printfn "purr"
     member x.Kind = kind
 ```
+
 ## 11.2 Signature Conformance
 
 Values, types, and members that are present in implementations can be omitted in signatures, with
@@ -10244,7 +10652,6 @@ the following exceptions:
 
 > Note: This section does not yet document all checks made by the F# 3.1 language
 implementation.
-
 
 ### 11.2.1 Signature Conformance for Functions and Values
 
@@ -10263,6 +10670,7 @@ the signature and implementation must conform as follows:
 - The arities must match, as described in the next section.
 
 #### 11.2.1.1 Arity Conformance for Functions and Values
+
 Arities of functions and values must conform between implementation and signature. Arities of
 values are implicit in module signatures. A signature that contains the following results in the arity
 `[A1 ... An]` for `F`:
@@ -10270,6 +10678,7 @@ values are implicit in module signatures. A signature that contains the followin
 ```fsgrammar
 val F : ty11 * ... * ty1A1 - > ... -> tyn1 * ... * tynAn - > rty
 ```
+
 Arities in a signature must be equal to or shorter than the corresponding arities in an
 implementation, and the prefix must match. This means that F# makes a deliberate distinction
 between the following two signatures:
@@ -10277,11 +10686,13 @@ between the following two signatures:
 ```fsharp
 val F: int -> int
 ```
+
 and
 
 ```fsharp
 val F: (int -> int)
 ```
+
 The parentheses indicate a top-level function, which might be a first-class computed expression that
 computes to a function value, rather than a compile-time function value.
 
@@ -10301,8 +10712,8 @@ The second signature
 ```fsharp
 val F: (int -> int)
 ```
-can be satisfied by any value of the appropriate type. For example:
 
+can be satisfied by any value of the appropriate type. For example:
 
 ```fsharp
 let f =
@@ -10315,17 +10726,20 @@ let f =
             myTable.[x] <- res
             res
 ```
+
 —or—
 
 ```fsharp
 let f = fun x -> x + 1
 ```
+
 —or—
 
 ```fsharp
 // throw an exception as soon as the module initialization is triggered
 let f : int -> int = failwith "failure"
 ```
+
 For both the first and second signatures, you can still use the functions as first-class function values
 from client code—the parentheses simply act as a constraint on the implementation of the value.
 
@@ -10335,22 +10749,26 @@ function values. Thus, signatures must contain enough information to reveal the 
 method as it is revealed to other CLI programming languages.
 
 #### 11.2.1.2 Signature Conformance for Type Functions
+
 If a value is a type function, then its corresponding value signature must have explicit type
 arguments. For example, the implementation
 
 ```fsharp
 let empty<'T> : list<'T> = printfn "hello"; []
 ```
+
 conforms to this signature:
 
 ```fsharp
 val empty<'T> : list<'T>
 ```
+
 but not to this signature:
 
 ```fsharp
 val empty : list<'T>
 ```
+
 The reason for this rule is that the second signature indicates that the value is, by default,
 generalizable ([§14.6.7](#1467-generalization)).
 
@@ -10363,16 +10781,13 @@ implementation must conform as follows:
 - If one is a constructor, then both must be constructors.
 - If one is a property, then both must be properties.
 
-
 - The types must be identical up to renaming of inferred or explicit type parameters (as for
     functions and values).
 - The `static`, `abstract`, and `override` qualifiers must match precisely.
 - Abstract members must be present in the signature if a representation is given for a type.
 
-
 > Note: This section does not yet document all checks made by the F# 3 .1 language
 implementation.
-
 
 # 12. Program Structure and Execution
 
@@ -10409,6 +10824,7 @@ anonymous-module-signature :=
 script-fragment :=
     module-elems                    -- interactively entered code fragment
 ```
+
 A sequence of implementation and signature files is checked as follows.
 
 1. Form an initial environment `sig-env0` and `impl-env0` by adding all assembly references to the
@@ -10467,6 +10883,7 @@ namespace MyCompany. MyOtherLibrary.Collections
     type MyCollection(x : int) =
         member v.P = x
 ```
+
 An implementation file that begins with a `module` declaration defines a single namespace declaration
 group with one module. For example:
 
@@ -10475,6 +10892,7 @@ module MyCompany.MyLibrary.MyModule
 
 let x = 1
 ```
+
 is equivalent to:
 
 ```fsharp
@@ -10483,6 +10901,7 @@ namespace MyCompany.MyLibrary
 module MyModule =
     let x = 1
 ```
+
 The final identifier in the `long-ident` that follows the `module` keyword is interpreted as the module
 name, and the preceding identifiers are interpreted as the namespace.
 
@@ -10526,7 +10945,6 @@ is generated from the name of the source file by capitalizing the first letter a
 filename extension. If the filename contains characters that are not valid in an F# identifier, the
 resulting module name is unusable and a warning occurs.
 
-
 Given an initial environment `env` , a signature file is checked as follows:
 
 - Create a new constraint solving context.
@@ -10534,6 +10952,7 @@ Given an initial environment `env` , a signature file is checked as follows:
     create a new environment `envi`.
 
 The result of checking a signature file is a set of elaborated namespace declaration group types.
+
 ## 12.3 Script Files
 
 Script files have the `.fsx` or `.fsscript` filename extension. They are processed in the same way as
@@ -10568,17 +10987,16 @@ following form:
 ```fsgrammar
 # id string ... string
 ```
+
 The lexical preprocessor directives `#if`, `#else`, `#endif` and `#indent "off"` are similar to compiler
 directives. For details on `#if`, `#else`, `#endif`, see [§3.3](#33-conditional-compilation). The `#indent "off"` directive is described in
 [§19.4](#194-file-extensions-and-lexical-matters).
 
 The following directives are valid in all files:
 
-
 | Directive | Example | Short Description |
 | --- | --- | --- |
 | `#nowarn` | `#nowarn "54"` | For signature (`.fsi`) files and implementation (`.fs`) files, turns off warnings within this lexical scope.<br>For script (`.fsx` or `.fsscript`) files, turns off warnings globally. |
-
 
 The following directives are valid in script files:
 
@@ -10613,7 +11031,6 @@ the static initializer is triggered as follows:
     value that has observable initialization according to the rules that follow, or first access to any
     member of any type in the file that has at least one “static let” or “static do” declaration.
 
-
 At runtime, the static initializer evaluates, in order, the definitions in the file that have observable
 initialization according to the rules that follow. Definitions with observable initialization in nested
 modules and types are included in the static initializer for the overall file.
@@ -10626,23 +11043,23 @@ All definitions have observable initialization except for the following definiti
 - Value definitions that are generalized to have one or more type variables
 - Non-mutable, non-thread-local values that are bound to an _initialization constant expression_ ,
     which is an expression whose elaborated form is one of the following:
-    - A simple constant expression.
-    - A null expression.
-    - A use of the `typeof<_>` or `sizeof<_>` operator from `FSharp.Core.Operators`, or the
+  - A simple constant expression.
+  - A null expression.
+  - A use of the `typeof<_>` or `sizeof<_>` operator from `FSharp.Core.Operators`, or the
        `defaultof<_>` operator from `FSharp.Core.Operators.Unchecked`.
-    - A let expression where the constituent expressions are initialization constant expressions.
-    - A match expression where the input is an initialization constant expression, each case is a
+  - A let expression where the constituent expressions are initialization constant expressions.
+  - A match expression where the input is an initialization constant expression, each case is a
        test against a constant, and each target is an initialization constant expression.
-    - A use of one of the unary or binary operators `=`, `<>`, `<`, `>`, `<=`, `>=`, `+`, `-`, `*` , `<<<`, `>>>`, `|||`, `&&&`, `^^^`,
+  - A use of one of the unary or binary operators `=`, `<>`, `<`, `>`, `<=`, `>=`, `+`, `-`, `*` , `<<<`, `>>>`, `|||`, `&&&`, `^^^`,
        `~~~`, `enum<_>`, `not`, `compare`, prefix `–`, and prefix `+` from `FSharp.Core.Operators` on one or two
        arguments, respectively. The arguments themselves must be initialization constant
        expressions, but cannot be operations on decimals or strings. Note that the operators are
        unchecked for arithmetic operations, and that the operators `%` and `/` are not included
        because their use can raise division-by-zero exceptions.
-    - A use of a `[<Literal>]` value.
-    - A use of a case from an enumeration type.
-    - A use of a null case from a union type.
-    - A use of a value that is defined in the same assembly and does not have observable
+  - A use of a `[<Literal>]` value.
+  - A use of a case from an enumeration type.
+  - A use of a null case from a union type.
+  - A use of a value that is defined in the same assembly and does not have observable
        initialization, or the use of a value that is defined by a `let` or `match` expression within the
        expression itself.
 
@@ -10651,7 +11068,6 @@ static initializer runs as a mutual exclusion region. The use of a mutual exclus
 if another thread attempts to access a value that has observable initialization, that thread pauses
 until static initialization is complete. A static initializer runs only once, on the first thread that
 acquires entry to the mutual exclusion region.
-
 
 Values that have observable initialization have implied CLI fields that are private to the assembly. If
 such a field is accessed by using CLI reflection before the execution of the corresponding
@@ -10672,6 +11088,7 @@ module LibraryModule
 printfn "hello"
 let data = new Dictionary<int,int>()
 ```
+
 That is, the side effect of printing “hello” is guaranteed to be triggered by an access to the value
 `data`.
 
@@ -10687,6 +11104,7 @@ let size = 3
 let id x = x
 let f() = data
 ```
+
 All of the following represent definitions that do not have observable initialization because they are
 initialization constant expressions.
 
@@ -10727,8 +11145,6 @@ The function becomes the entry point to the program. At startup, F# immediately 
 of the static initializer for the file in which the function is declared, and then evaluates the body of
 the function.
 
-
-
 # 13. Custom Attributes and Reflection
 
 CLI languages use metadata inspection and the `System.Reflection` libraries to make guarantees
@@ -10756,6 +11172,7 @@ attribute-target :=
     constructor
     event
 ```
+
 ## 13.1 Custom Attributes
 
 CLI languages support the notion of _custom attributes_ which can be added to most declarations.
@@ -10772,6 +11189,7 @@ expressions. Attributes on parameters are given as follows:
 ```fsharp
 let foo([<SomeAttribute>] a) = a + 5
 ```
+
 If present, the arguments to a custom attribute must be _literal constant expressions_ , or arrays of the
 same.
 
@@ -10791,6 +11209,7 @@ type Foo1 [<System.Obsolete("don't use me")>] () =
 type Foo2 [<System.Obsolete("don't use me")>] private () =
     member x.Bar() = 1
 ```
+
 Custom attributes are mapped to compiled CLI metadata as follows:
 
 - Custom attributes map to the element that is specified by their target, if a target is given.
@@ -10802,8 +11221,8 @@ Custom attributes are mapped to compiled CLI metadata as follows:
     that is named `_F`.
 - A custom attribute on a union case `ABC` for a type `T` is compiled to a custom attribute on a static
     method on the CLI type definition `T`. This method is called:
-    - `get_ABC` if the union case takes no arguments
-    - `ABC` otherwise
+  - `get_ABC` if the union case takes no arguments
+  - `ABC` otherwise
 - Custom attributes on arguments are propagated only for arguments of member definitions, and
     not for “let”-bound function definitions.
 - Custom attributes on generic parameters are not propagated.
@@ -10878,7 +11297,6 @@ In addition:
     `System.Type` object, although the `System.Type` object is not accessible by using the `typeof`
     operator.
 
-
 However:
 
 - Internal and private function and value definitions are not guaranteed to be given corresponding
@@ -10889,7 +11307,6 @@ However:
     abbreviations and F# unit-of-measure annotations.
 - The definition of new units of measure results in corresponding compiled CLI type declarations
     with an associated `System.Type`.
-
 
 # 14. Inference Procedures
 
@@ -10917,21 +11334,20 @@ important only if ambiguities occur in referencing the contents of assemblies—
 two assemblies define the type `MyNamespace.C`.
 
 - _ExprItems_ : a table that maps names to the following items:
-    - A value
-    - A union case for use when constructing data
-    - An active pattern result tag for use when returning results from active patterns
-    - A type name for each class or struct type
+  - A value
+  - A union case for use when constructing data
+  - An active pattern result tag for use when returning results from active patterns
+  - A type name for each class or struct type
 - _FieldLabels_ : a table that maps names to sets of field references for record types
 - _PatItems_ : a table that maps names to the following items:
-    - A union case, for use when pattern matching on data
-    - An active pattern case name, for use when specifying active patterns
-    - A literal definition
+  - A union case, for use when pattern matching on data
+  - An active pattern case name, for use when specifying active patterns
+  - A literal definition
 - _Types_ : a table that maps names to type definitions. Two queries are supported on this table:
-    - Find a type by name alone. This query may return multiple types. For example, in the default
+  - Find a type by name alone. This query may return multiple types. For example, in the default
        type-checking environment, the resolution of `System.Tuple` returns multiple tuple types.
 
-
-    - Find a type by name and generic arity `n`. This query returns at most one type. For example, in
+  - Find a type by name and generic arity `n`. This query returns at most one type. For example, in
     the default type-checking environment, the resolution of `System.Tuple` with `n = 2` returns a
     single type.
 - _ExtensionsInScope_ : a table that maps type names to one or more member definitions
@@ -11076,6 +11492,7 @@ module M =
     let test6 = C.Prop1         // error: the value C does not have a property Prop
     let test7 = M.E.Prop2       // resolves to M.E, and then a property lookup
 ```
+
 The following example shows the resolution behavior for type lookups that are ambiguous by
 generic arity:
 
@@ -11120,6 +11537,7 @@ module M =
 let _ = M.C< >.P            // no error, resolves to C
     let _ = M.C<_>.P        // no error, resolves to C<'T>
 ```
+
 In the following example, the procedure issues a warning for an incomplete type. In this case, the
 type parameter `'T` cannot be inferred from the use `M.C.P`, because `'T` does not appear at all in the
 type of the resolved element `M.C<'T>.P`.
@@ -11131,6 +11549,7 @@ module M =
 
     let _ = M.C.P // no error, resolves to C<'T>.P, warning given
 ```
+
 The effect of these rules is to prefer value names over module names for single identifiers. For
 example, consider this case:
 
@@ -11141,6 +11560,7 @@ module Foo =
     let ABC = 2
 let x1 = Foo // evaluates to 1
 ```
+
 The rules, however, prefer type names over value names for single identifiers, because type names
 appear in the _ExprItems_ table. For example, consider this case:
 
@@ -11151,6 +11571,7 @@ type Foo() =
 let x1 = Foo.ABC // evaluates to 2
 let x2 = Foo() // evaluates to a new Foo()
 ```
+
 ### 14.1.5 Name Resolution for Members
 
 _Name Resolution for Members_ is a sub-procedure used to resolve `.member-ident[.rest]` to a
@@ -11188,6 +11609,7 @@ let b = new B()
 b.Foo(1)        // resolves to method in A
 b.Foo("abc")    // resolves to method in B
 ```
+
 ### 14.1.6 Name Resolution in Patterns
 
 _Name Resolution for Patterns_ is used to resolve `long-ident` in the context of pattern expressions.
@@ -11205,9 +11627,9 @@ match 4 with
 | C -> sprintf "matched, C = %d" C
 | _ -> sprintf "no match, C = %d" C
 ```
+
 results in `"matched, C = 4"`, because `C` is _not_ present in the _PatItems_ table, and hence becomes a
 value pattern. In contrast,
-
 
 ```fsharp
 [<Literal>]
@@ -11217,6 +11639,7 @@ match 4 with
 | C -> sprintf "matched, C = %d" C
 | _ -> sprintf "no match, C = %d" C
 ```
+
 results in `"no match, C = 3"`, because `C` is a literal and therefore _is_ present in the _PatItems_ table.
 
 ### 14.1.7 Name Resolution for Types
@@ -11266,12 +11689,14 @@ function:
 ```fsharp
 let f x y = (x:'T), (y:'T)
 ```
+
 In this case, the compiler assigns the identifiers `x` and `y` the same static type - that is, the same type
 inference variable is associated with the name `'T`. The full inferred type of the function is:
 
 ```fsharp
 val f<'T> : 'T -> 'T -> 'T * 'T
 ```
+
 The map is used throughout the processing of expressions and types in a left-to-right order. It is
 initially empty for any member or any other top-level construct that contains expressions and types.
 Entries are eliminated from the map after they are generalized. As a result, the following code
@@ -11283,6 +11708,7 @@ let f () =
     let g2 (y:'T) = (y:string)
     g1 3, g1 "3", g2 "4"
 ```
+
 The compiler generalizes `g1`, which is applied to both integer and string types. The type variable `'T` in
 `(y:'T)` on the third line refers to a different type inference variable, which is eventually constrained to
 be type `string`.
@@ -11353,7 +11779,6 @@ is invoked with an unknown number of type arguments.
 
 2. Apply _Item-Qualified Lookup_ for `item` and (`rest` + `projs`).
 
-
 ### 14.2.2 Item-Qualified Lookup
 
 Given an input item `item` and projections `projs`, _Item-Qualified Lookup_ computes the projection
@@ -11386,7 +11811,7 @@ _Item-Qualified Lookup_ proceeds as follows:
         - If the value has type `byref<ty2>`, add a byref dereference to the elaborated
         expression.
         - Insert implicit flexibility for the use of the value ([§14.4.3](#1443-implicit-insertion-of-flexibility-for-uses-of-functions-and-members)).
-        
+
         Then Apply _Expression-Qualified Lookup_ for type `ty` and any remaining projections.
 
     - If `item` is a type name, where `projs` begins with `<types>.long-ident`
@@ -11398,7 +11823,7 @@ _Item-Qualified Lookup_ proceeds as follows:
         - Apply _Item-Qualified Lookup_ to the new `item` and any remaining projections.
 
     - If `item` is a group of type names where `projs` begins with `<types>` or `expr` or `projs` is empty
-        
+
         - Process the types and use the results as the arguments to instantiate the named
         type reference, thus generating a type `ty`.
         - Process the object construction `ty(expr)` as an object constructor call in the same
@@ -11409,7 +11834,7 @@ _Item-Qualified Lookup_ proceeds as follows:
 
     - If `item` is a group of method references
 
-        - Apply _Method Application Resolution_ for the method group. _Method Application Resolution_ 
+        - Apply _Method Application Resolution_ for the method group. _Method Application Resolution_
           accepts an optional set of type arguments and a syntactic expression
             argument. Determine the arguments based on what `projs` begins with:
             - `<types> expr`, then use `<types>` as the type arguments and `expr` as the
@@ -11450,7 +11875,7 @@ _Item-Qualified Lookup_ proceeds as follows:
         - Apply _Expression-Qualified Lookup_ to `fty` and `projs`.
 
     - If `item` is an implicitly resolved symbolic operator name `op`
-        
+
         - If `op` is a unary, binary or the ternary operator ?<-, resolve to the following
         expressions, respectively:
 
@@ -11461,6 +11886,7 @@ _Item-Qualified Lookup_ proceeds as follows:
             (fun (x:^a) (y:^b) (z:^c)
                 -> ((^a or ^b or ^c) : static member (op) : ^a * ^b * ^c -> ^d) (x,y,z))
             ```
+
         - The resulting expressions are static member constraint invocation expressions ([§6.4.8](#648-member-constraint-invocation-expressions)),
         which enable the default interpretation of operators by using type-directed
         member resolution.
@@ -11550,6 +11976,7 @@ method as a first class value, such as the method call in the following example:
 ```fsharp
 List.map System.Environment.GetEnvironmentVariable ["PATH"; "USERNAME"]
 ```
+
 _Method Application Resolution_ proceeds through the following steps:
 
 1. Restrict the candidate method group `M` to those methods that are _accessible_ from the point of
@@ -11586,7 +12013,7 @@ _Method Application Resolution_ proceeds through the following steps:
           parentheses around the argument, equate this type with a type `byref<ty>` for a fresh
           type `ty`.
        - If the argument has the syntactic form of a function expression `fun pat1 ... patn -> expr`
-          after ignoring parentheses around the argument, equate this type with a 
+          after ignoring parentheses around the argument, equate this type with a
           type `ty1 -> ... tyn -> rty` for fresh types `ty1 ... tyn`.
     - If no argument `arg` is present:
 
@@ -11606,7 +12033,7 @@ _Method Application Resolution_ proceeds through the following steps:
             - The method application is considered to have one unnamed actual argument for
             each prospective unnamed actual argument type.
 
-            -    The method application is considered to have no named actual arguments.
+            - The method application is considered to have no named actual arguments.
 
 4. For each candidate method in `M`, attempt to produce zero, one, or two _prospective method calls_
     `M~possible` as follows:
@@ -11641,7 +12068,7 @@ _Method Application Resolution_ proceeds through the following steps:
 
     - Associate each `name = arg` in `NamedActualArgs` with a target. A target is a _named formal
       parameter_, a _settable return property_, or a _settable return field_ as follows:
-    
+
         - If one of the arguments in `NamedFormalArgs` has name `name`, that argument is the target.
         - If the return type of `M`, before the application of any type arguments `ActualTypeArgs`,
             contains a settable property `name`, then `name` is the target. The available properties
@@ -11734,18 +12161,17 @@ _Method Application Resolution_ proceeds through the following steps:
     the property.
     - If `arg` is not present, return a function expression that represents a first class function value.
 
-
 Two additional rules apply when checking arguments (see [§8.13.7](#8137-type-directed-conversions-at-member-invocations) for examples):
 
-  - If a formal parameter has delegate type `D`, an actual argument `farg` has known type
+- If a formal parameter has delegate type `D`, an actual argument `farg` has known type
       `ty1 -> ... -> tyn -> rty`, and the number of arguments of the Invoke method of delegate type
       `D` is precisely `n`, interpret the formal parameter in the same way as the following:
          `new D (fun arg1 ... argn -> farg arg1 ... argn)`.
 
     For more information on the conversions that are automatically applied to arguments, see
   [§8.13.6](#8136-optional-arguments-to-method-members).
-  
-  - If a formal parameter is an `out` parameter of type `byref<ty>`, and an actual argument type is
+
+- If a formal parameter is an `out` parameter of type `byref<ty>`, and an actual argument type is
       not a byref type, interpret the actual parameter in the same way as type `ref<ty>`. That is, an F#
       reference cell can be passed where a `byref<ty>` is expected.
 
@@ -11763,6 +12189,7 @@ library, `System.Random.Next` is overloaded:
 ```fsharp
 val roll : int -> int
 ```
+
 The reason is that if the initial type contains no information about the expected number of
 arguments, the F# compiler assumes that the method has one argument.
 
@@ -11774,11 +12201,13 @@ overloaded set of methods
 ```fsgrammar
 callerObjArgTy.Method(callerArgExpr1 , ... callerArgExprN)
 ```
+
 calling
 
 ```fsgrammar
 calledObjArgTy.Method(calledArgTy1, ... calledArgTyN)
 ```
+
 In F# 3.1 and subsequently, immediately prior to checking argument expressions, each argument
 position of the unnamed caller arguments for the method call is analysed to propagate type
 information extracted from method overloads to the expected types of lambda expressions. The
@@ -11789,9 +12218,9 @@ new rule is applied when
     parenthesized
 - all the corresponding formal called arguments have `calledArgTy` either of
 
-    - function type `calledArgDomainTy1 -> ... -> calledArgDomainTyN -> calledArgRangeTy`
+  - function type `calledArgDomainTy1 -> ... -> calledArgDomainTyN -> calledArgRangeTy`
         (after taking into account “function to delegate” adjustments), or
-    - some other type which would cause an overload to be discarded
+  - some other type which would cause an overload to be discarded
 
 - at least one overload has enough curried lambda arguments for it corresponding expected
     function type
@@ -11817,8 +12246,8 @@ the member is adjusted as follows:
     application expressions that resolve to calls to members that have the `Conditional` attribute and
     ensures that arguments are not evaluated. Elimination of such expressions proceeds first with
     static members and then with instance members, as follows:
-    - Static members: `Type.M(args)` => `()`
-    - Instance members: `expr.M(args)` => `()`
+  - Static members: `Type.M(args)` => `()`
+  - Instance members: `expr.M(args)` => `()`
 
 ### 14.4.3 Implicit Insertion of Flexibility for Uses of Functions and Members
 
@@ -11836,6 +12265,7 @@ member as follows:
     ```fsgrammar
     ty11 * ... * ty1n -> ... -> tym1 * ... * tymn -> rty
     ```
+
 - If the type does not decompose to this form, no flexibility is added.
 - The positions `tyij` are called the “parameter positions” for the type. For each parameter position
     where `tyij` is not a sealed type, and is not a variable type, the type is replaced by a fresh type
@@ -11870,6 +12300,7 @@ let res = f d
 // Use f as a first-class function value of type : Derived -> int
 let res2 = (f : Derived -> int)
 ```
+
 The F# compiler determines whether to insert flexibility after explicit instantiation, but before any
 arguments are checked. For example, given the following:
 
@@ -11878,6 +12309,7 @@ let M<'b>(c :'b, d :'b) = 1
 let obj = new obj()
 let str = ""
 ```
+
 these expressions pass type-checking:
 
 ```fsharp
@@ -11888,12 +12320,14 @@ M<obj>(str, str)
 M(obj, obj)
 M(str, str)
 ```
+
 These expressions do not, because the target type is a variable type:
 
 ```fsharp
 M(obj, str)
 M(str, obj)
 ```
+
 ## 14.5 Constraint Solving
 
 Constraint solving involves processing (“solving”) non-primitive constraints to reduce them to
@@ -11917,8 +12351,8 @@ typar : not struct
 typar : enum< type >
 typar : delegate< type, type >
 ```
-Each newly introduced constraint is solved as described in the following sections.
 
+Each newly introduced constraint is solved as described in the following sections.
 
 ### 14.5.1 Solving Equational Constraints
 
@@ -11936,7 +12370,7 @@ Primitive constraints in the form `typar :> obj` are discarded.
 New constraints in the form `type1 :> type2`, where `type2` is a sealed type, are reduced to the
 constraint `type1` = `type2` and solved again.
 
-New constraints in either of these two forms are reduced to the constraints 
+New constraints in either of these two forms are reduced to the constraints
 `tyarg11 = tyarg 21 ... tyarg1n = tyarg2n` and solved again:
 
 ```fsother
@@ -11959,11 +12393,13 @@ For example, if `MySubClass<'T>` is derived from `MyBaseClass<list<'T>>`, then t
 ```fsother
 MySubClass<'T> :> MyBaseClass<int>
 ```
+
 is reduced to the constraint
 
 ```fsother
 MyBaseClass<list<'T>> :> MyBaseClass<list<int>>
 ```
+
 and solved again, so that the constraint `'T = int` will eventually be derived.
 
 > Note : Subtype constraints on single-dimensional array types `ty[] :> ty` are reduced to
@@ -12000,6 +12436,7 @@ type : enum< type >
 type : delegate< type, type >
 type : unmanaged
 ```
+
 The compiler then resolves them according to the requirements for each kind of constraint listed in
 [§5.2](types-and-type-constraints.md#type-constraints) and [§5.4.8](#548-nullness).
 
@@ -12010,6 +12447,7 @@ New constraints in the following form are solved as _member constraints_ ([§5.2
 ```fsother
 (type1 or ... or typen) : (member-sig)
 ```
+
 A member constraint is satisfied if one of the types in the _support set_ `type1 ... typen` satisfies the
 member constraint. A static type `type` satisfies a member constraint in the form
 `(static~opt member ident : arg-type1 * ... * arg-typen -> ret-type)`
@@ -12028,6 +12466,7 @@ variable is in the support set of more than one such constraint, the argument an
 themselves constrained to be equal.
 
 #### 14.5.4.1 Simulation of Solutions for Member Constraints
+
 Certain types are assumed to implicitly define static members even though the actual CLI metadata
 for types does not define these operators. This mechanism is used to implement the extensible
 conversion and math functions of the F# library including `sin`, `cos`, `int`, `float`, `(+)`, and `(-)`. The
@@ -12050,6 +12489,7 @@ the following results in a warning because `'T` has been constrained to be preci
 ```fsharp
 let f (x:'T) = (x:string)
 ```
+
 During the resolution of overloaded methods, resolutions that do not give such a warning are
 preferred over resolutions that do give such a warning.
 
@@ -12073,15 +12513,19 @@ Each definition is one of the following:
     ```fsgrammar
     inline~opt ident1 pat1 ... patn :~opt return-type~opt = rhs-expr
     ```
+
 - A value definition, which defines one or more values by matching a pattern against an expression:
+
     ```fsgrammar
     mutable~opt pat :~opt type~opt = rhs-expr
     ```
+
 - A member definition:
 
     ```fsgrammar
     static~opt member ident~opt ident pat1 ... patn = expr
     ```
+
 For a function, value, or member definition in a class:
 
 1. If the definition is an instance function, value or member, checking uses an environment to
@@ -12103,6 +12547,7 @@ type OneInteger = Id of int
 
 let Id x = x
 ```
+
 In this case, the ambiguity is whether `Id x` is a pattern that matches values of type `OneInteger` or is
 the function name and argument list of a function called `Id`. In F# this ambiguity is always resolved
 as a function definition. In this case, to make a value definition, use the following syntax in which the
@@ -12112,6 +12557,7 @@ ambiguous pattern is enclosed in parentheses:
 let v = if 3 = 4 then Id "yes" else Id "no"
 let (Id answer) = v
 ```
+
 ### 14.6.2 Mutable Value Definitions
 
 Value definitions may be marked as mutable. For example:
@@ -12122,6 +12568,7 @@ while v < 10 do
     v <- v + 1
     printfn "v = %d" v
 ```
+
 These variables are implicitly dereferenced when used.
 
 ### 14.6.3 Processing Value Definitions
@@ -12141,6 +12588,7 @@ A value definition `pat = rhs-expr` with optional pattern type `type` is process
     ident<typars1> = expr
     body-expr
     ```
+
 6. Otherwise, the resulting elaborated definitions are the following, where `tmp` is a fresh identifier
     and each `expri` results from the compilation of the pattern `pat` ([§7](patterns.md#patterns)) against input `tmp`.
 
@@ -12150,6 +12598,7 @@ A value definition `pat = rhs-expr` with optional pattern type `type` is process
     ...
     identn<typarsn> = exprn
     ```
+
 ### 14.6.4 Processing Function Definitions
 
 A function definition `ident1 pat1 ... patn = rhs-expr` is processed as follows:
@@ -12162,15 +12611,18 @@ A function definition `ident1 pat1 ... patn = rhs-expr` is processed as follows:
 3. The `ident1` (of type `ty1`) is then generalized ([§14.6.7](#1467-generalization)) and yields generic parameters `<typars1>`.
 4. The following rules are checked:
     - Function definitions may not be `mutable`. Mutable function values should be written as follows:
+
     ```fsother
     let mutable f = (fun args -> ...)`
     ```
+
     - The patterns of functions may not include optional arguments ([§8.13.6](#8136-optional-arguments-to-method-members)).
 5. The resulting elaborated definition is:
 
     ```fsgrammar
     ident1<typars1> = expr1
     ```
+
 ### 14.6.5 Processing Recursive Groups of Definitions
 
 A group of functions and values may be declared recursive through the use of `let rec`. Groups of
@@ -12189,6 +12641,7 @@ and oneBack count =
     printfn "at %d, taking one step back " count
     twoForward (count – 1)
 ```
+
 When one or more definitions specifies a value, the recursive expressions are analyzed for safety
 ([§14.6.6](#1466-recursive-safety-analysis)). This analysis may result in warnings—including some reported at compile time—and
 runtime checks.
@@ -12207,9 +12660,9 @@ let rec countDown count x =
     else
         1
 ```
+
 In this example, the definition is not valid because the recursive uses of `f` result in inconsistent
 constraints on `x`.
-
 
 If a definition has a full signature, early generalization applies and recursive calls at different types
 are permitted ([§14.6.7](#1467-generalization)). For example:
@@ -12221,6 +12674,7 @@ module M =
         let b = f "Hello"
         x
 ```
+
 In this example, the definition is valid because `f` is subject to early generalization, and so the
 recursive uses of `f` do not result in inconsistent constraints on `x`.
 
@@ -12237,11 +12691,13 @@ let const n =
     let rec r = React((fun c -> r), n)
     r
 ```
+
 Recursive value definitions may result in invalid recursive cycles, such as the following:
 
 ```fsharp
 let rec x = x + 1
 ```
+
 The _Recursive Safety Analysis_ process partially checks the safety of these definitions and convert
 thems to a form that uses lazy initialization, where runtime checks are inserted to check
 initialization.
@@ -12257,12 +12713,11 @@ A right-hand side expression is _safe_ if it is any of the following:
     safe.
 - A value that is not being recursively bound.
 - A value that is being recursively bound and appears in one of the following positions:
-    - As a field initializer for a field of a record type where the field is marked `mutable`.
-    - As a field initializer for an immutable field of a record type that is defined in the current
+  - As a field initializer for a field of a record type where the field is marked `mutable`.
+  - As a field initializer for an immutable field of a record type that is defined in the current
        assembly.
        If record fields contain recursive references to values being bound, the record fields must be
        initialized in the same order as their declared type, as described later in this section.
-
 
 - Any expression that refers only to earlier variables defined by the sequence of recursive
     definitions.
@@ -12273,11 +12728,13 @@ is
 ```fsharp
 u = expr
 ```
+
 then a fresh value (say v) is generated with the definition:
 
 ```fsharp
 v = lazy expr
 ```
+
 and occurrences of the original variable `u` on the right-hand side are replaced by `Lazy.force v`. The
 following definition is then added at the end of the definition list:
 
@@ -12296,6 +12753,7 @@ such as forms, controls, and services that respond to various inputs. For exampl
 elements that store and retrieve the state of the GUI elements as part of their
 specification typically involve recursive value definitions. A simple example is the
 following menu item, which prints out part of its state when invoked:
+
 ```fsharp
 open System.Windows.Form
 let rec menuItem : MenuItem =
@@ -12304,6 +12762,7 @@ let rec menuItem : MenuItem =
                      printfn "Text = %s" menuItem.Text),
                  Shortcut.CtrlH)
 ```
+
 > This code results in a compiler warning because, in theory, the
 `new MenuItem(...)` constructor might evaluate the callback as part of the construction
 process. However, because the `System.Windows.Forms` library is well designed, in this
@@ -12330,16 +12789,20 @@ means that runtime checks and forces are inserted.
 generalization because a generic value definition is not executed immediately, but is
 instead represented as a generic method. For example, the following value definitions
 are generic because each right-hand-side is generalizable:
+
 ```fsharp
 let rec a = b
 and b = a
 ```
+
 > In compiled code they are represented as a pair of generic methods, as if the code had
 been written as follows:
+
 ```fsharp
 let rec a<'T>() = b<'T>()
 and b<'T>() = a<'T>()
 ```
+
 > As a result, the definitions are not executed immediately unless the functions are called.
 Such definitions indicate a programmer error, because executing such generic,
 immediately recursive definitions results in an infinite loop or an exception. In practice
@@ -12347,13 +12810,16 @@ these definitions only occur in pathological examples, because value definitions
 generalizable only when the right-hand-side is very simple, such as a single value. Where
 this issue is a concern, type annotations can be added to existing value definitions to
 ensure they are not generic. For example:
+
 ```fsharp
 let rec a : int = b
 and b : int = a
 ```
+
 > In this case, the definitions are not generic. The compiler performs immediate
 dependency analysis and reports an error. In addition, record fields in recursive data
 expressions must be initialized in the order they are declared. For example:
+
 ```fsharp
 type Foo = {
     x: int
@@ -12367,6 +12833,7 @@ and children = [{ x = 1; y = 1; parent = Some parent; children = [] }]
 
 printf "%A" parent
 ```
+
 > Here, if the order of the fields x and y is swapped, a type-checking error occurs.
 
 ### 14.6.7 Generalization
@@ -12377,7 +12844,6 @@ all function, value, and member definitions, except where listed later in this s
 also applies to member definitions that implement generic virtual methods in object expressions.
 
 Generalization is applied incrementally to items in a recursive group after each item is checked.
-
 
 Generalization takes a set of ungeneralized but type-checked definitions _checked-defns_ that form
 part of a recursive group, plus a set of unchecked definitions _unchecked-defns_ that have not yet been
@@ -12422,7 +12888,6 @@ environment or present in ungeneralizable definitions.
 
 5. Repeat steps 2 through 4.
 
-
 Informally, generalizable expressions represent a subset of expressions that can be freely copied and
 instantiated at multiple types without affecting the typical semantics of an F# program. The
 following expressions are generalizable:
@@ -12450,18 +12915,21 @@ will not be generalized beyond those generic parameters. For example, consider t
 ```fsharp
 let f<'T> (x : 'T) y = x
 ```
+
 During type inference, this will result in a function of the following type, where `'_b` is a type
 inference variable that is yet to be resolved.
 
 ```fsharp
 f<'T> : 'T -> '_b -> '_b
 ```
+
 To permit generalization at these definitions, either remove the explicit generic parameters (if they
 can be inferred), or use the required number of parameters, as the following example shows:
 
 ```fsharp
 let throw<'T,'U> (x:'T) (y:'U) = x
 ```
+
 ### 14.6.8 Condensation of Generalized Types
 
 After a function or member definition is generalized, its type is condensed by removing generic type
@@ -12473,6 +12941,7 @@ Condensation decomposes the type of a value or member to the following form:
 ```fsgrammar
 ty11 * ... * ty1n -> ... -> tym1 * ... * tymn -> rty
 ```
+
 The positions `tyij` are called the parameter positions for the type.
 
 Condensation applies to a type parameter `'a` if all of the following are true:
@@ -12494,37 +12963,44 @@ constraint `ty`. For example:
 ```fsharp
 let F x = (x :> System.IComparable).CompareTo(x)
 ```
+
 After generalization, the function is inferred to have the following type:
 
 ```fsharp
 F : 'a -> int when 'a :> System.IComparable
 ```
+
 In this case, the actual inferred, generalized type for `F` is condensed to:
 
 ```fsharp
 F : System.IComparable -> R
 ```
+
 Condensation does not apply to arguments of unconstrained variable type. For example:
 
 ```fsharp
 let ignore x = ()
 ```
+
 with type
 
 ```fsharp
 ignore: 'a -> unit
 ```
+
 In particular, this is not condensed to
 
 ```fsharp
 ignore: obj -> unit
 ```
+
 In rare cases, condensation affects the points at which value types are boxed. In the following
 example, the value `3` is now boxed at uses of the function:
 
 ```fsharp
 F 3
 ```
+
 If a function is not generalized, condensation is not applied. For example, consider the following:
 
 ```fsharp
@@ -12532,6 +13008,7 @@ let test1 =
     let ff = Seq.map id >> Seq.length
     (ff [1], ff [| 1 |]) // error here
 ```
+
 In this example, `ff` is not generalized, because it is not defined by using a generalizable expression—
 computed functions such as `Seq.map id >> Seq.length` are not generalizable. This means that its
 inferred type, after processing the definition, is
@@ -12539,12 +13016,14 @@ inferred type, after processing the definition, is
 ```fsharp
 F : '_a -> int when '_a :> seq<'_b>
 ```
+
 where the type variables are not generalized and are unsolved inference variables. The application
 of `ff` to `[1]` equates `'a` with `int list`, making the following the type of `F`:
 
 ```fsharp
 F : int list -> int
 ```
+
 The application of `ff` to an array type then causes an error. This is similar to the error returned by
 the following:
 
@@ -12553,6 +13032,7 @@ let test1 =
     let ff = Seq.map id >> Seq.length
     (ff [1], ff ["one"]) // error here
 ```
+
 Again, `ff` is not generalized, and its use with arguments of type `int list` and `string list` is not
 permitted.
 
@@ -12582,6 +13062,7 @@ type IA = interface abstract P : int end
 type IB = interface inherit IA end
 type ID = interface inherit IB end
 ```
+
 With these definitions, the following object expression is legal. Type `IB` is the most-specific
 implemented type that encompasses `IA`, and therefore the implementation mapping for `P` must be
 listed under `IB`:
@@ -12591,8 +13072,8 @@ let x = { new ID
           interface IB with
             member x.P = 2 }
 ```
-But given:
 
+But given:
 
 ```fsharp
 type IA = interface abstract P : int end
@@ -12600,6 +13081,7 @@ type IB = interface inherit IA end
 type IC = interface inherit IB end
 type ID = interface inherit IB inherit IC end
 ```
+
 then the following object expression causes an error, because both `IB` and `IC` include the interface
 `IA`, and consequently the implementation mapping for `P` is ambiguous.
 
@@ -12610,6 +13092,7 @@ let x = { new ID
           interface IC with
             member x.P = 2 }
 ```
+
 The ambiguity can be resolved by explicitly implementing interface `IA`.
 
 After dispatch slots are assigned to types, the compiler tries to associate each member with a
@@ -12621,17 +13104,21 @@ proceeds as follows:
     ```fsgrammar
     abstract M : aty1 ... atyN -> rty
     ```
+
     with name `M`, argument count `N`, and most-specific implementing type `tyi`.
 
 - To determine the argument counts, analyze the syntax of patterns and look specifically for
     tuple and unit patterns. Thus, the following members have argument count 1, even though
     the argument type is unit:
+
     ```fsgrammar
     member obj.ToString(() | ()) = ...
     member obj.ToString(():unit) = ...
     member obj.ToString(_:unit) = ...
     ```
+
 - A member may have a return type, which is ignored when determining argument counts:
+
     ```fsother
     member obj.ToString() : string = ...
     ```
@@ -12643,6 +13130,7 @@ let obj1 =
     { new System.Collections.Generic.IComparer<int> with
         member x.Compare(a,b) = compare (a % 7) (b % 7) }
 ```
+
 the types of `a` and `b` are inferred by looking at the signature of the implemented dispatch slot, and
 are hence both inferred to be `int`.
 
@@ -12653,7 +13141,6 @@ properties, such as ensuring that all abstract members are implemented.
 
 After the compiler checks all bodies of all methods, it checks that a one-to-one mapping exists
 between dispatch slots and implementing members based on exact signature matching.
-
 
 The interface methods and abstract method slots of a type are collectively known as _dispatch slots_.
 Each object expression and type definition results in an elaborated _dispatch map_. This map is keyed
@@ -12680,10 +13167,10 @@ To ensure the safety of byref arguments, the following checks are made:
 
 - Byref types may not be used as generic arguments.
 - Byref values may not be used in any of the following:
-    - The argument types or body of function expressions `(fun ... -> ...)`.
-    - The member implementations of object expressions.
-    - The signature or body of let-bound functions in classes.
-    - The signature or body of let-bound functions in expressions.
+  - The argument types or body of function expressions `(fun ... -> ...)`.
+  - The member implementations of object expressions.
+  - The signature or body of let-bound functions in classes.
+  - The signature or body of let-bound functions in expressions.
 
 Note that function expressions occur in:
 
@@ -12701,7 +13188,6 @@ As a result, a byref-typed expression can occur only in these situations:
 
 - As an argument to a call to a module-defined function or class-defined function.
 
-
 - On the right-hand-side of a value definition for a byref-typed local.
 
 These restrictions also apply to uses of the prefix && operator for generating native pointer values.
@@ -12717,6 +13203,7 @@ let sumSquares n =
     [ 1 .. n ] |> Seq.iter (fun x -> total <- total + x*x)
     total
 ```
+
 is considered equivalent to the following definition:
 
 ```fsharp
@@ -12726,6 +13213,7 @@ let sumSquares n =
                     (fun x -> total.contents <- total.contents + x*x)
     total.contents
 ```
+
 because the following would be subject to byref safety analysis:
 
 ```fsharp
@@ -12733,6 +13221,7 @@ let sumSquares n =
     let mutable total = 0
     &total
 ```
+
 ## 14.11 Arity Inference
 
 During checking, members within types and function definitions within modules are inferred to have
@@ -12748,23 +13237,26 @@ where each `Ai` is derived from the tuple length for the final inferred types of
 ```fsother
 let ident pat 1 ... patn = ...
 ```
+
 For example, the following is given arity [1; 2]:
 
 ```fsharp
 let f x (y,z) = x + y + z
 ```
+
 Arities are also inferred from function expressions that appear on the immediate right of a value
 definition. For example, the following has an arity of [1]:
 
 ```fsharp
 let f = fun x -> x + 1
 ```
-Similarly, the following has an arity of [1;1]:
 
+Similarly, the following has an arity of [1;1]:
 
 ```fsharp
 let f x = fun y -> x + y
 ```
+
 Arity inference is applied partly to help define the elaborated form of a function definition. This is
 the form that other CLI languages see. In particular:
 
@@ -12783,11 +13275,13 @@ For example, consider a function in a module with the following definition:
 ```fsharp
 let AddThemUp x (y, z) = x + y + z
 ```
+
 This function compiles to a CLI static method with the following C# signature:
 
 ```fsharp
 int AddThemUp(int x, int y, int z);
 ```
+
 Arity inference applies differently to function and member definitions. Arity inference on function
 definitions is fully type-directed. Arity inference on members is limited if parentheses or other
 patterns are used to specify the member arguments. For example:
@@ -12812,19 +13306,20 @@ module Foo =
 type Bar() =
     // compiles as a static method taking 3 arguments
     static member Test1 (a1: int, a2: float, a3: string) = ()
-    
+
     // compiles as a static method taking 1 tupled argument
     static member Test2 (aTuple : int * float * string) = ()
-    
+
     // compiles as a static method taking 1 tupled argument
     static member Test3 ( (aTuple : int * float * string) ) = ()
-    
+
     // compiles as a static method taking 1 tupled argument
     static member Test4 ( (a1: int, a2: float, a3: string) ) = ()
-    
+
     // compiles as a static method taking 1 tupled argument
     static member Test5 (a1, a2, a3 : int * float * string) = ()
 ```
+
 ## 14.12 Additional Constraints on CLI Methods
 
 F# treats some CLI methods and types specially, because they are common in F# programming and
@@ -12856,6 +13351,7 @@ does not take an `IComparer<T>`
 
 `new SortedDictionary<A,B>()` requiring `C : comparison`, for any overload that does not take an
 `IEqualityComparer<_>`
+
 # 15. Lexical Filtering
 
 ## 15.1 Lightweight Syntax
@@ -12886,22 +13382,27 @@ delimiter is still required to terminate interactive entries to fsi.exe, but not
 from Visual Studio.
 
 Lightweight Syntax
+
 ```fsharp
 printf "Hello"
 printf "World"
 ```
+
 Normal Syntax
+
 ```fsharp
 printf "Hello";;
 printf "World";;
 ```
 
 #### 15.1.1.2 in keyword
+
 When the lightweight syntax option is enabled, the `in` keyword is optional. The token after the `=` in
 a `let` definition begins a new block, and the pre-parser inserts an implicit separating `in` token
 between each definition that begins at the same column as that token.
 
 Lightweight Syntax
+
 ```fsharp
 let SimpleSample() =
     let x = 10 + 12 - 3
@@ -12909,6 +13410,7 @@ let SimpleSample() =
     let r1,r2 = x/3, x%3
     (x,y,r1,r2)
 ```
+
 ```fsharp
 Normal Syntax
 #indent "off"
@@ -12920,10 +13422,12 @@ let SimpleSample() =
 ```
 
 #### 15.1.1.3 done keyword
+
 When the lightweight syntax option is enabled, the `done` keyword is optional. Indentation establishes
 the scope of structured constructs such as `match`, `for`, `while` and `if`/`then`/`else`.
 
 Lightweight Syntax
+
 ```fsharp
 let FunctionSample() =
     let tick x = printfn "tick %d" x
@@ -12932,9 +13436,11 @@ let FunctionSample() =
         if f x then g x else h x
     for i = 0 to 10 do
         choose (fun n -> n%2 = 0) tick tock i
-    printfn "done!" 
+    printfn "done!"
 ```
+
 Normal Syntax
+
 ```fsharp
 #indent "off"
 let FunctionSample() =
@@ -12949,11 +13455,13 @@ let FunctionSample() =
 ```
 
 #### 15.1.1.4 if / then / else Scope
+
 When the lightweight syntax option is enabled, the scope of `if`/`then`/`else` is implicit from
 indentation. Without the lightweight syntax option, `begin`/`end` or parentheses are often required to
 delimit such constructs.
 
 Lightweight Syntax
+
 ```fsharp
 let ArraySample() =
     let numLetters = 26
@@ -12969,6 +13477,7 @@ let ArraySample() =
 ```
 
 Normal Syntax
+
 ```fsharp
 #indent "off"
 let ArraySample() =
@@ -12985,6 +13494,7 @@ let ArraySample() =
     done;
     printfn "done!"
 ```
+
 ### 15.1.2 Inserted Tokens
 
 Lexical filtering inserts the following hidden tokens :
@@ -13019,7 +13529,7 @@ expr +:=
     | for expr to expr do expr $done
     | try expr $end with expr $done
     | try expr $end finally expr $done
-    
+
     | expr $app expr            // equivalent to " expr ( expr )"
     | expr $sep expr            // equivalent to " expr ; expr "
     | expr $tyapp < types >     // equivalent to " expr < types >"
@@ -13050,6 +13560,7 @@ module-signature-elements +:=
 module-signature +:=
     | module ident = $begin module-signature-body $end
 ```
+
 ### 15.1.4 Offside Lines
 
 Lightweight syntax is sometimes called the “offside rule”. In F# code, offside lines occur at column
@@ -13076,6 +13587,7 @@ let z = 3    // warning FS0058: possible
              // incorrect indentation: this token is offside of
              // context at position (2:1)
 ```
+
 In the second example, the `|` markers in the match patterns do not align properly:
 
 ```fsharp
@@ -13129,6 +13641,7 @@ let mutable x = 1
 X <- printfn "hello"
     2 + 2
 ```
+
 To start a SeqBlock on the right, either parentheses or a new line should be used:
 
 ```fsharp
@@ -13206,6 +13719,7 @@ let FunctionSample() =
 //      ^ Offside limit for inner let and for contexts
 //  ^ Offside limit for outer let context
 ```
+
 When a token occurs on or before the _offside limit_ for the current offside stack, and a _permitted
 undentation_ does not apply, enclosing contexts are _closed_ until the token is no longer offside. This
 may result in the insertion of extra delimiting tokens.
@@ -13232,10 +13746,12 @@ Tokens are also inserted in the following situations:
 - When a token occurs directly on the offside line of a _SeqBlock_ on the second or subsequent lines
     of the block, the `$sep` token is inserted. This token plays the same role as `;` in the grammar rules.
     For example, consider this source text:
+
     ```fsharp
        let x = 1
        x
     ```
+
 The raw token stream contains `let`, `x`, `=`, `1`, `x` and the end-of-file marker `eof`. An initial _SeqBlock_ is
 pushed immediately after the start of the file, at the first token in the file, with an offside line on
 column 0. The `let` token pushes a _Let_ context. The `=` token in a _Let_ context pushes a _SeqBlock_
@@ -13277,7 +13793,6 @@ operators.
         someCollection
         |> List.map (fun x -> x + 1)
     ```
-
 
     In the example below, the first `)` token does
 not indicate a new element in a
@@ -13345,6 +13860,7 @@ increase indentation.
     ```
 
 - In an _Interface_ context, the `end` token may align precisely with the `interface` keyword.
+
     ```fsharp
     interface IDisposable with
         member x.Dispose() = printfn disposing!"
@@ -13352,6 +13868,7 @@ increase indentation.
     ```
 
 - In an _If_ context, the `then`, `elif`, and `else` tokens may align precisely with the `if` keyword.
+
     ```fsharp
     if big
     then callSomeFunction()
@@ -13363,6 +13880,7 @@ increase indentation.
 - In a _Try_ context, the `finally` and `with` tokens may align precisely with the `try` keyword.
 
     Example 1:
+
     ```fsharp
     try
         callSomeFunction()
@@ -13371,6 +13889,7 @@ increase indentation.
     ```
 
     Example 2:
+
     ```fsharp
     try
         callSomeFunction()
@@ -13379,6 +13898,7 @@ increase indentation.
     ```
 
 - In a _Do_ context, the `done` token may align precisely with the `do` keyword.
+
     ```fsharp
     for i = 1 to 3
         do
@@ -13397,6 +13917,7 @@ the case. However, undentation is permitted for the following constructs:
 - Bodies of modules and module types
 
 #### 15.1.10.1 Undentation of Bodies of Function Expressions
+
 The bodies of functions may be undented from the `fun` or `function` symbol. As a result, the compiler
 ignores the symbol when determining whether the body of the function satisfies the incremental
 indentation rule. For example, the `printf` expression in the following example is undented from the
@@ -13407,6 +13928,7 @@ let HashSample(tab: Collections.HashTable<_,_>) =
     tab.Iterate (fun c v ->
         printfn "Entry (%O,%O)" c v)
 ```
+
 However, the block must not undent past other offside lines. The following is not permitted because
 the second line breaks the offside line established by the `=` in the first line:
 
@@ -13415,9 +13937,11 @@ let x = (function (s, n) ->
     (fun z ->
         s+n+z))
 ```
+
 Constructs enclosed in brackets may be undented.
 
 #### 15.1.10.2 Undentation of Branches of If/Then/Else Expressions
+
 The body of a `(` ... `)` or `begin` ... `end` block in an `if`/`then`/`else` expression may be undented when the
 body of the block follows the `then` or `else` keyword but may not undent further than the `if`
 keyword. In this example, the parenthesized block follows `then`, so the body can be undented to the
@@ -13429,7 +13953,9 @@ let IfSample(day: System.DayOfWeek) =
         printf "I don't like Mondays"
     )
 ```
+
 #### 15.1.10.3 Undentation of Bodies of Modules and Module Types
+
 The bodies of modules and module types that are delimited by `begin` and `end` may be undented. For
 example, in the following example the two let statements that comprise the module body are
 undented from the `=`.
@@ -13440,6 +13966,7 @@ module MyNestedModule = begin
     let two = 2
 end
 ```
+
 Similarly, the bodies of classes, interfaces, and structs delimited by `{` ... `}`, `class` ... `end`, `struct` ... `end`,
 or `interface` ... `end` may be undented to the offside line established by the `type` keyword. For
 example:
@@ -13449,6 +13976,7 @@ type MyNestedModule = interface
     abstract P : int
 end
 ```
+
 ## 15.2 High Precedence Application
 
 The entry `f x` in the precedence table in [§4.4.2](#442-precedence-of-symbolic-operators-and-patternexpression-constructs) refers to a function application in which the function
@@ -13460,11 +13988,13 @@ and dot-notation operators. Conceptually this means that
 ```fsharp
 B(e)
 ```
+
 is analyzed lexically as
 
 ```fsgrammar
 B $app (e)
 ```
+
 where `$app` is an internal symbol inserted by lexical analysis. We do not show this symbol in the
 remainder of this specification and simply show the original source text.
 
@@ -13474,12 +14004,14 @@ This means that the following two statements
 B(e).C
 B (e).C
 ```
+
 are parsed as
 
 ```fsgrammar
 (B(e)).C
 B ((e).C)
 ```
+
 respectively.
 
 Furthermore, arbitrary chains of method applications, property lookups, indexer lookups (`.[]`), field
@@ -13490,6 +14022,7 @@ example:
 ```fsharp
 e.Meth1(arg1,arg2).Prop1.[3].Prop2.Meth2()
 ```
+
 Although the grammar and these precedence rules technically allow the use of high-precedence
 application expressions as direct arguments, an additional check prevents such use. Instead, such
 expressions must be surrounded by parentheses. For example,
@@ -13497,18 +14030,20 @@ expressions must be surrounded by parentheses. For example,
 ```fsharp
 f e.Meth1(arg1,arg2) e.Meth2(arg1,arg2)
 ```
+
 must be written
 
 ```fsharp
 f (e.Meth1(arg1,arg2)) (e.Meth2(arg1,arg2))
 ```
+
 However, indexer, field, and property dot-notation lookups may be used as arguments without
 adding parentheses. For example:
-
 
 ```fsharp
 f e.Prop1 e.Prop2.[3]
 ```
+
 ## 15.3 Lexical Analysis of Type Applications
 
 The entry `f<types> x` in the precedence table ([§4.4.2](#442-precedence-of-symbolic-operators-and-patternexpression-constructs)) refers to any identifier that is followed
@@ -13531,11 +14066,13 @@ as a type. Conceptually this means that
 ```fsharp
 B<int>.C<int>(e).C
 ```
+
 is returned as the following stream of tokens:
 
 ```fsgrammar
 B $app <int> .C $app <int>(e).C
 ```
+
 where `$app` is an internal symbol inserted by lexical analysis. We do not show this symbol elsewhere
 in this specification and simply show the original source text.
 
@@ -13549,7 +14086,6 @@ type Foo() =
 let b = new Foo< >() // valid
 let c = new Foo<>() // invalid
 ```
-
 
 # 16. Provided Types
 
@@ -13731,15 +14267,15 @@ and named static arguments must come after all other arguments.
 
 ### 16.3.4 Kind
 
-- Provided type definitions may be classes. This includes both erased and concrete types. 
+- Provided type definitions may be classes. This includes both erased and concrete types.
 This corresponds to the `type.IsClass` property returning true for the provided type definition.
 
-- Provided type definitions may be interfaces. This includes both erased and concrete types. 
+- Provided type definitions may be interfaces. This includes both erased and concrete types.
 This corresponds to the `type.IsInterface` property returning true. Only one of `IsInterface`, `IsClass`, `IsStruct`, `IsEnum`, `IsDelegate`, `IsArray` may return true.
 
 - Provided type definitions may be static classes. This includes both erased and concrete types.
 
-- Provided type definitions may be sealed. 
+- Provided type definitions may be sealed.
 
 - Provided type definitions may not be arrays. This means the `type.IsArray` property must
 always return false. Provided types used in return types and argument positions may be
@@ -13763,17 +14299,17 @@ which case the type is considered to have null as an abnormal value.
     This corresponds to non-null results from the `type.GetMethod` and `type.GetMethods` of the
     provided type definition. The results returned by these methods must be consistent.
 
-    - Provided methods may be static, instance and abstract
-    - Provided methods may not be class constructors (.cctor). By .NET rules these would have to be private anyway.
-    - Provided methods may be operators such as op_Addition.
+  - Provided methods may be static, instance and abstract
+  - Provided methods may not be class constructors (.cctor). By .NET rules these would have to be private anyway.
+  - Provided methods may be operators such as op_Addition.
 
 - Provided type definitions may report properties.
 
     This corresponds to non-null results from the `type.GetProperty` and `type.GetProperties` of the
     provided type definition. The results returned by these methods must be consistent.
-    
-    - Provided properties may be static or instance
-    - Provided properties may be indexers. This corresponds to reporting methods with
+
+  - Provided properties may be static or instance
+  - Provided properties may be indexers. This corresponds to reporting methods with
     name Item , or as identified by `DefaultMemberAttribute` non-null results from the
     `type.GetEvent` and `type.GetEvents` of the provided type definition. The results
     returned by these methods must be consistent. This includes 1D, 2D, 3D and 4D
@@ -13795,10 +14331,9 @@ which case the type is considered to have null as an abnormal value.
     This corresponds to non-null results from the type.GetNestedType and type.GetNestedTypes of
     the provided type definition. The results returned by these methods must be consistent.
 
-    - The nested types of an erased type may be generated types in a generated
+  - The nested types of an erased type may be generated types in a generated
     assembly. The `type.DeclaringType` property of the nested type need not report the
     erased type.
-
 
 - Provided type definitions may report literal (constant) fields.
 
@@ -13837,22 +14372,22 @@ referenced assemblies in the compilation context according to the following quot
 - Expr.NewArray
 - Expr.NewObject
 - Expr.WhileLoop
-- Expr.NewDelegate 
-- Expr.ForIntegerRangeLoop 
-- Expr.Sequential 
-- Expr.TryWith 
-- Expr.TryFinally 
-- Expr.Lambda 
-- Expr.Call 
-- Expr.Constant 
-- Expr.DefaultValue 
-- Expr.NewTuple 
-- Expr.TupleGet 
-- Expr.TypeAs 
-- Expr.TypeTest 
-- Expr.Let 
-- Expr.VarSet 
-- Expr.IfThenElse 
+- Expr.NewDelegate
+- Expr.ForIntegerRangeLoop
+- Expr.Sequential
+- Expr.TryWith
+- Expr.TryFinally
+- Expr.Lambda
+- Expr.Call
+- Expr.Constant
+- Expr.DefaultValue
+- Expr.NewTuple
+- Expr.TupleGet
+- Expr.TypeAs
+- Expr.TypeTest
+- Expr.Let
+- Expr.VarSet
+- Expr.IfThenElse
 - Expr.Var
 
 The type of the quotation expression returned by `GetInvokerExpression` must be an erased type. The
@@ -13867,9 +14402,10 @@ an extension member
 - Provided type and method definitions may not be generic
 
     This corresponds to
-    - `GetGenericArguments` returning length 0
-    - For type definitions, `IsGenericType` and `IsGenericTypeDefinition` returning false
-    - For method definitions, `IsGenericMethod` and `IsGenericMethodDefinition` returning false
+  - `GetGenericArguments` returning length 0
+  - For type definitions, `IsGenericType` and `IsGenericTypeDefinition` returning false
+  - For method definitions, `IsGenericMethod` and `IsGenericMethodDefinition` returning false
+
 # 17. Special Attributes and Types
 
 This chapter describes attributes and types that have special significance to the F# compiler.
@@ -13883,56 +14419,56 @@ assemblies that are authored in other CLI languages.
 | Attribute | Description |
 | --- | --- |
 | System.ObsoleteAttribute <br> [\<Obsolete(...)>] | Indicates that the construct is obsolete and gives a warning or error depending on the settings in the attribute. <br>This attribute may be used in both F# and imported assemblies. |
-| System.ParamArrayAttribute <br> [\<ParamArray(...)>] | When applied to an argument of a method, indicates that the method can accept a variable number of arguments. <br>This attribute may be used in both F# and imported assemblies. 
-| System.ThreadStaticAttribute <br> [\<ThreadStatic(...)>] | Marks a mutable static value in a class as thread static. <br>This attribute may be used in both F# and imported assemblies. 
-| System.ContextStaticAttribute <br> [\<ContextStatic(...)>] | Marks a mutable static value in a class as context static. <br>This attribute may be used in both F# and imported assemblies. 
-| System.AttributeUsageAttribute <br> [\<AttributeUsage(...)>] | Specifies the attribute usage targets for an attribute. <br>This attribute may be used in both F# and imported assemblies. 
-| System.Diagnostics.ConditionalAttribute <br> [\<Conditional(...)>] | Emits code to call the method only if the corresponding conditional compilation symbol is defined. <br>This attribute may be used in both F# and imported assemblies. 
-| System.Reflection.AssemblyInformationalVersionAttribute <br> [\<AssemblyInformationalVersion(...)>] | Attaches additional version metadata to the compiled form of the assembly. <br>This attribute may be used in both F# and imported assemblies. 
-| System.Reflection.AssemblyFileVersionAttribute <br> [\<AssemblyFileVersion(...)>] | Attaches file version metadata to the compiled form of the assembly. <br>This attribute may be used in both F# and imported assemblies. 
-| System.Reflection.AssemblyDescriptionAttribute <br> [\<AssemblyDescription(...)>] | Attaches descriptive metadata to the compiled form of the assembly, such as the “Comments” attribute in the Win32 version resource for the assembly. <br>This attribute may be used in both F# and imported assemblies. 
-| System.Reflection.AssemblyTitleAttribute <br> [\<AssemblyTitle(...)>] | Attaches title metadata to the compiled form of the assembly, such as the “ProductName” attribute in the Win32 version resource for the assembly. <br>This attribute may be used in both F# and imported assemblies. 
-| System.Reflection.AssemblyCopyrightAttribute <br> [\<AssemblyCopyright(...)>] | Attaches copyright metadata to the compiled form of the assembly, such as the “LegalCopyright” attribute in the Win32 version resource for the assembly. <br>This attribute may be used in both F# and imported assemblies. 
-| System.Reflection.AssemblyTrademarkAttribute <br> [\<AssemblyTrademark(...)>] | Attaches trademark metadata to the compiled form of the assembly, such as the “LegalTrademarks” attribute in the Win32 version resource for the assembly. <br>This attribute may be used in both F# and imported assemblies. 
-| System.Reflection.AssemblyCompanyAttribute <br> [\<AssemblyCompany(...)>] | Attaches company name metadata to the compiled form of the assembly, such as the “CompanyName” attribute in the Win32 version resource for the assembly. <br>This attribute may be used in both F# and imported assemblies. 
-| System.Reflection.AssemblyProductAttribute <br> [\<AssemblyProduct(...)>] | Attaches product name metadata to the compiled form of the assembly, such as the “ProductName” attribute in the Win32 version resource for the assembly. <br>This attribute may be used in both F# and imported assemblies. 
-| System.Reflection.AssemblyKeyFileAttribute <br> [\<AssemblyKeyFile(...)>] | Indicates to the F# compiler how to sign an assembly. <br>This attribute may be used in both F# and imported assemblies. 
-| System.Reflection.DefaultMemberAttribute <br> [\<DefaultMember(...)>] | When applied to a type, specifies the name of the indexer property for that type. <br>This attribute may be used in both F# and imported assemblies. 
-| System.Runtime.CompilerServices.InternalsVisibleToAttribute [\<InternalsVisibleTo(...)>] | Directs the F# compiler to permit access to the internals of the assembly. <br>This attribute may be used in both F# and imported assemblies. 
-| System.Runtime.CompilerServices.TypeForwardedToAttribute [\<TypeForwardedTo(...)>] | Indicates a type redirection. <br>This attribute may be used only in imported non-F# assemblies. It is not permitted in F# code. 
-| System.Runtime.CompilerServices.ExtensionAttribute <br> [\<Extension(...)>] | Indicates the compiled form of a C# extension member. <br>This attribute may be used only in imported non-F# assemblies. It is not permitted in F# code. 
-| System.Runtime.InteropServices.DllImportAttribute <br> [\<DllImport(...)>] | When applied to a function definition in a module, causes the F# compiler to ignore the implementation of the definition, and instead compile it as a CLI P/Invoke stub declaration. <br>This attribute may be used in both F# and imported assemblies. 
-| System.Runtime.InteropServices.MarshalAsAttribute <br> [\<MarshalAs(...)>] | When applied to a parameter or return type, specifies the marshalling attribute for a CLI P/Invoke stub declaration. <br>This attribute may be used in both F# and imported assemblies. However, F# does not support the specification of "custom" marshallers. 
-| System.Runtime.InteropServices.InAttribute <br> [\<In>] | When applied to a parameter, specifies the CLI In attribute. <br>This attribute may be used in both F# and imported assemblies. However, in F# its only effect is to change the corresponding attribute in the CLI compiled form. 
-| System.Runtime.InteropServices.OutAttribute <br> [\<Out>] | When applied to a parameter, specifies the CLI Out attribute. <br>This attribute may be used in both F# and imported assemblies. However, in F# its only effect is to change the corresponding attribute in the CLI compiled form. 
-| System.Runtime.InteropServices.OptionalAttribute <br> [\<Optional(...)>] | When applied to a parameter, specifies the CLI Optional attribute. <br>This attribute may be used in both F# and imported assemblies. However, in F# its only effect is to change the corresponding attribute in the CLI compiled form. 
-| System.Runtime.InteropServices.FieldOffsetAttribute <br> [\<FieldOffset(...)>] | When applied to a field, specifies the field offset of the underlying CLI field. <br>This attribute may be used in both F# and imported assemblies. 
-| System.NonSerializedAttribute <br> [\<NonSerialized>] | When applied to a field, sets the "not serialized" bit for the underlying CLI field. <br>This attribute may be used in both F# and imported assemblies. 
-| System.Runtime.InteropServices.StructLayoutAttribute <br> [\<StructLayout(...)>] | Specifies the layout of a CLI type. <br>This attribute may be used in both F# and imported assemblies. 
-| FSharp.Core.AutoSerializableAttribute <br> [\<AutoSerializable(false)>] | When added to a type with value false , disables default serialization, so that F# does not make the type serializable. <br>This attribute should be used only in F# assemblies. 
-| FSharp.Core.CLIMutableAttribute <br> [\<CLIMutable>] | When specified, a record type is compiled to a CLI representation with a default constructor with property getters and setters. <br>This attribute should be used only in F# assemblies. 
-| FSharp.Core.AutoOpenAttribute <br> [\<AutoOpen>] | When applied to an assembly and given a string argument, causes the namespace or module to be opened automatically when the assembly is referenced. When applied to a module without a string argument, causes the module to be opened automatically when the enclosing namespace or module is opened. <br>This attribute should be used only in F# assemblies. FSharp.Core. 
-| CompilationRepresentationAttribute <br> [\<CompilationRepresentation(...)>] | Adjusts the runtime representation of a type. <br>This attribute should be used only in F# assemblies. 
-| FSharp.Core.CompiledNameAttribute <br> [\<CompiledName(...)>] | Changes the compiled name of an F# language construct. <br>This attribute should be used only in F# assemblies. 
-| FSharp.Core.CustomComparisonAttribute <br> [\<CustomComparison>] | When applied to an F# structural type, indicates that the type has a user-specified comparison implementation. <br>This attribute should be used only in F# assemblies. 
-| FSharp.Core.CustomEqualityAttribute <br> [\<CustomEquality>] | When applied to an F# structural type, indicates that the type has a user-defined equality implementation. <br>This attribute should be used only in F# assemblies. 
-| FSharp.Core.DefaultAugmentationAttribute <br> [\<DefaultAugmentation(...)>] | When applied to an F# discriminated union type with value false, turns off the generation of standard helper member tester, constructor and accessor members for the generated CLI class for that type. <br>This attribute should be used only in F# assemblies. 
-| FSharp.Core.DefaultValueAttribute <br> [\<DefaultValue(...)>] | When added to a field declaration, specifies that the field is not initialized. During type checking, a constraint is asserted that the field type supports null. If the argument to the attribute is `false`, the constraint is not asserted. <br>This attribute should be used only in F# assemblies. 
-| FSharp.Core.GeneralizableValueAttribute <br> [\<GeneralizableValue>] | When applied to an F# value, indicates that uses of the attribute can result in generic code through the process of type inference. For example, `Set.empty`. The value must typically be a type function whose implementation has no observable side effects. <br>This attribute should be used only in F# assemblies. 
-| FSharp.Core.LiteralAttribute <br> [\<Literal>] | When applied to a value, compiles the value as a CLI literal. <br>This attribute should be used only in F# assemblies. 
-| FSharp.Core.NoDynamicInvocationAttribute <br> [\<NoDynamicInvocation>] | When applied to an inline function or member definition, replaces the generated code with a stub that throws an exception at runtime. This attribute is used to replace the default generated implementation of unverifiable inline members with a verifiable stub. <br>This attribute should be used only in F# assemblies. 
-| FSharp.Core.CompilerMessageAttribute <br> [\<CompilerMessage(...)>] | When applied to an F# construct, indicates that the F# compiler should report a message when the construct is used. <br>This attribute should be used only in F# assemblies. 
-| FSharp.Core.StructAttribute <br> [\<Struct>] | Indicates that a type is a struct type. <br>This attribute should be used only in F# assemblies. 
-| FSharp.Core.ClassAttribute <br> [\<Class>] | Indicates that a type is a class type. <br>This attribute should be used only in F# assemblies. 
-| FSharp.Core.InterfaceAttribute <br> [\<Interface>] | Indicates that a type is an interface type. <br>This attribute should be used only in F# assemblies. 
-| FSharp.Core.MeasureAttribute <br> [\<Measure>] | Indicates that a type or generic parameter is a unit of measure definition or annotation. <br>This attribute should be used only in F# assemblies. 
-| FSharp.Core.ReferenceEqualityAttribute <br> [\<ReferenceEquality>] | When applied to an F# record or union type, indicates that the type should use reference equality for its default equality implementation. <br>This attribute should be used only in F# assemblies. 
-| FSharp.Core.ReflectedDefinitionAttribute <br> [\<ReflectedDefinition>] | Makes the quotation form of a definition available at runtime through the FSharp.Quotations. Expr.GetReflectedDefinition method. <br>This attribute should be used only in F# assemblies. FSharp.Core. 
-| RequireQualifiedAccessAttribute <br> [\<RequireQualifiedAccess>] | When applied to an F# module, warns if an attempt is made to open the module name. When applied to an F# union or record type, indicates that the field labels or union cases must be referenced by using a qualified path that includes the type name. <br>This attribute should be used only in F# assemblies. 
-| RequiresExplicitTypeArgumentsAttribute <br> [\<RequiresExplicitTypeArguments>] | When applied to an F# function or method, indicates that the function or method must be invoked with explicit type arguments, such as typeof<int>. <br>This attribute should be used only in F# assemblies. 
-| FSharp.Core.StructuralComparisonAttribute <br> [\<StructuralComparison>] | When added to a record, union, exception, or structure type, confirms the automatic generation of implementations for `IComparable` for the type. <br>This attribute should only be used in F# assemblies. 
-| FSharp.Core.StructuralEqualityAttribute <br> [\<StructuralEquality>] | When added to a record, union, or struct type, confirms the automatic generation of overrides for `Equals` and `GetHashCode` for the type. <br>This attribute should be used only in F# assemblies. 
-| FSharp.Core.VolatileFieldAttribute <br> [\<VolatileField>] | When applied to an F# field or mutable value definition, controls whether the CLI volatile prefix is emitted before accesses to the field. <br>This attribute should be used only in F# assemblies. 
+| System.ParamArrayAttribute <br> [\<ParamArray(...)>] | When applied to an argument of a method, indicates that the method can accept a variable number of arguments. <br>This attribute may be used in both F# and imported assemblies.
+| System.ThreadStaticAttribute <br> [\<ThreadStatic(...)>] | Marks a mutable static value in a class as thread static. <br>This attribute may be used in both F# and imported assemblies.
+| System.ContextStaticAttribute <br> [\<ContextStatic(...)>] | Marks a mutable static value in a class as context static. <br>This attribute may be used in both F# and imported assemblies.
+| System.AttributeUsageAttribute <br> [\<AttributeUsage(...)>] | Specifies the attribute usage targets for an attribute. <br>This attribute may be used in both F# and imported assemblies.
+| System.Diagnostics.ConditionalAttribute <br> [\<Conditional(...)>] | Emits code to call the method only if the corresponding conditional compilation symbol is defined. <br>This attribute may be used in both F# and imported assemblies.
+| System.Reflection.AssemblyInformationalVersionAttribute <br> [\<AssemblyInformationalVersion(...)>] | Attaches additional version metadata to the compiled form of the assembly. <br>This attribute may be used in both F# and imported assemblies.
+| System.Reflection.AssemblyFileVersionAttribute <br> [\<AssemblyFileVersion(...)>] | Attaches file version metadata to the compiled form of the assembly. <br>This attribute may be used in both F# and imported assemblies.
+| System.Reflection.AssemblyDescriptionAttribute <br> [\<AssemblyDescription(...)>] | Attaches descriptive metadata to the compiled form of the assembly, such as the “Comments” attribute in the Win32 version resource for the assembly. <br>This attribute may be used in both F# and imported assemblies.
+| System.Reflection.AssemblyTitleAttribute <br> [\<AssemblyTitle(...)>] | Attaches title metadata to the compiled form of the assembly, such as the “ProductName” attribute in the Win32 version resource for the assembly. <br>This attribute may be used in both F# and imported assemblies.
+| System.Reflection.AssemblyCopyrightAttribute <br> [\<AssemblyCopyright(...)>] | Attaches copyright metadata to the compiled form of the assembly, such as the “LegalCopyright” attribute in the Win32 version resource for the assembly. <br>This attribute may be used in both F# and imported assemblies.
+| System.Reflection.AssemblyTrademarkAttribute <br> [\<AssemblyTrademark(...)>] | Attaches trademark metadata to the compiled form of the assembly, such as the “LegalTrademarks” attribute in the Win32 version resource for the assembly. <br>This attribute may be used in both F# and imported assemblies.
+| System.Reflection.AssemblyCompanyAttribute <br> [\<AssemblyCompany(...)>] | Attaches company name metadata to the compiled form of the assembly, such as the “CompanyName” attribute in the Win32 version resource for the assembly. <br>This attribute may be used in both F# and imported assemblies.
+| System.Reflection.AssemblyProductAttribute <br> [\<AssemblyProduct(...)>] | Attaches product name metadata to the compiled form of the assembly, such as the “ProductName” attribute in the Win32 version resource for the assembly. <br>This attribute may be used in both F# and imported assemblies.
+| System.Reflection.AssemblyKeyFileAttribute <br> [\<AssemblyKeyFile(...)>] | Indicates to the F# compiler how to sign an assembly. <br>This attribute may be used in both F# and imported assemblies.
+| System.Reflection.DefaultMemberAttribute <br> [\<DefaultMember(...)>] | When applied to a type, specifies the name of the indexer property for that type. <br>This attribute may be used in both F# and imported assemblies.
+| System.Runtime.CompilerServices.InternalsVisibleToAttribute [\<InternalsVisibleTo(...)>] | Directs the F# compiler to permit access to the internals of the assembly. <br>This attribute may be used in both F# and imported assemblies.
+| System.Runtime.CompilerServices.TypeForwardedToAttribute [\<TypeForwardedTo(...)>] | Indicates a type redirection. <br>This attribute may be used only in imported non-F# assemblies. It is not permitted in F# code.
+| System.Runtime.CompilerServices.ExtensionAttribute <br> [\<Extension(...)>] | Indicates the compiled form of a C# extension member. <br>This attribute may be used only in imported non-F# assemblies. It is not permitted in F# code.
+| System.Runtime.InteropServices.DllImportAttribute <br> [\<DllImport(...)>] | When applied to a function definition in a module, causes the F# compiler to ignore the implementation of the definition, and instead compile it as a CLI P/Invoke stub declaration. <br>This attribute may be used in both F# and imported assemblies.
+| System.Runtime.InteropServices.MarshalAsAttribute <br> [\<MarshalAs(...)>] | When applied to a parameter or return type, specifies the marshalling attribute for a CLI P/Invoke stub declaration. <br>This attribute may be used in both F# and imported assemblies. However, F# does not support the specification of "custom" marshallers.
+| System.Runtime.InteropServices.InAttribute <br> [\<In>] | When applied to a parameter, specifies the CLI In attribute. <br>This attribute may be used in both F# and imported assemblies. However, in F# its only effect is to change the corresponding attribute in the CLI compiled form.
+| System.Runtime.InteropServices.OutAttribute <br> [\<Out>] | When applied to a parameter, specifies the CLI Out attribute. <br>This attribute may be used in both F# and imported assemblies. However, in F# its only effect is to change the corresponding attribute in the CLI compiled form.
+| System.Runtime.InteropServices.OptionalAttribute <br> [\<Optional(...)>] | When applied to a parameter, specifies the CLI Optional attribute. <br>This attribute may be used in both F# and imported assemblies. However, in F# its only effect is to change the corresponding attribute in the CLI compiled form.
+| System.Runtime.InteropServices.FieldOffsetAttribute <br> [\<FieldOffset(...)>] | When applied to a field, specifies the field offset of the underlying CLI field. <br>This attribute may be used in both F# and imported assemblies.
+| System.NonSerializedAttribute <br> [\<NonSerialized>] | When applied to a field, sets the "not serialized" bit for the underlying CLI field. <br>This attribute may be used in both F# and imported assemblies.
+| System.Runtime.InteropServices.StructLayoutAttribute <br> [\<StructLayout(...)>] | Specifies the layout of a CLI type. <br>This attribute may be used in both F# and imported assemblies.
+| FSharp.Core.AutoSerializableAttribute <br> [\<AutoSerializable(false)>] | When added to a type with value false , disables default serialization, so that F# does not make the type serializable. <br>This attribute should be used only in F# assemblies.
+| FSharp.Core.CLIMutableAttribute <br> [\<CLIMutable>] | When specified, a record type is compiled to a CLI representation with a default constructor with property getters and setters. <br>This attribute should be used only in F# assemblies.
+| FSharp.Core.AutoOpenAttribute <br> [\<AutoOpen>] | When applied to an assembly and given a string argument, causes the namespace or module to be opened automatically when the assembly is referenced. When applied to a module without a string argument, causes the module to be opened automatically when the enclosing namespace or module is opened. <br>This attribute should be used only in F# assemblies. FSharp.Core.
+| CompilationRepresentationAttribute <br> [\<CompilationRepresentation(...)>] | Adjusts the runtime representation of a type. <br>This attribute should be used only in F# assemblies.
+| FSharp.Core.CompiledNameAttribute <br> [\<CompiledName(...)>] | Changes the compiled name of an F# language construct. <br>This attribute should be used only in F# assemblies.
+| FSharp.Core.CustomComparisonAttribute <br> [\<CustomComparison>] | When applied to an F# structural type, indicates that the type has a user-specified comparison implementation. <br>This attribute should be used only in F# assemblies.
+| FSharp.Core.CustomEqualityAttribute <br> [\<CustomEquality>] | When applied to an F# structural type, indicates that the type has a user-defined equality implementation. <br>This attribute should be used only in F# assemblies.
+| FSharp.Core.DefaultAugmentationAttribute <br> [\<DefaultAugmentation(...)>] | When applied to an F# discriminated union type with value false, turns off the generation of standard helper member tester, constructor and accessor members for the generated CLI class for that type. <br>This attribute should be used only in F# assemblies.
+| FSharp.Core.DefaultValueAttribute <br> [\<DefaultValue(...)>] | When added to a field declaration, specifies that the field is not initialized. During type checking, a constraint is asserted that the field type supports null. If the argument to the attribute is `false`, the constraint is not asserted. <br>This attribute should be used only in F# assemblies.
+| FSharp.Core.GeneralizableValueAttribute <br> [\<GeneralizableValue>] | When applied to an F# value, indicates that uses of the attribute can result in generic code through the process of type inference. For example, `Set.empty`. The value must typically be a type function whose implementation has no observable side effects. <br>This attribute should be used only in F# assemblies.
+| FSharp.Core.LiteralAttribute <br> [\<Literal>] | When applied to a value, compiles the value as a CLI literal. <br>This attribute should be used only in F# assemblies.
+| FSharp.Core.NoDynamicInvocationAttribute <br> [\<NoDynamicInvocation>] | When applied to an inline function or member definition, replaces the generated code with a stub that throws an exception at runtime. This attribute is used to replace the default generated implementation of unverifiable inline members with a verifiable stub. <br>This attribute should be used only in F# assemblies.
+| FSharp.Core.CompilerMessageAttribute <br> [\<CompilerMessage(...)>] | When applied to an F# construct, indicates that the F# compiler should report a message when the construct is used. <br>This attribute should be used only in F# assemblies.
+| FSharp.Core.StructAttribute <br> [\<Struct>] | Indicates that a type is a struct type. <br>This attribute should be used only in F# assemblies.
+| FSharp.Core.ClassAttribute <br> [\<Class>] | Indicates that a type is a class type. <br>This attribute should be used only in F# assemblies.
+| FSharp.Core.InterfaceAttribute <br> [\<Interface>] | Indicates that a type is an interface type. <br>This attribute should be used only in F# assemblies.
+| FSharp.Core.MeasureAttribute <br> [\<Measure>] | Indicates that a type or generic parameter is a unit of measure definition or annotation. <br>This attribute should be used only in F# assemblies.
+| FSharp.Core.ReferenceEqualityAttribute <br> [\<ReferenceEquality>] | When applied to an F# record or union type, indicates that the type should use reference equality for its default equality implementation. <br>This attribute should be used only in F# assemblies.
+| FSharp.Core.ReflectedDefinitionAttribute <br> [\<ReflectedDefinition>] | Makes the quotation form of a definition available at runtime through the FSharp.Quotations. Expr.GetReflectedDefinition method. <br>This attribute should be used only in F# assemblies. FSharp.Core.
+| RequireQualifiedAccessAttribute <br> [\<RequireQualifiedAccess>] | When applied to an F# module, warns if an attempt is made to open the module name. When applied to an F# union or record type, indicates that the field labels or union cases must be referenced by using a qualified path that includes the type name. <br>This attribute should be used only in F# assemblies.
+| RequiresExplicitTypeArgumentsAttribute <br> [\<RequiresExplicitTypeArguments>] | When applied to an F# function or method, indicates that the function or method must be invoked with explicit type arguments, such as typeof<int>. <br>This attribute should be used only in F# assemblies.
+| FSharp.Core.StructuralComparisonAttribute <br> [\<StructuralComparison>] | When added to a record, union, exception, or structure type, confirms the automatic generation of implementations for `IComparable` for the type. <br>This attribute should only be used in F# assemblies.
+| FSharp.Core.StructuralEqualityAttribute <br> [\<StructuralEquality>] | When added to a record, union, or struct type, confirms the automatic generation of overrides for `Equals` and `GetHashCode` for the type. <br>This attribute should be used only in F# assemblies.
+| FSharp.Core.VolatileFieldAttribute <br> [\<VolatileField>] | When applied to an F# field or mutable value definition, controls whether the CLI volatile prefix is emitted before accesses to the field. <br>This attribute should be used only in F# assemblies.
 | FSharp.Core.TypeProviderXmlDocAttribute | Specifies documentation for provided type definitions and provided members |
 | FSharp.Core.TypeProviderDefinitionLocationAttribute | Specifies location information for provided type definitions and provided members |
 
@@ -13986,7 +14522,6 @@ Certain F# language and primitive library operations throw the following excepti
 | System.StackOverflowException | The execution stack was exhausted because of too many pending method calls, which typically indicates deep or unbounded recursion. |
 | System.TypeInitializationException | F# initialization code for a type threw an exception that was not caught. |
 
-
 # 18. The F# Library FSharp.Core.dll
 
 All compilations reference the following two base libraries:
@@ -13995,7 +14530,6 @@ All compilations reference the following two base libraries:
 - The F# base library `FSharp.Core.dll`.
 
 The API documentation of these libraries can be found at [https://fsharp.github.io/fsharp-core-docs](https://fsharp.github.io/fsharp-core-docs) and [https://learn.microsoft.com/dotnet/standard/runtime-libraries-overview](https://learn.microsoft.com/dotnet/standard/runtime-libraries-overview), resp.
-
 
 The following namespaces are automatically opened for all F# code:
 
@@ -14008,9 +14542,9 @@ open FSharp.Text
 open FSharp.Collections
 open FSharp.Core.ExtraTopLevelOperators
 ```
+
 A compilation may open additional namespaces may be opened if the referenced F# DLLs contain
 `AutoOpenAttribute` declarations.
-
 
 ## 18.1 Basic Types (FSharp.Core)
 
@@ -14084,7 +14618,6 @@ The following operators are defined in `FSharp.Core.Operators`:
 | `(~-)` | `-x` | Overloaded unary negation.
 | `not` | `not x` | Boolean negation.
 
-
 ### 18.2.2 Generic Equality and Comparison Operators
 
 The following operators are defined in `FSharp.Core.Operators`:
@@ -14119,28 +14652,27 @@ The following operators are defined in `FSharp.Core.Operators`:
 
 | Operator or Function Name | Expression Form | Description |
 | --- | --- | --- |
-| `abs` | `abs x ` | Overloaded absolute value |
-| `acos` | `acos x ` | Overloaded inverse cosine |
-| `asin` | `asin x ` | Overloaded inverse sine |
-| `atan` | `atan x ` | Overloaded inverse tangent |
-| `atan2` | `atan2 x y ` | Overloaded inverse tangent of x/y |
-| `ceil` | `ceil x ` | Overloaded floating-point ceiling |
-| `cos` | `cos x ` | Overloaded cosine |
-| `cosh` | `cosh x ` | Overloaded hyperbolic cosine |
-| `exp` | `exp x ` | Overloaded exponent |
-| `floor` | `floor x ` | Overloaded floating-point floor |
-| `log` | `log x ` | Overloaded natural logarithm |
-| `log10` | `log10 x ` | Overloaded base-10 logarithm |
-| `(**)` | `x ** y ` | Overloaded exponential |
-| `pown` | `pown x y ` | Overloaded integer exponential |
-| `round` | `round x ` | Overloaded rounding |
-| `sign` | `sign x ` | Overloaded sign function |
-| `sin` | `sin x ` | Overloaded sine function |
-| `sinh` | `sinh x ` | Overloaded hyperbolic sine function |
-| `sqrt` | `sqrt x ` | Overloaded square root function |
-| `tan` | `tan x ` | Overloaded tangent function |
-| `tanh` | `tanh x ` | Overloaded hyperbolic tangent function |
-
+| `abs` | `abs x` | Overloaded absolute value |
+| `acos` | `acos x` | Overloaded inverse cosine |
+| `asin` | `asin x` | Overloaded inverse sine |
+| `atan` | `atan x` | Overloaded inverse tangent |
+| `atan2` | `atan2 x y` | Overloaded inverse tangent of x/y |
+| `ceil` | `ceil x` | Overloaded floating-point ceiling |
+| `cos` | `cos x` | Overloaded cosine |
+| `cosh` | `cosh x` | Overloaded hyperbolic cosine |
+| `exp` | `exp x` | Overloaded exponent |
+| `floor` | `floor x` | Overloaded floating-point floor |
+| `log` | `log x` | Overloaded natural logarithm |
+| `log10` | `log10 x` | Overloaded base-10 logarithm |
+| `(**)` | `x ** y` | Overloaded exponential |
+| `pown` | `pown x y` | Overloaded integer exponential |
+| `round` | `round x` | Overloaded rounding |
+| `sign` | `sign x` | Overloaded sign function |
+| `sin` | `sin x` | Overloaded sine function |
+| `sinh` | `sinh x` | Overloaded hyperbolic sine function |
+| `sqrt` | `sqrt x` | Overloaded square root function |
+| `tan` | `tan x` | Overloaded tangent function |
+| `tanh` | `tanh x` | Overloaded hyperbolic tangent function |
 
 ### 18.2.5 Function Pipelining and Composition Operators
 
@@ -14148,11 +14680,11 @@ The following operators are defined in `FSharp.Core.Operators`:
 
 | Operator or Function Name | Expression Form | Description |
 | --- | --- | --- |
-| `(\|>)` | `x \|> f ` | Pipelines the value `x` to the function `f` (forward pipelining) |
-| `(>>)` | `f >> g ` | Composes two functions, so that they are applied in order from left to right |
-| `(<\|)` | `f <\| x ` | Pipelines the value `x` to the function `f` (backward pipelining) |
-| `(<<)` | `g << f ` | Composes two functions, so that they are applied in order from right to left (backward function composition) |
-| `ignore` | `ignore x ` | Computes and discards a value |
+| `(\|>)` | `x \|> f` | Pipelines the value `x` to the function `f` (forward pipelining) |
+| `(>>)` | `f >> g` | Composes two functions, so that they are applied in order from left to right |
+| `(<\|)` | `f <\| x` | Pipelines the value `x` to the function `f` (backward pipelining) |
+| `(<<)` | `g << f` | Composes two functions, so that they are applied in order from right to left (backward function composition) |
+| `ignore` | `ignore x` | Computes and discards a value |
 
 ### 18.2.6 Object Transformation Operators
 
@@ -14160,13 +14692,13 @@ The following operators are defined in `FSharp.Core.Operators`:
 
 | Operator or Function Name | Expression Form | Description |
 | --- | --- | --- |
-| `box` | `box x ` | Converts to object representation. |
-| `hash` | `hash x ` | Generates a hash value. |
-| `sizeof` | `sizeof<type> ` | Computes the size of a value of the given type. |
-| `typeof` | `typeof<type> ` | Computes the `System.Type` representation of the giventype. |
-| `typedefof` | `typedefof<type> ` | Computes the `System.Type` representation of `type` and calls `GetGenericTypeDefinition` if it is a generic type. |
-| `unbox` | `unbox x ` | Converts from object representation. |
-| `ref` | `ref x ` | Allocates a mutable reference cell. |
+| `box` | `box x` | Converts to object representation. |
+| `hash` | `hash x` | Generates a hash value. |
+| `sizeof` | `sizeof<type>` | Computes the size of a value of the given type. |
+| `typeof` | `typeof<type>` | Computes the `System.Type` representation of the giventype. |
+| `typedefof` | `typedefof<type>` | Computes the `System.Type` representation of `type` and calls `GetGenericTypeDefinition` if it is a generic type. |
+| `unbox` | `unbox x` | Converts from object representation. |
+| `ref` | `ref x` | Allocates a mutable reference cell. |
 | `(!)` | `!x` | Reads a mutable reference cell. |
 
 ### 18.2.7 Pair Operators
@@ -14175,8 +14707,8 @@ The following operators are defined in `FSharp.Core.Operators`:
 
 | Operator or Function Name | Expression Form | Description |
 | --- | --- | --- |
-| `fst` | `fst p ` | Returns the first element of a pair. |
-| `snd` | `snd p ` | Returns the second element of a pair |
+| `fst` | `fst p` | Returns the first element of a pair. |
+| `snd` | `snd p` | Returns the second element of a pair |
 
 ### 18.2.8 Exception Operators
 
@@ -14184,21 +14716,20 @@ The following operators are defined in `FSharp.Core.Operators`:
 
 | Operator or Function Name | Expression Form | Description |
 | --- | --- | --- |
-| `failwith` | `failwith x ` | Raises a `FailureException` exception. |
-| `invalidArg` | `invalidArg x ` | Raises an `ArgumentException` exception. |
-| `raise` | `raise x ` | Raises an `exception. |
+| `failwith` | `failwith x` | Raises a `FailureException` exception. |
+| `invalidArg` | `invalidArg x` | Raises an `ArgumentException` exception. |
+| `raise` | `raise x` | Raises an `exception. |
 | reraise | reraise() | Rethrows the current exception. |
 
 ### 18.2.9 Input/Output Handles
 
 The following operators are defined in `FSharp.Core.Operators`:
 
-
 | Operator or Function Name | Expression Form | Description |
 | --- | --- | --- |
-| `stdin` | `Stdin ` | Computes `System.Console.In`. |
-| `stdout` | `Stdout ` | Computes `System.Console.Out`. |
-| `stderr` | `Stderr ` | Computes `System.Console.Error`. |
+| `stdin` | `Stdin` | Computes `System.Console.In`. |
+| `stdout` | `Stdout` | Computes `System.Console.Out`. |
+| `stderr` | `Stderr` | Computes `System.Console.Error`. |
 
 ### 18.2.10 Overloaded Conversion Functions
 
@@ -14206,21 +14737,21 @@ The following operators are defined in `FSharp.Core.Operators`:
 
 | Operator or Function Name | Expression Form | Description |
 | --- | --- | --- |
-| `byte` | `byte x ` | Overloaded conversion to a byte |
-| `sbyte` | `sbyte x ` | Overloaded conversion to a signed byte |
-| `int16` | `int16 x ` | Overloaded conversion to a 16-bit integer |
-| `uint16` | `uint16 x ` | Overloaded conversion to an unsigned 16-bit integer |
+| `byte` | `byte x` | Overloaded conversion to a byte |
+| `sbyte` | `sbyte x` | Overloaded conversion to a signed byte |
+| `int16` | `int16 x` | Overloaded conversion to a 16-bit integer |
+| `uint16` | `uint16 x` | Overloaded conversion to an unsigned 16-bit integer |
 | `int32`, `int` | `int32 x`, `int x` | Overloaded conversion to a 32-bit integer |
-| `uint32` | `uint32 x ` | Overloaded conversion to an unsigned 32-bit integer |
-| `int64` | `int64 x ` | Overloaded conversion to a 64-bit integer |
-| `uint64` | `uint64 x ` | Overloaded conversion to an unsigned 64-bit integer |
-| `nativeint` | `nativeint x ` | Overloaded conversion to an native integer |
-| `unativeint` | `unativeint x ` | Overloaded conversion to an unsigned native integer |
+| `uint32` | `uint32 x` | Overloaded conversion to an unsigned 32-bit integer |
+| `int64` | `int64 x` | Overloaded conversion to a 64-bit integer |
+| `uint64` | `uint64 x` | Overloaded conversion to an unsigned 64-bit integer |
+| `nativeint` | `nativeint x` | Overloaded conversion to an native integer |
+| `unativeint` | `unativeint x` | Overloaded conversion to an unsigned native integer |
 | `float`, `double` | `float x`, `double x` | Overloaded conversion to a 64-bit IEEE floating-point number |
 | `float32`, `single` | `float32 x`, `single x` | Overloaded conversion to a 32-bit IEEE floating-point number |
-| `decimal` | `decimal x ` | Overloaded conversion to a System.Decimal number |
-| `char` | `char x ` | Overloaded conversion to a System.Char value |
-| `enum` | `enum x ` | Overloaded conversion to a typed enumeration value |
+| `decimal` | `decimal x` | Overloaded conversion to a System.Decimal number |
+| `char` | `char x` | Overloaded conversion to a System.Char value |
+| `enum` | `enum x` | Overloaded conversion to a typed enumeration value |
 
 ## 18.3 Checked Arithmetic Operators
 
@@ -14233,17 +14764,17 @@ following operators:
 | `(-)` | `x – y` | Checked overloaded subtraction |
 | `(*)` | `x * y` | Checked overloaded multiplication |
 | (~-) | `-x` | Checked overloaded unary negation |
-| `byte` | `byte x ` | Checked overloaded conversion to a byte |
-| `sbyte` | `sbyte x ` | Checked overloaded conversion to a signed byte |
-| `int16` | `int16 x ` | Checked overloaded conversion to a 16-bit integer |
-| `uint16` | `uint16 x ` | Checked overloaded conversion to an unsigned 16-bit integer |
+| `byte` | `byte x` | Checked overloaded conversion to a byte |
+| `sbyte` | `sbyte x` | Checked overloaded conversion to a signed byte |
+| `int16` | `int16 x` | Checked overloaded conversion to a 16-bit integer |
+| `uint16` | `uint16 x` | Checked overloaded conversion to an unsigned 16-bit integer |
 | `int32`, `int` | `int32 x`, `int x` | Checked overloaded conversion to a 32-bit integer |
-| `uint32` | `uint32 x ` | Checked overloaded conversion to an unsigned 32-bit integer |
-| `int64` | `int64 x ` | Checked overloaded conversion to a 64 - bit integer |
-| `uint64` | `uint64 x ` | Checked overloaded conversion to an unsigned 64-bit integer |
-| `nativeint` | `nativeint x ` | Checked overloaded conversion to an native integer |
-| `unativeint` | `unativeint x ` | Checked overloaded conversion to an unsigned native integer |
-| `char` | `char x ` | Checked overloaded conversion to a `System.Char` value |
+| `uint32` | `uint32 x` | Checked overloaded conversion to an unsigned 32-bit integer |
+| `int64` | `int64 x` | Checked overloaded conversion to a 64 - bit integer |
+| `uint64` | `uint64 x` | Checked overloaded conversion to an unsigned 64-bit integer |
+| `nativeint` | `nativeint x` | Checked overloaded conversion to an native integer |
+| `unativeint` | `unativeint x` | Checked overloaded conversion to an unsigned native integer |
+| `char` | `char x` | Checked overloaded conversion to a `System.Char` value |
 
 ## 18.4 List and Option Types
 
@@ -14266,6 +14797,7 @@ type 'T list =
     interface System.Collections.Generic.IEnumerable<'T>
     interface System.Collections.IEnumerable
 ```
+
 See also the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-reference/lists) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-list-1.html).
 
 ### 18.4.2 The Option Type
@@ -14285,6 +14817,7 @@ type 'T option =
     member IsSome : bool
     member IsNone : bool
 ```
+
 See also the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-reference/options) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-core-option-1.html).
 
 ## 18.5 Lazy Computations (Lazy)
@@ -14295,11 +14828,9 @@ Check the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-re
 
 Check the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-reference/async-expressions) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync.html).
 
-
 ## 18.7 Query Expressions
 
 Check the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-reference/query-expressions) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-linq-querybuilder.html).
-
 
 ## 18.8 Agents (MailboxProcessor)
 
@@ -14349,6 +14880,7 @@ The `NativePtr.stackalloc` function works as follows. Given
 ```fsharp
 stackalloc<ty> n
 ```
+
 the unmanaged type `ty` specifies the type of the items that will be stored in the newly allocated
 location, and `n` indicates the number of these items. Taken together, these establish the required
 allocation size.

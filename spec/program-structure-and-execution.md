@@ -33,6 +33,7 @@ anonymous-module-signature :=
 script-fragment :=
     module-elems                    -- interactively entered code fragment
 ```
+
 A sequence of implementation and signature files is checked as follows.
 
 1. Form an initial environment `sig-env0` and `impl-env0` by adding all assembly references to the
@@ -91,6 +92,7 @@ namespace MyCompany. MyOtherLibrary.Collections
     type MyCollection(x : int) =
         member v.P = x
 ```
+
 An implementation file that begins with a `module` declaration defines a single namespace declaration
 group with one module. For example:
 
@@ -99,6 +101,7 @@ module MyCompany.MyLibrary.MyModule
 
 let x = 1
 ```
+
 is equivalent to:
 
 ```fsharp
@@ -107,6 +110,7 @@ namespace MyCompany.MyLibrary
 module MyModule =
     let x = 1
 ```
+
 The final identifier in the `long-ident` that follows the `module` keyword is interpreted as the module
 name, and the preceding identifiers are interpreted as the namespace.
 
@@ -150,7 +154,6 @@ is generated from the name of the source file by capitalizing the first letter a
 filename extension. If the filename contains characters that are not valid in an F# identifier, the
 resulting module name is unusable and a warning occurs.
 
-
 Given an initial environment `env` , a signature file is checked as follows:
 
 - Create a new constraint solving context.
@@ -158,6 +161,7 @@ Given an initial environment `env` , a signature file is checked as follows:
     create a new environment `envi`.
 
 The result of checking a signature file is a set of elaborated namespace declaration group types.
+
 ## Script Files
 
 Script files have the `.fsx` or `.fsscript` filename extension. They are processed in the same way as
@@ -192,17 +196,16 @@ following form:
 ```fsgrammar
 # id string ... string
 ```
+
 The lexical preprocessor directives `#if`, `#else`, `#endif` and `#indent "off"` are similar to compiler
 directives. For details on `#if`, `#else`, `#endif`, see [§3.3](lexical-analysis.md#conditional-compilation). The `#indent "off"` directive is described in
 [§19.4](features-for-ml-compatibility.md#file-extensions-and-lexical-matters).
 
 The following directives are valid in all files:
 
-
 | Directive | Example | Short Description |
 | --- | --- | --- |
 | `#nowarn` | `#nowarn "54"` | For signature (`.fsi`) files and implementation (`.fs`) files, turns off warnings within this lexical scope.<br>For script (`.fsx` or `.fsscript`) files, turns off warnings globally. |
-
 
 The following directives are valid in script files:
 
@@ -237,7 +240,6 @@ the static initializer is triggered as follows:
     value that has observable initialization according to the rules that follow, or first access to any
     member of any type in the file that has at least one “static let” or “static do” declaration.
 
-
 At runtime, the static initializer evaluates, in order, the definitions in the file that have observable
 initialization according to the rules that follow. Definitions with observable initialization in nested
 modules and types are included in the static initializer for the overall file.
@@ -250,23 +252,23 @@ All definitions have observable initialization except for the following definiti
 - Value definitions that are generalized to have one or more type variables
 - Non-mutable, non-thread-local values that are bound to an _initialization constant expression_ ,
     which is an expression whose elaborated form is one of the following:
-    - A simple constant expression.
-    - A null expression.
-    - A use of the `typeof<_>` or `sizeof<_>` operator from `FSharp.Core.Operators`, or the
+  - A simple constant expression.
+  - A null expression.
+  - A use of the `typeof<_>` or `sizeof<_>` operator from `FSharp.Core.Operators`, or the
        `defaultof<_>` operator from `FSharp.Core.Operators.Unchecked`.
-    - A let expression where the constituent expressions are initialization constant expressions.
-    - A match expression where the input is an initialization constant expression, each case is a
+  - A let expression where the constituent expressions are initialization constant expressions.
+  - A match expression where the input is an initialization constant expression, each case is a
        test against a constant, and each target is an initialization constant expression.
-    - A use of one of the unary or binary operators `=`, `<>`, `<`, `>`, `<=`, `>=`, `+`, `-`, `*` , `<<<`, `>>>`, `|||`, `&&&`, `^^^`,
+  - A use of one of the unary or binary operators `=`, `<>`, `<`, `>`, `<=`, `>=`, `+`, `-`, `*` , `<<<`, `>>>`, `|||`, `&&&`, `^^^`,
        `~~~`, `enum<_>`, `not`, `compare`, prefix `–`, and prefix `+` from `FSharp.Core.Operators` on one or two
        arguments, respectively. The arguments themselves must be initialization constant
        expressions, but cannot be operations on decimals or strings. Note that the operators are
        unchecked for arithmetic operations, and that the operators `%` and `/` are not included
        because their use can raise division-by-zero exceptions.
-    - A use of a `[<Literal>]` value.
-    - A use of a case from an enumeration type.
-    - A use of a null case from a union type.
-    - A use of a value that is defined in the same assembly and does not have observable
+  - A use of a `[<Literal>]` value.
+  - A use of a case from an enumeration type.
+  - A use of a null case from a union type.
+  - A use of a value that is defined in the same assembly and does not have observable
        initialization, or the use of a value that is defined by a `let` or `match` expression within the
        expression itself.
 
@@ -275,7 +277,6 @@ static initializer runs as a mutual exclusion region. The use of a mutual exclus
 if another thread attempts to access a value that has observable initialization, that thread pauses
 until static initialization is complete. A static initializer runs only once, on the first thread that
 acquires entry to the mutual exclusion region.
-
 
 Values that have observable initialization have implied CLI fields that are private to the assembly. If
 such a field is accessed by using CLI reflection before the execution of the corresponding
@@ -296,6 +297,7 @@ module LibraryModule
 printfn "hello"
 let data = new Dictionary<int,int>()
 ```
+
 That is, the side effect of printing “hello” is guaranteed to be triggered by an access to the value
 `data`.
 
@@ -311,6 +313,7 @@ let size = 3
 let id x = x
 let f() = data
 ```
+
 All of the following represent definitions that do not have observable initialization because they are
 initialization constant expressions.
 
@@ -350,6 +353,3 @@ attribute:
 The function becomes the entry point to the program. At startup, F# immediately forces execution
 of the static initializer for the file in which the function is declared, and then evaluates the body of
 the function.
-
-
-

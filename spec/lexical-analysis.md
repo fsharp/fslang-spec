@@ -13,6 +13,7 @@ regexp whitespace = ' '+
 regexp newline = '\n' | '\r' '\n'
 token whitespace-or-newline = whitespace | newline
 ```
+
 Whitespace tokens `whitespace-or-newline` are discarded from the returned token stream.
 
 ## Comments
@@ -25,6 +26,7 @@ token block-comment-start = "(*"
 token block-comment-end = "*)"
 token end-of-line-comment = "//" [^'\n' '\r']*
 ```
+
 When the input stream matches a `block-comment-start` token, the subsequent text is tokenized
 recursively against the tokens that are described in §3 until a `block-comment-end` token is found. The
 intermediate tokens are discarded.
@@ -37,17 +39,18 @@ marks. As a result of this rule, the following is a valid comment:
 ```fsharp
 (* Here's a code snippet: let s = "*)" *)
 ```
+
 However, the following construct, which was valid in F# 2.0, now produces a syntax error because a
 closing comment token *) followed by a triple-quoted mark is parsed as part of a string:
 
 ```fsharp
 (* """ *)
 ```
+
 For the purposes of this specification, comment tokens are discarded from the returned lexical
 stream. In practice, XML documentation tokens are `end-of-line-comments` that begin with ///. The
 delimiters are retained and are associated with the remaining elements to generate XML
 documentation.
-
 
 ## Conditional Compilation
 
@@ -77,6 +80,7 @@ if-expression-or =
 
 if-expression = if-expression-or
 ```
+
 A preprocessing directive always occupies a separate line of source code and always begins with a #
 character followed immediately by a preprocessing directive name, with no intervening whitespace.
 However, whitespace can appear before the # character. A source line that contains the `#if`, `#else`,
@@ -124,6 +128,7 @@ token ident =
     | `` ( [^'`' '\n' '\r' '\t'] | '`' [^ '`' '\n' '\r' '\t'] )+ ``
          example, ``value.with odd#name``
 ```
+
 Any sequence of characters that is enclosed in double-backtick marks (` `` `` `), excluding newlines,
 tabs, and double-backtick pairs themselves, is treated as an identifier. Note that when an identifier is
 used for the name of a types, union type case, module, or namespace, the following characters are
@@ -132,6 +137,7 @@ not allowed even inside double-backtick marks:
 ```fsgrammar
 ‘.', '+', '$', '&', '[', ']', '/', '\\', '*', '\"', '`'
 ```
+
 All input files are currently assumed to be encoded as UTF-8. See the C# specification for a list of the
 Unicode characters that are accepted for the Unicode character classes \Lu, \Li, \Lt, \Lm, \Lo, \Nl,
 \Pc, \Mn, \Mc, and \Cf.
@@ -147,6 +153,7 @@ token ident-keyword =
     override private public rec return sig static struct then to
     true try type upcast use val void when while with yield
 ```
+
 The following identifiers are reserved for future use:
 
 ```fsgrammar
@@ -156,6 +163,7 @@ token reserved-ident-keyword =
     measure method mixin object parallel params process protected pure
     recursive sealed tailcall trait virtual volatile
 ```
+
 A future revision of the F# language may promote any of these identifiers to be full keywords.
 
 The following token forms are reserved, except when they are part of a symbolic keyword ([§3.6](lexical-analysis.md#symbolic-keywords)).
@@ -164,9 +172,9 @@ The following token forms are reserved, except when they are part of a symbolic 
 token reserved-ident-formats =
     | ident-text ( '!' | '#')
 ```
+
 In the remainder of this specification, we refer to the token that is generated for a keyword simply
 by using the text of the keyword itself.
-
 
 ## Strings and Characters
 
@@ -244,6 +252,7 @@ subsequent line are ignored. Thus, the following gives `s` the value `"abcdef"`:
 let s = "abc\
     def"
 ```
+
 Without the backslash, the resulting string includes the newline and whitespace characters. For
 example:
 
@@ -251,6 +260,7 @@ example:
 let s = "abc
     def"
 ```
+
 In this case, s has the value `abc\010    def` where `\010` is the embedded control character for `\n`,
 which has Unicode UTF-16 value 10.
 
@@ -260,6 +270,7 @@ the following assigns the value `"abc\def"` to `s`.
 ```fsharp
 let s = @"abc\def"
 ```
+
 String-like and character-like literals can also be specified for unsigned byte arrays (type `byte[]`).
 These tokens cannot contain Unicode characters that have surrogate-pair UTF-16 encodings or UTF-
 16 encodings greater than 127.
@@ -283,6 +294,7 @@ let catalog = """
 </catalog>
 """
 ```
+
 ## Symbolic Keywords
 
 The following symbolic or partially symbolic character sequences are treated as keywords:
@@ -294,12 +306,14 @@ token symbolic-keyword =
     ' # :?> :? :> .. :: := ;; ; =
     _? ?? (*) <@ @> <@@ @@>
 ```
+
 The following symbols are reserved for future use:
 
 ```fsgrammar
 token reserved-symbolic-sequence =
     ~ `
 ```
+
 ## Symbolic Operators
 
 User-defined and library-defined symbolic operators are sequences of characters as shown below,
@@ -322,6 +336,7 @@ token symbolic-op =
     | quote-op-left
     | quote-op-right
 ```
+
 For example, `&&&` and `|||` are valid symbolic operators. Only the operators `?` and `?<-` may start with
 `?`.
 
@@ -412,6 +427,7 @@ according to the following rules:
 ```fsharp
     a-b
 ```
+
 - Otherwise, the usual grammar rules apply to the uses of `–` and `+`, with an addition for
   `ADJACENT_PREFIX_OP`:
 
@@ -428,6 +444,7 @@ Tokens of the form
 ```fsgrammar
 token intdotdot = int..
 ```
+
 such as `34..` are post-filtered to two tokens: one `int` and one `symbolic-keyword` , “`..`”.
 
 This rule allows “`..`” to immediately follow an integer. This construction is used in expressions of the
@@ -442,6 +459,7 @@ The following token forms are reserved for future numeric literal formats:
 token reserved-literal-formats =
     | (xint | ieee32 | ieee64) ident-char+
 ```
+
 ### Shebang
 
 A shebang (#!) directive may exist at the beginning of F# source files. Such a line is treated as a
@@ -452,6 +470,7 @@ the #! directive.
 ```fsharp
 #!/bin/usr/env fsharpi --exec
 ```
+
 ## Line Directives
 
 Line directives adjust the source code filenames and line numbers that are reported in error
@@ -467,6 +486,7 @@ token line-directive =
     #line int string
     #line int verbatim-string
 ```
+
 A line directive applies to the line that immediately follows the directive. If no line directive is
 present, the first line of a file is numbered 1.
 
@@ -474,7 +494,6 @@ present, the first line of a file is numbered 1.
 
 Some hidden tokens are inserted by lexical filtering (§ 15 ) or are used to replace existing tokens. See
 § 15 for a full specification and for the augmented grammar rules that take these into account.
-
 
 ## Identifier Replacements
 

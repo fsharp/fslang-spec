@@ -1,7 +1,9 @@
 # Introduction
+
 F# is a scalable, succinct, type-safe, type-inferred, efficiently executing functional/imperative/object-oriented programming language. It aims to be the premier typed functional programming language for .NET and other implementations of the [ECMA-335 Common Language Infrastructure (CLI) specification](https://ecma-international.org/publications-and-standards/standards/ecma-335/). F# was partly inspired by the [OCaml language](https://ocaml.org/) and shares some common core constructs with it.
 
 ## A First Program
+
 Over the next few sections, we will look at some small F# programs, describing some important aspects of F# along the way. As an introduction to F#, consider the following program:
 
 ```fsharp
@@ -428,6 +430,7 @@ Strings of characters that are clearly not a regular expression are written verb
 ```fsgrammar
 abstract
 ```
+
 matches precisely the characters `abstract`.
 
 Where appropriate, apostrophes and quotation marks enclose symbols that are used in the specification of the grammar itself, such as `'<'` and `'|'`. For example, the following regular expression matches `(+)` or `(-)`:
@@ -435,14 +438,17 @@ Where appropriate, apostrophes and quotation marks enclose symbols that are used
 ```fsgrammar
 '(' (+|-) ')'
 ```
+
 This regular expression matches precisely the characters `#if`:
 
 ```fsgrammar
 "#if"
 ```
+
 Regular expressions are typically used to specify tokens.
 
 ```fsgrammar
 token token-name = regexp
 ```
+
 In the grammar rules, the notation `element-name?` indicates an optional element. The notation `...` indicates repetition of the preceding non-terminal construct and the separator token. For example, `expr ',' ... ',' expr` means a sequence of one or more `expr` elements separated by commas.

@@ -7,7 +7,6 @@ All compilations reference the following two base libraries:
 
 The API documentation of these libraries can be found at [https://fsharp.github.io/fsharp-core-docs](https://fsharp.github.io/fsharp-core-docs) and [https://learn.microsoft.com/dotnet/standard/runtime-libraries-overview](https://learn.microsoft.com/dotnet/standard/runtime-libraries-overview), resp.
 
-
 The following namespaces are automatically opened for all F# code:
 
 ```fsharp
@@ -19,9 +18,9 @@ open FSharp.Text
 open FSharp.Collections
 open FSharp.Core.ExtraTopLevelOperators
 ```
+
 A compilation may open additional namespaces may be opened if the referenced F# DLLs contain
 `AutoOpenAttribute` declarations.
-
 
 ## Basic Types (FSharp.Core)
 
@@ -95,7 +94,6 @@ The following operators are defined in `FSharp.Core.Operators`:
 | `(~-)` | `-x` | Overloaded unary negation.
 | `not` | `not x` | Boolean negation.
 
-
 ### Generic Equality and Comparison Operators
 
 The following operators are defined in `FSharp.Core.Operators`:
@@ -130,28 +128,27 @@ The following operators are defined in `FSharp.Core.Operators`:
 
 | Operator or Function Name | Expression Form | Description |
 | --- | --- | --- |
-| `abs` | `abs x ` | Overloaded absolute value |
-| `acos` | `acos x ` | Overloaded inverse cosine |
-| `asin` | `asin x ` | Overloaded inverse sine |
-| `atan` | `atan x ` | Overloaded inverse tangent |
-| `atan2` | `atan2 x y ` | Overloaded inverse tangent of x/y |
-| `ceil` | `ceil x ` | Overloaded floating-point ceiling |
-| `cos` | `cos x ` | Overloaded cosine |
-| `cosh` | `cosh x ` | Overloaded hyperbolic cosine |
-| `exp` | `exp x ` | Overloaded exponent |
-| `floor` | `floor x ` | Overloaded floating-point floor |
-| `log` | `log x ` | Overloaded natural logarithm |
-| `log10` | `log10 x ` | Overloaded base-10 logarithm |
-| `(**)` | `x ** y ` | Overloaded exponential |
-| `pown` | `pown x y ` | Overloaded integer exponential |
-| `round` | `round x ` | Overloaded rounding |
-| `sign` | `sign x ` | Overloaded sign function |
-| `sin` | `sin x ` | Overloaded sine function |
-| `sinh` | `sinh x ` | Overloaded hyperbolic sine function |
-| `sqrt` | `sqrt x ` | Overloaded square root function |
-| `tan` | `tan x ` | Overloaded tangent function |
-| `tanh` | `tanh x ` | Overloaded hyperbolic tangent function |
-
+| `abs` | `abs x` | Overloaded absolute value |
+| `acos` | `acos x` | Overloaded inverse cosine |
+| `asin` | `asin x` | Overloaded inverse sine |
+| `atan` | `atan x` | Overloaded inverse tangent |
+| `atan2` | `atan2 x y` | Overloaded inverse tangent of x/y |
+| `ceil` | `ceil x` | Overloaded floating-point ceiling |
+| `cos` | `cos x` | Overloaded cosine |
+| `cosh` | `cosh x` | Overloaded hyperbolic cosine |
+| `exp` | `exp x` | Overloaded exponent |
+| `floor` | `floor x` | Overloaded floating-point floor |
+| `log` | `log x` | Overloaded natural logarithm |
+| `log10` | `log10 x` | Overloaded base-10 logarithm |
+| `(**)` | `x ** y` | Overloaded exponential |
+| `pown` | `pown x y` | Overloaded integer exponential |
+| `round` | `round x` | Overloaded rounding |
+| `sign` | `sign x` | Overloaded sign function |
+| `sin` | `sin x` | Overloaded sine function |
+| `sinh` | `sinh x` | Overloaded hyperbolic sine function |
+| `sqrt` | `sqrt x` | Overloaded square root function |
+| `tan` | `tan x` | Overloaded tangent function |
+| `tanh` | `tanh x` | Overloaded hyperbolic tangent function |
 
 ### Function Pipelining and Composition Operators
 
@@ -159,11 +156,11 @@ The following operators are defined in `FSharp.Core.Operators`:
 
 | Operator or Function Name | Expression Form | Description |
 | --- | --- | --- |
-| `(\|>)` | `x \|> f ` | Pipelines the value `x` to the function `f` (forward pipelining) |
-| `(>>)` | `f >> g ` | Composes two functions, so that they are applied in order from left to right |
-| `(<\|)` | `f <\| x ` | Pipelines the value `x` to the function `f` (backward pipelining) |
-| `(<<)` | `g << f ` | Composes two functions, so that they are applied in order from right to left (backward function composition) |
-| `ignore` | `ignore x ` | Computes and discards a value |
+| `(\|>)` | `x \|> f` | Pipelines the value `x` to the function `f` (forward pipelining) |
+| `(>>)` | `f >> g` | Composes two functions, so that they are applied in order from left to right |
+| `(<\|)` | `f <\| x` | Pipelines the value `x` to the function `f` (backward pipelining) |
+| `(<<)` | `g << f` | Composes two functions, so that they are applied in order from right to left (backward function composition) |
+| `ignore` | `ignore x` | Computes and discards a value |
 
 ### Object Transformation Operators
 
@@ -171,13 +168,13 @@ The following operators are defined in `FSharp.Core.Operators`:
 
 | Operator or Function Name | Expression Form | Description |
 | --- | --- | --- |
-| `box` | `box x ` | Converts to object representation. |
-| `hash` | `hash x ` | Generates a hash value. |
-| `sizeof` | `sizeof<type> ` | Computes the size of a value of the given type. |
-| `typeof` | `typeof<type> ` | Computes the `System.Type` representation of the giventype. |
-| `typedefof` | `typedefof<type> ` | Computes the `System.Type` representation of `type` and calls `GetGenericTypeDefinition` if it is a generic type. |
-| `unbox` | `unbox x ` | Converts from object representation. |
-| `ref` | `ref x ` | Allocates a mutable reference cell. |
+| `box` | `box x` | Converts to object representation. |
+| `hash` | `hash x` | Generates a hash value. |
+| `sizeof` | `sizeof<type>` | Computes the size of a value of the given type. |
+| `typeof` | `typeof<type>` | Computes the `System.Type` representation of the giventype. |
+| `typedefof` | `typedefof<type>` | Computes the `System.Type` representation of `type` and calls `GetGenericTypeDefinition` if it is a generic type. |
+| `unbox` | `unbox x` | Converts from object representation. |
+| `ref` | `ref x` | Allocates a mutable reference cell. |
 | `(!)` | `!x` | Reads a mutable reference cell. |
 
 ### Pair Operators
@@ -186,8 +183,8 @@ The following operators are defined in `FSharp.Core.Operators`:
 
 | Operator or Function Name | Expression Form | Description |
 | --- | --- | --- |
-| `fst` | `fst p ` | Returns the first element of a pair. |
-| `snd` | `snd p ` | Returns the second element of a pair |
+| `fst` | `fst p` | Returns the first element of a pair. |
+| `snd` | `snd p` | Returns the second element of a pair |
 
 ### Exception Operators
 
@@ -195,21 +192,20 @@ The following operators are defined in `FSharp.Core.Operators`:
 
 | Operator or Function Name | Expression Form | Description |
 | --- | --- | --- |
-| `failwith` | `failwith x ` | Raises a `FailureException` exception. |
-| `invalidArg` | `invalidArg x ` | Raises an `ArgumentException` exception. |
-| `raise` | `raise x ` | Raises an `exception. |
+| `failwith` | `failwith x` | Raises a `FailureException` exception. |
+| `invalidArg` | `invalidArg x` | Raises an `ArgumentException` exception. |
+| `raise` | `raise x` | Raises an `exception. |
 | reraise | reraise() | Rethrows the current exception. |
 
 ### Input/Output Handles
 
 The following operators are defined in `FSharp.Core.Operators`:
 
-
 | Operator or Function Name | Expression Form | Description |
 | --- | --- | --- |
-| `stdin` | `Stdin ` | Computes `System.Console.In`. |
-| `stdout` | `Stdout ` | Computes `System.Console.Out`. |
-| `stderr` | `Stderr ` | Computes `System.Console.Error`. |
+| `stdin` | `Stdin` | Computes `System.Console.In`. |
+| `stdout` | `Stdout` | Computes `System.Console.Out`. |
+| `stderr` | `Stderr` | Computes `System.Console.Error`. |
 
 ### Overloaded Conversion Functions
 
@@ -217,21 +213,21 @@ The following operators are defined in `FSharp.Core.Operators`:
 
 | Operator or Function Name | Expression Form | Description |
 | --- | --- | --- |
-| `byte` | `byte x ` | Overloaded conversion to a byte |
-| `sbyte` | `sbyte x ` | Overloaded conversion to a signed byte |
-| `int16` | `int16 x ` | Overloaded conversion to a 16-bit integer |
-| `uint16` | `uint16 x ` | Overloaded conversion to an unsigned 16-bit integer |
+| `byte` | `byte x` | Overloaded conversion to a byte |
+| `sbyte` | `sbyte x` | Overloaded conversion to a signed byte |
+| `int16` | `int16 x` | Overloaded conversion to a 16-bit integer |
+| `uint16` | `uint16 x` | Overloaded conversion to an unsigned 16-bit integer |
 | `int32`, `int` | `int32 x`, `int x` | Overloaded conversion to a 32-bit integer |
-| `uint32` | `uint32 x ` | Overloaded conversion to an unsigned 32-bit integer |
-| `int64` | `int64 x ` | Overloaded conversion to a 64-bit integer |
-| `uint64` | `uint64 x ` | Overloaded conversion to an unsigned 64-bit integer |
-| `nativeint` | `nativeint x ` | Overloaded conversion to an native integer |
-| `unativeint` | `unativeint x ` | Overloaded conversion to an unsigned native integer |
+| `uint32` | `uint32 x` | Overloaded conversion to an unsigned 32-bit integer |
+| `int64` | `int64 x` | Overloaded conversion to a 64-bit integer |
+| `uint64` | `uint64 x` | Overloaded conversion to an unsigned 64-bit integer |
+| `nativeint` | `nativeint x` | Overloaded conversion to an native integer |
+| `unativeint` | `unativeint x` | Overloaded conversion to an unsigned native integer |
 | `float`, `double` | `float x`, `double x` | Overloaded conversion to a 64-bit IEEE floating-point number |
 | `float32`, `single` | `float32 x`, `single x` | Overloaded conversion to a 32-bit IEEE floating-point number |
-| `decimal` | `decimal x ` | Overloaded conversion to a System.Decimal number |
-| `char` | `char x ` | Overloaded conversion to a System.Char value |
-| `enum` | `enum x ` | Overloaded conversion to a typed enumeration value |
+| `decimal` | `decimal x` | Overloaded conversion to a System.Decimal number |
+| `char` | `char x` | Overloaded conversion to a System.Char value |
+| `enum` | `enum x` | Overloaded conversion to a typed enumeration value |
 
 ## Checked Arithmetic Operators
 
@@ -244,17 +240,17 @@ following operators:
 | `(-)` | `x – y` | Checked overloaded subtraction |
 | `(*)` | `x * y` | Checked overloaded multiplication |
 | (~-) | `-x` | Checked overloaded unary negation |
-| `byte` | `byte x ` | Checked overloaded conversion to a byte |
-| `sbyte` | `sbyte x ` | Checked overloaded conversion to a signed byte |
-| `int16` | `int16 x ` | Checked overloaded conversion to a 16-bit integer |
-| `uint16` | `uint16 x ` | Checked overloaded conversion to an unsigned 16-bit integer |
+| `byte` | `byte x` | Checked overloaded conversion to a byte |
+| `sbyte` | `sbyte x` | Checked overloaded conversion to a signed byte |
+| `int16` | `int16 x` | Checked overloaded conversion to a 16-bit integer |
+| `uint16` | `uint16 x` | Checked overloaded conversion to an unsigned 16-bit integer |
 | `int32`, `int` | `int32 x`, `int x` | Checked overloaded conversion to a 32-bit integer |
-| `uint32` | `uint32 x ` | Checked overloaded conversion to an unsigned 32-bit integer |
-| `int64` | `int64 x ` | Checked overloaded conversion to a 64 - bit integer |
-| `uint64` | `uint64 x ` | Checked overloaded conversion to an unsigned 64-bit integer |
-| `nativeint` | `nativeint x ` | Checked overloaded conversion to an native integer |
-| `unativeint` | `unativeint x ` | Checked overloaded conversion to an unsigned native integer |
-| `char` | `char x ` | Checked overloaded conversion to a `System.Char` value |
+| `uint32` | `uint32 x` | Checked overloaded conversion to an unsigned 32-bit integer |
+| `int64` | `int64 x` | Checked overloaded conversion to a 64 - bit integer |
+| `uint64` | `uint64 x` | Checked overloaded conversion to an unsigned 64-bit integer |
+| `nativeint` | `nativeint x` | Checked overloaded conversion to an native integer |
+| `unativeint` | `unativeint x` | Checked overloaded conversion to an unsigned native integer |
+| `char` | `char x` | Checked overloaded conversion to a `System.Char` value |
 
 ## List and Option Types
 
@@ -277,6 +273,7 @@ type 'T list =
     interface System.Collections.Generic.IEnumerable<'T>
     interface System.Collections.IEnumerable
 ```
+
 See also the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-reference/lists) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-list-1.html).
 
 ### The Option Type
@@ -296,6 +293,7 @@ type 'T option =
     member IsSome : bool
     member IsNone : bool
 ```
+
 See also the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-reference/options) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-core-option-1.html).
 
 ## Lazy Computations (Lazy)
@@ -306,11 +304,9 @@ Check the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-re
 
 Check the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-reference/async-expressions) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync.html).
 
-
 ## Query Expressions
 
 Check the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-reference/query-expressions) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-linq-querybuilder.html).
-
 
 ## Agents (MailboxProcessor)
 
@@ -360,6 +356,7 @@ The `NativePtr.stackalloc` function works as follows. Given
 ```fsharp
 stackalloc<ty> n
 ```
+
 the unmanaged type `ty` specifies the type of the items that will be stored in the newly allocated
 location, and `n` indicates the number of these items. Taken together, these establish the required
 allocation size.
@@ -378,4 +375,3 @@ There is no way to explicitly free memory that is allocated using stackalloc. Al
 memory blocks that are created during the execution of a function or member are automatically
 discarded when that function or member returns. This behavior is similar to that of the `alloca`
 function, an extension commonly found in C and C++ implementations.
-

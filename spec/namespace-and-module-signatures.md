@@ -72,6 +72,7 @@ type-extension-signature := type-name type-extension-elements-signature
 
 type-extension-elements-signature := with type-elements-signature end
 ```
+
 The `begin` and `end` tokens are optional when lightweight syntax is used.
 
 Like module declarations, signature declarations are processed sequentially rather than
@@ -89,6 +90,7 @@ namespace Utilities.Part2
     type StorageCache =
         new : unit -> unit
 ```
+
 ## Signature Elements
 
 A namespace or module signature declares one or more _value signatures_ and one or more _type
@@ -106,6 +108,7 @@ module MyMap =
     val mapForward : index1: int * index2: int -> string
     val mapBackward : name: string -> (int * int)
 ```
+
 The corresponding implementation file might contain the following implementation:
 
 ```fsharp
@@ -127,6 +130,7 @@ type IMap =
         abstract Backward : name: string -> (int * int)
     end
 ```
+
 A member signature indicates that a corresponding member appears on the corresponding type
 definition in the implementation. Member specifications must specify argument and return types,
 and can optionally specify names and attributes for parameters.
@@ -140,6 +144,7 @@ type Cat =
     member Kind : string
     member Purr : unit -> Cat
 ```
+
 The corresponding implementation file might contain the following implementation:
 
 ```fsharp
@@ -148,6 +153,7 @@ type Cat(kind: string) =
     member x.Purr() = printfn "purr"
     member x.Kind = kind
 ```
+
 ## Signature Conformance
 
 Values, types, and members that are present in implementations can be omitted in signatures, with
@@ -164,7 +170,6 @@ the following exceptions:
 
 > Note: This section does not yet document all checks made by the F# 3.1 language
 implementation.
-
 
 ### Signature Conformance for Functions and Values
 
@@ -183,6 +188,7 @@ the signature and implementation must conform as follows:
 - The arities must match, as described in the next section.
 
 #### Arity Conformance for Functions and Values
+
 Arities of functions and values must conform between implementation and signature. Arities of
 values are implicit in module signatures. A signature that contains the following results in the arity
 `[A1 ... An]` for `F`:
@@ -190,6 +196,7 @@ values are implicit in module signatures. A signature that contains the followin
 ```fsgrammar
 val F : ty11 * ... * ty1A1 - > ... -> tyn1 * ... * tynAn - > rty
 ```
+
 Arities in a signature must be equal to or shorter than the corresponding arities in an
 implementation, and the prefix must match. This means that F# makes a deliberate distinction
 between the following two signatures:
@@ -197,11 +204,13 @@ between the following two signatures:
 ```fsharp
 val F: int -> int
 ```
+
 and
 
 ```fsharp
 val F: (int -> int)
 ```
+
 The parentheses indicate a top-level function, which might be a first-class computed expression that
 computes to a function value, rather than a compile-time function value.
 
@@ -221,8 +230,8 @@ The second signature
 ```fsharp
 val F: (int -> int)
 ```
-can be satisfied by any value of the appropriate type. For example:
 
+can be satisfied by any value of the appropriate type. For example:
 
 ```fsharp
 let f =
@@ -235,17 +244,20 @@ let f =
             myTable.[x] <- res
             res
 ```
+
 —or—
 
 ```fsharp
 let f = fun x -> x + 1
 ```
+
 —or—
 
 ```fsharp
 // throw an exception as soon as the module initialization is triggered
 let f : int -> int = failwith "failure"
 ```
+
 For both the first and second signatures, you can still use the functions as first-class function values
 from client code—the parentheses simply act as a constraint on the implementation of the value.
 
@@ -255,22 +267,26 @@ function values. Thus, signatures must contain enough information to reveal the 
 method as it is revealed to other CLI programming languages.
 
 #### Signature Conformance for Type Functions
+
 If a value is a type function, then its corresponding value signature must have explicit type
 arguments. For example, the implementation
 
 ```fsharp
 let empty<'T> : list<'T> = printfn "hello"; []
 ```
+
 conforms to this signature:
 
 ```fsharp
 val empty<'T> : list<'T>
 ```
+
 but not to this signature:
 
 ```fsharp
 val empty : list<'T>
 ```
+
 The reason for this rule is that the second signature indicates that the value is, by default,
 generalizable ([§14.6.7](inference-procedures.md#generalization)).
 
@@ -283,14 +299,10 @@ implementation must conform as follows:
 - If one is a constructor, then both must be constructors.
 - If one is a property, then both must be properties.
 
-
 - The types must be identical up to renaming of inferred or explicit type parameters (as for
     functions and values).
 - The `static`, `abstract`, and `override` qualifiers must match precisely.
 - Abstract members must be present in the signature if a representation is given for a type.
 
-
 > Note: This section does not yet document all checks made by the F# 3 .1 language
 implementation.
-
-

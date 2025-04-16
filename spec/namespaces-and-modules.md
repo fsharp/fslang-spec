@@ -49,6 +49,7 @@ access :=
     internal
     public
 ```
+
 ## Namespace Declaration Groups
 
 Modules and types in an F# program are organized into _namespaces_, which encompass the
@@ -64,6 +65,7 @@ namespace MyCompany.MyLibrary
     module Values1 =
         let x = 1
 ```
+
 A namespace declaration group is the basic declaration unit within an F# implementation file and is
 of the form
 
@@ -72,6 +74,7 @@ namespace long-ident
 
 module-elems
 ```
+
 The `long-ident` must be fully qualified. Each such group contains a series of module and type
 definitions that contribute to the indicated namespace. An implementation file may contain multiple
 namespace declaration groups, as in this example:
@@ -91,6 +94,7 @@ namespace MyCompany.MyOtherLibrary.Collections
     type MyCollection(x : int) =
         member v.P = x
 ```
+
 Namespace declaration groups may not be nested.
 
 A namespace declaration group can contain type and module definitions, but not function or value
@@ -111,6 +115,7 @@ type MyType() =
 // The following is not allowed: value definitions are not allowed in namespaces
 let addOne x = x + 1
 ```
+
 When a namespace declaration group `N` is checked in an environment `env` , the individual
 declarations are checked in order and an overall _namespace declaration group signature_ `Nsig` is
 inferred for the module. An entry for `N` is then added to the _ModulesAndNamespaces_ table in the
@@ -134,6 +139,7 @@ namespace Utilities.Part2
     module Module2 =
         let x = Utilities.Part1.Module1.x + 2
 ```
+
 Within a namespace declaration group, the namespace itself is implicitly opened if any preceding
 namespace declaration groups or referenced assemblies contribute to it. For example:
 
@@ -149,6 +155,7 @@ namespace MyCompany.MyLibrary
     module Values2 =
         let x = Values1.x
 ```
+
 ## Module Definitions
 
 A module definition is a named collection of declarations such as values, types, and function values.
@@ -163,6 +170,7 @@ module MyModule =
         let f y = y + 1
         type Bar = C | D
 ```
+
 When a module definition `M` is checked in an environment `env0`, the individual declarations are
 checked in order and an overall _module signature_ `Msig` is inferred for the module. An entry for `M` is
 then added to the _ModulesAndNamespaces_ table to environment `env0` to form the new environment
@@ -181,6 +189,7 @@ module Part2 =
     type StorageCache() =
         member cache.Clear() = ()
 ```
+
 No two types or modules may have identical names in the same namespace. The
 `[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]` attribute adds the
 suffix `Module` to the name of a module to distinguish the module name from a type of a similar name.
@@ -203,6 +212,7 @@ module Cat =
 
 Cat.tabby |> Cat.purr |> Cat.purrTwice
 ```
+
 ### Function and Value Definitions in Modules
 
 Function and value definitionsin modules introduce named values and functions.
@@ -210,6 +220,7 @@ Function and value definitionsin modules introduce named values and functions.
 ```fsgrammar
 let rec~opt function-or-value-defn1 and ... and function-or-value-defnn
 ```
+
 The following example defines value `x` and functions `id` and `fib`:
 
 ```fsharp
@@ -218,6 +229,7 @@ module M =
     let id x = x
     let rec fib x = if x <= 2 then 1 else fib (n - 1) + fib (n - 2)
 ```
+
 Function and value definitions in modules may declare explicit type variables and type constraints:
 
 ```fsharp
@@ -225,6 +237,7 @@ let pair<'T>(x : 'T) = (x, x)
 let dispose<'T when 'T :> System.IDisposable>(x : 'T) = x.Dispose()
 let convert<'T, 'U>(x) = unbox<'U>(box<'T>(x))
 ```
+
 A value definition that has explicit type variables is called a type function ([§10.2.3](namespaces-and-modules.md#type-function-definitions-in-modules)).
 
 Function and value definitions may specify attributes:
@@ -238,6 +251,7 @@ let oneTwoPair = ( 1 , 2 )
 [<System.Obsolete("Don't use this either")>]
 let pear v = (v, v)
 ```
+
 By the use of pattern matching, a value definition can define more than one value. In such cases,
 the attributes apply to each value.
 
@@ -246,6 +260,7 @@ the attributes apply to each value.
 [<System.Obsolete("Don't use this")>]
 let (a, b) = (1, 2)
 ```
+
 Values may be declared mutable:
 
 ```fsharp
@@ -253,6 +268,7 @@ Values may be declared mutable:
 let mutable count = 1
 let freshName() = (count <- count + 1; count)
 ```
+
 Function and value definitions in modules are processed in the same way as function and value
 definitions in expressions ([§14.6](inference-procedures.md#checking-and-elaborating-function-value-and-member-definitions)), with the following adjustments:
 
@@ -275,6 +291,7 @@ compiled as a constant. For example:
 [<Literal>]
 let PI = 3.141592654
 ```
+
 Literal values may be used in custom attributes and pattern matching. For example:
 
 ```fsharp
@@ -287,26 +304,30 @@ let feeling(day) =
     | StartOfWeek -> "rough"
     | _ -> "great"
 ```
-A value that has the `Literal` attribute is subject to the following restrictions:
 
+A value that has the `Literal` attribute is subject to the following restrictions:
 
 - It may not be marked `mutable` or `inline`.
 - It may not also have the `ThreadStatic` or `ContextStatic` attributes.
 - The right-hand side expression must be a _literal constant expression_ that is both a valid
     expression after checking, and is made up of either:
-    - A simple constant expression, with the exception of `()`, native integer literals, unsigned native
+  - A simple constant expression, with the exception of `()`, native integer literals, unsigned native
        integer literals, byte array literals, BigInteger literals, and user-defined numeric literals.
 
 — OR —
+
 - A reference to another literal
 
 — OR —
+
 - A bitwise combination of literal constant expressions
 
 — OR —
+
 - A `+` concatenation of two literal constant expressions which are strings
 
 — OR —
+
 - `enum x` or `LanguagePrimitives.EnumOfValue x` where `x` is a literal constant expression.
 
 ### Type Function Definitions in Modules
@@ -317,6 +338,7 @@ parameter to the value `empty`:
 ```fsharp
 let empty<'T> : (list<'T> * Set<'T>) = ([], Set.empty)
 ```
+
 A value that has explicit generic parameters but has arity `[]` (that is, no explicit function parameters)
 is called a _type function_. The following are some example type functions from the F# library:
 
@@ -328,6 +350,7 @@ module Set =
 module Map =
     val empty<'Key,'Value> : Map<'Key,'Value>
 ```
+
 Type functions are rarely used in F# programming, although they are convenient in certain
 situations. Type functions are typically used for:
 
@@ -339,7 +362,6 @@ Type functions receive special treatment during generalization ([§14.6.7](infer
 ([§11.2](namespace-and-module-signatures.md#signature-conformance)). They typically have either the `RequiresExplicitTypeArguments` attribute or the
 `GeneralizableValue` attribute. Type functions may not be defined inside types, expressions, or
 computation expressions.
-
 
 In general, type functions should be used only for computations that do not have observable side
 effects. However, type functions may still perform computations. In this example, `r` is a type function
@@ -356,17 +378,20 @@ let x2 = r<int>
 let z0 = x1
 // count = 3
 ```
+
 The elaborated form of a type function is that of a function definition that takes one argument of
 type `unit`. That is, the elaborated form of
 
 ```fsgrammar
 let ident typar-defns = expr
 ```
+
 is the same as the compiled form for the following declaration:
 
 ```fsgrammar
 let ident typar-defns () = expr
 ```
+
 References to type functions are elaborated to invocations of such a function.
 
 ### Active Pattern Definitions in Modules
@@ -377,6 +402,7 @@ tags into the environment when the module is accessed or opened. For example,
 ```fsharp
 let (|A|B|C|) x = if x < 0 then A elif x = 0 then B else C
 ```
+
 introduces pattern tags `A`, `B`, and `C` into the _PatItems_ table in the name resolution environment.
 
 ### “do” statements in Modules
@@ -386,6 +412,7 @@ A `do` statement within a module has the following form:
 ```fsgrammar
 do expr
 ```
+
 The expression `expr` is checked with an arbitrary initial type `ty`. After checking `expr`, `ty` is asserted to
 be equal to `unit`. If the assertion fails, a warning rather than an error is reported. This warning is
 suppressed for plain expressions without do in script files (that is, .fsx and .fsscript files).
@@ -410,6 +437,7 @@ following form:
 ```fsgrammar
 open long-ident
 ```
+
 Import declarations make elements of other namespace declaration groups and modules accessible
 by the use of unqualified names. For example:
 
@@ -417,6 +445,7 @@ by the use of unqualified names. For example:
 open FSharp.Collections
 open System
 ```
+
 Import declarations can be used in:
 
 - Module definitions and their signatures.
@@ -437,11 +466,13 @@ A module abbreviation defines a local name for a module long identifier, as foll
 ```fsgrammar
 module ident = long-ident
 ```
+
 For example:
 
 ```fsharp
 module Ops = FSharp.Core.Operators
 ```
+
 Module abbreviations can be used in:
 
 - Module definitions and their signatures.
@@ -455,7 +486,6 @@ Resolution in Module and Namespace Paths_ (see [§14.1](inference-procedures.md#
 names that are associated with `ident` in the _ModulesAndNamespaces_ table.
 
 Module abbreviations may not be used to abbreviate namespaces.
-
 
 ## Accessibility Annotations
 
@@ -508,5 +538,3 @@ Accessibility modifiers can appear only in the locations summarized in the follo
 | Member definition | Precedes identifier, but cannot appear on <br>`inherit` definitions, <br>`interface` definitions, <br>`abstract` definitions, <br>individual union cases. <br>Accessibility for <br>`inherit`, `interface`, <br>and `abstract` definitions is <br>always the same as that of <br>the enclosing class. | `member private x.X = 1` |
 | Explicit property get <br>or set in a class | Precedes identifier | `member __.Item`<br> `with private get i = 1` <br>`and private set i v = ()` |
 | Type representation | Precedes identifier | `type Cases = private \| A \| B` |
-
-

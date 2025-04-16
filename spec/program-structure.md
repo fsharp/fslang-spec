@@ -3,9 +3,9 @@
 The inputs to the F# compiler or the F# Interactive dynamic compiler consist of:
 
 - Source code files, with extensions `.fs`, `.fsi`, `.fsx`, or `.fsscript`.
-    - Files with extension `.fs` must conform to grammar element `implementation-file` in [§12.1](program-structure-and-execution.md#implementation-files).
-    - Files with extension `.fsi` must conform to grammar element `signature-file` in [§12.2](program-structure-and-execution.md#signature-files).
-    - Files with extension `.fsx` or `.fsscript` must conform to grammar element `script-file` in
+  - Files with extension `.fs` must conform to grammar element `implementation-file` in [§12.1](program-structure-and-execution.md#implementation-files).
+  - Files with extension `.fsi` must conform to grammar element `signature-file` in [§12.2](program-structure-and-execution.md#signature-files).
+  - Files with extension `.fsx` or `.fsscript` must conform to grammar element `script-file` in
       [§12.3](program-structure-and-execution.md#script-files).
 - Script fragments (for F# Interactive). These must conform to grammar element `script-fragment`.
   Script fragments can be separated by `;;` tokens.
@@ -36,7 +36,7 @@ Processing the source code portions of these inputs consists of the following st
 6. **Checking**. The results of parsing are checked one by one. Checking involves such procedures as
    Name Resolution (§14.1), Constraint Solving (§14.5), and Generalization ([§14.6.7](inference-procedures.md#generalization)), as well as the
    application of other rules described in this specification.
-   
+
    Type inference uses variables to represent unknowns in the type inference problem. The various
    checking processes maintain tables of context information including a name resolution
    environment and a set of current inference constraints. After the processing of a file or program

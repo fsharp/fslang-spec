@@ -22,11 +22,13 @@ active-pattern-op-name :=
     | | ident | ... | ident |
     | | ident | ... | ident | _ |
 ```
+
 In operator definitions, the operator name is placed in parentheses. For example:
 
 ```fsgrammar
 let (+++) x y = (x, y)
 ```
+
 This example defines the binary operator `+++`. The text `(+++)` is an `ident-or-op` that acts as an
 identifier with associated text `+++`. Likewise, for active pattern definitions (§ 7), the active pattern
 case names are placed in parentheses, as in the following example:
@@ -34,16 +36,19 @@ case names are placed in parentheses, as in the following example:
 ```fsgrammar
 let (|A|B|C|) x = if x < 0 then A elif x = 0 then B else C
 ```
+
 Because an `ident-or-op` acts as an identifier, such names can be used in expressions. For example:
 
 ```fsgrammar
 List.map ((+) 1) [ 1; 2; 3 ]
 ```
+
 The three character token `(*)` defines the `*` operator:
 
 ```fsgrammar
 let (*) x y = (x + y)
 ```
+
 To define other operators that begin with `*`, whitespace must follow the opening parenthesis;
 otherwise `(*` is interpreted as the start of a comment:
 
@@ -149,6 +154,7 @@ long-ident-or-op :=
     | long-ident '.' ident-or-op
     | ident-or-op
 ```
+
 ## Constants
 
 The constants in the following table may be used in patterns and expressions. The individual lexical
@@ -178,6 +184,7 @@ const :=
     | false | true          -- Boolean constant of type "bool"
     | '(' ')'               -- unit constant of type "unit"
 ```
+
 ## Operators and Precedence
 
 ### Categorization of Symbolic Operators
@@ -215,10 +222,12 @@ prefix operators include the `~` character:
 // To completely redefine the prefix + operator:
 let (~+) x = x
 ```
+
 ```fsgrammar
 // To completely redefine the infix + operator to be addition modulo- 7
 let (+) a b = (a + b) % 7
 ```
+
 ```fsgrammar
 // To define the operator on a type:
 type C(n:int) =
@@ -229,6 +238,7 @@ let n = n % 7
     static member (+) (x1:C,x2:C) = C(x1.N+x2.N)
     static member (-) (x1:C,x2:C) = C(x1.N-x2.N)
 ```
+
 The `::` operator is special. It represents the union case for the addition of an element to the head of
 an immutable linked list, and cannot be redefined, although it may be used to form infix expressions.
 It always accepts arguments in tupled form — as do all union cases — rather than in curried form.
@@ -284,7 +294,8 @@ For example, consider the following token stream:
 ```fsharp
 a + b * c
 ```
-In this expression, the `expr infix-op expr` rule for `b * c` takes precedence over the 
+
+In this expression, the `expr infix-op expr` rule for `b * c` takes precedence over the
 `expr infix-op expr` rule for `a + b`, because the `*` operator has higher precedence than the `+` operator. Thus, this
 expression can be pictured as follows:
 
@@ -293,6 +304,7 @@ expression can be pictured as follows:
 // _________
 //     _____
 ```
+
 rather than
 
 ```fsharp
@@ -300,11 +312,13 @@ rather than
 // _________
 // _____
 ```
+
 Likewise, given the tokens
 
 ```fsharp
 a * b * c
 ```
+
 the left associativity of `*` means we can picture the resolution of the ambiguity as:
 
 ```fsharp

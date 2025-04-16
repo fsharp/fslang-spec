@@ -28,22 +28,27 @@ delimiter is still required to terminate interactive entries to fsi.exe, but not
 from Visual Studio.
 
 Lightweight Syntax
+
 ```fsharp
 printf "Hello"
 printf "World"
 ```
+
 Normal Syntax
+
 ```fsharp
 printf "Hello";;
 printf "World";;
 ```
 
 #### in keyword
+
 When the lightweight syntax option is enabled, the `in` keyword is optional. The token after the `=` in
 a `let` definition begins a new block, and the pre-parser inserts an implicit separating `in` token
 between each definition that begins at the same column as that token.
 
 Lightweight Syntax
+
 ```fsharp
 let SimpleSample() =
     let x = 10 + 12 - 3
@@ -51,6 +56,7 @@ let SimpleSample() =
     let r1,r2 = x/3, x%3
     (x,y,r1,r2)
 ```
+
 ```fsharp
 Normal Syntax
 #indent "off"
@@ -62,10 +68,12 @@ let SimpleSample() =
 ```
 
 #### done keyword
+
 When the lightweight syntax option is enabled, the `done` keyword is optional. Indentation establishes
 the scope of structured constructs such as `match`, `for`, `while` and `if`/`then`/`else`.
 
 Lightweight Syntax
+
 ```fsharp
 let FunctionSample() =
     let tick x = printfn "tick %d" x
@@ -76,7 +84,9 @@ let FunctionSample() =
         choose (fun n -> n%2 = 0) tick tock i
     printfn "done!" 
 ```
+
 Normal Syntax
+
 ```fsharp
 #indent "off"
 let FunctionSample() =
@@ -91,11 +101,13 @@ let FunctionSample() =
 ```
 
 #### if / then / else Scope
+
 When the lightweight syntax option is enabled, the scope of `if`/`then`/`else` is implicit from
 indentation. Without the lightweight syntax option, `begin`/`end` or parentheses are often required to
 delimit such constructs.
 
 Lightweight Syntax
+
 ```fsharp
 let ArraySample() =
     let numLetters = 26
@@ -111,6 +123,7 @@ let ArraySample() =
 ```
 
 Normal Syntax
+
 ```fsharp
 #indent "off"
 let ArraySample() =
@@ -127,6 +140,7 @@ let ArraySample() =
     done;
     printfn "done!"
 ```
+
 ### Inserted Tokens
 
 Lexical filtering inserts the following hidden tokens :
@@ -192,6 +206,7 @@ module-signature-elements +:=
 module-signature +:=
     | module ident = $begin module-signature-body $end
 ```
+
 ### Offside Lines
 
 Lightweight syntax is sometimes called the “offside rule”. In F# code, offside lines occur at column
@@ -218,6 +233,7 @@ let z = 3    // warning FS0058: possible
              // incorrect indentation: this token is offside of
              // context at position (2:1)
 ```
+
 In the second example, the `|` markers in the match patterns do not align properly:
 
 ```fsharp
@@ -271,6 +287,7 @@ let mutable x = 1
 X <- printfn "hello"
     2 + 2
 ```
+
 To start a SeqBlock on the right, either parentheses or a new line should be used:
 
 ```fsharp
@@ -348,6 +365,7 @@ let FunctionSample() =
 //      ^ Offside limit for inner let and for contexts
 //  ^ Offside limit for outer let context
 ```
+
 When a token occurs on or before the _offside limit_ for the current offside stack, and a _permitted
 undentation_ does not apply, enclosing contexts are _closed_ until the token is no longer offside. This
 may result in the insertion of extra delimiting tokens.
@@ -374,10 +392,12 @@ Tokens are also inserted in the following situations:
 - When a token occurs directly on the offside line of a _SeqBlock_ on the second or subsequent lines
     of the block, the `$sep` token is inserted. This token plays the same role as `;` in the grammar rules.
     For example, consider this source text:
+
     ```fsharp
        let x = 1
        x
     ```
+
 The raw token stream contains `let`, `x`, `=`, `1`, `x` and the end-of-file marker `eof`. An initial _SeqBlock_ is
 pushed immediately after the start of the file, at the first token in the file, with an offside line on
 column 0. The `let` token pushes a _Let_ context. The `=` token in a _Let_ context pushes a _SeqBlock_
@@ -419,7 +439,6 @@ operators.
         someCollection
         |> List.map (fun x -> x + 1)
     ```
-
 
     In the example below, the first `)` token does
 not indicate a new element in a
@@ -487,6 +506,7 @@ increase indentation.
     ```
 
 - In an _Interface_ context, the `end` token may align precisely with the `interface` keyword.
+
     ```fsharp
     interface IDisposable with
         member x.Dispose() = printfn disposing!"
@@ -494,6 +514,7 @@ increase indentation.
     ```
 
 - In an _If_ context, the `then`, `elif`, and `else` tokens may align precisely with the `if` keyword.
+
     ```fsharp
     if big
     then callSomeFunction()
@@ -505,6 +526,7 @@ increase indentation.
 - In a _Try_ context, the `finally` and `with` tokens may align precisely with the `try` keyword.
 
     Example 1:
+
     ```fsharp
     try
         callSomeFunction()
@@ -513,6 +535,7 @@ increase indentation.
     ```
 
     Example 2:
+
     ```fsharp
     try
         callSomeFunction()
@@ -521,6 +544,7 @@ increase indentation.
     ```
 
 - In a _Do_ context, the `done` token may align precisely with the `do` keyword.
+
     ```fsharp
     for i = 1 to 3
         do
@@ -539,6 +563,7 @@ the case. However, undentation is permitted for the following constructs:
 - Bodies of modules and module types
 
 #### Undentation of Bodies of Function Expressions
+
 The bodies of functions may be undented from the `fun` or `function` symbol. As a result, the compiler
 ignores the symbol when determining whether the body of the function satisfies the incremental
 indentation rule. For example, the `printf` expression in the following example is undented from the
@@ -549,6 +574,7 @@ let HashSample(tab: Collections.HashTable<_,_>) =
     tab.Iterate (fun c v ->
         printfn "Entry (%O,%O)" c v)
 ```
+
 However, the block must not undent past other offside lines. The following is not permitted because
 the second line breaks the offside line established by the `=` in the first line:
 
@@ -557,9 +583,11 @@ let x = (function (s, n) ->
     (fun z ->
         s+n+z))
 ```
+
 Constructs enclosed in brackets may be undented.
 
 #### Undentation of Branches of If/Then/Else Expressions
+
 The body of a `(` ... `)` or `begin` ... `end` block in an `if`/`then`/`else` expression may be undented when the
 body of the block follows the `then` or `else` keyword but may not undent further than the `if`
 keyword. In this example, the parenthesized block follows `then`, so the body can be undented to the
@@ -571,7 +599,9 @@ let IfSample(day: System.DayOfWeek) =
         printf "I don't like Mondays"
     )
 ```
+
 #### Undentation of Bodies of Modules and Module Types
+
 The bodies of modules and module types that are delimited by `begin` and `end` may be undented. For
 example, in the following example the two let statements that comprise the module body are
 undented from the `=`.
@@ -582,6 +612,7 @@ module MyNestedModule = begin
     let two = 2
 end
 ```
+
 Similarly, the bodies of classes, interfaces, and structs delimited by `{` ... `}`, `class` ... `end`, `struct` ... `end`,
 or `interface` ... `end` may be undented to the offside line established by the `type` keyword. For
 example:
@@ -591,6 +622,7 @@ type MyNestedModule = interface
     abstract P : int
 end
 ```
+
 ## High Precedence Application
 
 The entry `f x` in the precedence table in [§4.4.2](basic-grammar-elements.md#precedence-of-symbolic-operators-and-patternexpression-constructs) refers to a function application in which the function
@@ -602,11 +634,13 @@ and dot-notation operators. Conceptually this means that
 ```fsharp
 B(e)
 ```
+
 is analyzed lexically as
 
 ```fsgrammar
 B $app (e)
 ```
+
 where `$app` is an internal symbol inserted by lexical analysis. We do not show this symbol in the
 remainder of this specification and simply show the original source text.
 
@@ -616,12 +650,14 @@ This means that the following two statements
 B(e).C
 B (e).C
 ```
+
 are parsed as
 
 ```fsgrammar
 (B(e)).C
 B ((e).C)
 ```
+
 respectively.
 
 Furthermore, arbitrary chains of method applications, property lookups, indexer lookups (`.[]`), field
@@ -632,6 +668,7 @@ example:
 ```fsharp
 e.Meth1(arg1,arg2).Prop1.[3].Prop2.Meth2()
 ```
+
 Although the grammar and these precedence rules technically allow the use of high-precedence
 application expressions as direct arguments, an additional check prevents such use. Instead, such
 expressions must be surrounded by parentheses. For example,
@@ -639,18 +676,20 @@ expressions must be surrounded by parentheses. For example,
 ```fsharp
 f e.Meth1(arg1,arg2) e.Meth2(arg1,arg2)
 ```
+
 must be written
 
 ```fsharp
 f (e.Meth1(arg1,arg2)) (e.Meth2(arg1,arg2))
 ```
+
 However, indexer, field, and property dot-notation lookups may be used as arguments without
 adding parentheses. For example:
-
 
 ```fsharp
 f e.Prop1 e.Prop2.[3]
 ```
+
 ## Lexical Analysis of Type Applications
 
 The entry `f<types> x` in the precedence table ([§4.4.2](basic-grammar-elements.md#precedence-of-symbolic-operators-and-patternexpression-constructs)) refers to any identifier that is followed
@@ -673,11 +712,13 @@ as a type. Conceptually this means that
 ```fsharp
 B<int>.C<int>(e).C
 ```
+
 is returned as the following stream of tokens:
 
 ```fsgrammar
 B $app <int> .C $app <int>(e).C
 ```
+
 where `$app` is an internal symbol inserted by lexical analysis. We do not show this symbol elsewhere
 in this specification and simply show the original source text.
 
@@ -691,5 +732,3 @@ type Foo() =
 let b = new Foo< >() // valid
 let c = new Foo<>() // invalid
 ```
-
-

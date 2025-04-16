@@ -163,6 +163,7 @@ slice-range :=
     expr .. expr                    -- slice from index to index
     '*'                             -- slice from start to end
 ```
+
 ## Some Checking and Inference Terminology
 
 The rules applied to check individual expressions are described in the following subsections. Where
@@ -176,7 +177,6 @@ following terminology:
 
 - The phrase “the type `ty1` is asserted to be equal to the type `ty2`” or simply “`ty1 = ty2` is asserted”
     indicates that the constraint “`ty1 = ty2`” is added to the current inference constraints.
-
 
 - The phrase “`ty1` is asserted to be a subtype of `ty2`” or simply “`ty1 :> ty2` is asserted” indicates
     that the constraint `ty1 :> ty2` is added to the current inference constraints.
@@ -222,10 +222,10 @@ form. This specification uses the following elaborated forms:
 - Try-with: `try expr with expr`
 - Try-finally: `try expr finally expr`
 - The constructs required for the elaboration of pattern matching ([§7](patterns.md#patterns)).
-    - Null tests
-    - Switches on integers and other types
-    - Switches on union cases
-    - Switches on the runtime types of objects
+  - Null tests
+  - Switches on integers and other types
+  - Switches on union cases
+  - Switches on the runtime types of objects
 
 The following constructs are used in the elaborated forms of expressions that make direct
 assignments to local variables and arrays and generate “byref” pointer values. The operations are
@@ -308,6 +308,7 @@ xxxx<suffix>
     For xxxx in the Int64 range → NumericLiteral<suffix>.FromInt64(xxxx)
     For other numbers           → NumericLiteral<suffix>.FromString("xxxx")
 ```
+
 For example, defining a module `NumericLiteralZ` as below enables the use of the literal form `32Z` to
 generate a sequence of 32 ‘Z’ characters. No literal syntax is available for numbers outside the range
 of 32-bit integers.
@@ -318,6 +319,7 @@ module NumericLiteralZ =
     let FromOne() = "Z"
     let FromInt32 n = String.replicate n "Z"
 ```
+
 F# compilers may optimize on the assumption that calls to numeric literal functions always
 terminate, are idempotent, and do not have observable side effects.
 
@@ -347,8 +349,8 @@ Tuple types and expressions that have `S` resolved to reference tuple are transl
 - For `n <= 7` the elaborated form is `Tuple<ty1 ,... , tyn>`.
 - For larger `n` , tuple types are shorthand for applications of the additional F# library type
     System.Tuple<_> as follows:
-    - For `n = 8` the elaborated form is `Tuple<ty1, ..., ty7, Tuple<ty8>>`.
-    - For `9 <= n` the elaborated form is `Tuple<ty1, ..., ty7, tyB>` where `tyB` is the converted form of
+  - For `n = 8` the elaborated form is `Tuple<ty1, ..., ty7, Tuple<ty8>>`.
+  - For `9 <= n` the elaborated form is `Tuple<ty1, ..., ty7, tyB>` where `tyB` is the converted form of
        the type `(ty8 * ... * tyn)`.
 
 Tuple expressions `(expr1, ..., exprn)` are translated as follows:
@@ -366,7 +368,6 @@ runtime type `System.Tuple<int,int>`. Likewise, `(1,2,3,4,5,6,7,8,9)` has the ru
 `Tuple<int,int,int,int,int,int,int,Tuple<int,int>>`.
 
 Tuple types and expressions that have `S` resolved to struct tuple are translated in the same way to [`System.ValueTuple`](https://learn.microsoft.com/dotnet/api/system.valuetuple) .
-
 
 > Note: The above encoding is invertible and the substitution of types for type variables
 preserves this inversion. This means, among other things, that the F# reflection library
@@ -422,6 +423,7 @@ type Data = { Count : int; Name : string }
 let data1 = { Count = 3; Name = "Hello"; }
 let data2 = { Name = "Hello"; Count= 3 }
 ```
+
 In the following example, `data4` uses a long identifier to indicate the relevant field:
 
 ```fsharp
@@ -431,6 +433,7 @@ module M =
 let data3 = { M.Age = 17; M.Name = "John"; M.Height = 186.0 }
 let data4 = { data3 with M.Name = "Bill"; M.Height = 176.0 }
 ```
+
 Fields may also be referenced by using the name of the containing type:
 
 ```fsharp
@@ -444,6 +447,7 @@ open M2
 let data7 = { Data.Age = 17; Data.Name = "John"; Data.Height = 186.0 }
 let data8 = { data5 with Data.Name = "Bill"; Data.Height=176.0 }
 ```
+
 Each `field-initializeri` has the form `field-labeli = expri`. Each `field-labeli` is a `long-ident`,
 which must resolve to a field `F` i in a unique record type `R` as follows:
 
@@ -475,8 +479,8 @@ field definitions appear in the original expression. For example:
 type R = {b : int; a : int }
 { a = 1 + 1; b = 2 }
 ```
-The expression on the last line elaborates to `let v = 1 + 1 in { b = 2; a = v }`.
 
+The expression on the last line elaborates to `let v = 1 + 1 in { b = 2; a = v }`.
 
 Records expressions are also used for object initializations in additional object constructor
 definitions ([§8.6.3](type-definitions.md#additional-object-constructors-in-classes)). For example:
@@ -487,6 +491,7 @@ type C =
     val y : int
     new() = { x = 1; y = 2 }
 ```
+
 > Note: The following record initialization form is deprecated:
 <br>`{ new type with Field1 = expr1 and ... and Fieldn = exprn }`
 <br>The F# implementation allows the use of this form only with uppercase identifiers.
@@ -500,11 +505,13 @@ A _copy-and-update record expression_ has the following form:
 ```fsgrammar
 { expr with field-initializers }
 ```
+
 where `field-initializers` is of the following form:
 
 ```fsgrammar
 field-label1 = expr1; ...; field-labeln = exprn
 ```
+
 Each `field-labeli` is a `long-ident`. In the following example, `data2` is defined by using such an
 expression:
 
@@ -513,6 +520,7 @@ type Data = { Age : int; Name : string; Height : float }
 let data1 = { Age = 17; Name = "John"; Height = 186.0 }
 let data2 = { data1 with Name = "Bill"; Height = 176.0 }
 ```
+
 The expression `expr` is first checked with the same initial type as the overall expression. Next, the
 field definitions are resolved by using the same technique as for record expressions. Each field label
 must resolve to a field `Fi` in a single record type `R` , all of whose fields are accessible. After all field
@@ -531,7 +539,6 @@ A copy-and-update record expression elaborates as if it were a record expression
 where `F1 ... FM` are the fields of `R` that are not defined in `field-initializers` and `v` is a fresh
 variable.
 
-
 ### Function Expressions
 
 An expression of the form `fun pat1 ... patn -> expr` is a _function expression_. For example:
@@ -542,6 +549,7 @@ An expression of the form `fun pat1 ... patn -> expr` is a _function expression_
 (fun [x] -> x) // note, incomplete match
 (fun (x,y) (z,w) -> x + y + z + w)
 ```
+
 Function expressions that involve only variable patterns are a primitive elaborated form. Function
 expressions that involve non-variable patterns elaborate as if they had been written as follows:
 
@@ -552,6 +560,7 @@ fun v1 ... vn ->
     let patn = vn
     expr
 ```
+
 No pattern matching is performed until all arguments have been received. For example, the
 following does not raise a `MatchFailureException` exception:
 
@@ -559,11 +568,13 @@ following does not raise a `MatchFailureException` exception:
 let f = fun [x] y -> y
 let g = f [] // ok
 ```
+
 However, if a third line is added, a `MatchFailureException` exception is raised:
 
 ```fsharp
 let z = g 3 // MatchFailureException is raised
 ```
+
 ### Object Expressions
 
 An expression of the following form is an _object expression_ :
@@ -574,12 +585,14 @@ An expression of the following form is an _object expression_ :
   ...
   interface tyn object-membersn }
 ```
+
 In the case of the interface declarations, the `object-members` are optional and are considered empty
 if absent. Each set of `object-members` has the form:
 
 ```fsgrammar
 with member-defns end?
 ```
+
 Lexical filtering inserts simulated `$end` tokens when lightweight syntax is used.
 
 Each member of an object expression members can use the keyword `member`, `override`, or `default`.
@@ -606,6 +619,7 @@ let obj4 =
     interface System.IDisposable with
         member x.Dispose() = printfn "Dispose"; }
 ```
+
 An object expression can specify additional interfaces beyond those required to fulfill the abstract
 slots of the type being implemented. For example, `obj4` in the preceding examples has static type
 `System.Object` but the object additionally implements the interface `System.IDisposable`. The
@@ -644,7 +658,6 @@ result of _dispatch slot checking_ ([§14.8](inference-procedures.md#dispatch-sl
 The following example shows how to both implement an interface and override a method from
 `System.Object`. The overall type of the expression is `INewIdentity`.
 
-
 ```fsharp
 type public INewIdentity =
     abstract IsAnonymous : bool
@@ -655,6 +668,7 @@ let anon =
   interface INewIdentity with
     member i.IsAnonymous = true }
 ```
+
 ### Delayed Expressions
 
 An expression of the form `lazy expr` is a _delayed expression_. For example:
@@ -662,11 +676,13 @@ An expression of the form `lazy expr` is a _delayed expression_. For example:
 ```fsharp
 lazy (printfn "hello world")
 ```
+
 is syntactic sugar for
 
 ```fsharp
 new System.Lazy (fun () -> expr )
 ```
+
 The behavior of the `System.Lazy` library type ensures that expression `expr` is evaluated on demand in
 response to a `.Value` operation on the lazy value.
 
@@ -686,11 +702,13 @@ expr { try ... }
 expr { return ... }
 expr { return! ... }
 ```
+
 More specifically, computation expressions have the following form:
 
 ```fsgrammar
 builder-expr { cexpr }
 ```
+
 where `cexpr` is, syntactically, the grammar of expressions with the additional constructs that are
 defined in `comp-expr`. Computation expressions are used for sequences and other non-standard
 interpretations of the F# expression syntax. For a fresh variable `b`, the expression
@@ -698,11 +716,13 @@ interpretations of the F# expression syntax. For a fresh variable `b`, the expre
 ```fsgrammar
 builder-expr { cexpr }
 ```
+
 translates to
 
 ```fsgrammar
 let b = builder-expr in {| cexpr |}C
 ```
+
 The type of `b` must be a named type after the checking of builder-expr. The subscript indicates that
 custom operations (`C`) are acceptable but are not required.
 
@@ -710,10 +730,10 @@ If the inferred type of `b` has one or more of the `Run`, `Delay`, or `Quote` me
 checked, the translation involves those methods. For example, when all three methods exist, the
 same expression translates to:
 
-
 ```fsgrammar
 let b = builder-expr in b.Run (<@ b.Delay(fun () -> {| cexpr |}C) >@)
 ```
+
 If a `Run` method does not exist on the inferred type of b, the call to `Run` is omitted. Likewise, if no
 `Delay` method exists on the type of `b`, that call and the inner lambda are omitted, so the expression
 translates to the following:
@@ -721,7 +741,8 @@ translates to the following:
 ```fsgrammar
 let b = builder-expr in b.Run (<@ {| cexpr |}C >@)
 ```
-Similarly, if a `Quote` method exists on the inferred type of `b`, at-signs `<@ @>` are placed around `{| cexpr |}C` 
+
+Similarly, if a `Quote` method exists on the inferred type of `b`, at-signs `<@ @>` are placed around `{| cexpr |}C`
 or `b.Delay(fun () -> {| cexpr |}C)` if a `Delay` method also exists.
 
 The translation `{| cexpr |}C` , which rewrites computation expressions to core language expressions,
@@ -773,7 +794,6 @@ Assert(not q); **C** (b.TryWith(b.Delay(fun () -> {| `ce` |} 0 ), fun pi - > {| 
 Assert(not q); **C** (b.TryFinally(b.Delay(fun () -> {| `ce` |} 0 ), fun () -> e))
 
 **T** (if e then ce, **V** , **C** , q) = **T** (ce, **V** , v. **C** (if e then v else b.Zero()), q)
-
 
 **T** (if e then ce1 else ce2 , **V** , **C** , q) = Assert(not q); **C** (if e then {| `ce` 1 |} 0 ) else {| `ce` 2 |} 0 )
 
@@ -829,7 +849,6 @@ The following notes apply to the translations:
 - The auxiliary function exp ( **V** ) denotes a tuple expression that represents a set of variables in **V**.
     For example, exp ({x,y}) becomes (x,y), where x and y represent variable expressions.
 
-
 - The auxiliary function src (e) denotes b.Source(e) if the innermost ForEach is from the user
     code instead of generated by the translation, and a builder b contains a Source method.
     Otherwise, src (e) denotes e.
@@ -869,6 +888,7 @@ CL (cop arg; e, V , e’, bind) = CL (e, [], [| cop arg, e’ |] V , false)
 CL (e, V , e’, true) = T (let! pat ( V ) = e’ in e, V , v.v, true)
 CL (e, V , e’, false) = T (for pat ( V ) in e’ do e, V , v.v, true)
 ```
+
 - The auxiliary translation [| e1, e2 |]V is defined as follows:
 
 [|[ e1, e2 |] **V** where e1: the custom operator available in a build
@@ -880,6 +900,7 @@ e2 : the context argument that will be passed to a custom operator
 b.Cop (e, fun pat ( V) - > arg)
 [|[<CustomOperator("Cop")>] cop arg, e |] V = b.Cop (e, arg)
 ```
+
 - The final two translation rules (for do! e; and do! e;) apply only for the final expression in the
     computation expression. The semicolon (;) can be omitted.
 
@@ -888,17 +909,17 @@ The following attributes specify custom operations:
 - `CustomOperationAttribute` indicates that a member of a builder type implements a custom
     operation in a computation expression. The attribute has one parameter: the name of the
     custom operation. The operation can have the following properties:
-    - `MaintainsVariableSpace` indicates that the custom operation maintains the variable space of
+  - `MaintainsVariableSpace` indicates that the custom operation maintains the variable space of
        a computation expression.
-    - `MaintainsVariableSpaceUsingBind` indicates that the custom operation maintains the
+  - `MaintainsVariableSpaceUsingBind` indicates that the custom operation maintains the
        variable space of a computation expression through the use of a bind operation.
-    - `AllowIntoPattern` indicates that the custom operation supports the use of ‘into’ immediately
+  - `AllowIntoPattern` indicates that the custom operation supports the use of ‘into’ immediately
        following the operation in a computation expression to consume the result of the operation.
-    - `IsLikeJoin` indicates that the custom operation is similar to a join in a sequence
+  - `IsLikeJoin` indicates that the custom operation is similar to a join in a sequence
        computation, which supports two inputs and a correlation constraint.
-    - `IsLikeGroupJoin` indicates that the custom operation is similar to a group join in a sequence
+  - `IsLikeGroupJoin` indicates that the custom operation is similar to a group join in a sequence
        computation, which support two inputs and a correlation constraint, and generates a group.
-    - `JoinConditionWord` indicates the names used for the ‘on’ part of the custom operator for
+  - `JoinConditionWord` indicates the names used for the ‘on’ part of the custom operator for
        join-like operators.
 - `ProjectionParameterAttribute` indicates that, when a custom operation is used in a
     computation expression, a parameter is automatically parameterized by the variable space of
@@ -917,6 +938,7 @@ type SimpleSequenceBuilder() =
 
 let myseq = SimpleSequenceBuilder()
 ```
+
 Then, the expression
 
 ```fsharp
@@ -925,6 +947,7 @@ myseq {
     yield i*i
     }
 ```
+
 translates to
 
 ```fsharp
@@ -946,6 +969,7 @@ type SimpleSequenceBuilder() =
 
 let myseq = SimpleSequenceBuilder()
 ```
+
 Then, the expression
 
 ```fsharp
@@ -954,6 +978,7 @@ myseq {
     where (fun x -> x > 5)
     }
 ```
+
 translates to
 
 ```fsharp
@@ -963,6 +988,7 @@ let b = myseq
             b.Yield (i)),
         fun x -> x > 5)
 ```
+
 `ProjectionParameterAttribute` automatically adds a parameter from the variable space of the
 computation expression. For example, `ProjectionParameterAttribute` can be attached to the second
 argument of the `where` operator:
@@ -978,6 +1004,7 @@ type SimpleSequenceBuilder() =
 
 let myseq = SimpleSequenceBuilder()
 ```
+
 Then, the expression
 
 ```fsharp
@@ -986,6 +1013,7 @@ myseq {
     where (i > 5)
     }
 ```
+
 translates to
 
 ```fsharp
@@ -995,6 +1023,7 @@ b.Where(
         b.Yield (i)),
     fun i -> i > 5)
 ```
+
 `ProjectionParameterAttribute` is useful when a let binding appears between `ForEach` and the
 custom operators. For example, the expression
 
@@ -1005,6 +1034,7 @@ myseq {
     where (i > 5 && j < 49)
     }
 ```
+
 translates to
 
 ```fsharp
@@ -1015,6 +1045,7 @@ b.Where(
         b.Yield (i,j)),
     fun (i,j) -> i > 5 && j < 49)
 ```
+
 Without `ProjectionParameterAttribute`, a user would be required to write “`fun (i,j) ->`” explicitly.
 
 Now, assume that we want to write the condition “`where (i > 5 && j < 49)`” in the following
@@ -1024,6 +1055,7 @@ syntax:
 where (i > 5)
 where (j < 49)
 ```
+
 To support this style, the `where` custom operator should produce a computation that has the same
 variable space as the input computation. That is, `j` should be available in the second `where`. The
 following example uses the `MaintainsVariableSpace` property on the custom operator to specify this
@@ -1040,6 +1072,7 @@ type SimpleSequenceBuilder() =
 
 let myseq = SimpleSequenceBuilder()
 ```
+
 Then, the expression
 
 ```fsharp
@@ -1050,6 +1083,7 @@ myseq {
     where (j < 49)
     }
 ```
+
 translates to
 
 ```fsharp
@@ -1062,6 +1096,7 @@ b.Where(
         fun (i,j) -> i > 5),
     fun (i,j) -> j < 49)
 ```
+
 When we may not want to produce the variable space but rather want to explicitly express the chain
 of the `where` operator, we can design this simple sequence builder in a slightly different way. For
 example, we can express the same expression in the following way:
@@ -1073,6 +1108,7 @@ myseq {
     where (j*j < 49)
     }
 ```
+
 In this example, instead of having a let-binding (for `j` in the previous example) and passing variable
 space (including `j`) down to the chain, we can introduce a special syntax that captures a value into a
 pattern variable and passes only this variable down to the chain, which is arguably more readable.
@@ -1090,6 +1126,7 @@ type SimpleSequenceBuilder() =
 
 let myseq = SimpleSequenceBuilder()
 ```
+
 Then, the expression
 
 ```fsharp
@@ -1099,6 +1136,7 @@ myseq {
     where (j*j < 49)
     }
 ```
+
 translates to
 
 ```fsharp
@@ -1111,6 +1149,7 @@ b.Where(
         fun j -> b.Yield (j)),
     fun j -> j*j < 49)
 ```
+
 Note that the `into` keyword is not customizable, unlike `join` and `on`.
 
 In addition to `MaintainsVariableSpace`, `MaintainsVariableSpaceUsingBind` is provided to pass
@@ -1128,6 +1167,7 @@ type SimpleSequenceBuilder() =
 
 let myseq = SimpleSequenceBuilder()
 ```
+
 The presence of `MaintainsVariableSpaceUsingBindAttribute` requires `Return` and `Bind` methods
 during the translation.
 
@@ -1140,6 +1180,7 @@ myseq {
     return j
     }
 ```
+
 translates to
 
 ```fsharp
@@ -1149,6 +1190,7 @@ b.Bind(
         fun i -> i > 5 && i*i < 49),
     fun j -> b.Return (j))
 ```
+
 where `Bind` is called to capture the pattern variable `j`. Note that `For` and `Yield` are called to capture
 the pattern variable when `MaintainsVariableSpace` is used.
 
@@ -1169,6 +1211,7 @@ type SimpleSequenceBuilder() =
 
 let myseq = SimpleSequenceBuilder()
 ```
+
 `IsLikeJoin` indicates that the custom operation is similar to a join in a sequence computation; that
 is, it supports two inputs and a correlation constraint.
 
@@ -1181,6 +1224,7 @@ myseq {
     yield j
     }
 ```
+
 translates to
 
 ```fsharp
@@ -1191,6 +1235,7 @@ b.For(
             fun i -> fun j -> (i,j)),
     fun j -> b.Yield (j))
 ```
+
 This translation implicitly places type constraints on the expected form of the builder methods. For
 example, for the `async` builder found in the `FSharp.Control` library, the translation phase
 corresponds to implementing a builder of a type that has the following member signatures:
@@ -1209,6 +1254,7 @@ type AsyncBuilder with
     member TryFinally: Async<'T> * (unit -> unit) -> Async<'T>
     member TryWith: Async<'T> * (exn -> Async<'T>) -> Async<'T>
 ```
+
 The following example shows a common approach to implementing a new computation expression
 builder for a monad. The example uses computation expressions to define computations that can be
 partially run by executing them step-by-step, for example, up to a time limit.
@@ -1315,6 +1361,7 @@ type EventuallyBuilder() =
 
 let eventually = new EventuallyBuilder()
 ```
+
 After the computations are defined, they can be built by using eventually { ... }:
 
 ```fsharp
@@ -1324,6 +1371,7 @@ let comp =
             printfn " x = %d" x
         return 3 + 4 }
 ```
+
 These computations can now be stepped. For example:
 
 ```fsharp
@@ -1345,6 +1393,7 @@ comp |> step |> step |> step |> step |> step |> step |> step |> step
 // prints "x = 2"
 // returns "Done 7"
 ```
+
 ### Sequence Expressions
 
 An expression in one of the following forms is a _sequence expression_ :
@@ -1353,6 +1402,7 @@ An expression in one of the following forms is a _sequence expression_ :
 seq { comp-expr }
 seq { short-comp-expr }
 ```
+
 For example:
 
 ```fsharp
@@ -1360,6 +1410,7 @@ seq { for x in [ 1; 2; 3 ] do for y in [5; 6] do yield x + y }
 seq { for x in [ 1; 2; 3 ] do yield x + x }
 seq { for x in [ 1; 2; 3 ] -> x + x }
 ```
+
 Logically speaking, sequence expressions can be thought of as computation expressions with a
 builder of type `FSharp.Collections.SeqBuilder`. This type can be considered to be defined as
 follows:
@@ -1376,6 +1427,7 @@ type SeqBuilder() =
         SequenceExpressionHelpers.EnumerateThenFinally xs compensation
     member x.Using (resource,xs) = SequenceExpressionHelpers.EnumerateUsing resource xs
 ```
+
 > Note that this builder type is not actually defined in the F# library. Instead, sequence expressions are
 elaborated directly. For details, see page 79 of the old pdf spec.
 
@@ -1391,12 +1443,14 @@ Expressions of the following forms are _range expressions_.
 seq { e1 .. e2 }
 seq { e1 .. e2 .. e3 }
 ```
+
 Range expressions generate sequences over a specified range. For example:
 
 ```fsgrammar
 seq { 1 .. 10 } // 1; 2; 3; 4; 5; 6; 7; 8; 9; 10
 seq { 1 .. 2 .. 10 } // 1; 3; 5; 7; 9
 ```
+
 Range expressions involving `expr1 .. expr2` are translated to uses of the `(..)` operator, and those
 involving `expr1 .. expr1 .. expr3` are translated to uses of the `(.. ..)` operator:
 
@@ -1404,6 +1458,7 @@ involving `expr1 .. expr1 .. expr3` are translated to uses of the `(.. ..)` oper
 seq { e1 .. e2 } → ( .. ) e1 e2
 seq { e1 .. e2 .. e3 } → ( .. .. ) e1 e2 e3
 ```
+
 The default definition of these operators is in `FSharp.Core.Operators`. The ( `..` ) operator generates
 an `IEnumerable<_>` for the range of values between the start (`expr1`) and finish (`expr2`) values, using
 an increment of 1 (as defined by `FSharp.Core.LanguagePrimitives.GenericOne`). The `(.. ..)`
@@ -1432,6 +1487,7 @@ A _list sequence expression_ is an expression in one of the following forms
 [ short-comp-expr ]
 [ range-expr ]
 ```
+
 In all cases `[ cexpr ]` elaborates to `FSharp.Collections.Seq.toList(seq { cexpr })`.
 
 For example:
@@ -1445,6 +1501,7 @@ let x3 = [ yield 1
            if System.DateTime.Now.DayOfWeek = System.DayOfWeek.Monday then
                yield 2]
 ```
+
 ### Arrays Sequence Expressions
 
 An expression in one of the following forms is an _array sequence expression_ :
@@ -1454,6 +1511,7 @@ An expression in one of the following forms is an _array sequence expression_ :
 [| short-comp-expr |]
 [| range-expr |]
 ```
+
 In all cases `[| cexpr |]` elaborates to `FSharp.Collections.Seq.toArray(seq { cexpr })`.
 
 For example:
@@ -1464,6 +1522,7 @@ let x3 = [| yield 1
     if System.DateTime.Now.DayOfWeek = System.DayOfWeek.Monday then
         yield 2 |]
 ```
+
 ### Null Expressions
 
 An expression in the form `null` is a _null expression_. A null expression imposes a nullness constraint
@@ -1551,8 +1610,10 @@ System.Math.PI.ToString()
 System.Environment.GetEnvironmentVariable("PATH").Length
 System.Console.WriteLine("Hello World")
 ```
+
 Application expressions may start with object construction expressions that do not include the `new`
 keyword:
+
 ```fsharp
 System.Object()
 System.Collections.Generic.List<int>(10)
@@ -1560,11 +1621,14 @@ System.Collections.Generic.KeyValuePair(3,"Three")
 System.Object().GetType()
 System.Collections.Generic.Dictionary<int,int>(10).[1]
 ```
+
 If the `long-ident-or-op` starts with the special pseudo-identifier keyword `global`, F# resolves the
 identifier with respect to the global namespace — that is, ignoring all `open` directives (see [§14.2](inference-procedures.md#resolving-application-expressions)). For example:
+
 ```fsharp
 global.System.Math.PI
 ```
+
 is resolved to `System.Math.PI` ignoring all `open` directives.
 
 The checking of application expressions is described in detail as an algorithm in [§14.2](inference-procedures.md#resolving-application-expressions). To check an
@@ -1585,7 +1649,6 @@ contains a series of lookups and method calls. The elaborated expression may inc
 - Uses of active pattern result elements
 
 Additional constructs may be inserted when resolving method calls into simpler primitives:
-
 
 - The use of a method or value as a first-class function may result in a function expression.
 
@@ -1614,6 +1677,7 @@ An expression of the following form is an _object construction expression_:
 ```fsgrammar
 new ty ( e1 ... en )
 ```
+
 An object construction expression constructs a new instance of a type, usually by calling a
 constructor method on the type. For example:
 
@@ -1623,6 +1687,7 @@ new System.Collections.Generic.List<int>()
 new System.Windows.Forms.Form (Text="Hello World")
 new 'T()
 ```
+
 The initial type of the expression is first asserted to be equal to `ty`. The type `ty` must not be an array,
 record, union or tuple type. If `ty` is a named class or struct type:
 
@@ -1686,12 +1751,14 @@ specific definition of a user-defined or library-defined operator. For example:
 let (+++) a b = (a,b)
 3 +++ 4
 ```
+
 In some cases, the operator name resolves to a standard definition of an operator from the F#
 library. For example, in the absence of an explicit definition of (+),
 
 ```fsharp
 3 + 4
 ```
+
 resolves to a use of the infix operator FSharp.Core.Operators.(+).
 
 Some operators that are defined in the F# library receive special treatment in this specification. In
@@ -1701,7 +1768,6 @@ particular:
 - The `expr && expr` and `expr || expr` shortcut control flow operators ([§6.5.4](expressions.md#shortcut-operator-expressions))
 - The `%expr` and `%%expr` expression splice operators in quotations ([§6.8.3](expressions.md#expression-splices))
 - The library-defined operators, such as `+`, `-`, `*`, `/`, `%`, `**`, `<<<`, `>>>`, `&&&`, `|||`, and `^^^` ([§18.2](the-f-library-fsharpcoredll.md#basic-operators-and-functions-fsharpcoreoperators)).
-
 
 If the operator does not resolve to a user-defined or library-defined operator, the name resolution
 rules ([§14.1](inference-procedures.md#name-resolution)) ensure that the operator resolves to an expression that implicitly uses a static member
@@ -1725,6 +1791,7 @@ r <-- "Message One"
 
 "Message Two" --> r
 ```
+
 ### Dynamic Operator Expressions
 
 Expressions of the following forms are _dynamic operator expressions:_
@@ -1733,6 +1800,7 @@ Expressions of the following forms are _dynamic operator expressions:_
 expr1 ? expr2
 expr1 ? expr2 <- expr3
 ```
+
 These expressions are defined by their syntactic translation:
 
 `expr ? ident` → `(?) expr "ident"`
@@ -1756,6 +1824,7 @@ However, it does not apply to uses of the parenthesized operator names, as in th
 ```fsharp
 (?) x y
 ```
+
 ### The AddressOf Operators
 
 Under default definitions, expressions of the following forms are _address-of expressions,_ called
@@ -1823,6 +1892,7 @@ type 'T[,,] with
 type 'T[,,,] with
     member arr.Item : int * int * int * int -> 'T
 ```
+
 In addition, if type checking determines that the type of `e1` is a named type that supports the
 `DefaultMember` attribute, then the member name identified by the `DefaultMember` attribute is used
 instead of Item.
@@ -1863,6 +1933,7 @@ matrix.[1..3,1,.3] // get a 3x3 sub-matrix (returning a matrix)
 matrix.[3,*] // get row 3 from a matrix as a vector
 matrix.[*,3] // get column 3 from a matrix as a vector
 ```
+
 In addition, CIL array types of rank 1 to 4 are assumed to support a type extension that defines a
 method `GetSlice` that has the following signature:
 
@@ -1882,6 +1953,7 @@ type 'T[,,,] with
                           ?start3:int * ?end3:int * ?start4:int * ?end4:int
                             -> 'T[,,,]
 ```
+
 In addition, CIL array types of rank 1 to 4 are assumed to support a type extension that defines a
 method `SetSlice` that has the following signature:
 
@@ -1905,6 +1977,7 @@ type 'T[,,,] with
                           ?start3:int * ?end3:int * ?start4:int * ?end4:int *
                           values:T[,,,] -> unit
 ```
+
 ### Member Constraint Invocation Expressions
 
 An expression of the following form is a member constraint invocation expression:
@@ -1912,6 +1985,7 @@ An expression of the following form is a member constraint invocation expression
 ```fsgrammar
 (static-typars : (member-sig) expr)
 ```
+
 Type checking proceeds as follows:
 
 1. The expression is checked with initial type `ty`.
@@ -1950,6 +2024,7 @@ Then it went: quack
 It said: I'm a dog
 Then it went: grrrr
 ```
+
 ### Assignment Expressions
 
 An expression of the following form is an _assignment expression_ :
@@ -1957,6 +2032,7 @@ An expression of the following form is an _assignment expression_ :
 ```fsharp
 expr1 <- expr2
 ```
+
 A modified version of _Unqualified Lookup_ ([§14.2.1](inference-procedures.md#unqualified-lookup)) is applied to the expression `expr1` using a fresh
 expected result type `ty` , thus producing an elaborate expression `expr1`. The last qualification for `expr1`
 must resolve to one of the following constructs:
@@ -1986,7 +2062,6 @@ must resolve to one of the following constructs:
 
 - A array lookup `expr1a.[expr1b]` where `expr1a` has type `ty[]`.
 
-
     Type checking of expr2 uses the expected result type ty and generates thean elaborated
     expression expr2. The overall elaborated expression is an assignment to a field (see [§6.9.4](expressions.md#taking-the-address-of-an-elaborated-expression)):
 
@@ -1996,7 +2071,6 @@ must resolve to one of the following constructs:
     mutable so that primitive field assignments and array lookups can mutate their
     immediate contents. In this context, “immediate” contents means the contents of a
     mutable value type. For example, given
-
 
     ```fsharp
     [<Struct>]
@@ -2021,7 +2095,9 @@ must resolve to one of the following constructs:
     s1.x <- 3
     s3.sa.x <- 3
     ```
+
     and these are:
+
     ```fsharp
     s2.x <- 3
     s4.sa.x <- 3
@@ -2037,11 +2113,13 @@ A _parenthesized expression_ has the following form:
 ```fsgrammar
 (expr)
 ```
+
 A _block expression_ has the following form:
 
 ```fsgrammar
 begin expr end
 ```
+
 The expression `expr` is checked with the same initial type as the overall expression.
 
 The elaborated form of the expression is simply the elaborated form of `expr`.
@@ -2053,11 +2131,13 @@ A _sequential execution expression_ has the following form:
 ```fsgrammar
 expr1 ; expr2
 ```
+
 For example:
 
 ```fsharp
 printfn "Hello"; printfn "World"; 3
 ```
+
 The `;` token is optional when both of the following are true:
 
 - The expression `expr2` occurs on a subsequent line that starts in the same column as `expr1`.
@@ -2087,12 +2167,14 @@ elif expr3a then expr2b
 elif exprna then exprnb
 else exprlast
 ```
+
 The `elif` and `else` branches may be omitted. For example:
 
 ```fsharp
 if (1 + 1 = 2) then "ok" else "not ok"
 if (1 + 1 = 2) then printfn "ok"
 ```
+
 Conditional expressions are equivalent to pattern matching on Boolean values. For example, the
 following expression forms are equivalent:
 
@@ -2100,12 +2182,14 @@ following expression forms are equivalent:
 if expr1 then expr2 else expr3
 match (expr1: bool) with true -> expr2 | false -> expr3
 ```
+
 If the `else` branch is omitted, the expression is a _sequential conditional expression_ and is equivalent
 to:
 
 ```fsgrammar
 match (expr1: bool) with true -> expr2 | false -> ()
 ```
+
 with the exception that the initial type of the overall expression is first asserted to be `unit`.
 
 ### Shortcut Operator Expressions
@@ -2116,6 +2200,7 @@ Under default definitions, expressions of the following form are respectively an
 expr && expr
 expr || expr
 ```
+
 These expressions are defined by their syntactic translation:
 
 ```fsgrammar
@@ -2138,6 +2223,7 @@ A _pattern-matching expression_ has the following form:
 ```fsgrammar
 match expr with rules
 ```
+
 Pattern matching is used to evaluate the given expression and select a rule ([§7](patterns.md#patterns)). For example:
 
 ```fsharp
@@ -2146,11 +2232,13 @@ match (3, 2) with
 | i, 2 - > printfn "i = %d" i
 | _ - > printfn "no match"
 ```
+
 A _pattern-matching function_ is an expression of the following form:
 
 ```fsgrammar
 function rules
 ```
+
 A pattern-matching function is syntactic sugar for a single-argument function expression that is
 followed by immediate matches on the argument. For example:
 
@@ -2159,6 +2247,7 @@ function
 | 1, j -> printfn "j = %d" j
 | _ - > printfn "no match"
 ```
+
 is syntactic sugar for the following, where x is a fresh variable:
 
 ```fsharp
@@ -2175,6 +2264,7 @@ An expression of the following form is a _sequence iteration expression_ :
 ```fsgrammar
 for pat in expr1 do expr2 done
 ```
+
 The done token is optional if `expr2` appears on a later line and is indented from the column position
 of the for token. In this case, parsing inserts a `$done` token automatically and applies an additional
 syntax rule for lightweight syntax ([§15.1.1](lexical-filtering.md#basic-lightweight-syntax-rules-by-example)).
@@ -2202,6 +2292,7 @@ finally
     | :? System.IDisposable as d - > d .Dispose()
     | _ -> ()
 ```
+
 If the assertion fails, the type `tyexpr` may also be of any static type that satisfies the “collection
 pattern” of CLI libraries. If so, the _enumerable extraction_ process is used to enumerate the type. In
 particular, `tyexpr` may be any type that has an accessible GetEnumerator method that accepts zero
@@ -2216,6 +2307,7 @@ A sequence iteration of the form
 ```fsgrammar
 for var in expr1 .. expr2 do expr3 done
 ```
+
 where the type of `expr1` or `expr2` is equivalent to `int`, is elaborated as a simple for-loop expression
 ([§6.5.7](expressions.md#simple-for-loop-expressions))
 
@@ -2226,6 +2318,7 @@ An expression of the following form is a _simple for loop expression_ :
 ```fsgrammar
 for var = expr1 to expr2 do expr3 done
 ```
+
 The `done` token is optional when `e2` appears on a later line and is indented from the column position
 of the `for` token. In this case, a `$done` token is automatically inserted, and an additional syntax rule
 for lightweight syntax applies ([§15.1.1](lexical-filtering.md#basic-lightweight-syntax-rules-by-example)). For example:
@@ -2234,6 +2327,7 @@ for lightweight syntax applies ([§15.1.1](lexical-filtering.md#basic-lightweigh
 for x = 1 to 30 do
     printfn "x = %d, x^2 = %d" x (x*x)
 ```
+
 The bounds `expr1` and `expr2` are checked with initial type `int`. The overall type of the expression is
 `unit`. A warning is reported if the body `expr3` of the `for` loop does not have static type `unit`.
 
@@ -2255,6 +2349,7 @@ An expression of the form
 ```fsgrammar
 for var in expr1 .. expr2 do expr3 done
 ```
+
 is always elaborated as a simple for-loop expression whenever the type of `expr1` or `expr2` is
 equivalent to `int`.
 
@@ -2265,6 +2360,7 @@ A _while loop expression_ has the following form:
 ```fsgrammar
 while expr1 do expr2 done
 ```
+
 The `done` token is optional when `expr2` appears on a subsequent line and is indented from the
 column position of the `while`. In this case, a `$done` token is automatically inserted, and an additional
 syntax rule for lightweight syntax applies ([§15.1.1](lexical-filtering.md#basic-lightweight-syntax-rules-by-example)).
@@ -2275,6 +2371,7 @@ For example:
 while System.DateTime.Today.DayOfWeek = System.DayOfWeek.Monday do
     printfn "I don't like Mondays"
 ```
+
 The overall type of the expression is `unit`. The expression `expr1` is checked with initial type `bool`. A
 warning is reported if the body `expr2` of the while loop cannot be asserted to have type `unit`.
 
@@ -2285,6 +2382,7 @@ A _try-with expression_ has the following form:
 ```fsgrammar
 try expr with rules
 ```
+
 For example:
 
 ```fsharp
@@ -2296,6 +2394,7 @@ with
     | Failure msg -> "caught"
     | :? System.InvalidOperationException -> "unexpected"
 ```
+
 Expression `expr` is checked with the same initial type as the overall expression. The pattern matching
 clauses are then checked with the same initial type and with input type `System.Exception`.
 
@@ -2312,6 +2411,7 @@ try
     failwith "fail"
 with e -> printfn "Failing"; reraise()
 ```
+
 > Note: The rules in this section apply to any use of the function
   `FSharp.Core.Operators.reraise`, which is defined in the F# core library.
 
@@ -2324,6 +2424,7 @@ A _try-finally expression_ has the following form:
 ```fsgrammar
 try expr1 finally expr2
 ```
+
 For example:
 
 ```fsharp
@@ -2334,6 +2435,7 @@ try
 finally
     printfn "Finally block"
 ```
+
 Expression `expr1` is checked with the initial type of the overall expression. Expression `expr2` is
 checked with arbitrary initial type, and a warning occurs if this type cannot then be asserted to be
 equal to `unit`.
@@ -2347,6 +2449,7 @@ An _assertion expression_ has the following form:
 ```fsgrammar
 assert expr
 ```
+
 The expression `assert expr` is syntactic sugar for `System.Diagnostics.Debug.Assert(expr)`
 
 > Note: `System.Diagnostics.Debug.Assert` is a conditional method call. This means that
@@ -2362,9 +2465,9 @@ let value-defn in expr
 let rec function-or-value-defns in expr
 use ident = expr1 in expr
 ```
+
 Such an expression establishes a local function or value definition within the lexical scope of `expr`
 and has the same overall type as `expr`.
-
 
 In each case, the `in` token is optional if `expr` appears on a subsequent line and is aligned with the
 token `let`. In this case, a `$in` token is automatically inserted, and an additional syntax rule for
@@ -2376,28 +2479,33 @@ For example:
 let x = 1
 x + x
 ```
+
 and
 
 ```fsharp
 let x, y = ("One", 1)
 x.Length + y
 ```
+
 and
 
 ```fsharp
 let id x = x in (id 3, id "Three")
 ```
+
 and
 
 ```fsharp
 let swap (x, y) = (y,x)
 List.map swap [ (1, 2); (3, 4) ]
 ```
+
 and
 
 ```fsharp
 let K x y = x in List.map (K 3) [ 1; 2; 3; 4 ]
 ```
+
 Function and value definitions in expressions are similar to function and value definitions in class
 definitions ([§8.6](type-definitions.md#class-type-definitions)), modules ([§10.2.1](namespaces-and-modules.md#function-and-value-definitions-in-modules)), and computation expressions ([§6.3.10](expressions.md#computation-expressions)), with the following
 exceptions:
@@ -2418,11 +2526,13 @@ A value definition expression has the following form:
 ```fsgrammar
 let value-defn in expr
 ```
+
 where _value-defn_ has the form:
 
 ```fsgrammar
 mutable? access? pat typar-defns? return-type? = rhs-expr
 ```
+
 Checking proceeds as follows:
 
 1. Check the _value-defn_ ([§14.6](inference-procedures.md#checking-and-elaborating-function-value-and-member-definitions)), which defines a group of identifiers `identj` with inferred types `tyj`
@@ -2439,6 +2549,7 @@ In this case, the following rules apply:
     let ident1 <typars1> = expr1 in
     body-expr
     ```
+
     where ident1 , typars1 and expr1 are defined in [§14.6](inference-procedures.md#checking-and-elaborating-function-value-and-member-definitions).
 
 - Otherwise, the resulting elaborated form of the entire expression is
@@ -2450,6 +2561,7 @@ In this case, the following rules apply:
     let identn <typarsn> = exprn in
     body-expr
     ```
+
     where `tmp` is a fresh identifier and `identi`, `typarsi`, and `expri` all result from the compilation of
     the pattern `pat` ([§7](patterns.md#patterns)) against the input `tmp`.
 
@@ -2461,6 +2573,7 @@ while v < 10 do
     v <- v + 1
     printfn "v = %d" v
 ```
+
 Such variables are implicitly dereferenced each time they are used.
 
 ### Function Definition Expressions
@@ -2470,11 +2583,13 @@ A function definition expression has the form:
 ```fsgrammar
 let function-defn in expr
 ```
+
 where `function-defn` has the form:
 
 ```fsgrammar
 inline? access? ident-or-op typar-defns? pat1 ... patn return-type? = rhs-expr
 ```
+
 Checking proceeds as follows:
 
 1. Check the `function-defn` ([§14.6](inference-procedures.md#checking-and-elaborating-function-value-and-member-definitions)), which defines `ident1`, `ty1`, `typars1` and `expr1`
@@ -2487,8 +2602,8 @@ The resulting elaborated form of the entire expression is
 let ident1 < typars1 > = expr1 in
 expr
 ```
-where `ident1` , `typars1` and `expr1` are as defined in [§14.6](inference-procedures.md#checking-and-elaborating-function-value-and-member-definitions).
 
+where `ident1` , `typars1` and `expr1` are as defined in [§14.6](inference-procedures.md#checking-and-elaborating-function-value-and-member-definitions).
 
 ### Recursive Definition Expressions
 
@@ -2497,6 +2612,7 @@ An expression of the following form is a _recursive definition expression_:
 ```fsgrammar
 let rec function-or-value-defns in expr
 ```
+
 The defined functions and values are available for use within their own definitions—that is can be
 used within any of the expressions on the right-hand side of `function-or-value-defns`. Multiple
 functions or values may be defined by using `let rec ... and ...`. For example:
@@ -2515,6 +2631,7 @@ let test() =
 
 test()
 ```
+
 In the example, the expression defines a set of recursive functions. If one or more recursive values
 are defined, the recursive expressions are analyzed for safety ([§14.6.6](inference-procedures.md#recursive-safety-analysis)). This may result in warnings
 (including some reported as compile-time errors) and runtime checks.
@@ -2526,6 +2643,7 @@ A _deterministic disposal expression_ has the form:
 ```fsgrammar
 use ident = expr1 in expr2
 ```
+
 For example:
 
 ```fsharp
@@ -2534,11 +2652,13 @@ let line1 = inStream.ReadLine()
 let line2 = inStream.ReadLine()
 (line1,line2)
 ```
+
 The expression is first checked as an expression of form `let ident = expr1 in expr2` ([§6.6.1](expressions.md#value-definition-expressions)), which results in an elaborated expression of the following form:
 
 ```fsgrammar
 let ident1 : ty1 = expr1 in expr2.
 ```
+
 Only one value may be defined by a deterministic disposal expression, and the definition is not
 generalized ([§14.6.7](inference-procedures.md#generalization)). The type `ty1` , is then asserted to be a subtype of `System.IDisposable`. If the
 dynamic value of the expression after coercion to type `obj` is non-null, the `Dispose` method is called
@@ -2561,12 +2681,14 @@ A _type-annotated expression_ has the following form, where `ty` indicates the s
 ```fsgrammar
 expr : ty
 ```
+
 For example:
 
 ```fsharp
 (1 : int)
 let f x = (x : string) + x
 ```
+
 When checked, the initial type of the overall expression is asserted to be equal to `ty`. Expression `expr`
 is then checked with initial type `ty`. The expression elaborates to the elaborated form of `expr`. This
 ensures that information from the annotation is used during the analysis of `expr` itself.
@@ -2578,6 +2700,7 @@ A _static coercion expression_ — also called a flexible type constraint — ha
 ```fsgrammar
 expr :> ty
 ```
+
 The expression `upcast expr` is equivalent to `expr :> _`, so the target type is the same as the initial
 type of the overall expression. For example:
 
@@ -2587,6 +2710,7 @@ type of the overall expression. For example:
 ([1;2;3] :> seq<int>).GetEnumerator()
 (upcast 1 : obj)
 ```
+
 The initial type of the overall expression is `ty`. Expression `expr` is checked using a fresh initial type
 `tye`, with constraint `tye :> ty`. Static coercions are a primitive elaborated form.
 
@@ -2597,12 +2721,14 @@ A dynamic type-test expression has the following form:
 ```fsgrammar
 expr :? ty
 ```
+
 For example:
 
 ```fsharp
 ((1 :> obj) :? int)
 ((1 :> obj) :? string)
 ```
+
 The initial type of the overall expression is `bool`. Expression `expr` is checked using a fresh initial type
 `tye`. After checking:
 
@@ -2621,6 +2747,7 @@ A dynamic coercion expression has the following form:
 ```fsgrammar
 expr :?> ty
 ```
+
 The expression downcast `e1` is equivalent to `expr :?> _` , so the target type is the same as the initial
 type of the overall expression. For example:
 
@@ -2630,6 +2757,7 @@ let obj1 = (1 :> obj)
 (obj1 :?> string)
 (downcast obj1 : int)
 ```
+
 The initial type of the overall expression is `ty`. Expression `expr` is checked using a fresh initial type
 `tye`. After these checks:
 
@@ -2644,11 +2772,13 @@ Dynamic coercions are a primitive elaborated form.
 ## Quoted Expressions
 
 An expression in one of these forms is a quoted expression:
+
 ```fsgrammar
 <@ expr @>
 
 <@@ expr @@>
 ```
+
 The former is a _strongly typed quoted expression_ , and the latter is a _weakly typed quoted expression_.
 In both cases, the expression forms capture the enclosed expression in the form of a typed abstract
 syntax tree.
@@ -2686,6 +2816,7 @@ For details about the nodes that may be encountered, see the documentation for t
 
 - References to generic type parameters or uses of constructs whose type involves a generic
     parameter, such as the following:
+
     ```fsharp
     let f (x:'T) = <@ (x, x) : 'T * 'T @>
     ```
@@ -2707,6 +2838,7 @@ A strongly typed quoted expression has the following form:
 ```fsgrammar
 <@ expr @>
 ```
+
 For example:
 
 ```fsharp
@@ -2714,6 +2846,7 @@ For example:
 
 <@ (fun x -> x + 1) @>
 ```
+
 In the first example, the type of the expression is `FSharp.Quotations.Expr<int>`. In the second
 example, the type of the expression is `FSharp.Quotations.Expr<int -> int>`.
 
@@ -2728,15 +2861,16 @@ A _weakly typed quoted expression_ has the following form:
 ```fsgrammar
 <@@ expr @@>
 ```
+
 Weakly typed quoted expressions are similar to strongly quoted expressions but omit any type
 annotation. For example:
-
 
 ```fsharp
 <@@ 1 + 1 @@>
 
 <@@ (fun x -> x + 1) @@>
 ```
+
 In both these examples, the type of the expression is `FSharp.Quotations.Expr`.
 
 When checked, the initial type of a weakly typed quoted expression `<@@ expr @@>` is asserted to be
@@ -2751,14 +2885,17 @@ forms:
 %expr
 %%expr
 ```
+
 These are respectively strongly typed and weakly typed splicing operators.
 
 #### Strongly Typed Expression Splices
+
 An expression of the following form is a _strongly typed expression splice_ :
 
 ```fsgrammar
 %expr
 ```
+
 For example, given
 
 ```fsharp
@@ -2766,6 +2903,7 @@ open FSharp.Quotations
 let f1 (v:Expr<int>) = <@ %v + 1 @>
 let expr = f1 <@ 3 @>
 ```
+
 the identifier `expr` evaluates to the same expression tree as `<@ 3 + 1 @>`. The expression tree
 for `<@ 3 @>` replaces the splice in the corresponding expression tree node.
 
@@ -2783,6 +2921,7 @@ An expression of the following form is a _weakly typed expression splice_ :
 ```fsgrammar
 %%expr
 ```
+
 For example, given
 
 ```fsharp
@@ -2790,9 +2929,9 @@ open FSharp.Quotations
 let f1 (v:Expr) = <@ %%v + 1 @>
 let tree = f1 <@@ 3 @@>
 ```
+
 the identifier `tree` evaluates to the same expression tree as `<@ 3 + 1 @>`. The expression tree
 replaces the splice in the corresponding expression tree node.
-
 
 A weakly typed expression splice may appear only in a quotation. Assuming that the splice
 expression `%%expr` is checked with initial type `ty`, then the expression `expr` is checked with initial type
@@ -2824,12 +2963,12 @@ The execution of elaborated F# expressions results in values. Values include:
 Evaluation assumes the following evaluation context:
 
 - A global heap of object values. Each object value contains:
-    - A runtime type and dispatch map
-    - A set of fields with associated values
-    - For array objects, an array of values in index order
-    - For function objects, an expression which is the body of the function
-    - An optional _union case label_ , which is an identifier
-    - A closure environment that assigns values to all variables that are referenced in the method
+  - A runtime type and dispatch map
+  - A set of fields with associated values
+  - For array objects, an array of values in index order
+  - For function objects, an expression which is the body of the function
+  - An optional _union case label_ , which is an identifier
+  - A closure environment that assigns values to all variables that are referenced in the method
        bodies that are associated with the object
 - A global environment that maps runtime-type/name pairs to values.Each name identifies a static
     field in a type definition or a value in a module.
@@ -2838,7 +2977,6 @@ Evaluation assumes the following evaluation context:
 
 Evaluation may also raise an exception. In this case, the stack of active exception handlers is
 processed until the exception is handled, in which case additional expressions may be executed (for
-
 
 try/finally handlers), or an alternative expression may be evaluated (for try/with handlers), as
 described below.
@@ -2906,6 +3044,7 @@ Async.Parallel [ async { return obj.WriteValues() };
                  async { return obj.ReadValues() };
                  async { return obj.ReadValues() } ]
 ```
+
 ### Zero Values
 
 Some types have a _zero value_. The zero value is the “default” value for the type in the CLI execution
@@ -2944,7 +3083,6 @@ assumption changes the errors and warnings reported.
 
 - If `mutation` is `DefinitelyMutates`, then an error is given if a defensive copy must be created.
 - If `mutation` is `PossiblyMutates`, then a warning is given if a defensive copy arises.
-
 
 An F# compiler can optionally upgrade `PossiblyMutates` to `DefinitelyMutates` for calls to property
 setters and methods named `MoveNext` and `GetNextArg`, which are the most common cases of struct-
@@ -2991,7 +3129,6 @@ At runtime an elaborated application of a method is evaluated as follows:
     member is chosen according to the dispatch maps of the value of `e0` ([§14.8](inference-procedures.md#dispatch-slot-checking)).
 - The formal parameters of the method are mapped to corresponding argument values. The body
     of the method member is evaluated in the resulting environment.
-
 
 ### Evaluating Union Cases
 
@@ -3042,7 +3179,6 @@ At runtime, an elaborated function expression `(fun v1 ... vn -> expr)` is evalu
 - The result of calling the `obj.GetType()` method on the resulting object is under-specified (see
     [§6.9.24](expressions.md#values-with-underspecified-object-identity-and-type-identity)).
 
-
 ### Evaluating Object Expressions
 
 At runtime, elaborated object expressions
@@ -3052,6 +3188,7 @@ At runtime, elaborated object expressions
       interface ty1 object-members1
       interface tyn object-membersn }
 ```
+
 is evaluated as follows:
 
 - The expression evaluates to an object whose runtime type is compatible with all of the `tyi` and
@@ -3132,7 +3269,7 @@ At runtime, elaborated dynamic coercion expressions `expr :?> ty` are evaluated 
 Expressions of the form `expr :?> ty` evaluate in the same way as the F# library function
 `unbox<ty>(expr)`.
 
->   Note: Some F# types — most notably the `option<_>` type — use `null` as a representation
+> Note: Some F# types — most notably the `option<_>` type — use `null` as a representation
     for efficiency reasons ([§5.4.8](types-and-type-constraints.md#nullness)). For these  types, boxing and unboxing can lose type
     distinctions. For example, contrast the following two examples:
 
@@ -3143,11 +3280,10 @@ Expressions of the form `expr :?> ty` evaluate in the same way as the F# library
     val it : int option = None
     ```
 
->    In the first case, the conversion from an empty list of strings to an empty list of integers
+> In the first case, the conversion from an empty list of strings to an empty list of integers
     (after first boxing) fails. In the second case, the conversion from a string option to an
     integer option (after first boxing) succeeds.
-    
-    
+
 ### Evaluating Sequential Execution Expressions
 
 At runtime, elaborated sequential expressions `expr1 ; expr2` are evaluated as follows:
@@ -3162,8 +3298,8 @@ At runtime, elaborated try-with expressions try `expr1 with rules` are evaluated
 - The expression `expr1` is evaluated to a value `v1`.
 - If no exception occurs, the result is the value `v1`.
 - If an exception occurs, the pattern rules are executed against the resulting exception value.
-    - If no rule matches, the exception is reraised.
-    - If a rule `pat -> expr2` matches, the mapping `pat = v1` is added to the local environment,
+  - If no rule matches, the exception is reraised.
+  - If a rule `pat -> expr2` matches, the mapping `pat = v1` is added to the local environment,
        and `expr2` is evaluated.
 
 ### Evaluating Try-finally Expressions
@@ -3171,10 +3307,10 @@ At runtime, elaborated try-with expressions try `expr1 with rules` are evaluated
 At runtime, elaborated try-finally expressions try `expr1 finally expr2` are evaluated as follows:
 
 - The expression `expr1` is evaluated.
-    - If the result of this evaluation is a value `v` , then `expr2` is evaluated.
+  - If the result of this evaluation is a value `v` , then `expr2` is evaluated.
        1) If this evaluation results in an exception, then the overall result is that exception.
        2) If this evaluation does not result in an exception, then the overall result is `v`.
-    - If the result of this evaluation is an exception, then `expr2` is evaluated.
+  - If the result of this evaluation is an exception, then `expr2` is evaluated.
        3) If this evaluation results in an exception, then the overall result is that exception.
        4) If this evaluation does not result in an exception, then the original exception is re-
           raised.
@@ -3199,6 +3335,7 @@ taking the address of array elements may fail at runtime with a
 `System.ArrayTypeMismatchException` if the runtime type of the target array does not
 match the runtime type of the element being assigned. For example, the following code
 fails at runtime:
+
 ```fsharp
 let f (x: byref<obj>) = ()
 
@@ -3209,10 +3346,11 @@ let bb = ((b :> obj) :?> obj[])
 // The next line raises a System.ArrayTypeMismatchException exception.
 F (&bb.[1])
 ```
+
 ### Values with Underspecified Object Identity and Type Identity
 
 The CLI and F# support operations that detect object identity—that is, whether two object
-references refer to the same “physical” object. For example, `System.Object.ReferenceEquals(obj1, obj2)` 
+references refer to the same “physical” object. For example, `System.Object.ReferenceEquals(obj1, obj2)`
 returns true if the two object references refer to the same object. Similarly,
 `System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode()` returns a hash code that is partly
 based on physical object identity, and the `AddHandler` and `RemoveHandler` operations (which register
