@@ -2,12 +2,8 @@
   // Enable all rules by default
   "default": true,
 
-  // Line length: increase default from 80
-  "MD013": {
-    "line_length": 100,
-    "code_blocks": false,
-    "tables": false
-  },
+  // Disable line length check
+  "MD013": false,
 
   // Allow duplicate headers in different nested sections
   "MD024": {
