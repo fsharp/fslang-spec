@@ -1,3 +1,17 @@
+[*]
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+max_line_length = 120
+
+# always use spaces for indentation
+indent_style = space
+indent_size = 4
+
+[*.md]
+indent_size = 2
+
 [*.{fs,fsx,fsi}]
 fsharp_multiline_bracket_style = stroustrup
 fsharp_max_if_then_else_short_width = 120
