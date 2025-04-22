@@ -296,6 +296,10 @@ type 'T option =
 
 See also the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-reference/options) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-core-option-1.html).
 
+## Choices and Results
+
+Check the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-reference/results) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-core.html#category-3_4).
+
 ## Lazy Computations (Lazy)
 
 Check the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-reference/lazy-expressions) and the [FSharp.Core documentation]().
