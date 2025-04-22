@@ -91,8 +91,8 @@ The following operators are defined in `FSharp.Core.Operators`:
 | `(*)` | `x * y` | Overloaded multiplication. |
 | `(/)` | `x / y` | Overloaded division.<br>For negative numbers, the behavior of this operator follows the definition of the corresponding operator in the C# specification. |
 | `(%)` | `x % y` | Overloaded remainder.<br>For integer types, the result of x % y is the value produced by x – (x / y) * y. If y is zero, `System.DivideByZeroException` is thrown. The remainder operator never causes an overflow. This follows the definition of the remainder operator in the C# specification.<br>For floating-point types, the behavior of this operator also follows the definition of the remainder operator in the C# specification. |
-| `(~-)` | `-x` | Overloaded unary negation.
-| `not` | `not x` | Boolean negation.
+| `(~-)` | `-x` | Overloaded unary negation. |
+| `not` | `not x` | Boolean negation. |
 
 ### Generic Equality and Comparison Operators
 
@@ -302,7 +302,7 @@ Check the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-re
 
 ## Lazy Computations (Lazy)
 
-Check the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-reference/lazy-expressions) and the [FSharp.Core documentation]().
+Check the [Language Guide](https://learn.microsoft.com/dotnet/fsharp/language-reference/lazy-expressions) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-lazyextensions.html).
 
 ## Asynchronous Computations (Async)
 
