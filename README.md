@@ -29,7 +29,7 @@ All PRs need to be accepted by two team reviewers for merging.
 
 | Version | Feature ID | Feature Description | Link | Status |
 |---------|------------|---------------------|------|-------|
-| F# 4.0 | N/A | Auto Quotation | [AutoQuotationDesignAndSpec.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.0/AutoQuotationDesignAndSpec.md) | |
+| F# 4.0 | N/A | Auto Quotation | [AutoQuotationDesignAndSpec.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.0/AutoQuotationDesignAndSpec.md) | This was already covered (see [§ 8.13.7.3](https://github.com/fsharp/fslang-spec/blob/main/releases/FSharp-Spec-latest.md#81373-conversion-to-quotation-values) and the [FSharp.Core documentation](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-quotations-fsharpexpr.html#ValueWithName)) |
 | F# 4.0 | N/A | Class Names As Functions | [ClassNamesAsFunctionsDesignAndSpec.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.0/ClassNamesAsFunctionsDesignAndSpec.md) | |
 | F# 4.0 | N/A | Core Library Functions | [CoreLibraryFunctions.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.0/CoreLibraryFunctions.md) | |
 | F# 4.0 | N/A | Extended If Grammar | [ExtendedIfGrammarDesignAndSpec.md](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.0/ExtendedIfGrammarDesignAndSpec.md) | |
