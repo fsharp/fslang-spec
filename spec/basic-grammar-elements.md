@@ -256,30 +256,30 @@ elsewhere in the table.
 
 | Operator or expression | Associativity | Comments |
 | --- | --- | --- |
-| f<types> | Left | High-precedence type application; see [§15.3](lexical-filtering.md#lexical-analysis-of-type-applications)
-| f(x) | Left | High-precedence application; see [§15.2](lexical-filtering.md#high-precedence-application)
-| . | Left |
+| f<types> | Left | High-precedence type application; see [§15.3](lexical-filtering.md#lexical-analysis-of-type-applications) |
+| f(x) | Left | High-precedence application; see [§15.2](lexical-filtering.md#high-precedence-application) |
+| . | Left |  |
 | _prefix-op_ | Left | Applies to prefix uses of these symbols |
 | "| rule" | Right Pattern matching rules |
 | "f x" <br> "lazy x" <br> "assert x" | Left | |
 | **OP | Right | |
-| *OP /OP %OP | Left |
+| *OP /OP %OP | Left |  |
 | - OP +OP | Left | Applies to infix uses of these symbols |
-| :? | Not associative
+| :? | Not associative |  |
 | :: | Right | |
 | ^OP | Right | |
-| !=OP \<OP \>OP = \|OP &OP $ | Left |
+| !=OP \<OP \>OP = \|OP &OP $ | Left |  |
 | :> :?> | Right |  |
-| & && | Left |
-| or \|\| | Left |
-| , | Not associative
+| & && | Left |  |
+| or \|\| | Left |  |
+| , | Not associative |  |
 | := | Right |  |
 | -> | Right |  |
-| if | Not associative
-| function, fun, match, try | Not associative
-| let | Not associative
+| if | Not associative |  |
+| function, fun, match, try | Not associative |  |
+| let | Not associative |  |
 | ; | Right |  |
-| \| | Left |
+| \| | Left |  |
 | when | Right |  |
 | as | Right |  |
 

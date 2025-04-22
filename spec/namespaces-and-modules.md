@@ -531,10 +531,10 @@ Accessibility modifiers can appear only in the locations summarized in the follo
 | --- | --- | --- |
 | Function or value <br>definition in module |Precedes identifier |  `let private x = 1`<br>`let inline private f x = 1`<br>`let mutable private x = 1` |
 | Module definition | Precedes identifier | `module private M =`<br>`let x = 1` |
-| Type definition | Precedes identifier | `type private C = A \| B`<br>`type private C<'T> = A \| B`
+| Type definition | Precedes identifier | `type private C = A \| B`<br>`type private C<'T> = A \| B` |
 | `val` definition in a class | Precedes identifier | `val private x : int` |
-| Explicit constructor | Precedes identifier | `private new () = { inherit Base }`
-| Implicit constructor | Precedes identifier | `type C private() = ...`
+| Explicit constructor | Precedes identifier | `private new () = { inherit Base }` |
+| Implicit constructor | Precedes identifier | `type C private() = ...` |
 | Member definition | Precedes identifier, but cannot appear on <br>`inherit` definitions, <br>`interface` definitions, <br>`abstract` definitions, <br>individual union cases. <br>Accessibility for <br>`inherit`, `interface`, <br>and `abstract` definitions is <br>always the same as that of <br>the enclosing class. | `member private x.X = 1` |
 | Explicit property get <br>or set in a class | Precedes identifier | `member __.Item`<br> `with private get i = 1` <br>`and private set i v = ()` |
 | Type representation | Precedes identifier | `type Cases = private \| A \| B` |

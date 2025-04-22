@@ -1,6 +1,4 @@
-# fslang-spec
-
-F# Language Specification
+# F# Language Specification
 
 ## Overview
 
