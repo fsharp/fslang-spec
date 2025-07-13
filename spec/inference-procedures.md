@@ -479,6 +479,7 @@ _Item-Qualified Lookup_ proceeds as follows:
 
 1. If `item` is not one of the following, return an error:
     - A named value
+    - A unique type
     - A union case
     - A group of named types
     - A group of methods
@@ -557,6 +558,10 @@ _Item-Qualified Lookup_ proceeds as follows:
           function expression for the union case.
         - Let `fty` be the actual type of the union case.
         - Apply _Expression-Qualified Lookup_ to `fty` and remaining `projs`.
+
+    - If `item` is a unique type name `C` where `projs` is empty
+        - Check the type for accessibility and attributes.
+        - Process the types using a new instantiation for `C`, thus generating a type `ty`, and process the object construction `fun v -> new ty(v)` as an object constructor call.
 
     - If `item` is a CLI event reference
 
