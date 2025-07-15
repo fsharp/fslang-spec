@@ -12,6 +12,7 @@ and does not yet incorporate all RFCs.
 | FS-1004 | result type |
 | FS-1005 | underscores in numerical fields |
 | FS-1006 | struct tuples |
+| FS-1031 | allow implementing the same generic interface for different types in the same enclosing type |
 | FS-1091 | units of measure for more types |
 
 ## Notices
