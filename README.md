@@ -79,7 +79,7 @@ At certain points, releases are created and published in the `releases` director
 | F# 4.7 | FS-1070 | [Offside Relaxations](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.7/FS-1070-offside-relaxations.md) | |
 | F# 5.0 | FS-1001 | [String Interpolation](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1001-StringInterpolation.md) | |
 | F# 5.0 | FS-1003 | [Nameof Operator](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1003-nameof-operator.md) | |
-| F# 5.0 | FS-1031 | [Allow Implementing Same Interface at Different Generic Instantiations](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1031-Allow%20implementing%20the%20same%20interface%20at%20different%20generic%20instantiations%20in%20the%20same%20type.md) | done |
+| F# 5.0 | FS-1031 | [Allow Implementing Same Interface at Different Generic Instantiations](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1031-Allow%20implementing%20the%20same%20interface%20at%20different%20generic%20instantiations%20in%20the%20same%20type.md) | [done](https://github.com/fsharp/fslang-spec/pull/57) |
 | F# 5.0 | FS-1063 | [Support LetBang and AndBang for Applicative Functors](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1063-support-letbang-andbang-for-applicative-functors.md) | |
 | F# 5.0 | FS-1068 | [Open Type Declaration](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1068-open-type-declaration.md) | |
 | F# 5.0 | FS-1071 | [Witness Passing Quotations](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1071-witness-passing-quotations.md) | |
