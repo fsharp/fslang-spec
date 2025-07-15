@@ -2,13 +2,14 @@
 
 This documentation is work-in-progress, aiming at a F# 10 specification.
 <br>It has been built based on the [F# 4.1 spec](https://fsharp.org/specs/language-spec/4.1/FSharpSpec-4.1-latest.pdf)
-and does not yet incorporate all RFCs since F# 4.1 (including some of the 4.1 RFCs).
+and does not yet incorporate all RFCs.
 
 ## Included RFCs
 
 | RFC id | Topic |
 | --- | --- |
-| FS-1004 | Result type |
+| 4.0 speclet | class names as functions |
+| FS-1004 | result type |
 | FS-1005 | underscores in numerical fields |
 | FS-1006 | struct tuples |
 | FS-1091 | units of measure for more types |
