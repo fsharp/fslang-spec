@@ -194,8 +194,7 @@ array `symbol` types, see below.
 
 - By default, provided type definitions which are reference types are considered to support
 `null` literals.
-
-A provided type definition may have the `AllowNullLiteralAttribute` with value `false` in
+ </br>A provided type definition may have the `AllowNullLiteralAttribute` with value `false` in
 which case the type is considered to have null as an abnormal value.
 
 ### Inheritance
