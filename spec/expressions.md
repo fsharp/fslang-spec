@@ -1569,14 +1569,14 @@ where:
 | `%b` | `bool` |
 | `%s` | `string` |
 | `%c` | `char` |
-| `%d, %i` | One of the basic integer types: `byte`, `sbyte`, `int16`, `uint16`, `int32`, `uint32`, `int64`, `uint64`, `nativeint`, or `unativeint` |
+| `%d, %i` | One of the basic integer types.</br>A basic integer type is `byte`, `sbyte`, `int16`, `uint16`, `int32`, `uint32`, `int64`, `uint64`, `nativeint`, `unativeint`, or one of these types with a unit of measure |
 | `%u` | Basic integer type formatted as an unsigned integer |
 | `%x` | Basic integer type formatted as an unsigned hexadecimal integer with lowercase letters a through f. |
 | `%X` | Basic integer type formatted as an unsigned hexadecimal integer with uppercase letters A through F. |
 | `%o` | Basic integer type formatted as an unsigned octal integer. |
-| `%e, %E, %f, %F, %g, %G` | `float` or `float32` |
-| `%M` | `System.Decimal` |
-| `%O` | `System.Object` |
+| `%e, %E, %f, %F, %g, %G` | `float` or `float32`, possibly with a unit of measure|
+| `%M` | `System.Decimal`, possibly with a unit of measure |
+| `%O` | `System.Object`, possibly with a unit of measure |
 | `%A` | Fresh variable type `'T` |
 | `%a` | Formatter of type `'State -> 'T -> 'Residue` for a fresh variable type `'T` |
 | `%t` | Formatter of type `'State -> 'Residue` |
