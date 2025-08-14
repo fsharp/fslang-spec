@@ -2591,18 +2591,25 @@ type C() =
 The first two definitions in the example are implementations of the interfaces `IIncrement` and
 `IDecrement`. In the last definition,the type `C` supports these two interfaces.
 
-No type may implement multiple different instantiations of a generic interface, either directly or
-through inheritance. For example, the following is not permitted:
+A type may implement multiple different instantiations of a generic interface, either directly or
+through inheritance. For example, the following is valid:
 
 ```fsharp
-// This type definition is not permitted because it implements two instantiations
-// of the same generic interface
-type ClassThatTriesToImplemenTwoInstantiations() =
+type C() =
     interface System.IComparable<int> with
         member x.CompareTo(n : int) = 0
     interface System.IComparable<string> with
         member x.CompareTo(n : string) = 1
 ```
+
+However, the following restrictions apply for concrete implementations of generic interfaces.
+
+- The same interface must not be implemented twice (e.g. twice `System.IComparable<float>` in the same class)
+  (but it is possible to override an implementation in an inherited type).
+- Similarly, if a generic interface is implemented for a type parameter of the enclosing type, it must not also be
+  implemented for a concrete type.
+- All implemented interfaces must be declared (with their concrete type or a type parameter of the enclosing type)
+  on the initial declaration of the type, even in cases where the type could be inferred. (Note that this is different from object expressions, where such inference is possible.)
 
 Each member of an interface implementation is checked as follows:
 
