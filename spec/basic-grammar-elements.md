@@ -331,4 +331,4 @@ operators. For example, `.*` has the same precedence as `*.` This rule ensures t
 `.*`, which is frequently used for pointwise-operation on matrices, have the expected precedence.
 
 The table entries marked as “High-precedence application” and “High-precedence type application”
-are the result of the augmentation of the lexical token stream, as described in §15.2 and [§15.3](lexical-filtering.md#lexical-analysis-of-type-applications).
+are the result of the augmentation of the lexical token stream, as described in [§15.2](lexical-filtering.md#inserted-tokens) and [§15.3](lexical-filtering.md#lexical-analysis-of-type-applications).
