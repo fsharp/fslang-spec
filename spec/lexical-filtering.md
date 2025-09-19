@@ -248,7 +248,7 @@ let f () =
 ### The Pre-Parse Stack
 
 F# implements the lightweight syntax option by preparsing the token stream that results from a
-lexical analysis of the input text according to the lexical rules in [§15.1.3](lexical-filtering.md#grammar-rules-including-inserted-tokens). Pre-parsing for lightweight
+lexical analysis of the input text according to the lexical rules in [§](lexical-filtering.md#grammar-rules-including-inserted-tokens). Pre-parsing for lightweight
 syntax uses a stack of _contexts_.
 
 - When a column position becomes an offside line, a context is pushed.
@@ -625,7 +625,7 @@ end
 
 ## High Precedence Application
 
-The entry `f x` in the precedence table in [§4.4.2](basic-grammar-elements.md#precedence-of-symbolic-operators-and-patternexpression-constructs) refers to a function application in which the function
+The entry `f x` in the precedence table in [§](basic-grammar-elements.md#precedence-of-symbolic-operators-and-patternexpression-constructs) refers to a function application in which the function
 and argument are separated by spaces. The entry `"f(x)"` indicates that in expressions and patterns,
 identifiers that are followed immediately by a left parenthesis without intervening whitespace form
 a “high precedence” application. Such expressions are parsed with higher precedence than prefix
@@ -692,7 +692,7 @@ f e.Prop1 e.Prop2.[3]
 
 ## Lexical Analysis of Type Applications
 
-The entry `f<types> x` in the precedence table ([§4.4.2](basic-grammar-elements.md#precedence-of-symbolic-operators-and-patternexpression-constructs)) refers to any identifier that is followed
+The entry `f<types> x` in the precedence table ([§](basic-grammar-elements.md#precedence-of-symbolic-operators-and-patternexpression-constructs)) refers to any identifier that is followed
 immediately by a `<` symbol and a sequence of all of the following:
 
 - `_`, `,`, `*`, `'`, `[`, `]`, whitespace, or identifier tokens.

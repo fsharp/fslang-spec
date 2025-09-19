@@ -60,7 +60,7 @@ A sequence of implementation and signature files is checked as follows.
     which gives elaborated namespace declaration groups `Implfile`.
 
        a. If a corresponding signature `Sigfile` exists, check `Implfile` against `Sigfile` during this
-          process ([§11.2](namespace-and-module-signatures.md#signature-conformance)). Then add `Sigfile` to `impl-envi-1` to produce `impl-envi`. This step makes
+          process ([§](namespace-and-module-signatures.md#signature-conformance)). Then add `Sigfile` to `impl-envi-1` to produce `impl-envi`. This step makes
           the signature-constrained view of the implementation file available for use in later
           implementation files. The processing of the implementation file has no effect on the
           signature environment, so `sig-envi` is identical to `sig-envi-1`.
@@ -125,12 +125,12 @@ Given an initial environment `env0`, an implementation file is checked as follow
 
 - Create a new constraint solving context.
 - Check the namespace declaration groups in the file against the existing environment `envi-1` and
-    incrementally add them to the environment ([§10.1](namespaces-and-modules.md#namespace-declaration-groups)) to create a new environment `envi`.
+    incrementally add them to the environment ([§](namespaces-and-modules.md#namespace-declaration-groups)) to create a new environment `envi`.
 - Apply default solutions to any remaining type inference variables that include `default`
     constraints. The defaults are applied in the order that the type variables appear in the type-
     annotated text of the checked namespace declaration groups.
 - Check the inferred signature of the implementation file against any required signature by using
-    _Signature Conformance_ ([§11.2](namespace-and-module-signatures.md#signature-conformance)). The resulting signature of an implementation file is the required
+    _Signature Conformance_ ([§](namespace-and-module-signatures.md#signature-conformance)). The resulting signature of an implementation file is the required
     signature, if it is present; otherwise it is the inferred signature.
 - Report a “value restriction” error if the resulting signature of any item that is not a member,
     constructor, function, or type function contains any free inference type variables.
@@ -173,7 +173,7 @@ files that have the `.fs` extension, with the following exceptions:
     but the F# compiler does not. If the script uses the script helper `fsi` object, then the script
     should explicitly reference `FSharp.Compiler.Interactive.Settings.dll`.
 
-Script files may add to the set of referenced assemblies by using the `#r` directive ([§12.4](program-structure-and-execution.md#compiler-directives)).
+Script files may add to the set of referenced assemblies by using the `#r` directive ([§](program-structure-and-execution.md#compiler-directives)).
 
 Script files may add other signature, implementation, and script files to the list of sources by using
 the `#load` directive. Files are compiled in the same order that was passed to the compiler, except
@@ -198,8 +198,8 @@ following form:
 ```
 
 The lexical preprocessor directives `#if`, `#else`, `#endif` and `#indent "off"` are similar to compiler
-directives. For details on `#if`, `#else`, `#endif`, see [§3.3](lexical-analysis.md#conditional-compilation). The `#indent "off"` directive is described in
-[§19.4](features-for-ml-compatibility.md#file-extensions-and-lexical-matters).
+directives. For details on `#if`, `#else`, `#endif`, see [§](lexical-analysis.md#conditional-compilation). The `#indent "off"` directive is described in
+[§](features-for-ml-compatibility.md#file-extensions-and-lexical-matters).
 
 The following directives are valid in all files:
 
