@@ -1,0 +1,38 @@
+name: Deploy the spec through mkdocs to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install mkdocs
+        run: pip install mkdocs-material
+
+      - name: Create heading numbers, update links, prepare mkdocs input
+        run: cd deployment && dotnet fsi build.fsx
+
+      - name: Create web site and deploy to GitHub pages
+        run: cd artifacts/mkdocs && mkdocs gh-deploy --force
+

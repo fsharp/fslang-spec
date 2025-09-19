@@ -1,5 +1,6 @@
 {
     "FrontMatter": "front-matter",
+    "RfcStatus": "rfc-status",
     "MainBody": [
         "introduction",
         "program-structure",
@@ -20,7 +21,5 @@
         "special-attributes-and-types",
         "the-f-library-fsharpcoredll",
         "features-for-ml-compatibility"
-    ],
-    "Annexes": [
     ]
 }

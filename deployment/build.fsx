@@ -1,35 +1,39 @@
-// This script creates the full spec doc with freshly numbered section headers, adjusted reference links and ToC.
-// Note that the reference links do work on github and in VS Code, but not with all other markdown dialects. For
-// releases (which will probably be html or pdf), a conversion tool must be used that preserves the links, or else
-// this build script must be updated to add proper name tags to the headings.
-
-// Configuration of file locations and some document elements
-let sourceDir = "spec"
-let outDir = "artifacts"
-let catalogPath = $"{sourceDir}/Catalog.json"
-let fullDocName = "spec"
-let outChapterDir = $"{outDir}/chapters"
-
-let versionPlaceholder () = [$"_This version was created from sources on {System.DateTime.Now}_"; ""]
-let tocHeader = [""; "# Table of Contents"]
+// This script creates the input for mkdocs in the artifacts directory.
+// This includes copies of the markdown sources with added section headers and adjusted reference links.
 
 open System
 open System.Text.RegularExpressions
 open System.Text.Json
 open System.IO
 
+// Configuration of file locations
+let sourceDir = Path.Join("..", "spec")
+let catalogPath = Path.Join(sourceDir,"Catalog.json")
+let outDir = Path.Join("..", "artifacts")
+let mkdocsDir = Path.Join(outDir, "mkdocs")
+let mkdocsDocsDir = Path.Join(mkdocsDir, "docs")
+let assetsDir = "assets"
+let mkdocsConfigFilePath = Path.Join(mkdocsDir, "mkdocs.yml")
+let mkdocsIconFilePath = Path.Join(mkdocsDocsDir, "fsharp128.png")
+let mkdocsConfigSourcePath = Path.Join(assetsDir, "mkdocs.yml")
+let mkdocsIconSourcePath = Path.Join(assetsDir, "fsharp128.png")
+
+let versionPlaceholder () = [""; $"_This version was created from sources on {System.DateTime.Now}_"; ""]
+let chapterFileName chapterName = $"{chapterName}.md"
+
+type Catalog = {FrontMatter: string; RfcStatus: string; MainBody: string list}
 type Chapter = {name: string; lines: string list}
-type Sources = {frontMatter: Chapter; clauses: Chapter list}
-type Catalog = {FrontMatter: string; MainBody: string list; Annexes: string list}
-type FilenameHandling = KeepFilename | DiscardFilename
+type Sources = {frontMatter: Chapter; rfcStatus: Chapter; mainChapters: Chapter list}
+
 type BuildState = {
     chapterName: string
     lineNumber: int
     sectionNumber: int list
     inCodeBlock: bool
-    toc: Map<int list, string>
+    toc: Map<string * string, int list>
     errors: string list
 }
+
 type BuildError =
     | IoFailure of string
     | DocumentErrors of string list
@@ -50,26 +54,28 @@ let readSources () =
         let getChapter name = {name = name; lines = File.ReadAllLines($"{sourceDir}/{name}.md") |> Array.toList}
         let clauses = catalog.MainBody |> List.map getChapter
         let frontMatter = getChapter catalog.FrontMatter
+        let rfcStatus = getChapter catalog.RfcStatus
         let totalChapters = clauses.Length + 1
         let totalLines = List.sumBy (_.lines >> List.length) clauses + frontMatter.lines.Length
         printfn $"read {totalChapters} files with a total of {totalLines} lines"
-        Ok {frontMatter = frontMatter; clauses = clauses}
+        Ok {frontMatter = frontMatter; rfcStatus = rfcStatus; mainChapters = clauses}
     with e ->
         Error(IoFailure e.Message)
 
-let writeArtifacts (fullDoc, chapters) =
+let writeArtifacts chapters =
     try
-        if not <| Directory.Exists outDir then
-            Directory.CreateDirectory outDir |> ignore
-        let fullDocPath = $"{outDir}/{fullDocName}.md"
-        File.WriteAllLines(fullDocPath, fullDoc.lines)
-        printfn $"created {fullDocPath}"
-        if not <| Directory.Exists outChapterDir then
-            Directory.CreateDirectory outChapterDir |> ignore
+        Directory.CreateDirectory outDir |> ignore
+        Directory.CreateDirectory mkdocsDir |> ignore
+        Directory.CreateDirectory mkdocsDocsDir |> ignore
+        File.Delete mkdocsIconFilePath
+        File.Copy(mkdocsIconSourcePath, mkdocsIconFilePath)
+        let configLines = File.ReadAllLines mkdocsConfigSourcePath |> Array.toList
+        let navLines = chapters |> List.map (fun c -> $"- {chapterFileName c.name}")
+        File.WriteAllLines(mkdocsConfigFilePath, configLines @ navLines)
         for chapter in chapters do
-            let chapterPath = $"{outChapterDir}/{chapter.name}.md"
+            let chapterPath = Path.Join(mkdocsDocsDir, chapterFileName chapter.name)
             File.WriteAllLines(chapterPath, chapter.lines)
-        printfn $"created {List.length chapters} chapters in {outChapterDir}"
+        printfn $"created {List.length chapters} chapters in {mkdocsDocsDir}"
         Ok()
     with e ->
         Error(IoFailure e.Message)
@@ -113,7 +119,7 @@ let checkCodeBlock state line =
         else
             {state with inCodeBlock = true}
 
-let renumberIfHeaderLine state line =
+let preprocessLine state line =
     let state = {state with lineNumber = state.lineNumber + 1}
     let state = checkCodeBlock state line
     let m = Regex.Match(line, "^(#+) +(.*)")
@@ -134,68 +140,50 @@ let renumberIfHeaderLine state line =
                 line, {state with errors = (mkError state msg) :: state.errors}
             else
                 let headerLine = $"{headerPrefix} {sectionText sectionNumber} {heading}"
-                headerLine, {state with sectionNumber = sectionNumber; toc = state.toc.Add(sectionNumber, heading)}
+                let toc = state.toc.Add((chapterFileName state.chapterName, kebabCase heading), sectionNumber)
+                headerLine, {state with sectionNumber = sectionNumber; toc = toc}
 
-let renumberClause state clause =
-    let state = {state with chapterName = clause.name; lineNumber = 0}
-    let outLines, state = (state, clause.lines) ||> List.mapFold renumberIfHeaderLine
-    {clause with lines = outLines}, state
+let preprocessChapter state chapter =
+    let state = {state with chapterName = chapter.name; lineNumber = 0}
+    let outLines, state = (state, chapter.lines) ||> List.mapFold preprocessLine
+    {chapter with lines = outLines}, state
 
-let tocLines toc =
-    let tocLine (number, heading) =
-        let sText = sectionText number
-        let anchor = $"#{kebabCase sText}-{kebabCase heading}"
-        String.replicate (number.Length - 1) "  " + $"- [{sText} {heading}]({anchor})"
-    toc |> Map.toList |> List.map tocLine
-
-let adjustLinks fileNameHandling state line =
+let adjustLinks state line =
     let state = {state with lineNumber = state.lineNumber + 1}
     let rec adjustLinks' state lineFragment =
-        let m = Regex.Match(lineFragment, "(.*)\[§(\d+\.[\.\d]*)\]\(([^#)]+)#([^)]+)\)(.*)")
+        let m = Regex.Match(lineFragment, "(.*)\[§[^]]*\]\(([^#)]+)#([^)]+)\)(.*)")
         if m.Success then
-            let pre, sText, filename, anchor, post =
-                m.Groups[1].Value, m.Groups[2].Value, m.Groups[3].Value, m.Groups[4].Value, m.Groups[5].Value
-            match Map.tryPick (fun n heading -> if sectionText n = sText then Some heading else None) state.toc with
-            | Some _ ->
-                let post', state' = adjustLinks' state post  // recursive check for multiple links in a line
-                let adjustedLine =
-                    match fileNameHandling with
-                    | KeepFilename -> $"{pre}[§{sText}]({filename}#{kebabCase sText}-{anchor}){post'}"
-                    | DiscardFilename -> $"{pre}[§{sText}](#{kebabCase sText}-{anchor}){post'}"
+            let pre, chapterFileName, anchor, post =
+                m.Groups[1].Value, m.Groups[2].Value, m.Groups[3].Value, m.Groups[4].Value
+            match Map.tryPick (fun a s ->
+                if a = (chapterFileName, anchor) then Some (sectionText s) else None) state.toc with
+            | Some sText ->
+                let pre', state' = adjustLinks' state pre  // recursive check for multiple links in a line
+                let adjustedLine = $"{pre'}[§{sText}]({chapterFileName}#{kebabCase sText}-{anchor}){post}"
                 adjustedLine, state'
             | None ->
-                let msg = $"unknown link target {filename}#{anchor} ({sText})"
+                let msg = $"unknown link target {anchor}"
                 lineFragment, {state with errors = mkError state msg :: state.errors}
         else
             lineFragment, state
     adjustLinks' state line
 
+let adjustChapterLinks state chapter =
+    let state = {state with chapterName = chapter.name; lineNumber = 0}
+    let adjustedLines, state = (state, chapter.lines) ||> List.mapFold adjustLinks
+    {chapter with lines = adjustedLines}, state
+
 let processSources chapters =
     // Add section numbers to the headers, collect the ToC information, and check for correct code fence info strings
-    let (processedChapters, state) = (initialState, chapters.clauses) ||> List.mapFold renumberClause
-    // Create the ToC and build the complete spec
-    let allLines =
-        List.concat [
-            chapters.frontMatter.lines
-            versionPlaceholder ()
-            tocHeader
-            tocLines state.toc
-            List.collect _.lines processedChapters
-        ]
+    let preProcessedChapters, state = (initialState, chapters.mainChapters) ||> List.mapFold preprocessChapter
+    
     // Adjust the reference links to point to the correct header of the new spec
-    let (allLines, _) =
-        ({state with chapterName = fullDocName; lineNumber = 0}, allLines)
-        ||> List.mapFold (adjustLinks DiscardFilename)
-    let fullDoc = {name = fullDocName; lines = allLines}
-    let adjustChapterLinks chapter =
-        let adjustedLines, _ =
-            ({state with chapterName = chapter.name; lineNumber = 0}, chapter.lines)
-            ||> List.mapFold (adjustLinks KeepFilename)
-        {name = chapter.name; lines = adjustedLines}
-    let frontMatterLines = chapters.frontMatter.lines @ versionPlaceholder()
-    let adjustedChapters = processedChapters |> List.map adjustChapterLinks
-    let outputChapters = {name = "index"; lines = frontMatterLines} :: adjustedChapters
-    if not state.errors.IsEmpty then Error(DocumentErrors(List.rev state.errors)) else Ok(fullDoc, outputChapters)
+    let adjustedChapters, state = (state, preProcessedChapters) ||> List.mapFold adjustChapterLinks
+
+    let frontMatterChapter = {name = "index"; lines = chapters.frontMatter.lines @ versionPlaceholder()}
+    let outputChapters = frontMatterChapter :: chapters.rfcStatus :: adjustedChapters
+    
+    if not state.errors.IsEmpty then Error(DocumentErrors(List.rev state.errors)) else Ok outputChapters
 
 let build () =
     match readSources () |> Result.bind processSources |> Result.bind writeArtifacts with

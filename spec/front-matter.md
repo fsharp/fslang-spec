@@ -1,19 +1,11 @@
-# F# Language Specification
+# Front Matter
 
 This documentation is work-in-progress, aiming at a F# 10 specification.
-<br>It has been built based on the [F# 4.1 spec](https://fsharp.org/specs/language-spec/4.1/FSharpSpec-4.1-latest.pdf)
-and does not yet incorporate all RFCs.
 
-## Included RFCs
+Historically, a F# spec was maintained as a Word document until about 2018, when some of the then new F# 4.1 features were added. Since then, changes to the language were documented in RFC documents in the [language design repo](https://github.com/fsharp/fslang-design/).
 
-| RFC id | Topic |
-| --- | --- |
-| 4.0 speclet | class names as functions |
-| FS-1004 | result type |
-| FS-1005 | underscores in numerical fields |
-| FS-1006 | struct tuples |
-| FS-1031 | allow implementing the same generic interface for different types in the same enclosing type |
-| FS-1091 | units of measure for more types |
+This site is the output of an ongoing effort to make the spec complete and to make it more accessible and community-maintainable. The starting point was the [F# 4.1 spec](https://fsharp.org/specs/language-spec/4.1/FSharpSpec-4.1-latest.pdf) that was converted to markdown and cleaned. The RFCs are now one by one added. Their status is listed [here](rfc-status.md). Check the [source repo](https://github.com/fsharp/fslang-spec/) for ways to contribute.
+
 
 ## Notices
 
