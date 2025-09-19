@@ -73,7 +73,7 @@ from each assembly.
 When a module or namespace declaration group `F` is opened, the compiler adds items to the name
 environment as follows:
 
-1. Add each exception label for each exception type definition ([§8.11](type-definitions.md#exception-definitions)) in `F` to the _ExprItems_ and
+1. Add each exception label for each exception type definition ([§](type-definitions.md#exception-definitions)) in `F` to the _ExprItems_ and
     _PatItems_ tables in the original order of declaration in `F`.
 2. Add each type definition in the original order of declaration in `F`. Adding a type definition
     involves the following procedure:
@@ -307,7 +307,7 @@ The `long-ident` must resolve to a union case, exception label, literal value, o
 name. If it does not, the `long-ident` may represent a new variable definition in the pattern.
 
 _Name Resolution for Patterns_ follows the same steps to resolve the `member-ident` as _Name
-Resolution in Expressions_ ([§14.1.4](inference-procedures.md#name-resolution-in-expressions)) except that it consults the _PatItems_ table instead of the _ExprItems_
+Resolution in Expressions_ ([§](inference-procedures.md#name-resolution-in-expressions)) except that it consults the _PatItems_ table instead of the _ExprItems_
 table. As a result, values are not present in the namespace that is used to resolve identifiers in
 patterns. For example:
 
@@ -347,7 +347,7 @@ _Name Resolution for Types_ proceeds through the following steps:
     or-module-path` becomes successively longer.
     - For each such division, consider each module and namespace declaration group `F` in the list
     that results from resolving `namespace-or-module-path` by using _Name Resolution in Module
-    and Namespace Paths_ ([§14.1.2](inference-procedures.md#name-resolution-in-module-and-namespace-paths)).
+    and Namespace Paths_ ([§](inference-procedures.md#name-resolution-in-module-and-namespace-paths)).
     - For each such `F` , attempt to resolve `ident[.rest]` in the following order. Terminate the
     search when the expression is successfully resolved.
         1) A type in `F`. Return this type and residue `rest`.
@@ -409,7 +409,7 @@ _Field Label Resolution_ specifies how to resolve identifiers such as `field1` i
 
 _Field Label Resolution_ proceeds through the following steps:
 
-1. Look up all fields in all available types in the _Types_ table and the _FieldLabels_ table ([§8.4](type-definitions.md#record-type-definitions)).
+1. Look up all fields in all available types in the _Types_ table and the _FieldLabels_ table ([§](type-definitions.md#record-type-definitions)).
 2. Return the set of field declarations.
 
 ## Resolving Application Expressions
@@ -438,10 +438,10 @@ Resolution of application expressions proceeds as follows:
     if `rest` is empty and `.rest projs` otherwise.
 
 2. After decomposition:
-    - If `expr` is a long identifier expression `long-ident`, apply _Unqualified Lookup_ ([§14.2.1](inference-procedures.md#unqualified-lookup)) on `long-ident` with projections `projs`.
+    - If `expr` is a long identifier expression `long-ident`, apply _Unqualified Lookup_ ([§](inference-procedures.md#unqualified-lookup)) on `long-ident` with projections `projs`.
     - If `expr` is not such an expression, check the expression against an arbitrary initial type `ty`, to
        generate an elaborated expression `expr`. Then process `expr`, `ty`, and `projs` by using
-       _Expression-Qualified Lookup_ ([§14.2.3](inference-procedures.md#expression-qualified-lookup))
+       _Expression-Qualified Lookup_ ([§](inference-procedures.md#expression-qualified-lookup))
 
 ### Unqualified Lookup
 
@@ -456,7 +456,7 @@ code, from simple identifiers such as `sin`, to complex accesses such as
 
 _Unqualified Lookup_ proceeds through the following steps:
 
-1. Resolve `long-ident` by using _Name Resolution in Expressions_ ([§14.1](inference-procedures.md#name-resolution)). This returns a _name resolution item_ `item` and a _residue long identifier_ `rest`.
+1. Resolve `long-ident` by using _Name Resolution in Expressions_ ([§](inference-procedures.md#name-resolution)). This returns a _name resolution item_ `item` and a _residue long identifier_ `rest`.
 
 For example, the result of _Name Resolution in Expressions_ for `v.X.Y` may be a value reference `v`
 along with a residue long identifier `X.Y`. Likewise, `N.X(args).Y` may resolve to an overloaded
@@ -501,7 +501,7 @@ _Item-Qualified Lookup_ proceeds as follows:
         projection must be `<types>`.
         - If the value has type `byref<ty2>`, add a byref dereference to the elaborated
         expression.
-        - Insert implicit flexibility for the use of the value ([§14.4.3](inference-procedures.md#implicit-insertion-of-flexibility-for-uses-of-functions-and-members)).
+        - Insert implicit flexibility for the use of the value ([§](inference-procedures.md#implicit-insertion-of-flexibility-for-uses-of-functions-and-members)).
 
         Then Apply _Expression-Qualified Lookup_ for type `ty` and any remaining projections.
 
@@ -582,7 +582,7 @@ _Item-Qualified Lookup_ proceeds as follows:
                 -> ((^a or ^b or ^c) : static member (op) : ^a * ^b * ^c -> ^d) (x,y,z))
             ```
 
-        - The resulting expressions are static member constraint invocation expressions ([§6.4.8](expressions.md#member-constraint-invocation-expressions)),
+        - The resulting expressions are static member constraint invocation expressions ([§](expressions.md#member-constraint-invocation-expressions)),
         which enable the default interpretation of operators by using type-directed
         member resolution.
         - Recheck the entire expression with additional subsequent projections `.projs`.
@@ -599,9 +599,9 @@ Expression-Qualified Lookup proceeds through the following steps:
     | `projs` | Action | Comments |
     | --- | --- | --- |
     | Empty | Assert that the type of the overall, original application expression is `ty`. | Checking is complete.|
-    | Starts with `(expr2)` | Apply _Function Application Resolution_ ([§14.3](inference-procedures.md#function-application-resolution)). | Checking is complete when _Function Application Resolution_ returns. |
+    | Starts with `(expr2)` | Apply _Function Application Resolution_ ([§](inference-procedures.md#function-application-resolution)). | Checking is complete when _Function Application Resolution_ returns. |
     | Starts with `<types>` | Fail. | Type instantiations may not be applied to arbitrary expressions; they can apply only to generic types, generic methods, and generic values. |
-    | Starts with `.long-ident` | Resolve `long-ident` using _Name Resolution for Members_ ([§14.1.4](inference-procedures.md#name-resolution-in-expressions))_. Return a name resolution item `item` and a residue long identifier `rest`. Continue processing at step 2. | For example, for `ty = string` and `long-ident = Length`, _Name Resolution for Members_ returns a property reference to the CLI instance property `System.String.Length`. |
+    | Starts with `.long-ident` | Resolve `long-ident` using _Name Resolution for Members_ ([§](inference-procedures.md#name-resolution-in-expressions))_. Return a name resolution item `item` and a residue long identifier `rest`. Continue processing at step 2. | For example, for `ty = string` and `long-ident = Length`, _Name Resolution for Members_ returns a property reference to the CLI instance property `System.String.Length`. |
 
 2. If Step 1 returned an `item` and `rest`, report an error if `item` is not one of the following:
     - A group of methods.
@@ -635,7 +635,7 @@ Expression-Qualified Lookup proceeds through the following steps:
           by which the field was accessed).
         - Assert that `ty` is a subtype of the actual containing type of the field.
         - Produce an elaborated form for `expr.F`. If `F` is a field in a value type
-          then take the address of `expr` by using the _AddressOf_(`expr, NeverMutates`) operation [§6.9.4](expressions.md#taking-the-address-of-an-elaborated-expression).
+          then take the address of `expr` by using the _AddressOf_(`expr, NeverMutates`) operation [§](expressions.md#taking-the-address-of-an-elaborated-expression).
         - Apply _Expression-Qualified Lookup_ to `fty` and `projs`.
 
 ## Function Application Resolution
@@ -811,7 +811,7 @@ _Method Application Resolution_ proceeds through the following steps:
 7. Choose a unique `M~possible` according to the following rules:
     - For each `M~possible`, determine whether the method is _applicable_ by attempting to assert
     `M~possible` as described in step 4a). If the actions in step 4a detect an inconsistent constraint set
-    ([§14.5](inference-procedures.md#constraint-solving)), the method is not applicable. Regardless, the overall constraint set is left unchanged
+    ([§](inference-procedures.md#constraint-solving)), the method is not applicable. Regardless, the overall constraint set is left unchanged
     as a result of determining the applicability of each `M~possible`.
     - If a unique applicable `M~possible` exists, choose that method. Otherwise, choose the unique _best_
     `M~possible` by applying the following criteria, in order:
@@ -842,7 +842,7 @@ _Method Application Resolution_ proceeds through the following steps:
 9. Apply attribute checks.
 10. Build the resulting elaborated expression by following these steps:
     - If the type of `obj` is a variable type or a value type, take the address of `obj` by using the
-    _AddressOf_`(obj , PossiblyMutates)` operation ([§6.9.4](expressions.md#taking-the-address-of-an-elaborated-expression)).
+    _AddressOf_`(obj , PossiblyMutates)` operation ([§](expressions.md#taking-the-address-of-an-elaborated-expression)).
     - Build the argument list by:
         - Passing each argument corresponding to an `UnamedFormalArgs` where the argument is an
             optional argument as a `Some` value.
@@ -856,7 +856,7 @@ _Method Application Resolution_ proceeds through the following steps:
     the property.
     - If `arg` is not present, return a function expression that represents a first class function value.
 
-Two additional rules apply when checking arguments (see [§8.13.7](type-definitions.md#type-directed-conversions-at-member-invocations) for examples):
+Two additional rules apply when checking arguments (see [§](type-definitions.md#type-directed-conversions-at-member-invocations) for examples):
 
 - If a formal parameter has delegate type `D`, an actual argument `farg` has known type
       `ty1 -> ... -> tyn -> rty`, and the number of arguments of the Invoke method of delegate type
@@ -864,7 +864,7 @@ Two additional rules apply when checking arguments (see [§8.13.7](type-definiti
          `new D (fun arg1 ... argn -> farg arg1 ... argn)`.
 
     For more information on the conversions that are automatically applied to arguments, see
-  [§8.13.6](type-definitions.md#optional-arguments-to-method-members).
+  [§](type-definitions.md#optional-arguments-to-method-members).
   
 - If a formal parameter is an `out` parameter of type `byref<ty>`, and an actual argument type is
       not a byref type, interpret the actual parameter in the same way as type `ref<ty>`. That is, an F#
@@ -1133,11 +1133,11 @@ type : unmanaged
 ```
 
 The compiler then resolves them according to the requirements for each kind of constraint listed in
-[§5.2](types-and-type-constraints.md#type-constraints) and [§5.4.8](types-and-type-constraints.md#nullness).
+[§](types-and-type-constraints.md#type-constraints) and [§](types-and-type-constraints.md#nullness).
 
 ### Solving Member Constraints
 
-New constraints in the following form are solved as _member constraints_ ([§5.2.3](types-and-type-constraints.md#member-constraints)):
+New constraints in the following form are solved as _member constraints_ ([§](types-and-type-constraints.md#member-constraints)):
 
 ```fsother
 (type1 or ... or typen) : (member-sig)
@@ -1155,7 +1155,7 @@ if all of the following are true:
 - The assertion of type inference constraints on the arguments and return types does not result in
     a type inference error.
 
-As mentioned in [§5.2.3](types-and-type-constraints.md#member-constraints), a type variable may not be involved in the support set of more than one
+As mentioned in [§](types-and-type-constraints.md#member-constraints), a type variable may not be involved in the support set of more than one
 member constraint that has the same name, staticness, argument arity, and support set. If a type
 variable is in the support set of more than one such constraint, the argument and return types are
 themselves constrained to be equal.
@@ -1273,7 +1273,7 @@ A value definition `pat = rhs-expr` with optional pattern type `type` is process
 1. The pattern `pat` is checked against a fresh initial type `ty` (or `type` if such a type is present). This
     check results in zero or more identifiers `ident1 ... identm`, each of type `ty1` ... `tym`.
 2. The expression `rhs-expr` is checked against initial type `ty`, resulting in an elaborated form `expr`.
-3. Each `identi` (of type `tyi`) is then generalized ([§14.6.7](inference-procedures.md#generalization)) and yields generic parameters `<typarsj>`.
+3. Each `identi` (of type `tyi`) is then generalized ([§](inference-procedures.md#generalization)) and yields generic parameters `<typarsj>`.
 4. The following rules are checked:
     - All `identj` must be distinct.
     - Value definitions may not be `inline`.
@@ -1285,7 +1285,7 @@ A value definition `pat = rhs-expr` with optional pattern type `type` is process
     ```
 
 6. Otherwise, the resulting elaborated definitions are the following, where `tmp` is a fresh identifier
-    and each `expri` results from the compilation of the pattern `pat` ([§7](patterns.md#patterns)) against input `tmp`.
+    and each `expri` results from the compilation of the pattern `pat` ([§](patterns.md#patterns)) against input `tmp`.
 
     ```fsgrammar
     tmp<typars1 ... typarsn> = expr
@@ -1299,11 +1299,11 @@ A value definition `pat = rhs-expr` with optional pattern type `type` is process
 A function definition `ident1 pat1 ... patn = rhs-expr` is processed as follows:
 
 1. If `ident1` is an active pattern identifier then active pattern result tags are added to the
-    environment ([§10.2.4](namespaces-and-modules.md#active-pattern-definitions-in-modules)).
+    environment ([§](namespaces-and-modules.md#active-pattern-definitions-in-modules)).
 2. The expression `(fun pat1 ... patn : return-type -> rhs-expr)` is checked against a fresh initial
     type `ty1` and reduced to an elaborated form `expr1`. The return type is omitted if the definition
     does not specify it.
-3. The `ident1` (of type `ty1`) is then generalized ([§14.6.7](inference-procedures.md#generalization)) and yields generic parameters `<typars1>`.
+3. The `ident1` (of type `ty1`) is then generalized ([§](inference-procedures.md#generalization)) and yields generic parameters `<typars1>`.
 4. The following rules are checked:
     - Function definitions may not be `mutable`. Mutable function values should be written as follows:
 
@@ -1311,7 +1311,7 @@ A function definition `ident1 pat1 ... patn = rhs-expr` is processed as follows:
     let mutable f = (fun args -> ...)`
     ```
 
-    - The patterns of functions may not include optional arguments ([§8.13.6](type-definitions.md#optional-arguments-to-method-members)).
+    - The patterns of functions may not include optional arguments ([§](type-definitions.md#optional-arguments-to-method-members)).
 5. The resulting elaborated definition is:
 
     ```fsgrammar
@@ -1338,10 +1338,10 @@ and oneBack count =
 ```
 
 When one or more definitions specifies a value, the recursive expressions are analyzed for safety
-([§14.6.6](inference-procedures.md#recursive-safety-analysis)). This analysis may result in warnings—including some reported at compile time—and
+([§](inference-procedures.md#recursive-safety-analysis)). This analysis may result in warnings—including some reported at compile time—and
 runtime checks.
 
-Within recursive groups, each definition in the group is checked ([§14.6.7](inference-procedures.md#generalization)) and then the definitions
+Within recursive groups, each definition in the group is checked ([§](inference-procedures.md#generalization)) and then the definitions
 are generalized incrementally. In addition, any use of an ungeneralized recursive definition results in
 immediate constraints on the recursively defined construct. For example, consider the following
 declaration:
@@ -1360,7 +1360,7 @@ In this example, the definition is not valid because the recursive uses of `f` r
 constraints on `x`.
 
 If a definition has a full signature, early generalization applies and recursive calls at different types
-are permitted ([§14.6.7](inference-procedures.md#generalization)). For example:
+are permitted ([§](inference-procedures.md#generalization)). For example:
 
 ```fsharp
 module M =
@@ -1629,7 +1629,7 @@ let throw<'T,'U> (x:'T) (y:'U) = x
 
 After a function or member definition is generalized, its type is condensed by removing generic type
 parameters that apply subtype constraints to argument positions. (The removed flexibility is
-implicitly reintroduced at each use of the defined function; see [§14.4.3](inference-procedures.md#implicit-insertion-of-flexibility-for-uses-of-functions-and-members)).
+implicitly reintroduced at each use of the defined function; see [§](inference-procedures.md#implicit-insertion-of-flexibility-for-uses-of-functions-and-members)).
 
 Condensation decomposes the type of a value or member to the following form:
 
@@ -1890,7 +1890,7 @@ These restrictions also apply to uses of the prefix && operator for generating n
 ## Promotion of Escaping Mutable Locals to Objects
 
 Value definitions whose byref address would be subject to the restrictions on `byref<_>` listed in
-[§14.9](inference-procedures.md#byref-safety-analysis) are treated as implicit declarations of reference cells. For example
+[§](inference-procedures.md#byref-safety-analysis) are treated as implicit declarations of reference cells. For example
 
 ```fsharp
 let sumSquares n =

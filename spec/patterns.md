@@ -91,7 +91,7 @@ let rotate3 x =
     | _ -> failwith "rotate3"
 ```
 
-In this example, the constant patterns are 0, 1, and 2. Any constant listed in [§6.3.1](expressions.md#simple-constant-expressions) may be used as a
+In this example, the constant patterns are 0, 1, and 2. Any constant listed in [§](expressions.md#simple-constant-expressions) may be used as a
 constant pattern except for integer literals that have the suffixes `Q`, `R`, `Z`, `I`, `N`, `G`.
 
 Simple constant patterns have the corresponding simple type. Such patterns elaborate to a call to
@@ -118,7 +118,7 @@ pattern input.
 
 If `long-ident` is more than one-character long or begins with an uppercase character (that is, if
 `System.Char.IsUpperInvariant` is `true` and `System.Char.IsLowerInvariant` is `false` on the first
-character), it is resolved by using _Name Resolution in Patterns_ ([§14.1.6](inference-procedures.md#name-resolution-in-patterns)). This algorithm produces one
+character), it is resolved by using _Name Resolution in Patterns_ ([§](inference-procedures.md#name-resolution-in-patterns)). This algorithm produces one
 of the following:
 
 - A union case
@@ -135,7 +135,7 @@ sections.
 
 ### Union Case Patterns
 
-If `long-ident` from [§7.2](patterns.md#named-patterns) resolves to a union case, the pattern is a union case pattern. If `long-ident`
+If `long-ident` from [§](patterns.md#named-patterns) resolves to a union case, the pattern is a union case pattern. If `long-ident`
 resolves to a union case `Case` , then `long-ident` and `long-ident pat` are patterns that match pattern
 inputs that have union case label `Case`. The `long-ident` form is used if the corresponding case takes
 no arguments, and the `long-ident pat` form is used if it takes arguments.
@@ -177,10 +177,10 @@ let getArea (s: Shape) =
 
 ### Literal Patterns
 
-If `long-ident` from [§7.2](patterns.md#named-patterns) resolves to a literal value, the pattern is a literal pattern. The pattern is
+If `long-ident` from [§](patterns.md#named-patterns) resolves to a literal value, the pattern is a literal pattern. The pattern is
 equivalent to the corresponding constant pattern.
 
-In the following example, the `Literal` attribute ([§10.2.2](namespaces-and-modules.md#literal-definitions-in-modules)) is first used to define two literals, and these
+In the following example, the `Literal` attribute ([§](namespaces-and-modules.md#literal-definitions-in-modules)) is first used to define two literals, and these
 literals are used as identifiers in the match expression:
 
 ```fsharp
@@ -201,8 +201,8 @@ In this case, `result` is given the value `Case2`.
 
 ### Active Patterns
 
-If `long-ident` from [§7.2](patterns.md#named-patterns) resolves to an _active pattern case name `CaseNamei`_ then the pattern is an
-active pattern. The rules for name resolution in patterns ([§14.1.6](inference-procedures.md#name-resolution-in-patterns)) ensure that `CaseNamei` is
+If `long-ident` from [§](patterns.md#named-patterns) resolves to an _active pattern case name `CaseNamei`_ then the pattern is an
+active pattern. The rules for name resolution in patterns ([§](inference-procedures.md#name-resolution-in-patterns)) ensure that `CaseNamei` is
 associated with an _active pattern function `f`_ in one of the following forms:
 
 - `(| CaseName |) inp`
@@ -559,7 +559,7 @@ let path =
 
 Most F# types do not use `null` as a representation; consequently, the null pattern is generally used
 to check values passed in by CLI method calls and properties. For a list of F# types that use `null` as a
-representation, see [§5.4.8](types-and-type-constraints.md#nullness).
+representation, see [§](types-and-type-constraints.md#nullness).
 
 ## Guarded Pattern Rules
 

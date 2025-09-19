@@ -158,7 +158,7 @@ long-ident-or-op :=
 ## Constants
 
 The constants in the following table may be used in patterns and expressions. The individual lexical
-formats for the different constants are defined in [§3.](lexical-analysis.md#lexical-analysis)
+formats for the different constants are defined in [§](lexical-analysis.md#lexical-analysis)
 
 ```fsgrammar
 const :=
@@ -256,8 +256,8 @@ elsewhere in the table.
 
 | Operator or expression | Associativity | Comments |
 | --- | --- | --- |
-| f<types> | Left | High-precedence type application; see [§15.3](lexical-filtering.md#lexical-analysis-of-type-applications) |
-| f(x) | Left | High-precedence application; see [§15.2](lexical-filtering.md#high-precedence-application) |
+| f<types> | Left | High-precedence type application; see [§](lexical-filtering.md#lexical-analysis-of-type-applications) |
+| f(x) | Left | High-precedence application; see [§](lexical-filtering.md#high-precedence-application) |
 | . | Left |  |
 | _prefix-op_ | Left | Applies to prefix uses of these symbols |
 | "| rule" | Right Pattern matching rules |
@@ -331,4 +331,4 @@ operators. For example, `.*` has the same precedence as `*.` This rule ensures t
 `.*`, which is frequently used for pointwise-operation on matrices, have the expected precedence.
 
 The table entries marked as “High-precedence application” and “High-precedence type application”
-are the result of the augmentation of the lexical token stream, as described in [§15.2](lexical-filtering.md#inserted-tokens) and [§15.3](lexical-filtering.md#lexical-analysis-of-type-applications).
+are the result of the augmentation of the lexical token stream, as described in [§](lexical-filtering.md#inserted-tokens) and [§](lexical-filtering.md#lexical-analysis-of-type-applications).

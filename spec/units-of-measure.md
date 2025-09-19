@@ -8,7 +8,7 @@ However, measures differ from types in several important ways:
 - Measures obey special rules of _equivalence_ , so that `N m` can be interchanged with `m N`.
 - Measures are supported by special syntax.
 
-The syntax of constants ([§4.3](basic-grammar-elements.md#constants)) is extended to support numeric constants with units of measure. The syntax of types is extended with measure type annotations.
+The syntax of constants ([§](basic-grammar-elements.md#constants)) is extended to support numeric constants with units of measure. The syntax of types is extended with measure type annotations.
 
 ```fsgrammar
 measure-literal-atom :=
@@ -73,7 +73,7 @@ measure :=
 measure-simp                                    -- simple measure, such as 'U 'V
 ```
 
-Measure definitions use the special `Measure` attribute on type definitions. Measure parameters, meanwhile, use a variation on the syntax of generic parameters (see [§9.5](units-of-measure.md#measure-parameter-definitions)) to parameterize types and members by units of measure. The primitive types `byte`, `uint16`, `uint`, `uint64`, `sbyte`, `int16`, `int`, `int64`, `float`, `float32`, `decimal`, `unativeint`, and `nativeint` have non-parameterized (dimensionless) and parameterized versions.
+Measure definitions use the special `Measure` attribute on type definitions. Measure parameters, meanwhile, use a variation on the syntax of generic parameters (see [§](units-of-measure.md#measure-parameter-definitions)) to parameterize types and members by units of measure. The primitive types `byte`, `uint16`, `uint`, `uint64`, `sbyte`, `int16`, `int`, `int64`, `float`, `float32`, `decimal`, `unativeint`, and `nativeint` have non-parameterized (dimensionless) and parameterized versions.
 
 Here is a simple example:
 
@@ -188,7 +188,7 @@ let y = 1<b> / 1<a a> // val y : int = 1
 
 ### Constraint Solving
 
-The mechanism described in [§14.5](inference-procedures.md#constraint-solving) is extended to support equational constraints between measure expressions. Such expressions arise from equations between parameterized types — that is, when `type<tyarg11 , ..., tyarg1n> = type<tyarg21, ..., tyarg2n>` is reduced to a series of constraints `tyarg1i = tyarg2i`. For the arguments that are measures, rather than types, the rules listed in [§9.3](units-of-measure.md#relations-of-measures) are applied to obtain primitive equations of the form `'U = measure-int` where `'U` is a measure variable and `measure-int` is a measure expression in internal form. The variable `'U` is then replaced by `measure-int` wherever else it occurs. For example, the equation `float<m^2/s^2> = float<'U^2>` would be reduced to the `constraint m^2/s^2 = 'U^2`, which would be further reduced to the primitive equation `'U = m/s`.
+The mechanism described in [§](inference-procedures.md#constraint-solving) is extended to support equational constraints between measure expressions. Such expressions arise from equations between parameterized types — that is, when `type<tyarg11 , ..., tyarg1n> = type<tyarg21, ..., tyarg2n>` is reduced to a series of constraints `tyarg1i = tyarg2i`. For the arguments that are measures, rather than types, the rules listed in [§](units-of-measure.md#relations-of-measures) are applied to obtain primitive equations of the form `'U = measure-int` where `'U` is a measure variable and `measure-int` is a measure expression in internal form. The variable `'U` is then replaced by `measure-int` wherever else it occurs. For example, the equation `float<m^2/s^2> = float<'U^2>` would be reduced to the `constraint m^2/s^2 = 'U^2`, which would be further reduced to the primitive equation `'U = m/s`.
 
 If constraints cannot be solved, a type error occurs. For example, the following expression
 
@@ -200,7 +200,7 @@ would eventually result in the constraint `m^2 = s`, which cannot be solved, ind
 
 ### Generalization of Measure Variables
 
-Analogous to the process of generalization of type variables described in [§14.6.7](inference-procedures.md#generalization), a generalization procedure produces measure variables over which a value, function, or member can be generalized.
+Analogous to the process of generalization of type variables described in [§](inference-procedures.md#generalization), a generalization procedure produces measure variables over which a value, function, or member can be generalized.
 
 ## Measure Definitions
 
@@ -223,7 +223,7 @@ Measure definitions and abbreviations may not have type or measure parameters.
 
 ## Measure Parameter Definitions
 
-Measure parameter definitions can appear wherever ordinary type parameter definitions can (see [§5.2.9](types-and-type-constraints.md#unmanaged-constraints)). If an explicit parameter definition is used, the parameter name is prefixed by the special `Measure` attribute. For example:
+Measure parameter definitions can appear wherever ordinary type parameter definitions can (see [§](types-and-type-constraints.md#unmanaged-constraints)). If an explicit parameter definition is used, the parameter name is prefixed by the special `Measure` attribute. For example:
 
 ```fsharp
 val sqr<[<Measure>] 'U> : float<'U> -> float<'U^2>
@@ -254,7 +254,7 @@ Internally, the type checker distinguishes between type parameters and measure p
 In contrast to _type_ parameters on generic types, _measure_ parameters are not exposed in the metadata that the runtime interprets; instead, measures are _erased_. Erasure has several consequences:
 
 - Casting is with respect to erased types.
-- Method application resolution (see [§14.4](inference-procedures.md#method-application-resolution)) is with respect to erased types.
+- Method application resolution (see [§](inference-procedures.md#method-application-resolution)) is with respect to erased types.
 - Reflection is with respect to erased types.
 
 ## Type Definitions with Measures in the F# Core Library

@@ -186,17 +186,17 @@ Type definitions can be declared in:
 
 F# supports the following kinds of type definitions:
 
-- Type abbreviations ([§8.3](type-definitions.md#type-abbreviations))
-- Record type definitions ([§8.4](type-definitions.md#record-type-definitions))
-- Union type definitions ([§8.5](type-definitions.md#union-type-definitions))
-- Class type definitions ([§8.6](type-definitions.md#class-type-definitions))
-- Interface type definitions ([§8.7](type-definitions.md#interface-type-definitions))
-- Struct type definitions ([§8.8](type-definitions.md#struct-type-definitions))
-- Enum type definitions ([§8.9](type-definitions.md#enum-type-definitions))
-- Delegate type definitions ([§8.10](type-definitions.md#delegate-type-definitions))
-- Exception type definitions ([§8.11](type-definitions.md#exception-definitions))
-- Type extension definitions ([§8.12](type-definitions.md#type-extensions))
-- Measure type definitions ([§9.4](units-of-measure.md#measure-definitions))
+- Type abbreviations ([§](type-definitions.md#type-abbreviations))
+- Record type definitions ([§](type-definitions.md#record-type-definitions))
+- Union type definitions ([§](type-definitions.md#union-type-definitions))
+- Class type definitions ([§](type-definitions.md#class-type-definitions))
+- Interface type definitions ([§](type-definitions.md#interface-type-definitions))
+- Struct type definitions ([§](type-definitions.md#struct-type-definitions))
+- Enum type definitions ([§](type-definitions.md#enum-type-definitions))
+- Delegate type definitions ([§](type-definitions.md#delegate-type-definitions))
+- Exception type definitions ([§](type-definitions.md#exception-definitions))
+- Type extension definitions ([§](type-definitions.md#type-extensions))
+- Measure type definitions ([§](units-of-measure.md#measure-definitions))
 
 With the exception of type abbreviations and type extension definitions, type definitions define
 fresh, named types that are distinct from other types.
@@ -225,7 +225,7 @@ module definitions.
 
 Most forms of type definitions may contain both _static_ elements and _instance_ elements. Static
 elements are accessed by using the type definition. Within a `static` definition, only the `static`
-elements are in scope. Most forms of type definitions may contain _members_ ([§8.13](type-definitions.md#members)).
+elements are in scope. Most forms of type definitions may contain _members_ ([§](type-definitions.md#members)).
 
 Custom attributes may be placed immediately before a type definition group, in which case they
 apply to the first type definition, or immediately before the name of the type definition:
@@ -252,7 +252,7 @@ the details. In overview, a type definition group is checked as follows:
     - Detect any cyclic abbreviations
     - Verify the consistency of types in fields, union cases, and base types.
 3. For each type definition:
-    - Determine the union cases, fields, and abstract members ([§8.14](type-definitions.md#abstract-members-and-interface-implementations)) of each new type
+    - Determine the union cases, fields, and abstract members ([§](type-definitions.md#abstract-members-and-interface-implementations)) of each new type
 definition.
     - Check the union cases, fields, and abstract members themselves, as described in the
 corresponding sections of this chapter.
@@ -279,7 +279,7 @@ First, check the individual type definitions. For each type definition:
        by adding the type definitions themselves and the generic arguments for `T` to `env`.
 2. Determine the accessibility of the type definition.
 3. Determine and check the basic kind of the type definition, using _Type Kind Inference_ if necessary
-    ([§8.2](type-definitions.md#type-kind-inference)).
+    ([§](type-definitions.md#type-kind-inference)).
 4. Mark the type definition as a measure type definition if a `Measure` attribute is present.
 
 5. If the type definition is generic, infer whether the type definition supports equality and/or
@@ -318,7 +318,7 @@ comparison.
 
     The special case of a struct `S<typars>` storing a static field of type `S<typars>` is allowed.
 15. Collectively add the elaborated member items that represent the members for all new type
-    definitions to the environment as a recursive group ([§8.13](type-definitions.md#members)), excluding interface implementation
+    definitions to the environment as a recursive group ([§](type-definitions.md#members)), excluding interface implementation
     members.
 
 16. If the type definition has a primary constructor, create a member item to represent the primary
@@ -492,8 +492,8 @@ Record types are implicitly marked serializable unless the `AutoSerializable(fal
 
 ### Members in Record Types
 
-Record types may declare members ([§8.13](type-definitions.md#members)), overrides, and interface implementations. Like all types
-with overrides and interface implementations, they are subject to _Dispatch Slot Checking_ ([§14.8](inference-procedures.md#dispatch-slot-checking)).
+Record types may declare members ([§](type-definitions.md#members)), overrides, and interface implementations. Like all types
+with overrides and interface implementations, they are subject to _Dispatch Slot Checking_ ([§](inference-procedures.md#dispatch-slot-checking)).
 
 ### Name Resolution and Record Field Labels
 
@@ -502,7 +502,7 @@ current name resolution environment unless the record type has the `RequireQuali
 attribute.
 
 Record field labels in the _FieldLabels_ table play a special role in _Name Resolution for Members_
-([§14.1](inference-procedures.md#name-resolution)): an expression’s type may be inferred from a record label. For example:
+([§](inference-procedures.md#name-resolution)): an expression’s type may be inferred from a record label. For example:
 
 ```fsharp
 type R = { dx : int; dy: int }
@@ -524,7 +524,7 @@ override GetHashCode : unit -> int
 override Equals : obj -> bool
 ```
 
-The implicit implementations of these interfaces and overrides are described in [§8.15](type-definitions.md#equality-hashing-and-comparison).
+The implicit implementations of these interfaces and overrides are described in [§](type-definitions.md#equality-hashing-and-comparison).
 
 ### With/End in Record Type Definitions
 
@@ -621,9 +621,9 @@ Union types are implicitly marked serializable unless the `AutoSerializable(fals
 
 ### Members in Union Types
 
-Union types may declare members ([§8.13](type-definitions.md#members)), overrides, and interface implementations. As with all
+Union types may declare members ([§](type-definitions.md#members)), overrides, and interface implementations. As with all
 types that declare overrides and interface implementations, they are subject to _Dispatch Slot
-Checking_ ([§14.8](inference-procedures.md#dispatch-slot-checking)).
+Checking_ ([§](inference-procedures.md#dispatch-slot-checking)).
 
 ### Structural Hashing, Equality, and Comparison for Union Types
 
@@ -638,7 +638,7 @@ override GetHashCode : unit -> int
 override Equals : obj -> bool
 ```
 
-The implicit implementations of these interfaces and overrides are described in [§8.15](type-definitions.md#equality-hashing-and-comparison).
+The implicit implementations of these interfaces and overrides are described in [§](type-definitions.md#equality-hashing-and-comparison).
 
 ### With/End in Union Type Definitions
 
@@ -715,7 +715,7 @@ type type-name pat~opt as-defn~opt =
     end
 ```
 
-The `class`/`end` tokens can be omitted, in which case _Type Kind Inference_ ([§8.2](type-definitions.md#type-kind-inference)) is used to determine
+The `class`/`end` tokens can be omitted, in which case _Type Kind Inference_ ([§](type-definitions.md#type-kind-inference)) is used to determine
 the kind of the type.
 
 In F#, class types are implicitly marked serializable unless the `AutoSerializable(false)` attribute is
@@ -830,7 +830,7 @@ default.
 The `inherit` declaration for a type must have arguments if and only if the type has a primary
 constructor.
 
-Unlike [§8.6.1.1](type-definitions.md#object-references-in-primary-constructors), members of a base type can be accessed during construction of the derived class.
+Unlike [§](type-definitions.md#object-references-in-primary-constructors), members of a base type can be accessed during construction of the derived class.
 For example, the following code does not raise an exception:
 
 ```fsharp
@@ -852,7 +852,7 @@ let r = new C() // does not raise InvalidOperationException
 Classes that have primary constructors may include function definitions, value definitions, and “do”
 statements. The following rules apply to these definitions:
 
-- Each definition may be marked `static` (see [§8.6.1.4](type-definitions.md#static-function-and-value-definitions-in-primary-constructors)). If the definition is not marked `static`, it is
+- Each definition may be marked `static` (see [§](type-definitions.md#static-function-and-value-definitions-in-primary-constructors)). If the definition is not marked `static`, it is
     called an instance definition.
 
 - The functions and values defined by instance definitions are lexically scoped (and thus implicitly
@@ -919,7 +919,7 @@ statements that are marked as static:
 - Static function and value definitions are computed once per generic instantiation.
 - Static function and value definitions are elaborated to a _static initializer_ associated with each
     generic instantiation of the generated class. Static initializers are executed on demand in the
-    same way as static initializers for implementation files [§12.5](program-structure-and-execution.md#program-execution).
+    same way as static initializers for implementation files [§](program-structure-and-execution.md#program-execution).
 - The compiled representation for static value definitions is as follows:
   - If the value is not used in any function or member then the value is represented as a local
        value in the CLI class initializer of the type.
@@ -964,9 +964,9 @@ check: 6 = 6
 
 ### Members in Classes
 
-Class types may declare members ([§8.13](type-definitions.md#members)), overrides, and interface implementations. As with all
+Class types may declare members ([§](type-definitions.md#members)), overrides, and interface implementations. As with all
 types that have overrides and interface implementations, such class types are subject to _Dispatch
-Slot Checking_ ([§14.8](inference-procedures.md#dispatch-slot-checking)).
+Slot Checking_ ([§](inference-procedures.md#dispatch-slot-checking)).
 
 ### Additional Object Constructors in Classes
 
@@ -1071,7 +1071,7 @@ type TypeWithADefaultMutableBooleanField =
     static val mutable ready : bool
 ```
 
-At runtime, such a field is initially assigned the zero value for its type ([§6.9.3](expressions.md#zero-values)). For example:
+At runtime, such a field is initially assigned the zero value for its type ([§](expressions.md#zero-values)). For example:
 
 ```fsharp
 type MyClass(name:string) =
@@ -1098,7 +1098,7 @@ type X() =
 
 The `DefaultValue` attribute takes a check parameter, which indicates whether to ensure that the `val`
 specification does not create unexpected `null` values. The default value for `check` is `true`. If this
-parameter is `true`, the type of the field must permit default initialization ([§5.4.8](types-and-type-constraints.md#nullness)). For example, the
+parameter is `true`, the type of the field must permit default initialization ([§](types-and-type-constraints.md#nullness)). For example, the
 following type is rejected:
 
 ```fsharp
@@ -1138,7 +1138,7 @@ type IThinker<'Thought> =
 ```
 
 >Note: The `interface`/`end` tokens can be omitted when lightweight syntax is used, in
-which case Type Kind Inference ([§8.2](type-definitions.md#type-kind-inference)) is used to determine the kind of the type. The
+which case Type Kind Inference ([§](type-definitions.md#type-kind-inference)) is used to determine the kind of the type. The
 presence of any non-abstract members or constructors means a type is not an interface
 type.
 <br>
@@ -1180,9 +1180,9 @@ type Complex =
 ```
 
 > Note: The `struct`/`end` tokens can be omitted when lightweight syntax is used, in which
-case Type Kind Inference ([§8.2](type-definitions.md#type-kind-inference)) is used to determine the kind of the type.
+case Type Kind Inference ([§](type-definitions.md#type-kind-inference)) is used to determine the kind of the type.
 
-Because structs undergo type kind inference ([§8.2](type-definitions.md#type-kind-inference)), the following is valid:
+Because structs undergo type kind inference ([§](type-definitions.md#type-kind-inference)), the following is valid:
 
 ```fsharp
 [<Struct>]
@@ -1228,7 +1228,7 @@ type MutableComplex =
 
 Struct types may declare members, overrides, and interface implementations. As for all types that
 declare overrides and interface implementations, struct types are subject to _Dispatch Slot Checking_
-([§14.8](inference-procedures.md#dispatch-slot-checking)).
+([§](inference-procedures.md#dispatch-slot-checking)).
 
 Structs may not have `inherit` declarations.
 
@@ -1477,10 +1477,10 @@ contains the extension is open.
 
 Name resolution for members that are defined in type extensions behaves as follows:
 
-- In method application resolution (see [§14.4](inference-procedures.md#method-application-resolution)), regular members (that is, members that are part of
+- In method application resolution (see [§](inference-procedures.md#method-application-resolution)), regular members (that is, members that are part of
     the original definition of a type, plus intrinsic extensions) are preferred to extension members.
 - Extension members that are in scope and have the correct name are included in the group of
-    members considered for method application resolution (see [§14.4](inference-procedures.md#method-application-resolution)).
+    members considered for method application resolution (see [§](inference-procedures.md#method-application-resolution)).
 - An intrinsic member is always preferred to an extension member. If an extension member has
     the same name and type signature as a member in the original type definition or an inherited
     member, then it will be inaccessible.
@@ -1653,7 +1653,7 @@ type Test() =
     member t.M2 (x: string) = Test.Id(x) // error, x has type 'string' not 'int'
 ```
 
-A target method that has a full type annotation is eligible for early generalization ([§14.6.7](inference-procedures.md#generalization)).
+A target method that has a full type annotation is eligible for early generalization ([§](inference-procedures.md#generalization)).
 
 ```fsharp
 type Test() =
@@ -1825,7 +1825,7 @@ The `ident.~opt` can be present if and only if the property member is an instanc
 the identifier `ident` corresponds to the “this” (or “self”) variable associated with the object on which
 the member is being invoked.
 
-Arity analysis ([§14.10](inference-procedures.md#arity-inference)) applies to method members. This is because F# members must compile to CLI
+Arity analysis ([§](inference-procedures.md#arity-inference)) applies to method members. This is because F# members must compile to CLI
 methods, which accept only a single fixed collection of arguments.
 
 ### Curried Method Members
@@ -1837,13 +1837,13 @@ static member StaticMethod2 s1 s2 =
     sprintf "In StaticMethod(%s,%s)" s1 s2
 ```
 
-The rules of arity analysis ([§14.10](inference-procedures.md#arity-inference)) determine the compiled form of these members.
+The rules of arity analysis ([§](inference-procedures.md#arity-inference)) determine the compiled form of these members.
 
 The following limitations apply to curried method members:
 
 - Additional argument groups may not include optional or byref parameters.
 - When the member is called, additional argument groups may not use named
-    arguments([§8.13.5](type-definitions.md#named-arguments-to-method-members)).
+    arguments([§](type-definitions.md#named-arguments-to-method-members)).
 - Curried members may not be overloaded.
 
 The compiled representation of a curried method member is a .NET method in which the arguments
@@ -1881,7 +1881,7 @@ member. That is, because members have an arity only up to the first set of tuple
 arguments may not be used with subsequent curried arguments of the member.
 
 The resolution of calls that use named arguments is specified in _Method Application Resolution_ (see
-[§14.4](inference-procedures.md#method-application-resolution)). The rules in that section describe how resolution matches a named argument with either a
+[§](inference-procedures.md#method-application-resolution)). The rules in that section describe how resolution matches a named argument with either a
 formal parameter of the same name or a “settable” return property of the same name. For example,
 the following code resolves the named argument to a settable property:
 
@@ -1892,7 +1892,7 @@ System.Windows.Forms.Form(Text = "Hello World")
 If an ambiguity exists, assigning the named argument is assigned to a formal parameter rather than
 to a settable return property.
 
-The _Method Application Resolution_ ([§14.4](inference-procedures.md#method-application-resolution)) rules ensure that:
+The _Method Application Resolution_ ([§](inference-procedures.md#method-application-resolution)) rules ensure that:
 
 - Named arguments must appear after all other arguments, including optional arguments that
     are matched by position.
@@ -1989,7 +1989,7 @@ T.OneNormalTwoOptional(0, 3, ?arg3 = Some 11)
 ```
 
 The resolution of calls that use optional arguments is specified in _Method Application Resolution_ (see
-[§14.4](inference-procedures.md#method-application-resolution)).
+[§](inference-procedures.md#method-application-resolution)).
 
 Optional arguments may not be used in member constraints.
 
@@ -2023,7 +2023,7 @@ addition of optional arguments to a member signature results in a compiled form 
 compatible with the previous compiled form.
 
 Marking an argument as optional is equivalent to adding the `FSharp.Core.OptionalArgument`
-attribute ([§17.1](special-attributes-and-types.md#custom-attributes-recognized-by-f)) to a required argument. This attribute is added implicitly for optional arguments.
+attribute ([§](special-attributes-and-types.md#custom-attributes-recognized-by-f)) to a required argument. This attribute is added implicitly for optional arguments.
 Adding the `[<OptionalArgument>]` attribute to a parameter of type `'a option` in a virtual method
 signature is equivalent to using the `(?x:'a)` syntax in a method definition. If the attribute is applied
 to an argument of a method, it should also be applied to all subsequent arguments of the method.
@@ -2031,7 +2031,7 @@ Otherwise, it has no effect and callers must provide all of the arguments.
 
 ### Type-directed Conversions at Member Invocations
 
-As described in _Method Application Resolution_ (see [§14.4](inference-procedures.md#method-application-resolution)), three type-directed conversions are
+As described in _Method Application Resolution_ (see [§](inference-procedures.md#method-application-resolution)), three type-directed conversions are
 applied at method invocations.
 
 #### Conversion to Delegates
@@ -2541,7 +2541,7 @@ latter two. `SubClass` provides implementations for `AbstractProperty` and `Abst
 and overrides the default implementations for `AbstractPropertyWithDefaultImplementation` and
 `AbstractSettablePropertyWithDefaultImplementation`.
 
-Implementation members may also implement CLI events ([§8.13.10](type-definitions.md#members-represented-as-events)). In this case, the member
+Implementation members may also implement CLI events ([§](type-definitions.md#members-represented-as-events)). In this case, the member
 should be marked with the `CLIEvent` attribute. For example:
 
 ```fsharp
@@ -2607,7 +2607,7 @@ type ClassThatTriesToImplemenTwoInstantiations() =
 Each member of an interface implementation is checked as follows:
 
 - The member must be an instance member definition.
-- _Dispatch Slot Inference_ ([§14.7](inference-procedures.md#dispatch-slot-inference)) is applied.
+- _Dispatch Slot Inference_ ([§](inference-procedures.md#dispatch-slot-inference)) is applied.
 - The member is checked under the assumption that the “this” variable has the enclosing type.
 
 In the following example, the value `x` has type `C`.
@@ -2894,8 +2894,8 @@ of the structural elements of a structural type.
 
 ### Behavior of Hash, =, and Compare
 
-The generated equality, hashing, and comparison declarations that are described in sections [§8.15.3](type-definitions.md#behavior-of-the-generated-objectequals-implementation),
-[§8.15.4](type-definitions.md#behavior-of-the-generated-compareto-implementations), and [§8.15.5](type-definitions.md#behavior-of-the-generated-gethashcode-implementations) use the `hash`, `=` and `compare` functions from the F# library. The behavior of these
+The generated equality, hashing, and comparison declarations that are described in sections [§](type-definitions.md#behavior-of-the-generated-objectequals-implementation),
+[§](type-definitions.md#behavior-of-the-generated-compareto-implementations), and [§](type-definitions.md#behavior-of-the-generated-gethashcode-implementations) use the `hash`, `=` and `compare` functions from the F# library. The behavior of these
 library functions is defined by the pseudocode later in this section. This code ensures:
 
 - Ordinal comparison for strings

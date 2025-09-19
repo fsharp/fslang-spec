@@ -220,7 +220,7 @@ Because F# is built on top of CLI implementations, you can call any CLI library 
 
 F# is both a *parallel* and a *reactive* language. During execution, F# programs can have multiple parallel active evaluations and multiple pending reactions, such as callbacks and agents that wait to react to events and messages.
 
-One way to write parallel and reactive F# programs is to use F# *async* expressions. For example, the code below is similar to the original program in [§1.1](introduction.md#a-first-program) except that it computes the Fibonacci function (using a technique that will take some time) and schedules the computation of the numbers in parallel:
+One way to write parallel and reactive F# programs is to use F# *async* expressions. For example, the code below is similar to the original program in [§](introduction.md#a-first-program) except that it computes the Fibonacci function (using a technique that will take some time) and schedules the computation of the numbers in parallel:
 
 ```fsharp
 let rec fib x = if x < 2 then 1 else fib(x-1) + fib(x-2)
