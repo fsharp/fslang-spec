@@ -166,7 +166,7 @@ token reserved-ident-keyword =
 
 A future revision of the F# language may promote any of these identifiers to be full keywords.
 
-The following token forms are reserved, except when they are part of a symbolic keyword ([§3.6](lexical-analysis.md#symbolic-keywords)).
+The following token forms are reserved, except when they are part of a symbolic keyword ([§](lexical-analysis.md#symbolic-keywords)).
 
 ```fsgrammar
 token reserved-ident-formats =
@@ -317,7 +317,7 @@ token reserved-symbolic-sequence =
 ## Symbolic Operators
 
 User-defined and library-defined symbolic operators are sequences of characters as shown below,
-except where the sequence of characters is a symbolic keyword ([§3.6](lexical-analysis.md#symbolic-keywords)).
+except where the sequence of characters is a symbolic keyword ([§](lexical-analysis.md#symbolic-keywords)).
 
 ```fsgrammar
 regexp first-op-char = !%&*+-./<=>@^|~
@@ -340,7 +340,7 @@ token symbolic-op =
 For example, `&&&` and `|||` are valid symbolic operators. Only the operators `?` and `?<-` may start with
 `?`.
 
-The `quote-op-left` and `quote-op-right` operators are used in quoted expressions ([§6.8](expressions.md#quoted-expressions)).
+The `quote-op-left` and `quote-op-right` operators are used in quoted expressions ([§](expressions.md#quoted-expressions)).
 
 For details about the associativity and precedence of symbolic operators in expression forms, see
 §4.4.
