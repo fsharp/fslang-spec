@@ -17,7 +17,7 @@
 | F# 4.1 | FS-1004 | [Result Type](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1004-result-type.md) | [completed](https://github.com/fsharp/fslang-spec/pull/50/commits/7ab45f76974000ae8a4c801a80eee81dd8e2928b) |
 | F# 4.1 | FS-1005 | [Underscores in Numeric Literals](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1005-underscores-in-numeric-literals.md) | [completed](https://github.com/fsharp/fslang-spec/pull/29/commits/2bd80c8cdb2f89ccadc9dac038568d3089d8e1dc) |
 | F# 4.1 | FS-1006 | [Struct Tuples](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1006-struct-tuples.md) | [completed](https://github.com/fsharp/fslang-spec/pull/30/commits) |
-| F# 4.1 | FS-1007 | [Additional Option Module Functions](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1007-additional-Option-module-functions.md) | |
+| F# 4.1 | FS-1007 | [Additional Option Module Functions](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1007-additional-Option-module-functions.md) | This specifies some details of the `FSharp.Core` library, which is not part of this spec (except for the basic items listed in [§18](https://fsharp.github.io/fslang-spec/the-f-library-fsharpcoredll/)) |
 | F# 4.1 | FS-1008 | [Struct Records](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1008-struct-records.md) | |
 | F# 4.1 | FS-1009 | [Mutually Referential Types and Modules in Single Scope](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1009-mutually-referential-types-and-modules-single-scope.md) | |
 | F# 4.1 | FS-1010 | [Add Map.count](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1010-add-map-count.md) | |
