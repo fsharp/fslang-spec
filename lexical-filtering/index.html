@@ -1,0 +1,1920 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://fsharp.github.io/fslang-spec/lexical-filtering/">
+      
+      
+        <link rel="prev" href="../inference-procedures/">
+      
+      
+        <link rel="next" href="../provided-types/">
+      
+      
+      <link rel="icon" href="../fsharp128.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.20">
+    
+    
+      
+        <title>15. Lexical Filtering - F# Language Specification</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.e53b48f4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#15-lexical-filtering" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="F# Language Specification" class="md-header__button md-logo" aria-label="F# Language Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12 11.39.61v5.695L5.695 12l5.695 5.695v5.695zm7.322 0 4.068-4.068v8.136zM24 12 12.203.61v5.695L17.898 12l-5.695 5.695v5.695z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            F# Language Specification
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              15. Lexical Filtering
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fsharp/fslang-spec" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="F# Language Specification" class="md-nav__button md-logo" aria-label="F# Language Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12 11.39.61v5.695L5.695 12l5.695 5.695v5.695zm7.322 0 4.068-4.068v8.136zM24 12 12.203.61v5.695L17.898 12l-5.695 5.695v5.695z"/></svg>
+
+    </a>
+    F# Language Specification
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fsharp/fslang-spec" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Front Matter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rfc-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RFC status
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1. Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2. Program Structure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lexical-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3. Lexical Analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basic-grammar-elements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4. Basic Grammar Elements
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../types-and-type-constraints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    5. Types and Type Constraints
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../expressions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    6. Expressions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    7. Patterns
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type-definitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    8. Type Definitions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../units-of-measure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    9. Units of Measure
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespaces-and-modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    10. Namespaces and Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespace-and-module-signatures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    11. Namespace and Module Signatures
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program-structure-and-execution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    12. Program Structure and Execution
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../custom-attributes-and-reflection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    13. Custom Attributes and Reflection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inference-procedures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    14. Inference Procedures
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    15. Lexical Filtering
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    15. Lexical Filtering
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#151-lightweight-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1 Lightweight Syntax
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15.1 Lightweight Syntax">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1511-basic-lightweight-syntax-rules-by-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.1 Basic Lightweight Syntax Rules by Example
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15.1.1 Basic Lightweight Syntax Rules by Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#15111-delimiter" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.1.1 ;; delimiter
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15112-in-keyword" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.1.2 in keyword
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15113-done-keyword" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.1.3 done keyword
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15114-if-then-else-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.1.4 if / then / else Scope
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1512-inserted-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.2 Inserted Tokens
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1513-grammar-rules-including-inserted-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.3 Grammar Rules Including Inserted Tokens
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1514-offside-lines" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.4 Offside Lines
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1515-the-pre-parse-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.5 The Pre-Parse Stack
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1516-full-list-of-offside-contexts" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.6 Full List of Offside Contexts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1517-balancing-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.7 Balancing Rules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1518-offside-tokens-token-insertions-and-closing-contexts" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.8 Offside Tokens, Token Insertions, and Closing Contexts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1519-exceptions-to-the-offside-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.9 Exceptions to the Offside Rules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15110-permitted-undentations" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.10 Permitted Undentations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15.1.10 Permitted Undentations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#151101-undentation-of-bodies-of-function-expressions" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.10.1 Undentation of Bodies of Function Expressions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#151102-undentation-of-branches-of-ifthenelse-expressions" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.10.2 Undentation of Branches of If/Then/Else Expressions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#151103-undentation-of-bodies-of-modules-and-module-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.10.3 Undentation of Bodies of Modules and Module Types
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#152-high-precedence-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.2 High Precedence Application
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#153-lexical-analysis-of-type-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.3 Lexical Analysis of Type Applications
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../provided-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    16. Provided Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../special-attributes-and-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    17. Special Attributes and Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../the-f-library-fsharpcoredll/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    18. The F# Library FSharp.Core.dll
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features-for-ml-compatibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    19. Features for ML Compatibility
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#151-lightweight-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1 Lightweight Syntax
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15.1 Lightweight Syntax">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1511-basic-lightweight-syntax-rules-by-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.1 Basic Lightweight Syntax Rules by Example
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15.1.1 Basic Lightweight Syntax Rules by Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#15111-delimiter" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.1.1 ;; delimiter
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15112-in-keyword" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.1.2 in keyword
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15113-done-keyword" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.1.3 done keyword
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15114-if-then-else-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.1.4 if / then / else Scope
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1512-inserted-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.2 Inserted Tokens
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1513-grammar-rules-including-inserted-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.3 Grammar Rules Including Inserted Tokens
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1514-offside-lines" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.4 Offside Lines
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1515-the-pre-parse-stack" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.5 The Pre-Parse Stack
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1516-full-list-of-offside-contexts" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.6 Full List of Offside Contexts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1517-balancing-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.7 Balancing Rules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1518-offside-tokens-token-insertions-and-closing-contexts" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.8 Offside Tokens, Token Insertions, and Closing Contexts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1519-exceptions-to-the-offside-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.9 Exceptions to the Offside Rules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15110-permitted-undentations" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.10 Permitted Undentations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="15.1.10 Permitted Undentations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#151101-undentation-of-bodies-of-function-expressions" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.10.1 Undentation of Bodies of Function Expressions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#151102-undentation-of-branches-of-ifthenelse-expressions" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.10.2 Undentation of Branches of If/Then/Else Expressions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#151103-undentation-of-bodies-of-modules-and-module-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.1.10.3 Undentation of Bodies of Modules and Module Types
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#152-high-precedence-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.2 High Precedence Application
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#153-lexical-analysis-of-type-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      15.3 Lexical Analysis of Type Applications
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="15-lexical-filtering">15. Lexical Filtering</h1>
+<h2 id="151-lightweight-syntax">15.1 Lightweight Syntax</h2>
+<p>F# supports lightweight syntax, in which whitespace makes indentation significant.</p>
+<p>The lightweight syntax option is a conservative extension of the explicit language syntax, in the sense
+that it simply lets you leave out certain tokens such as <code>in</code> and <code>;;</code> because the parser takes
+indentation into account. Indentation can make a surprising difference in the readability of code.
+Compiling your code with the indentation-aware syntax option is useful even if you continue to use
+explicit tokens, because the compiler reports many indentation problems with your code and
+ensures a regular, clear formatting style.</p>
+<p>In the processing of lightweight syntax, comments are considered pure whitespace. This means that
+the compiler ignores the indentation position of comments. Comments act as if they were replaced
+by whitespace characters. Tab characters cannot be used in F# files.</p>
+<h3 id="1511-basic-lightweight-syntax-rules-by-example">15.1.1 Basic Lightweight Syntax Rules by Example</h3>
+<p>The basic rules that the F# compiler applies when it processes lightweight syntax are shown below,
+illustrated by example.</p>
+<h4 id="15111-delimiter">15.1.1.1 ;; delimiter</h4>
+<p>When the lightweight syntax option is enabled, top level expressions do not require the <code>;;</code> delimiter
+because every construct that starts in the first column is implicitly a new declaration. The <code>;;</code>
+delimiter is still required to terminate interactive entries to fsi.exe, but not when using F# Interactive
+from Visual Studio.</p>
+<p>Lightweight Syntax</p>
+<pre><code class="language-fsharp">printf &quot;Hello&quot;
+printf &quot;World&quot;
+</code></pre>
+<p>Normal Syntax</p>
+<pre><code class="language-fsharp">printf &quot;Hello&quot;;;
+printf &quot;World&quot;;;
+</code></pre>
+<h4 id="15112-in-keyword">15.1.1.2 in keyword</h4>
+<p>When the lightweight syntax option is enabled, the <code>in</code> keyword is optional. The token after the <code>=</code> in
+a <code>let</code> definition begins a new block, and the pre-parser inserts an implicit separating <code>in</code> token
+between each definition that begins at the same column as that token.</p>
+<p>Lightweight Syntax</p>
+<pre><code class="language-fsharp">let SimpleSample() =
+    let x = 10 + 12 - 3
+    let y = x * 2 + 1
+    let r1,r2 = x/3, x%3
+    (x,y,r1,r2)
+</code></pre>
+<pre><code class="language-fsharp">Normal Syntax
+#indent &quot;off&quot;
+let SimpleSample() =
+    let x = 10 + 12 - 3 in
+    let y = x * 2 + 1 in
+    let r1,r2 = x/3, x%3 in
+    (x,y,r1,r2)
+</code></pre>
+<h4 id="15113-done-keyword">15.1.1.3 done keyword</h4>
+<p>When the lightweight syntax option is enabled, the <code>done</code> keyword is optional. Indentation establishes
+the scope of structured constructs such as <code>match</code>, <code>for</code>, <code>while</code> and <code>if</code>/<code>then</code>/<code>else</code>.</p>
+<p>Lightweight Syntax</p>
+<pre><code class="language-fsharp">let FunctionSample() =
+    let tick x = printfn &quot;tick %d&quot; x
+    let tock x = printfn &quot;tock %d&quot; x
+    let choose f g h x =
+        if f x then g x else h x
+    for i = 0 to 10 do
+        choose (fun n -&gt; n%2 = 0) tick tock i
+    printfn &quot;done!&quot; 
+</code></pre>
+<p>Normal Syntax</p>
+<pre><code class="language-fsharp">#indent &quot;off&quot;
+let FunctionSample() =
+    let tick x = printfn &quot;tick %d&quot; x in
+    let tock x = printfn &quot;tock %d&quot; x in
+    let choose f g h x =
+        if f x then g x else h x in
+    for i = 0 to 10 do
+        choose (fun n -&gt; n%2 = 0) tick tock i
+    done;
+    printfn &quot;done!&quot;
+</code></pre>
+<h4 id="15114-if-then-else-scope">15.1.1.4 if / then / else Scope</h4>
+<p>When the lightweight syntax option is enabled, the scope of <code>if</code>/<code>then</code>/<code>else</code> is implicit from
+indentation. Without the lightweight syntax option, <code>begin</code>/<code>end</code> or parentheses are often required to
+delimit such constructs.</p>
+<p>Lightweight Syntax</p>
+<pre><code class="language-fsharp">let ArraySample() =
+    let numLetters = 26
+    let results = Array.create numLetters 0
+    let data = &quot;The quick brown fox&quot;
+    for i = 0 to data.Length - 1 do
+        let c = data.Chars(i)
+        let c = Char.ToUpper(c)
+        if c &gt;= 'A' &amp;&amp; c &lt;= 'Z' then
+            let i = Char.code c - Char.code 'A'
+            results.[i] &lt;- results.[i] + 1
+    printfn &quot;done!&quot;
+</code></pre>
+<p>Normal Syntax</p>
+<pre><code class="language-fsharp">#indent &quot;off&quot;
+let ArraySample() =
+    let numLetters = 26 in
+    let results = Array.create numLetters 0 in
+    let data = &quot;The quick brown fox&quot; in
+    for i = 0 to data.Length - 1 do
+        let c = data.Chars(i) in
+        let c = Char.ToUpper(c) in
+        if c &gt;= 'A' &amp;&amp; c &lt;= 'Z' then begin
+            let i = Char.code c - Char.code 'A' in
+            results.[i] &lt;- results.[i] + 1
+        end
+    done;
+    printfn &quot;done!&quot;
+</code></pre>
+<h3 id="1512-inserted-tokens">15.1.2 Inserted Tokens</h3>
+<p>Lexical filtering inserts the following hidden tokens :</p>
+<pre><code class="language-fsother">token $in       // Note: also called ODECLEND
+token $done     // Note: also called ODECLEND
+token $begin    // Note: also called OBLOCKBEGIN
+token $end      // Note: also called OEND, OBLOCKEND and ORIGHT_BLOCK_END
+token $sep      // Note: also called OBLOCKSEP
+token $app      // Note: also called HIGH_PRECEDENCE_APP
+token $tyapp    // Note: also called HIGH_PRECEDENCE_TYAPP
+</code></pre>
+<blockquote>
+<p>Note: The following tokens are also used in the Microsoft F# implementation. They are
+translations of the corresponding input tokens and help provide better error messages
+for lightweight syntax code:
+<code>tokens $let $use $let! $use! $do $do! $then $else $with $function $fun</code></p>
+</blockquote>
+<h3 id="1513-grammar-rules-including-inserted-tokens">15.1.3 Grammar Rules Including Inserted Tokens</h3>
+<p>Additional grammar rules take into account the token transformations performed by lexical filtering:</p>
+<pre><code class="language-fsgrammar">expr +:=
+    | let function-defn $ in expr
+    | let value-defn $ in expr
+    | let rec function-or-value-defns $ in expr
+    | while expr do expr $done
+    | if expr then $begin expr $end
+    | for pat in expr do expr $done
+    | for expr to expr do expr $done
+    | try expr $end with expr $done
+    | try expr $end finally expr $done
+
+    | expr $app expr            // equivalent to &quot; expr ( expr )&quot;
+    | expr $sep expr            // equivalent to &quot; expr ; expr &quot;
+    | expr $tyapp &lt; types &gt;     // equivalent to &quot; expr &lt; types &gt;&quot;
+    | $begin expr $end          // equivalent to “ expr ”
+
+elif-branch +:=
+    | elif expr then $begin expr $end
+
+else-branch +:=
+    | else $begin expr $end
+
+class-or-struct-type-body +:=
+    | $begin class-or-struct-type-body $end
+                                // equivalent to class-or-struct-type-body
+
+module-elems +:=
+    | $begin module-elem ... module-elem $end
+
+module-abbrev +:=
+    | module ident = $begin long-ident $end
+
+module-defn +:=
+    | module ident = $begin module-defn-body $end
+
+module-signature-elements +:=
+    | $begin module-signature-element ... module-signature-element $end
+
+module-signature +:=
+    | module ident = $begin module-signature-body $end
+</code></pre>
+<h3 id="1514-offside-lines">15.1.4 Offside Lines</h3>
+<p>Lightweight syntax is sometimes called the “offside rule”. In F# code, offside lines occur at column
+positions. For example, an <code>=</code> token associated with <code>let</code> introduces an offside line at the column of
+the first non-whitespace token after the <code>=</code> token.</p>
+<p>Other structured constructs also introduce offside lines at the following places:</p>
+<ul>
+<li>The column of the first token after <code>then</code> in an <code>if</code>/<code>then</code>/<code>else</code> construct.</li>
+<li>The column of the first token after <code>try</code>, <code>else</code>, <code>-&gt;</code>, <code>with</code> (in a <code>match</code>/<code>with</code> or <code>try</code>/<code>with</code>), or <code>with</code> (in a
+    type extension).</li>
+<li>The column of the first token of a <code>(</code>, <code>{</code> or <code>begin</code> token.</li>
+<li>The start of a <code>let</code>, if or <code>module</code> token.</li>
+</ul>
+<p>Here are some examples of how the offside rule applies to F# code. In the first example, <code>let</code> and
+<code>type</code> declarations are not properly aligned, which causes F# to generate a warning.</p>
+<pre><code class="language-fsharp">// &quot;let&quot; and &quot;type&quot; declarations in
+// modules must be precisely aligned.
+let x = 1
+ let y = 2   // unmatched 'let'
+let z = 3    // warning FS0058: possible
+             // incorrect indentation: this token is offside of
+             // context at position (2:1)
+</code></pre>
+<p>In the second example, the <code>|</code> markers in the match patterns do not align properly:</p>
+<pre><code class="language-fsharp">// The &quot;|&quot; markers in patterns must align.
+// The first &quot;|&quot; should always be inserted.
+let f () =
+    match 1+1 with
+    | 2 -&gt; printf &quot;ok&quot;
+  | _ -&gt; failwith &quot;no!&quot;     // syntax error
+</code></pre>
+<h3 id="1515-the-pre-parse-stack">15.1.5 The Pre-Parse Stack</h3>
+<p>F# implements the lightweight syntax option by preparsing the token stream that results from a
+lexical analysis of the input text according to the lexical rules in <a href="./#1513-grammar-rules-including-inserted-tokens">§15.1.3</a>. Pre-parsing for lightweight
+syntax uses a stack of <em>contexts</em>.</p>
+<ul>
+<li>When a column position becomes an offside line, a context is pushed.</li>
+<li>The closing bracketing tokens <code>)</code>, <code>}</code>, and <code>end</code> terminate offside contexts up to and including the
+    context that the corresponding opening token introduced.</li>
+</ul>
+<h3 id="1516-full-list-of-offside-contexts">15.1.6 Full List of Offside Contexts</h3>
+<p>This section describes the full list of offside contexts that is kept on the pre-parse stack.</p>
+<p>The <em>SeqBlock</em> context is the primary context of the analysis.It indicates a sequence of items that
+must be column-aligned. Where necessary for parsing, the compiler automatically inserts a delimiter
+that replaces the regular <code>in</code> and <code>;</code> tokens between the syntax elements. The <em>SeqBlock</em> context is
+pushed at the following times:</p>
+<ul>
+<li>Immediately after the start of a file, excluding lexical directives such as <code>#if</code>.</li>
+<li>Immediately after an = token is encountered in a <em>Let</em> or <em>Member</em> context.</li>
+<li>Immediately after a <em>Paren</em> , <em>Then</em> , <em>Else</em> , <em>WithAugment</em>, <em>Try</em> , <em>Finally</em> , <em>Do</em> context is pushed.</li>
+<li>Immediately after an infix token is encountered.</li>
+<li>Immediately after a -&gt; token is encountered in a <em>MatchClauses</em> context.</li>
+<li>Immediately after an <code>interface</code>, <code>class</code>, or <code>struct</code> token is encountered in a type declaration.</li>
+<li>Immediately after an <code>=</code> token is encountered in a record expression when the subsequent token
+    either (a) occurs on the next line or (b) is one of <em>try</em> , <em>match</em> , <em>if</em> , <em>let</em> , <em>for</em> , <em>while</em> or <em>use</em>.</li>
+<li>Immediately after a <code>&lt;-</code> token is encoutered when the subsequent token either (a) does not occur
+    on the same line or (b) is one of <em>try</em> , <em>match</em> , <em>if</em> , <em>let</em> , <em>for</em> , <em>while</em> or <em>use</em>.</li>
+</ul>
+<p>Here “immediately after” refers to the fact that the column position associated with the <em>SeqBlock</em> is
+the first token following the significant token.</p>
+<p>In the last two rules, a new line is significant. For example, the following do not start a SeqBlock on
+the right-hand side of the “&lt;-“ token, so it does not parse correctly:</p>
+<pre><code class="language-fsharp">let mutable x = 1
+// The subsequent token occurs on the same line.
+X &lt;- printfn &quot;hello&quot;
+    2 + 2
+</code></pre>
+<p>To start a SeqBlock on the right, either parentheses or a new line should be used:</p>
+<pre><code class="language-fsharp">// The subsequent token does not occur on the same line, so a SeqBlock is pushed.
+X &lt;-
+    printfn &quot;hello&quot;
+    2 + 2
+</code></pre>
+<p>The following contexts are associated with nested constructs that are introduced by the specified
+keywords:</p>
+<table>
+<thead>
+<tr>
+<th>Context</th>
+<th>Pushed when the token stream contains...</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>Let</em></td>
+<td>The <code>let</code> keyword</td>
+</tr>
+<tr>
+<td><em>If</em></td>
+<td>The <code>if</code> or <code>elif</code> keyword</td>
+</tr>
+<tr>
+<td><em>Try</em></td>
+<td>The <code>try</code> keyword</td>
+</tr>
+<tr>
+<td><em>Lazy</em></td>
+<td>The <code>lazy</code> keyword</td>
+</tr>
+<tr>
+<td><em>Fun</em></td>
+<td>The <code>fun</code> keyword</td>
+</tr>
+<tr>
+<td><em>Function</em></td>
+<td>The <code>function</code> keyword</td>
+</tr>
+<tr>
+<td><em>WithLet</em></td>
+<td>The <code>with</code> keyword as part of a record expression or an object expression whose members use the syntax <code>{ new Foo with M() = 1 and N() = 2 }</code></td>
+</tr>
+<tr>
+<td><em>WithAugment</em></td>
+<td>The <code>with</code> keyword as part of an extension, interface, or object expression whose members use the syntax <code>{ new Foo member x.M() = 1 member x. N() = 2 }</code></td>
+</tr>
+<tr>
+<td><em>Match</em></td>
+<td>the <code>match</code> keyword</td>
+</tr>
+<tr>
+<td><em>For</em></td>
+<td>the <code>for</code> keyword</td>
+</tr>
+<tr>
+<td><em>While</em></td>
+<td>The <code>while</code> keyword</td>
+</tr>
+<tr>
+<td><em>Then</em></td>
+<td>The <code>then</code> keyword</td>
+</tr>
+<tr>
+<td><em>Else</em></td>
+<td>The <code>else</code> keyword</td>
+</tr>
+<tr>
+<td><em>Do</em></td>
+<td>The <code>do</code> keyword</td>
+</tr>
+<tr>
+<td><em>Type</em></td>
+<td>The <code>type</code> keyword</td>
+</tr>
+<tr>
+<td><em>Namespace</em></td>
+<td>The <code>namespace</code> keyword</td>
+</tr>
+<tr>
+<td><em>Module</em></td>
+<td>The <code>module</code> keyword</td>
+</tr>
+<tr>
+<td><em>Member</em></td>
+<td>The <code>member</code>, <code>abstract</code>, <code>default</code>, or <code>override</code> keyword, if the <em>Member</em> context is not already active, because multiple tokens may be present.<br>- or -<br><code>(</code> is the next token after the <code>new</code> keyword. This distinguishes the member declaration <code>new(x) = ... from the expression new x()</code></td>
+</tr>
+<tr>
+<td><em>Paren(token)</em></td>
+<td><code>(</code>, <code>begin</code>, <code>struct</code>, <code>sig</code>, <code>{</code>, <code>[</code>, <code>[\|</code>, or <code>quote-op-left</code></td>
+</tr>
+<tr>
+<td><em>MatchClauses</em></td>
+<td>The <code>with</code> keyword in a <em>Try</em> or <em>Match</em> context immediately after a <code>function</code> keyword.</td>
+</tr>
+<tr>
+<td><em>Vanilla</em></td>
+<td>An otherwise unprocessed keyword in a <em>SeqBlock</em> context.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1517-balancing-rules">15.1.7 Balancing Rules</h3>
+<p>When the compiler processes certain tokens, it pops contexts off the offside stack until the stack
+reaches a particular condition. When it pops a context, the compiler may insert extra tokens to
+indicate the end of the construct. This procedure is called balancing the stack.</p>
+<p>The following table lists the contexts that the compiler pops and the balancing condition for each:</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Contexts Popped and Balancing Conditions:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>End</code></td>
+<td>Enclosing context is one of the following:<br> <code>WithAugment</code><br> <code>Paren(interface)</code><br> <code>Paren(class)</code><br> <code>Paren(sig)</code><br> <code>Paren(struct)</code><br> <code>Paren(begin)</code></td>
+</tr>
+<tr>
+<td><code>;;</code></td>
+<td>Pop all contexts from stack</td>
+</tr>
+<tr>
+<td><code>else</code></td>
+<td><code>If</code></td>
+</tr>
+<tr>
+<td><code>elif</code></td>
+<td><code>If</code></td>
+</tr>
+<tr>
+<td><code>done</code></td>
+<td><code>Do</code></td>
+</tr>
+<tr>
+<td><code>in</code></td>
+<td><code>For</code> or <code>Let</code></td>
+</tr>
+<tr>
+<td><code>with</code></td>
+<td><code>Match</code>, <code>Member</code>, <code>Interface</code>, <code>Try</code>, <code>Type</code></td>
+</tr>
+<tr>
+<td><code>finally</code></td>
+<td><code>Try</code></td>
+</tr>
+<tr>
+<td><code>)</code></td>
+<td><code>Paren(()</code></td>
+</tr>
+<tr>
+<td><code>}</code></td>
+<td><code>Paren({)</code></td>
+</tr>
+<tr>
+<td><code>]</code></td>
+<td><code>Paren([)</code></td>
+</tr>
+<tr>
+<td><code>\|]</code></td>
+<td><code>Paren([\|)</code></td>
+</tr>
+<tr>
+<td><code>quote-op-right</code></td>
+<td><code>Paren(quote-op-left)</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="1518-offside-tokens-token-insertions-and-closing-contexts">15.1.8 Offside Tokens, Token Insertions, and Closing Contexts</h3>
+<p>The <em>offside limit</em> for the current offside stack is the rightmost offside line for the offside contexts on
+the context stack. The following example shows the offside limits:</p>
+<pre><code class="language-fsharp">let FunctionSample() =
+    let tick x = printfn &quot;tick %d&quot; x
+    let tock x = printfn &quot;tock %d&quot; x
+    let choose f g h x =
+        if f x then g x else h x
+    for i = 0 to 10 do
+        choose (fun n - &gt; n% 2 = 0 ) tick tock i
+    printfn &quot;done!&quot;
+//      ^ Offside limit for inner let and for contexts
+//  ^ Offside limit for outer let context
+</code></pre>
+<p>When a token occurs on or before the <em>offside limit</em> for the current offside stack, and a <em>permitted
+undentation</em> does not apply, enclosing contexts are <em>closed</em> until the token is no longer offside. This
+may result in the insertion of extra delimiting tokens.</p>
+<p>Contexts are closed as follows:</p>
+<ul>
+<li>When a <em>Fun</em> context is closed, the <code>$end</code> token is inserted.</li>
+<li>When a <em>SeqBlock</em> , <em>MatchClauses</em> , <em>Let</em> , or <em>Do</em> context is closed, the <code>$end</code> token is inserted, with the
+    exception of the first <em>SeqBlock</em> pushed for the start of the file.</li>
+<li>When a <em>While</em> or <em>For</em> context is closed, and the offside token that forced the close is not <code>done</code>,
+    the <code>$done</code> token is inserted.</li>
+<li>When a <em>Member</em> context is closed, the <code>$end</code> token is inserted.</li>
+<li>When a <em>WithAugment</em> context is closed, the <code>$end</code> token is inserted.</li>
+</ul>
+<p>If a token is offside and a context cannot be closed, then an “undentation” warning or error is issued
+to indicate that the construct is badly formatted.</p>
+<p>Tokens are also inserted in the following situations:</p>
+<ul>
+<li>When a <em>SeqBlock</em> context is pushed, the <code>$begin</code> token is inserted, with the exception of the first
+    <em>SeqBlock</em> pushed for the start of the file.</li>
+<li>When a token other than <code>and</code> appears directly on the offside line of <em>Let</em> context, and the next
+    surrounding context is a <em>SeqBlock</em> , the <code>$in</code> token is inserted.</li>
+<li>
+<p>When a token occurs directly on the offside line of a <em>SeqBlock</em> on the second or subsequent lines
+    of the block, the <code>$sep</code> token is inserted. This token plays the same role as <code>;</code> in the grammar rules.
+    For example, consider this source text:</p>
+<p><code>fsharp
+   let x = 1
+   x</code></p>
+</li>
+</ul>
+<p>The raw token stream contains <code>let</code>, <code>x</code>, <code>=</code>, <code>1</code>, <code>x</code> and the end-of-file marker <code>eof</code>. An initial <em>SeqBlock</em> is
+pushed immediately after the start of the file, at the first token in the file, with an offside line on
+column 0. The <code>let</code> token pushes a <em>Let</em> context. The <code>=</code> token in a <em>Let</em> context pushes a <em>SeqBlock</em>
+context and inserts a <code>$begin</code> token. The <code>1</code> pushes a <em>Vanilla</em> context. The final token, <code>x</code>, is offside
+from the <em>Vanilla</em> context, which pops that context. It is also offside from the <em>SeqBlock</em> context,
+which pops the context and inserts <code>$end</code>. It is also offside from the <em>Let</em> context, which inserts
+another <code>$end</code> token. It is directly aligned with the <em>SeqBlock</em> context, so a <code>$seq</code> token is inserted.</p>
+<h3 id="1519-exceptions-to-the-offside-rules">15.1.9 Exceptions to the Offside Rules</h3>
+<p>The compiler makes some exceptions to the offside rules when it analyzes a token to determine
+whether it is offside from the current context.</p>
+<ul>
+<li>
+<p>In a <em>SeqBlock</em> context, an infix token may be offside by the
+size of the token plus one.</p>
+<p><code>fsharp
+let x =
+        expr + expr
+      + expr + expr
+let x =
+        expr
+     |&gt; f expr
+     |&gt; f expr</code></p>
+</li>
+<li>
+<p>In a <em>SeqBlock</em> context, an infix token may align precisely with the offside line of the <em>SeqBlock</em>.</p>
+<p>In the following example, the infix <code>|&gt;</code> token that begins the last
+line is not considered as a new
+element in the sequence block on the
+right-hand side of the definition. The
+same also applies to <code>end</code>, <code>and</code>, <code>with</code>,
+<code>then</code>, and <code>right-parenthesis</code>
+operators.</p>
+<p><code>fsharp
+let someFunction(someCollection) =
+    someCollection
+    |&gt; List.map (fun x -&gt; x + 1)</code></p>
+<p>In the example below, the first <code>)</code> token does
+not indicate a new element in a
+sequence of items, even though it
+aligns precisely with the sequence
+block that starts at the beginning of
+the argument list.</p>
+<p><code>fsharp
+new MenuItem("&amp;Open...",
+  new EventHandler(fun _ _ -&gt;
+                           // ...
+             ))</code></p>
+</li>
+<li>
+<p>In a <em>Let</em> context, the <code>and</code> token may align precisely with the <code>let</code> keyword.</p>
+<p><code>fsharp
+let rec x = 1
+and y = 2
+x + y</code></p>
+</li>
+<li>
+<p>In a <em>Type</em> context, the <code>}</code>, <code>end</code>, <code>and</code>, and <code>|</code> tokens may align precisely with the <code>type</code> keyword.</p>
+<p><code>fsharp
+type X =
+| A
+| B
+with
+    member x.Seven = 21 / 3
+end
+and Y = {
+    x : int
+}
+and Z() = class
+    member x.Eight = 4 + 4
+end</code></p>
+</li>
+<li>
+<p>In a <em>For</em> context, the <code>done</code> token may align precisely with the <code>for</code> keyword.</p>
+<p><code>fsharp
+for i = 1 to 3 do
+    expr
+done</code></p>
+</li>
+<li>
+<p>In a <em>Match</em> context, on the right-hand side of an arrow for
+a match expression, a token may align
+precisely with the <code>match</code> keyword.
+This exception allows the last
+expression to align with the <code>match</code>, so
+that a long series of matches does not
+increase indentation.</p>
+<p><code>fsharp
+match x with
+| Some(_) -&gt; 1
+| None -&gt;
+match y with
+| Some(_) -&gt; 2
+| None -&gt;
+3</code></p>
+</li>
+<li>
+<p>In an <em>Interface</em> context, the <code>end</code> token may align precisely with the <code>interface</code> keyword.</p>
+<p><code>fsharp
+interface IDisposable with
+    member x.Dispose() = printfn disposing!"
+end</code></p>
+</li>
+<li>
+<p>In an <em>If</em> context, the <code>then</code>, <code>elif</code>, and <code>else</code> tokens may align precisely with the <code>if</code> keyword.</p>
+<p><code>fsharp
+if big
+then callSomeFunction()
+elif small
+then callSomeOtherFunction()
+else doSomeCleanup()</code></p>
+</li>
+<li>
+<p>In a <em>Try</em> context, the <code>finally</code> and <code>with</code> tokens may align precisely with the <code>try</code> keyword.</p>
+<p>Example 1:</p>
+<p><code>fsharp
+try
+    callSomeFunction()
+finally
+    doSomeCleanup()</code></p>
+<p>Example 2:</p>
+<p><code>fsharp
+try
+    callSomeFunction()
+with Failure(s) -&gt;
+    doSomeCleanup()</code></p>
+</li>
+<li>
+<p>In a <em>Do</em> context, the <code>done</code> token may align precisely with the <code>do</code> keyword.</p>
+<p><code>fsharp
+for i = 1 to 3
+    do
+        expr
+    done</code></p>
+</li>
+</ul>
+<h3 id="15110-permitted-undentations">15.1.10 Permitted Undentations</h3>
+<p>As a general rule, incremental indentation requires that nested expressions occur at increasing
+column positions in indentation-aware code. Warnings or syntax errors are issued when this is not
+the case. However, undentation is permitted for the following constructs:</p>
+<ul>
+<li>Bodies of function expressions</li>
+<li>Branches of if/then/else expressions</li>
+<li>Bodies of modules and module types</li>
+</ul>
+<h4 id="151101-undentation-of-bodies-of-function-expressions">15.1.10.1 Undentation of Bodies of Function Expressions</h4>
+<p>The bodies of functions may be undented from the <code>fun</code> or <code>function</code> symbol. As a result, the compiler
+ignores the symbol when determining whether the body of the function satisfies the incremental
+indentation rule. For example, the <code>printf</code> expression in the following example is undented from the
+fun symbol that delimits the function definition:</p>
+<pre><code class="language-fsharp">let HashSample(tab: Collections.HashTable&lt;_,_&gt;) =
+    tab.Iterate (fun c v -&gt;
+        printfn &quot;Entry (%O,%O)&quot; c v)
+</code></pre>
+<p>However, the block must not undent past other offside lines. The following is not permitted because
+the second line breaks the offside line established by the <code>=</code> in the first line:</p>
+<pre><code class="language-fsharp">let x = (function (s, n) -&gt;
+    (fun z -&gt;
+        s+n+z))
+</code></pre>
+<p>Constructs enclosed in brackets may be undented.</p>
+<h4 id="151102-undentation-of-branches-of-ifthenelse-expressions">15.1.10.2 Undentation of Branches of If/Then/Else Expressions</h4>
+<p>The body of a <code>(</code> ... <code>)</code> or <code>begin</code> ... <code>end</code> block in an <code>if</code>/<code>then</code>/<code>else</code> expression may be undented when the
+body of the block follows the <code>then</code> or <code>else</code> keyword but may not undent further than the <code>if</code>
+keyword. In this example, the parenthesized block follows <code>then</code>, so the body can be undented to the
+offside line established by <code>if</code>:</p>
+<pre><code class="language-fsharp">let IfSample(day: System.DayOfWeek) =
+    if day = System.DayOfWeek.Monday then (
+        printf &quot;I don't like Mondays&quot;
+    )
+</code></pre>
+<h4 id="151103-undentation-of-bodies-of-modules-and-module-types">15.1.10.3 Undentation of Bodies of Modules and Module Types</h4>
+<p>The bodies of modules and module types that are delimited by <code>begin</code> and <code>end</code> may be undented. For
+example, in the following example the two let statements that comprise the module body are
+undented from the <code>=</code>.</p>
+<pre><code class="language-fsharp">module MyNestedModule = begin
+    let one = 1
+    let two = 2
+end
+</code></pre>
+<p>Similarly, the bodies of classes, interfaces, and structs delimited by <code>{</code> ... <code>}</code>, <code>class</code> ... <code>end</code>, <code>struct</code> ... <code>end</code>,
+or <code>interface</code> ... <code>end</code> may be undented to the offside line established by the <code>type</code> keyword. For
+example:</p>
+<pre><code class="language-fsharp">type MyNestedModule = interface
+    abstract P : int
+end
+</code></pre>
+<h2 id="152-high-precedence-application">15.2 High Precedence Application</h2>
+<p>The entry <code>f x</code> in the precedence table in <a href="../basic-grammar-elements/#442-precedence-of-symbolic-operators-and-patternexpression-constructs">§4.4.2</a> refers to a function application in which the function
+and argument are separated by spaces. The entry <code>"f(x)"</code> indicates that in expressions and patterns,
+identifiers that are followed immediately by a left parenthesis without intervening whitespace form
+a “high precedence” application. Such expressions are parsed with higher precedence than prefix
+and dot-notation operators. Conceptually this means that</p>
+<pre><code class="language-fsharp">B(e)
+</code></pre>
+<p>is analyzed lexically as</p>
+<pre><code class="language-fsgrammar">B $app (e)
+</code></pre>
+<p>where <code>$app</code> is an internal symbol inserted by lexical analysis. We do not show this symbol in the
+remainder of this specification and simply show the original source text.</p>
+<p>This means that the following two statements</p>
+<pre><code class="language-fsharp">B(e).C
+B (e).C
+</code></pre>
+<p>are parsed as</p>
+<pre><code class="language-fsgrammar">(B(e)).C
+B ((e).C)
+</code></pre>
+<p>respectively.</p>
+<p>Furthermore, arbitrary chains of method applications, property lookups, indexer lookups (<code>.[]</code>), field
+lookups, and function applications can be used in sequence if the arguments of method applications
+are parenthesized and immediately follow the method name, with no intervening spaces. For
+example:</p>
+<pre><code class="language-fsharp">e.Meth1(arg1,arg2).Prop1.[3].Prop2.Meth2()
+</code></pre>
+<p>Although the grammar and these precedence rules technically allow the use of high-precedence
+application expressions as direct arguments, an additional check prevents such use. Instead, such
+expressions must be surrounded by parentheses. For example,</p>
+<pre><code class="language-fsharp">f e.Meth1(arg1,arg2) e.Meth2(arg1,arg2)
+</code></pre>
+<p>must be written</p>
+<pre><code class="language-fsharp">f (e.Meth1(arg1,arg2)) (e.Meth2(arg1,arg2))
+</code></pre>
+<p>However, indexer, field, and property dot-notation lookups may be used as arguments without
+adding parentheses. For example:</p>
+<pre><code class="language-fsharp">f e.Prop1 e.Prop2.[3]
+</code></pre>
+<h2 id="153-lexical-analysis-of-type-applications">15.3 Lexical Analysis of Type Applications</h2>
+<p>The entry <code>f&lt;types&gt; x</code> in the precedence table (<a href="../basic-grammar-elements/#442-precedence-of-symbolic-operators-and-patternexpression-constructs">§4.4.2</a>) refers to any identifier that is followed
+immediately by a <code>&lt;</code> symbol and a sequence of all of the following:</p>
+<ul>
+<li><code>_</code>, <code>,</code>, <code>*</code>, <code>'</code>, <code>[</code>, <code>]</code>, whitespace, or identifier tokens.</li>
+<li>A parentheses <code>(</code> or <code>&lt;</code> token followed by any tokens until a matching parentheses <code>)</code> or <code>&gt;</code> is
+    encountered.</li>
+<li>A final <code>&gt;</code> token.</li>
+</ul>
+<p>During this analysis, any token that is composed only of the <code>&gt;</code> character (such as <code>&gt;</code>, <code>&gt;&gt;</code>, or <code>&gt;&gt;&gt;</code>) is
+treated as a series of individual <code>&gt;</code> tokens. Likewise, any token composed only of <code>&gt;</code> characters
+followed by a period (such as <code>&gt;.</code>, <code>&gt;&gt;.</code>, or <code>&gt;&gt;&gt;.</code>) is treated as a series of individual &gt; tokens followed by
+a period.</p>
+<p>If such a sequence of tokens follows an identifier, lexical analysis marks the construct as a <em>high
+precedence type application</em> and subsequent grammar rules ensure that the enclosed text is parsed
+as a type. Conceptually this means that</p>
+<pre><code class="language-fsharp">B&lt;int&gt;.C&lt;int&gt;(e).C
+</code></pre>
+<p>is returned as the following stream of tokens:</p>
+<pre><code class="language-fsgrammar">B $app &lt;int&gt; .C $app &lt;int&gt;(e).C
+</code></pre>
+<p>where <code>$app</code> is an internal symbol inserted by lexical analysis. We do not show this symbol elsewhere
+in this specification and simply show the original source text.</p>
+<p>The lexical analysis of type applications does not apply to the character sequence “<code>&lt;&gt;</code>”. A character
+sequence such as “<code>&lt; &gt;</code>” with intervening whitespace should be used to indicate an empty list of
+generic arguments.</p>
+<pre><code class="language-fsharp">type Foo() =
+    member this.Value = 1
+let b = new Foo&lt; &gt;() // valid
+let c = new Foo&lt;&gt;() // invalid
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2005-2025 F# contributors. Made available under the <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons CC-by 4.0</a> licence.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
