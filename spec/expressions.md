@@ -167,8 +167,8 @@ slice-range :=
 ## Some Checking and Inference Terminology
 
 The rules applied to check individual expressions are described in the following subsections. Where
-necessary, these sections reference specific inference procedures such as _Name Resolution_ ([§14.1](inference-procedures.md#name-resolution))
-and _Constraint Solving_ ([§14.5](inference-procedures.md#constraint-solving)).
+necessary, these sections reference specific inference procedures such as _Name Resolution_ ([§](inference-procedures.md#name-resolution))
+and _Constraint Solving_ ([§](inference-procedures.md#constraint-solving)).
 
 All expressions are assigned a static type through type checking and inference. During type checking,
 each expression is checked with respect to an _initial type_. The initial type establishes some of the
@@ -188,7 +188,7 @@ following terminology:
 Additionally:
 
 - The addition of constraints to the type inference constraint set fails if it causes an inconsistent
-    set of constraints ([§14.5](inference-procedures.md#constraint-solving)). In this case either an error is reported or, if we are only attempting to
+    set of constraints ([§](inference-procedures.md#constraint-solving)). In this case either an error is reported or, if we are only attempting to
     _assert_ the condition, the state of the inference procedure is left unchanged and the test fails.
 
 ## Elaboration and Elaborated Expressions
@@ -221,7 +221,7 @@ form. This specification uses the following elaborated forms:
 - Sequencing: `expr; expr`
 - Try-with: `try expr with expr`
 - Try-finally: `try expr finally expr`
-- The constructs required for the elaboration of pattern matching ([§7](patterns.md#patterns)).
+- The constructs required for the elaboration of pattern matching ([§](patterns.md#patterns)).
   - Null tests
   - Switches on integers and other types
   - Switches on union cases
@@ -236,8 +236,8 @@ loosely named after their corresponding primitive constructs in the CLI.
 - Generating a byref-pointer by taking the address of a record field: `&(expr.field)`
 - Generating a byref-pointer by taking the address of an array element: `&(expr.[expr])`
 
-Elaborated expressions form the basis for evaluation (see [§6.9](expressions.md#evaluation-of-elaborated-forms)) and for the expression trees that
-_quoted expressions_ return (see [§6.8](expressions.md#quoted-expressions)).
+Elaborated expressions form the basis for evaluation (see [§](expressions.md#evaluation-of-elaborated-forms)) and for the expression trees that
+_quoted expressions_ return (see [§](expressions.md#quoted-expressions)).
 
 By convention, when describing the process of elaborating compound expressions, we omit the
 process of recursively elaborating sub-expressions.
@@ -454,12 +454,12 @@ which must resolve to a field `F` i in a unique record type `R` as follows:
 - If `field-labeli` is a single identifier `fld` and the initial type is known to be a record type
     `R<_, ..., _>` that has field `Fi` with name `fld`, then the field label resolves to `Fi`.
 - If `field-labeli` is not a single identifier or if the initial type is a variable type, then the field label
-    is resolved by performing _Field Label Resolution_ (see [§14.1](inference-procedures.md#name-resolution)) on `field-labeli`. This procedure
+    is resolved by performing _Field Label Resolution_ (see [§](inference-procedures.md#name-resolution)) on `field-labeli`. This procedure
     results in a set of fields `FSeti`. Each element of this set has a corresponding record type, thus
     resulting in a set of record types `RSeti`. The intersection of all `RSeti` must yield a single record
     type `R`, and each field then resolves to the corresponding field in `R`.
     The set of fields must be complete. That is, each field in record type `R` must have exactly one
-    field definition. Each referenced field must be accessible (see [§10.5](namespaces-and-modules.md#accessibility-annotations)), as must the type `R`.
+    field definition. Each referenced field must be accessible (see [§](namespaces-and-modules.md#accessibility-annotations)), as must the type `R`.
 
 After all field labels are resolved, the overall record expression is asserted to be of type
 `R<ty1, ..., tyN>` for fresh types `ty1, ..., tyN`. Each `expri` is then checked in turn. The initial type is
@@ -483,7 +483,7 @@ type R = {b : int; a : int }
 The expression on the last line elaborates to `let v = 1 + 1 in { b = 2; a = v }`.
 
 Records expressions are also used for object initializations in additional object constructor
-definitions ([§8.6.3](type-definitions.md#additional-object-constructors-in-classes)). For example:
+definitions ([§](type-definitions.md#additional-object-constructors-in-classes)). For example:
 
 ```fsharp
 type C =
@@ -635,9 +635,9 @@ is type equivalent to `System.Object` and `ty1` exists, then the overall type is
 2. The type `ty0` must be a class or interface type. The base construction argument `args-expr` must
     appear if and only if `ty0` is a class type. The type must have one or more accessible constructors;
     the call to these constructors is resolved and elaborated using _Method Application Resolution_
-    (see [§14.4](inference-procedures.md#method-application-resolution)). Except for `ty0`, each `tyi` must be an interface type.
+    (see [§](inference-procedures.md#method-application-resolution)). Except for `ty0`, each `tyi` must be an interface type.
 3. The F# compiler attempts to associate each member with a unique _dispatch slot_ by using
-    _dispatch slot inference_ ([§14.7](inference-procedures.md#dispatch-slot-inference)). If a unique matching dispatch slot is found, then the argument
+    _dispatch slot inference_ ([§](inference-procedures.md#dispatch-slot-inference)). If a unique matching dispatch slot is found, then the argument
     types and return type of the member are constrained to be precisely those of the dispatch slot.
 4. The arguments, patterns, and expressions that constitute the bodies of all implementing
     members are next checked one by one to verify the following:
@@ -646,14 +646,14 @@ is type equivalent to `System.Object` and `ty1` exists, then the overall type is
     - If the variable `base-ident` appears, it must be named `base`, and in each member a base
        variable with this name is in scope. Base variables can be used only in the member
        implementations of an object expression, and are subject to the same limitations as byref
-       values described in [§14.9](inference-procedures.md#byref-safety-analysis).
+       values described in [§](inference-procedures.md#byref-safety-analysis).
 
-The object must satisfy _dispatch slot checking_ ([§14.8](inference-procedures.md#dispatch-slot-checking)) which ensures that a one-to-one mapping
+The object must satisfy _dispatch slot checking_ ([§](inference-procedures.md#dispatch-slot-checking)) which ensures that a one-to-one mapping
 exists between dispatch slots and their implementations.
 
 Object expressions elaborate to a primitive form. At execution, each object expression creates an
 object whose runtime type is compatible with all of the `tyi` that have a dispatch map that is the
-result of _dispatch slot checking_ ([§14.8](inference-procedures.md#dispatch-slot-checking)).
+result of _dispatch slot checking_ ([§](inference-procedures.md#dispatch-slot-checking)).
 
 The following example shows how to both implement an interface and override a method from
 `System.Object`. The overall type of the expression is `INewIdentity`.
@@ -1476,7 +1476,7 @@ Range expressions also occur as part of the translated form of expressions, incl
 - `for var in expr1 .. expr2 do expr3`
 
 A sequence iteration expression of the form `for var in expr1 .. expr2 do expr3 done` is sometimes
-elaborated as a simple for loop-expression ([§6.5.7](expressions.md#simple-for-loop-expressions)).
+elaborated as a simple for loop-expression ([§](expressions.md#simple-for-loop-expressions)).
 
 ### Lists via Sequence Expressions
 
@@ -1526,7 +1526,7 @@ let x3 = [| yield 1
 ### Null Expressions
 
 An expression in the form `null` is a _null expression_. A null expression imposes a nullness constraint
-([§5.2.2](types-and-type-constraints.md#nullness-constraints), [§5.4.8](types-and-type-constraints.md#nullness)) on the initial type of the expression. The constraint ensures that the type directly
+([§](types-and-type-constraints.md#nullness-constraints), [§](types-and-type-constraints.md#nullness)) on the initial type of the expression. The constraint ensures that the type directly
 supports the value `null`.
 
 Null expressions are a primitive elaborated form.
@@ -1623,7 +1623,7 @@ System.Collections.Generic.Dictionary<int,int>(10).[1]
 ```
 
 If the `long-ident-or-op` starts with the special pseudo-identifier keyword `global`, F# resolves the
-identifier with respect to the global namespace — that is, ignoring all `open` directives (see [§14.2](inference-procedures.md#resolving-application-expressions)). For example:
+identifier with respect to the global namespace — that is, ignoring all `open` directives (see [§](inference-procedures.md#resolving-application-expressions)). For example:
 
 ```fsharp
 global.System.Math.PI
@@ -1631,12 +1631,12 @@ global.System.Math.PI
 
 is resolved to `System.Math.PI` ignoring all `open` directives.
 
-The checking of application expressions is described in detail as an algorithm in [§14.2](inference-procedures.md#resolving-application-expressions). To check an
+The checking of application expressions is described in detail as an algorithm in [§](inference-procedures.md#resolving-application-expressions). To check an
 application expression, the expression form is repeatedly decomposed into a _lead_ expression `expr`
-and a list of projections `projs` through the use of _Unqualified Lookup_ ([§14.2.1](inference-procedures.md#unqualified-lookup)). This in turn uses
+and a list of projections `projs` through the use of _Unqualified Lookup_ ([§](inference-procedures.md#unqualified-lookup)). This in turn uses
 procedures such as _Expression-Qualified Lookup_ and _Method Application Resolution_.
 
-As described in [§14.2](inference-procedures.md#resolving-application-expressions), checking an application expression results in an elaborated expression that
+As described in [§](inference-procedures.md#resolving-application-expressions), checking an application expression results in an elaborated expression that
 contains a series of lookups and method calls. The elaborated expression may include:
 
 - Uses of named values
@@ -1666,7 +1666,7 @@ Additional constructs may be inserted when resolving method calls into simpler p
 - The use of optional arguments results in the insertion of `Some(_)` and `None` data constructions in
     the elaborated expression.
 
-For uses of active pattern results (see [§10.2.4](namespaces-and-modules.md#active-pattern-definitions-in-modules)), for result `i` in an active pattern that has `N` possible
+For uses of active pattern results (see [§](namespaces-and-modules.md#active-pattern-definitions-in-modules)), for result `i` in an active pattern that has `N` possible
 results of types `types` , the elaborated expression form is a union case `ChoiceNOfi` of type
 `FSharp.Core.Choice<types>`.
 
@@ -1696,7 +1696,7 @@ record, union or tuple type. If `ty` is a named class or struct type:
     arguments, the expression elaborates to the default “zero-bit pattern” value for `ty`.
 - Otherwise, the type must have one or more accessible constructors. The overloading between
     these potential constructors is resolved and elaborated by using _Method Application Resolution_
-    (see [§14.4](inference-procedures.md#method-application-resolution)).
+    (see [§](inference-procedures.md#method-application-resolution)).
 
 If `ty` is a delegate type the expression is a _delegate implementation expression_.
 
@@ -1741,10 +1741,10 @@ e1 infix-op e2 → (infix-op) e1 e2
 prefix position, a tilde character ~ is added to the name of the operator during the
 translation process.
 
-These rules are applied after applying the rules for dynamic operators ([§6.4.4](expressions.md#dynamic-operator-expressions)).
+These rules are applied after applying the rules for dynamic operators ([§](expressions.md#dynamic-operator-expressions)).
 
 The parenthesized operator name is then treated as an identifier and the standard rules for
-unqualified name resolution ([§14.1](inference-procedures.md#name-resolution)) in expressions are applied. The expression may resolve to a
+unqualified name resolution ([§](inference-procedures.md#name-resolution)) in expressions are applied. The expression may resolve to a
 specific definition of a user-defined or library-defined operator. For example:
 
 ```fsharp
@@ -1764,13 +1764,13 @@ resolves to a use of the infix operator FSharp.Core.Operators.(+).
 Some operators that are defined in the F# library receive special treatment in this specification. In
 particular:
 
-- The `&expr` and `&&expr` address-of operators ([§6.4.5](expressions.md#the-addressof-operators))
-- The `expr && expr` and `expr || expr` shortcut control flow operators ([§6.5.4](expressions.md#shortcut-operator-expressions))
-- The `%expr` and `%%expr` expression splice operators in quotations ([§6.8.3](expressions.md#expression-splices))
-- The library-defined operators, such as `+`, `-`, `*`, `/`, `%`, `**`, `<<<`, `>>>`, `&&&`, `|||`, and `^^^` ([§18.2](the-f-library-fsharpcoredll.md#basic-operators-and-functions-fsharpcoreoperators)).
+- The `&expr` and `&&expr` address-of operators ([§](expressions.md#the-addressof-operators))
+- The `expr && expr` and `expr || expr` shortcut control flow operators ([§](expressions.md#shortcut-operator-expressions))
+- The `%expr` and `%%expr` expression splice operators in quotations ([§](expressions.md#expression-splices))
+- The library-defined operators, such as `+`, `-`, `*`, `/`, `%`, `**`, `<<<`, `>>>`, `&&&`, `|||`, and `^^^` ([§](the-f-library-fsharpcoredll.md#basic-operators-and-functions-fsharpcoreoperators)).
 
 If the operator does not resolve to a user-defined or library-defined operator, the name resolution
-rules ([§14.1](inference-procedures.md#name-resolution)) ensure that the operator resolves to an expression that implicitly uses a static member
+rules ([§](inference-procedures.md#name-resolution)) ensure that the operator resolves to an expression that implicitly uses a static member
 invocation expression (§ ?) that involves the types of the operands. This means that the effective
 behavior of an operator that is not defined in the F# library is to require a static member that has the
 same name as the operator, on the type of one of the operands of the operator. In the following
@@ -1842,7 +1842,7 @@ For `&expr` and `&&expr`, the initial type of the overall expression must be of 
 `nativeptr<ty>` respectively, and the expression `expr` is checked with initial type `ty`.
 
 The overall expression is elaborated recursively by taking the address of the elaborated form of `expr`,
-written `AddressOf(expr, DefinitelyMutates)`, defined in [§6.9.4](expressions.md#taking-the-address-of-an-elaborated-expression).
+written `AddressOf(expr, DefinitelyMutates)`, defined in [§](expressions.md#taking-the-address-of-an-elaborated-expression).
 
 Use of these operators may result in unverifiable or invalid common intermediate language (CIL)
 code; when possible, a warning or error is generated. In general, their use is recommended only:
@@ -1919,7 +1919,7 @@ indicated
 `idx` → `idx`
 
 Because this is a shallow syntactic translation, the `GetSlice` and `SetSlice` name may be resolved by
-any of the relevant _Name Resolution_ ([§14.1](inference-procedures.md#name-resolution)) techniques, including defining the method as a type
+any of the relevant _Name Resolution_ ([§](inference-procedures.md#name-resolution)) techniques, including defining the method as a type
 extension for an existing type.
 
 For example, if a matrix type has the appropriate overloads of the GetSlice method (see below), it is
@@ -1989,7 +1989,7 @@ An expression of the following form is a member constraint invocation expression
 Type checking proceeds as follows:
 
 1. The expression is checked with initial type `ty`.
-2. A statically resolved member constraint is applied ([§5.2.3](types-and-type-constraints.md#member-constraints)):
+2. A statically resolved member constraint is applied ([§](types-and-type-constraints.md#member-constraints)):
     <br>`static-typars: (member-sig)`
 3. `ty` is asserted to be equal to the return type of the constraint.
 4. `expr` is checked with an initial type that corresponds to the argument types of the constraint.
@@ -2033,7 +2033,7 @@ An expression of the following form is an _assignment expression_ :
 expr1 <- expr2
 ```
 
-A modified version of _Unqualified Lookup_ ([§14.2.1](inference-procedures.md#unqualified-lookup)) is applied to the expression `expr1` using a fresh
+A modified version of _Unqualified Lookup_ ([§](inference-procedures.md#unqualified-lookup)) is applied to the expression `expr1` using a fresh
 expected result type `ty` , thus producing an elaborate expression `expr1`. The last qualification for `expr1`
 must resolve to one of the following constructs:
 
@@ -2056,14 +2056,14 @@ must resolve to one of the following constructs:
 - A reference to a mutable field `expr1a.field` with the actual result type `ty`.
 
     Type checking of `expr2` uses the expected result type `ty` and generates an elaborated expression
-    `expr2`. The overall elaborated expression is an assignment to a field (see [§6.9.4](expressions.md#taking-the-address-of-an-elaborated-expression)):
+    `expr2`. The overall elaborated expression is an assignment to a field (see [§](expressions.md#taking-the-address-of-an-elaborated-expression)):
 
     `AddressOf(expr1a.field, DefinitelyMutates) <-stobj expr2`
 
 - A array lookup `expr1a.[expr1b]` where `expr1a` has type `ty[]`.
 
     Type checking of expr2 uses the expected result type ty and generates thean elaborated
-    expression expr2. The overall elaborated expression is an assignment to a field (see [§6.9.4](expressions.md#taking-the-address-of-an-elaborated-expression)):
+    expression expr2. The overall elaborated expression is an assignment to a field (see [§](expressions.md#taking-the-address-of-an-elaborated-expression)):
 
     `AddressOf(expr1a.[expr1b], DefinitelyMutates) <-stobj expr2`
 
@@ -2143,10 +2143,10 @@ The `;` token is optional when both of the following are true:
 - The expression `expr2` occurs on a subsequent line that starts in the same column as `expr1`.
 
 - The current pre-parse context that results from the syntax analysis of the program text is a
-    `SeqBlock` ([§15](lexical-filtering.md#lexical-filtering)).
+    `SeqBlock` ([§](lexical-filtering.md#lexical-filtering)).
 
 When the semicolon is optional, parsing inserts a `$sep` token automatically and applies an additional
-syntax rule for lightweight syntax ([§15.1.1](lexical-filtering.md#basic-lightweight-syntax-rules-by-example)). In practice, this means that code can omit the `;` token
+syntax rule for lightweight syntax ([§](lexical-filtering.md#basic-lightweight-syntax-rules-by-example)). In practice, this means that code can omit the `;` token
 for sequential execution expressions that implement functions or immediately follow tokens such as
 `begin` and `(`.
 
@@ -2224,7 +2224,7 @@ A _pattern-matching expression_ has the following form:
 match expr with rules
 ```
 
-Pattern matching is used to evaluate the given expression and select a rule ([§7](patterns.md#patterns)). For example:
+Pattern matching is used to evaluate the given expression and select a rule ([§](patterns.md#patterns)). For example:
 
 ```fsharp
 match (3, 2) with
@@ -2267,7 +2267,7 @@ for pat in expr1 do expr2 done
 
 The done token is optional if `expr2` appears on a later line and is indented from the column position
 of the for token. In this case, parsing inserts a `$done` token automatically and applies an additional
-syntax rule for lightweight syntax ([§15.1.1](lexical-filtering.md#basic-lightweight-syntax-rules-by-example)).
+syntax rule for lightweight syntax ([§](lexical-filtering.md#basic-lightweight-syntax-rules-by-example)).
 
 For example:
 
@@ -2309,7 +2309,7 @@ for var in expr1 .. expr2 do expr3 done
 ```
 
 where the type of `expr1` or `expr2` is equivalent to `int`, is elaborated as a simple for-loop expression
-([§6.5.7](expressions.md#simple-for-loop-expressions))
+([§](expressions.md#simple-for-loop-expressions))
 
 ### Simple for-Loop Expressions
 
@@ -2321,7 +2321,7 @@ for var = expr1 to expr2 do expr3 done
 
 The `done` token is optional when `e2` appears on a later line and is indented from the column position
 of the `for` token. In this case, a `$done` token is automatically inserted, and an additional syntax rule
-for lightweight syntax applies ([§15.1.1](lexical-filtering.md#basic-lightweight-syntax-rules-by-example)). For example:
+for lightweight syntax applies ([§](lexical-filtering.md#basic-lightweight-syntax-rules-by-example)). For example:
 
 ```fsharp
 for x = 1 to 30 do
@@ -2363,7 +2363,7 @@ while expr1 do expr2 done
 
 The `done` token is optional when `expr2` appears on a subsequent line and is indented from the
 column position of the `while`. In this case, a `$done` token is automatically inserted, and an additional
-syntax rule for lightweight syntax applies ([§15.1.1](lexical-filtering.md#basic-lightweight-syntax-rules-by-example)).
+syntax rule for lightweight syntax applies ([§](lexical-filtering.md#basic-lightweight-syntax-rules-by-example)).
 
 For example:
 
@@ -2471,7 +2471,7 @@ and has the same overall type as `expr`.
 
 In each case, the `in` token is optional if `expr` appears on a subsequent line and is aligned with the
 token `let`. In this case, a `$in` token is automatically inserted, and an additional syntax rule for
-lightweight syntax applies ([§15.1.1](lexical-filtering.md#basic-lightweight-syntax-rules-by-example))
+lightweight syntax applies ([§](lexical-filtering.md#basic-lightweight-syntax-rules-by-example))
 
 For example:
 
@@ -2507,14 +2507,14 @@ let K x y = x in List.map (K 3) [ 1; 2; 3; 4 ]
 ```
 
 Function and value definitions in expressions are similar to function and value definitions in class
-definitions ([§8.6](type-definitions.md#class-type-definitions)), modules ([§10.2.1](namespaces-and-modules.md#function-and-value-definitions-in-modules)), and computation expressions ([§6.3.10](expressions.md#computation-expressions)), with the following
+definitions ([§](type-definitions.md#class-type-definitions)), modules ([§](namespaces-and-modules.md#function-and-value-definitions-in-modules)), and computation expressions ([§](expressions.md#computation-expressions)), with the following
 exceptions:
 
-- Function and value definitions in expressions may not define explicit generic parameters ([§5.3](types-and-type-constraints.md#type-parameter-definitions)).
+- Function and value definitions in expressions may not define explicit generic parameters ([§](types-and-type-constraints.md#type-parameter-definitions)).
     For example, the following expression is rejected:
        <br>`let f<'T> (x:'T) = x in f 3`
 - Function and value definitions in expressions are not public and are not subject to arity analysis
-    ([§14.10](inference-procedures.md#arity-inference)).
+    ([§](inference-procedures.md#arity-inference)).
 - Any custom attributes that are specified on the declaration, parameters, and/or return
     arguments are ignored and result in a warning. As a result, function and value definitions in
     expressions may not have the `ThreadStatic` or `ContextStatic` attribute.
@@ -2535,7 +2535,7 @@ mutable? access? pat typar-defns? return-type? = rhs-expr
 
 Checking proceeds as follows:
 
-1. Check the _value-defn_ ([§14.6](inference-procedures.md#checking-and-elaborating-function-value-and-member-definitions)), which defines a group of identifiers `identj` with inferred types `tyj`
+1. Check the _value-defn_ ([§](inference-procedures.md#checking-and-elaborating-function-value-and-member-definitions)), which defines a group of identifiers `identj` with inferred types `tyj`
 
 2. Add the identifiers `identj` to the name resolution environment, each with corresponding type
     `tyj`.
@@ -2550,7 +2550,7 @@ In this case, the following rules apply:
     body-expr
     ```
 
-    where ident1 , typars1 and expr1 are defined in [§14.6](inference-procedures.md#checking-and-elaborating-function-value-and-member-definitions).
+    where ident1 , typars1 and expr1 are defined in [§](inference-procedures.md#checking-and-elaborating-function-value-and-member-definitions).
 
 - Otherwise, the resulting elaborated form of the entire expression is
 
@@ -2563,7 +2563,7 @@ In this case, the following rules apply:
     ```
 
     where `tmp` is a fresh identifier and `identi`, `typarsi`, and `expri` all result from the compilation of
-    the pattern `pat` ([§7](patterns.md#patterns)) against the input `tmp`.
+    the pattern `pat` ([§](patterns.md#patterns)) against the input `tmp`.
 
 Value definitions in expressions may be marked as `mutable`. For example:
 
@@ -2592,7 +2592,7 @@ inline? access? ident-or-op typar-defns? pat1 ... patn return-type? = rhs-expr
 
 Checking proceeds as follows:
 
-1. Check the `function-defn` ([§14.6](inference-procedures.md#checking-and-elaborating-function-value-and-member-definitions)), which defines `ident1`, `ty1`, `typars1` and `expr1`
+1. Check the `function-defn` ([§](inference-procedures.md#checking-and-elaborating-function-value-and-member-definitions)), which defines `ident1`, `ty1`, `typars1` and `expr1`
 2. Add the identifier `ident1` to the name resolution environment, each with corresponding type `ty1`.
 3. Check the body `expr` against the initial type of the overall expression.
 
@@ -2603,7 +2603,7 @@ let ident1 < typars1 > = expr1 in
 expr
 ```
 
-where `ident1` , `typars1` and `expr1` are as defined in [§14.6](inference-procedures.md#checking-and-elaborating-function-value-and-member-definitions).
+where `ident1` , `typars1` and `expr1` are as defined in [§](inference-procedures.md#checking-and-elaborating-function-value-and-member-definitions).
 
 ### Recursive Definition Expressions
 
@@ -2633,7 +2633,7 @@ test()
 ```
 
 In the example, the expression defines a set of recursive functions. If one or more recursive values
-are defined, the recursive expressions are analyzed for safety ([§14.6.6](inference-procedures.md#recursive-safety-analysis)). This may result in warnings
+are defined, the recursive expressions are analyzed for safety ([§](inference-procedures.md#recursive-safety-analysis)). This may result in warnings
 (including some reported as compile-time errors) and runtime checks.
 
 ### Deterministic Disposal Expressions
@@ -2653,14 +2653,14 @@ let line2 = inStream.ReadLine()
 (line1,line2)
 ```
 
-The expression is first checked as an expression of form `let ident = expr1 in expr2` ([§6.6.1](expressions.md#value-definition-expressions)), which results in an elaborated expression of the following form:
+The expression is first checked as an expression of form `let ident = expr1 in expr2` ([§](expressions.md#value-definition-expressions)), which results in an elaborated expression of the following form:
 
 ```fsgrammar
 let ident1 : ty1 = expr1 in expr2.
 ```
 
 Only one value may be defined by a deterministic disposal expression, and the definition is not
-generalized ([§14.6.7](inference-procedures.md#generalization)). The type `ty1` , is then asserted to be a subtype of `System.IDisposable`. If the
+generalized ([§](inference-procedures.md#generalization)). The type `ty1` , is then asserted to be a subtype of `System.IDisposable`. If the
 dynamic value of the expression after coercion to type `obj` is non-null, the `Dispose` method is called
 on the value when the value goes out of scope. Thus the overall expression elaborates to this:
 
@@ -3116,7 +3116,7 @@ At runtime, an elaborated application of a function `f e1 ... en` is evaluated a
     argument values for `e1 ... em`.
 
 The result of calling the `obj.GetType()` method on the resulting object is under-specified (see
-[§6.9.24](expressions.md#values-with-underspecified-object-identity-and-type-identity)).
+[§](expressions.md#values-with-underspecified-object-identity-and-type-identity)).
 
 ### Evaluating Method Applications
 
@@ -3126,7 +3126,7 @@ At runtime an elaborated application of a method is evaluated as follows:
 - The (optional) `e0` and `e1` ,..., _en_ are evaluated in order.
 - If `e0` evaluates to `null`, a `NullReferenceException` is raised.
 - If the method is declared `abstract` — that is, if it is a virtual dispatch slot — then the body of the
-    member is chosen according to the dispatch maps of the value of `e0` ([§14.8](inference-procedures.md#dispatch-slot-checking)).
+    member is chosen according to the dispatch maps of the value of `e0` ([§](inference-procedures.md#dispatch-slot-checking)).
 - The formal parameters of the method are mapped to corresponding argument values. The body
     of the method member is evaluated in the resulting environment.
 
@@ -3138,7 +3138,7 @@ follows:
 - The expressions `e1, ..., en` are evaluated in order.
 - The result of evaluation is an object value with union case label `Case` and fields given by the
     values of `e1 , ..., en`.
-- If the type `ty` uses null as a representation ([§5.4.8](types-and-type-constraints.md#nullness)) and `Case` is the single union case without
+- If the type `ty` uses null as a representation ([§](types-and-type-constraints.md#nullness)) and `Case` is the single union case without
     arguments, the generated value is `null`.
 - The runtime type of the object is either `ty` or an internally generated type that is compatible
     with `ty`.
@@ -3177,7 +3177,7 @@ At runtime, an elaborated function expression `(fun v1 ... vn -> expr)` is evalu
     that are referenced in `expr` and a function body that is `expr`.
 - The values in the closure are the current values of those variables in the execution environment.
 - The result of calling the `obj.GetType()` method on the resulting object is under-specified (see
-    [§6.9.24](expressions.md#values-with-underspecified-object-identity-and-type-identity)).
+    [§](expressions.md#values-with-underspecified-object-identity-and-type-identity)).
 
 ### Evaluating Object Expressions
 
@@ -3192,20 +3192,20 @@ At runtime, elaborated object expressions
 is evaluated as follows:
 
 - The expression evaluates to an object whose runtime type is compatible with all of the `tyi` and
-    which has the corresponding dispatch map ([§14.8](inference-procedures.md#dispatch-slot-checking)). If present, the base construction expression
+    which has the corresponding dispatch map ([§](inference-procedures.md#dispatch-slot-checking)). If present, the base construction expression
     `ty0 (args-expr)` is executed as the first step in the construction of the object.
 - The object is given a closure that assigns values to all variables that are referenced in `expr`.
 - The values in the closure are the current values of those variables in the execution environment.
 
 The result of calling the `obj.GetType()` method on the resulting object is under-specified (see
-[§6.9.24](expressions.md#values-with-underspecified-object-identity-and-type-identity)).
+[§](expressions.md#values-with-underspecified-object-identity-and-type-identity)).
 
 ### Evaluating Definition Expressions
 
 At runtime, each elaborated definition `pat = expr` is evaluated as follows:
 
 - The expression `expr` is evaluated.
-- The expression is then matched against `pat` to produce a value for each variable pattern ([§7.2](patterns.md#named-patterns))
+- The expression is then matched against `pat` to produce a value for each variable pattern ([§](patterns.md#named-patterns))
     in `pat`.
 - These mappings are added to the local environment.
 
@@ -3244,9 +3244,9 @@ At runtime, elaborated dynamic type test expressions `expr :? ty` are evaluated 
 
 1. Expression `expr` is evaluated to a value `v`.
 2. If `v` is `null`, then:
-    - If `tye` uses `null` as a representation ([§5.4.8](types-and-type-constraints.md#nullness)), the result is `true`.
+    - If `tye` uses `null` as a representation ([§](types-and-type-constraints.md#nullness)), the result is `true`.
     - Otherwise the expression evaluates to `false`.
-3. If `v` is not `null` and has runtime type `vty` which dynamically converts to `ty` ([§5.4.10](types-and-type-constraints.md#dynamic-conversion-between-types)), the
+3. If `v` is not `null` and has runtime type `vty` which dynamically converts to `ty` ([§](types-and-type-constraints.md#dynamic-conversion-between-types)), the
     expression evaluates to `true`. However, if `ty` is an enumeration type, the expression evaluates to
     `true` if and only if `ty` is precisely `vty`.
 
@@ -3256,10 +3256,10 @@ At runtime, elaborated dynamic coercion expressions `expr :?> ty` are evaluated 
 
 1. Expression `expr` is evaluated to a value `v`.
 2. If `v` is `null`:
-    - If `tye` uses `null` as a representation ([§5.4.8](types-and-type-constraints.md#nullness)), the result is the `null` value.
+    - If `tye` uses `null` as a representation ([§](types-and-type-constraints.md#nullness)), the result is the `null` value.
     - Otherwise a `NullReferenceException` is raised.
 3. If `v` is not `null`:
-    - If `v` has dynamic type `vty` which _dynamically converts_ to `ty` ([§5.4.10](types-and-type-constraints.md#dynamic-conversion-between-types)), the expression evaluates to the dynamic conversion of `v` to `ty`.
+    - If `v` has dynamic type `vty` which _dynamically converts_ to `ty` ([§](types-and-type-constraints.md#dynamic-conversion-between-types)), the expression evaluates to the dynamic conversion of `v` to `ty`.
         - If `vty` is a reference type and `ty` is a value type, then `v` is _unboxed_ ; that is, `v` is
              converted from an object on the heap to a struct value with the same field
              assignments as the object. The expression evaluates to this value.
@@ -3270,7 +3270,7 @@ Expressions of the form `expr :?> ty` evaluate in the same way as the F# library
 `unbox<ty>(expr)`.
 
 > Note: Some F# types — most notably the `option<_>` type — use `null` as a representation
-    for efficiency reasons ([§5.4.8](types-and-type-constraints.md#nullness)). For these  types, boxing and unboxing can lose type
+    for efficiency reasons ([§](types-and-type-constraints.md#nullness)). For these  types, boxing and unboxing can lose type
     distinctions. For example, contrast the following two examples:
 
     ```fsother
