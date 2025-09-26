@@ -149,9 +149,17 @@ token ident-keyword =
     abstract and as assert base begin class default delegate do done
     downcast downto elif else end exception extern false finally fixed for
     fun function global if in inherit inline interface internal lazy let
-    match member module mutable namespace new null of open or
+    match member mod module mutable namespace new null of open or
     override private public rec return sig static struct then to
     true try type upcast use val void when while with yield
+```
+
+The `mod` keyword is treated as an infix operator for compatibility with OCaml syntax. Other infix keywords used in OCaml have been deprecated ([§](features-for-ml-compatibility.md#extra-operators)). In F#, integer modulus is calculated with the `%` operator and the user may define the `mod` keyword as a standard infix operator.
+
+```fs
+let (mod) x y = f x y
+// Usage
+x mod y
 ```
 
 The following identifiers are reserved for future use:
