@@ -158,13 +158,21 @@ The following identifiers are reserved for future use:
 
 ```fsgrammar
 token reserved-ident-keyword =
-    atomic break checked component const constraint constructor
-    continue eager fixed fori functor include
-    measure method mixin object parallel params process protected pure
-    recursive sealed tailcall trait virtual volatile
+    break checked component const constraint
+    continue fixed fori include
+    mixin parallel params process protected pure
+    sealed tailcall trait virtual
 ```
 
 A future revision of the F# language may promote any of these identifiers to be full keywords.
+
+The following identifiers were previously reserved but can now be used:
+
+```fsgrammar
+token ident =
+    atomic constructor eager functor measure method
+    object recursive volatile
+```
 
 The following token forms are reserved, except when they are part of a symbolic keyword ([§](lexical-analysis.md#symbolic-keywords)).
 
@@ -388,7 +396,7 @@ token unativeint = ( int | xint ) 'un'           For example, 34un
 token int64 = ( int | xint ) 'L'                 For example, 34L
 token uint64 = ( int | xint ) 'UL'               For example, 34UL
              | ( int | xint ) 'uL'               For example, 34uL
- 
+
 token float =
     int . int?
     int (. int?)? (e|E) (+|-)? int
