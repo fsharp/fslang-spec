@@ -146,8 +146,8 @@ The following identifiers are treated as keywords of the F# language:
 
 ```fsgrammar
 token ident-keyword =
-    abstract and as assert base begin class default delegate do done
-    downcast downto elif else end exception extern false finally for
+    abstract and as assert base begin const class default delegate do done
+    downcast downto elif else end exception extern false finally fixed for
     fun function global if in inherit inline interface internal lazy let
     match member module mutable namespace new null of open or
     override private public rec return sig static struct then to
@@ -158,13 +158,32 @@ The following identifiers are reserved for future use:
 
 ```fsgrammar
 token reserved-ident-keyword =
-    atomic break checked component const constraint constructor
-    continue eager fixed fori functor include
-    measure method mixin object parallel params process protected pure
-    recursive sealed tailcall trait virtual volatile
+    break checked component const constraint
+    continue fori include
+    mixin parallel params process protected pure
+    sealed tailcall trait virtual
 ```
 
 A future revision of the F# language may promote any of these identifiers to be full keywords.
+
+The following identifiers were previously reserved but can now be used:
+
+```fsgrammar
+token ident =
+    atomic constructor eager functor measure method
+    object recursive volatile
+```
+
+The following tokens are reserved in F# because they are keywords in the OCaml language:
+
+```fsgrammar
+token reserved-or-ident =
+    asr land lor lsl lsr lxor
+```
+
+If you use the `--mlcompatibility` compiler option, the above keywords are available for use as identifiers.
+
+The `mod` identifier is treated specially as an infix operator.
 
 The following token forms are reserved, except when they are part of a symbolic keyword ([§](lexical-analysis.md#symbolic-keywords)).
 
@@ -302,6 +321,7 @@ The following symbolic or partially symbolic character sequences are treated as 
 ```fsgrammar
 token symbolic-keyword =
     let! use! do! yield! return!
+    match! and!
     | -> <-. : ( ) [ ] [< >] [| |] { }
     ' # :?> :? :> .. :: := ;; ; =
     _? ?? (*) <@ @> <@@ @@>
