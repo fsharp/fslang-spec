@@ -54,7 +54,7 @@ these keywords as identifiers.
 
 ```fsgrammar
 token ocaml-ident-keyword =
-    asr land lor lsl lsr lxor mod
+    asr land lor lsl lsr lxor
 ```
 
 > Note: In F# the following alternatives are available. The precedence of these operators
