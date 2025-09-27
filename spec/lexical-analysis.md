@@ -147,7 +147,7 @@ The following identifiers are treated as keywords of the F# language:
 ```fsgrammar
 token ident-keyword =
     abstract and as assert base begin class default delegate do done
-    downcast downto elif else end exception extern false finally for
+    downcast downto elif else end exception extern false finally fixed for
     fun function global if in inherit inline interface internal lazy let
     match member module mutable namespace new null of open or
     override private public rec return sig static struct then to
@@ -159,7 +159,7 @@ The following identifiers are reserved for future use:
 ```fsgrammar
 token reserved-ident-keyword =
     atomic break checked component const constraint constructor
-    continue eager fixed fori functor include
+    continue eager fori functor include
     measure method mixin object parallel params process protected pure
     recursive sealed tailcall trait virtual volatile
 ```
@@ -388,7 +388,7 @@ token unativeint = ( int | xint ) 'un'           For example, 34un
 token int64 = ( int | xint ) 'L'                 For example, 34L
 token uint64 = ( int | xint ) 'UL'               For example, 34UL
              | ( int | xint ) 'uL'               For example, 34uL
- 
+
 token float =
     int . int?
     int (. int?)? (e|E) (+|-)? int
