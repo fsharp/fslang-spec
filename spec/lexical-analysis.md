@@ -301,7 +301,7 @@ The following symbolic or partially symbolic character sequences are treated as 
 
 ```fsgrammar
 token symbolic-keyword =
-    let! use! do! yield! return!
+    let! use! do! yield! return! match!
     | -> <-. : ( ) [ ] [< >] [| |] { }
     ' # :?> :? :> .. :: := ;; ; =
     _? ?? (*) <@ @> <@@ @@>
@@ -388,7 +388,7 @@ token unativeint = ( int | xint ) 'un'           For example, 34un
 token int64 = ( int | xint ) 'L'                 For example, 34L
 token uint64 = ( int | xint ) 'UL'               For example, 34UL
              | ( int | xint ) 'uL'               For example, 34uL
- 
+
 token float =
     int . int?
     int (. int?)? (e|E) (+|-)? int

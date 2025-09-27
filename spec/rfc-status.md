@@ -34,7 +34,7 @@
 | F# 4.1 | FS-1027 | [Complete Optional DefaultParameterValue](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1027-complete-optional-defaultparametervalue.md) | |
 | F# 4.1 | FS-1029 | [Implement IReadOnlyCollection in list](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1029-Implement%20IReadOnlyCollection%20in%20list.md) | |
 | F# 4.1 | FS-1040 | [Enum Match](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1040-enum-match.md) | |
-| F# 4.5 | FS-1047 | [Match Bang](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.5/FS-1047-match-bang.md) | |
+| F# 4.5 | FS-1047 | [Match Bang](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.5/FS-1047-match-bang.md) | [completed](https://github.com/fsharp/fslang-spec/pull/67) |
 | F# 4.5 | FS-1053 | [Span](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.5/FS-1053-span.md) | |
 | F# 4.5 | FS-1054 | [Undent List Args](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.5/FS-1054-undent-list-args.md) | |
 | F# 4.5 | FS-1055 | [Subsumption for Yield in Sequence Expression](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.5/FS-1055-subsumption-for-yield-in-sequence-expression.md) | |

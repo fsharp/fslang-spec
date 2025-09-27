@@ -134,10 +134,11 @@ comp-expr :=
     use pat = expr in comp-expr
     yield! expr                     -- yield computation
     yield expr                      -- yield result
-return! expr                        -- return computation
+    return! expr                    -- return computation
     return expr                     -- return result
     if expr then comp - expr        -- control flow or imperative action
     if expr then expr else comp-expr
+    match! expr with pat -> comp-expr | ... | pat -> comp-expr
     match expr with pat -> comp-expr | ... | pat -> comp-expr
     try comp - expr with pat -> comp-expr | ... | pat -> comp-expr
     try comp - expr finally expr
@@ -701,6 +702,7 @@ expr { yield! ... }
 expr { try ... }
 expr { return ... }
 expr { return! ... }
+expr { match! ... }
 ```
 
 More specifically, computation expressions have the following form:
@@ -784,6 +786,8 @@ Then, T is defined for each computation expression e:
 **T** (use! p = e in ce, **V** , **C** , q) = **C** (b.Bind( `src` (e), fun p -> b.Using(p, fun p -> {| `ce` |} 0 ))
 
 **T** (match e with pi - > cei, **V** , **C** , q) = **C** (match e with pi - > {| `ce` i |} 0 )
+
+**T** (match! e with pi - > cei, **V** , **C** , q) = **C** (let! p = e in match p with pi - > {| `ce` i |} 0 )
 
 **T** (while e do ce, **V** , **C** , q) = **T** (ce, **V** , v. **C** (b.While(fun () -> e, b.Delay(fun () -> v))), q)
 
@@ -1207,7 +1211,7 @@ type SimpleSequenceBuilder() =
         seq { for a in src1 do
             for b in src2 do
             if ks1 a = ks2 b then yield((ret a ) b)
-        }   
+        }
 
 let myseq = SimpleSequenceBuilder()
 ```
@@ -1945,7 +1949,7 @@ type 'T[,] with
     member arr.GetSlice : idx1:int * ?start2:int * ?end2:int -> 'T[]
     member arr.GetSlice : ?start1:int * ?end1:int * idx2:int - > 'T[]
 type 'T[,,] with
-    member arr.GetSlice : ?start1:int * ?end1:int * ?start2:int * ?end2:int * 
+    member arr.GetSlice : ?start1:int * ?end1:int * ?start2:int * ?end2:int *
                           ?start3:int * ?end3:int
                             -> 'T[,,]
 type 'T[,,,] with
@@ -1968,7 +1972,7 @@ type 'T[,] with
     member arr.SetSlice : ?start1:int * ?end1:int * idx2:int * values:T[] -> unit
 
 type 'T[,,] with
-    member arr.SetSlice : ?start1:int * ?end1:int * ?start2:int * ?end2:int * 
+    member arr.SetSlice : ?start1:int * ?end1:int * ?start2:int * ?end2:int *
                           ?start3:int * ?end3:int *
                           values:T[,,] -> unit
 
@@ -2077,12 +2081,12 @@ must resolve to one of the following constructs:
     type SA =
         new(v) = { x = v }
         val mutable x : int
-    
+
     [<Struct>]
     type SB =
         new(v) = { sa = v }
         val mutable sa : SA
-    
+
     let s1 = SA(0)
     let mutable s2 = SA(0)
     let s3 = SB(0)
