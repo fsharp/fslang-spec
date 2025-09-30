@@ -154,13 +154,9 @@ token ident-keyword =
     true try type upcast use val void when while with yield
 ```
 
-The `mod` keyword is treated as an infix operator for compatibility with OCaml syntax. Other infix keywords used in OCaml have been deprecated ([§](features-for-ml-compatibility.md#extra-operators)). In F#, integer modulus is calculated with the `%` operator and the user may define the `mod` keyword as a standard infix operator.
-
-```fs
-let (mod) x y = f x y
-// Usage
-x mod y
-```
+The `mod` keyword is treated as an infix operator for compatibility with OCaml syntax. Other infix keywords
+used in OCaml have been deprecated ([§](features-for-ml-compatibility.md#extra-operators)). A future FSharp.Core
+version may add a definition for the `mod` operator.
 
 The following identifiers are reserved for future use:
 
