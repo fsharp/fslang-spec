@@ -147,7 +147,7 @@ The following identifiers are treated as keywords of the F# language:
 ```fsgrammar
 token ident-keyword =
     abstract and as assert base begin class default delegate do done
-    downcast downto elif else end exception extern false finally for
+    downcast downto elif else end exception extern false finally fixed for
     fun function global if in inherit inline interface internal lazy let
     match member module mutable namespace new null of open or
     override private public rec return sig static struct then to
@@ -159,7 +159,7 @@ The following identifiers are reserved for future use:
 ```fsgrammar
 token reserved-ident-keyword =
     break checked component const constraint
-    continue fixed fori include
+    continue fori include
     mixin parallel params process protected pure
     sealed tailcall trait virtual
 ```
