@@ -310,7 +310,7 @@ The following symbolic or partially symbolic character sequences are treated as 
 ```fsgrammar
 token symbolic-keyword =
     let! use! do! yield! return!
-    | -> <-. : ( ) [ ] [< >] [| |] { }
+    | -> <- . : ( ) [ ] [< >] [| |] { }
     ' # :?> :? :> .. :: := ;; ; =
     _? ?? (*) <@ @> <@@ @@>
 ```
@@ -329,7 +329,7 @@ except where the sequence of characters is a symbolic keyword ([§](lexical-anal
 
 ```fsgrammar
 regexp first-op-char = !%&*+-./<=>@^|~
-regexp op-char = first-op-char |?
+regexp op-char = first-op-char | [?:]
 
 token quote-op-left =
     | <@ <@@
@@ -338,7 +338,7 @@ token quote-op-right =
     | @> @@>
 
 token symbolic-op =
-    |?
+    | ?
     | ?<-
     | first-op-char op-char *
     | quote-op-left
@@ -347,6 +347,9 @@ token symbolic-op =
 
 For example, `&&&` and `|||` are valid symbolic operators. Only the operators `?` and `?<-` may start with
 `?`.
+
+Use of `:` in symbolic operators is partially reserved. It may only be used in operators where the first character
+is `>` or where the first character after any number of leading `.` is `>` e.g. `>:` or `.>:`.
 
 The `quote-op-left` and `quote-op-right` operators are used in quoted expressions ([§](expressions.md#quoted-expressions)).
 
