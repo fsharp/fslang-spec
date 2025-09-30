@@ -309,7 +309,7 @@ The following symbolic or partially symbolic character sequences are treated as 
 
 ```fsgrammar
 token symbolic-keyword =
-    let! use! do! yield! return!
+    let! use! do! yield! return! match!
     | -> <-. : ( ) [ ] [< >] [| |] { }
     ' # :?> :? :> .. :: := ;; ; =
     _? ?? (*) <@ @> <@@ @@>
