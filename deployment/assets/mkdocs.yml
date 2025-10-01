@@ -3,6 +3,28 @@ site_url: https://fsharp.github.io/fslang-spec
 repo_url: https://github.com/fsharp/fslang-spec
 copyright: "Copyright © 2005-2025 F# contributors. Made available under the <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons CC-by 4.0</a> licence."
 theme:
+  palette:
+
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default 
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+
   name: material
   icon:
     logo: simple/fsharp
