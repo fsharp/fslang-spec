@@ -256,7 +256,7 @@ elsewhere in the table.
 
 | Operator or expression | Associativity | Comments |
 | --- | --- | --- |
-| `f<`types`>` | Left | High-precedence type application; see [§](lexical-filtering.md#lexical-analysis-of-type-applications) |
+| `f<types>` | Left | High-precedence type application; see [§](lexical-filtering.md#lexical-analysis-of-type-applications) |
 | `f(x)` | Left | High-precedence application; see [§](lexical-filtering.md#high-precedence-application) |
 | `.` `?` | Left |  |
 | _prefix-op_ | Left | Applies to prefix uses of these symbols |
