@@ -202,8 +202,8 @@ prefix-op :=
     !OP         (except !=)
 infix-op :=
     infix-or-prefix-op
-    - OP +OP || <OP >OP = |OP &OP ^OP *OP /OP %OP !=
-                (or any of these preceded by one or more ‘.’)
+    -OP +OP |OP <OP >OP =OP &OP ^OP *OP /OP %OP @OP !=OP
+                (or any of these preceded by one or more '.' or '?')
     :=
     ::
     $
