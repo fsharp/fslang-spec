@@ -202,7 +202,7 @@ prefix-op :=
     !OP         (except !=)
 infix-op :=
     infix-or-prefix-op
-    - OP +OP || <OP >OP = |OP &OP ^OP *OP /OP %OP !=
+    - OP +OP || <OP >OP = |OP &OP ^OP *OP /OP %OP @OP !=
                 (or any of these preceded by one or more ‘.’)
     :=
     ::
@@ -256,32 +256,32 @@ elsewhere in the table.
 
 | Operator or expression | Associativity | Comments |
 | --- | --- | --- |
-| f<types> | Left | High-precedence type application; see [§](lexical-filtering.md#lexical-analysis-of-type-applications) |
-| f(x) | Left | High-precedence application; see [§](lexical-filtering.md#high-precedence-application) |
-| . | Left |  |
+| `f<types>` | Left | High-precedence type application; see [§](lexical-filtering.md#lexical-analysis-of-type-applications) |
+| `f(x)` | Left | High-precedence application; see [§](lexical-filtering.md#high-precedence-application) |
+| `.` `?` | Left |  |
 | _prefix-op_ | Left | Applies to prefix uses of these symbols |
-| "| rule" | Right Pattern matching rules |
-| "f x" <br> "lazy x" <br> "assert x" | Left | |
-| **OP | Right | |
-| *OP /OP %OP | Left |  |
-| - OP +OP | Left | Applies to infix uses of these symbols |
-| :? | Not associative |  |
-| :: | Right | |
-| ^OP | Right | |
-| !=OP \<OP \>OP = \|OP &OP $ | Left |  |
-| :> :?> | Right |  |
-| & && | Left |  |
-| or \|\| | Left |  |
-| , | Not associative |  |
-| := | Right |  |
-| -> | Right |  |
-| if | Not associative |  |
-| function, fun, match, try | Not associative |  |
-| let | Not associative |  |
-| ; | Right |  |
-| \| | Left |  |
-| when | Right |  |
-| as | Right |  |
+| `\| rule` | Right | Pattern matching rules |
+| `f x` `lazy x` `assert x` | Left | |
+| `**OP` | Right | |
+| `*OP` `/OP` `%OP` | Left |  |
+| `-OP` `+OP` | Left | Applies to infix uses of these symbols |
+| `:?` | Not associative |  |
+| `::` | Right | |
+| `^OP` `@OP` | Right | |
+| `!=OP` `<OP` `>OP` `=OP` `\|OP` `&OP` `$` | Left |  |
+| `:>` `:?>` | Right |  |
+| `&` `&&` | Left |  |
+| `or` `\|\|` | Left |  |
+| `,` | Not associative |  |
+| `:=` | Right |  |
+| `->` | Right |  |
+| `if` | Not associative |  |
+| `function`, `fun`, `match`, `try` | Not associative |  |
+| `let` | Not associative |  |
+| `;` | Right |  |
+| `\|` | Left |  |
+| `when` | Right |  |
+| `as` | Right |  |
 
 If ambiguous grammar rules (such as the rules from §6) involve tokens in the table, a construct that
 appears earlier in the table has higher precedence than a construct that appears later in the table.
