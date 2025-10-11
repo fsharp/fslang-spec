@@ -195,15 +195,15 @@ elsewhere in the table.
 
 ```fsgrammar
 infix-or-prefix-op :=
-    +, -, +., -., %, &, &&
+    +, -, +., -., %, %%, &, &&, ?+, ?-
 prefix-op :=
     infix-or-prefix-op
     ~ ~~ ~~~    (and any repetitions of ~)
     !OP         (except !=)
 infix-op :=
     infix-or-prefix-op
-    - OP +OP || <OP >OP = |OP &OP ^OP *OP /OP %OP @OP !=
-                (or any of these preceded by one or more ‘.’)
+    -OP +OP |OP <OP >OP =OP &OP ^OP *OP /OP %OP @OP !=OP
+                (or any of these preceded by one or more '.' or '?')
     :=
     ::
     $
@@ -211,7 +211,7 @@ infix-op :=
     ?
 ```
 
-The operators `+`, `-`, `+.`, `-.`, `%`, `%%`, `&`, `&&` can be used as both prefix and infix operators. When these
+The operators `+`, `-`, `+.`, `-.`, `%`, `%%`, `&`, `&&`, `?+`, `?-` can be used as both prefix and infix operators. When these
 operators are used as prefix operators, the tilde character is prepended internally to generate the
 operator name so that the parser can distinguish such usage from an infix use of the operator. For
 example, `-x` is parsed as an application of the operator `~-` to the identifier `x`. This generated name is
