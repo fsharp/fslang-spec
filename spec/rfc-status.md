@@ -31,7 +31,7 @@
 | F# 4.1 | FS-1019 | [Implicitly Add the Module Suffix](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1019-implicitly-add-the-module-suffix.md) | |
 | F# 4.1 | FS-1020 | [ByRef Returns](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1020-byref-returns.md) | |
 | F# 4.1 | FS-1025 | [Improve Record Type Inference](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1025-improve-record-type-inference.md) | |
-| F# 4.1 | FS-1027 | [Complete Optional DefaultParameterValue](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1027-complete-optional-defaultparametervalue.md) | |
+| F# 4.1 | FS-1027 | [Complete Optional DefaultParameterValue](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1027-complete-optional-defaultparametervalue.md) | [completed](https://github.com/fsharp/fslang-spec/pull/75) |
 | F# 4.1 | FS-1029 | [Implement IReadOnlyCollection in list](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1029-Implement%20IReadOnlyCollection%20in%20list.md) | |
 | F# 4.1 | FS-1040 | [Enum Match](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1040-enum-match.md) | |
 | F# 4.5 | FS-1047 | [Match Bang](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.5/FS-1047-match-bang.md) | [completed](https://github.com/fsharp/fslang-spec/pull/67) |
