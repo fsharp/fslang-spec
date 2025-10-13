@@ -402,7 +402,7 @@ token float =
     int (. int?)? (e|E) (+|-)? int
 
 token ieee32 =
-    | float [Ff]                                 For example, 3.0F or 3.0f
+    | (float | int) [Ff]                         For example, 3.0F, 3.0f or 3f
     | xint 'lf'                                  For example, 0x00000000lf
 token ieee64 =
     | float                                      For example, 3.0
