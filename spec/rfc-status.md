@@ -21,7 +21,7 @@
 | F# 4.1 | FS-1008 | [Struct Records](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1008-struct-records.md) | |
 | F# 4.1 | FS-1009 | [Mutually Referential Types and Modules in Single Scope](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1009-mutually-referential-types-and-modules-single-scope.md) | |
 | F# 4.1 | FS-1010 | [Add Map.count](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1010-add-map-count.md) | |
-| F# 4.1 | FS-1012 | [Caller Info Attributes](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1012-caller-info-attributes.md) | |
+| F# 4.1 | FS-1012 | [Caller Info Attributes](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1012-caller-info-attributes.md) | [completed](https://github.com/fsharp/fslang-spec/pull/74) |
 | F# 4.1 | FS-1013 | [Enable Reflection Functionality on Portable Profiles](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1013-enable-reflection-functionality-on-portable-profiles.md) | |
 | F# 4.1 | FS-1014 | [Struct Discriminated Unions](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1014-struct-discriminated-unions.md) | |
 | F# 4.1 | FS-1015 | [Support for fixed](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1015-support-for-fixed.md) | [completed](https://github.com/fsharp/fslang-spec/pull/65) |
