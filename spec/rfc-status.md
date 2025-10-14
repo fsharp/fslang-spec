@@ -20,7 +20,7 @@
 | F# 4.1 | FS-1007 | [Additional Option Module Functions](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1007-additional-Option-module-functions.md) | This specifies some details of the `FSharp.Core` library, which is not part of this spec (except for the basic items listed in [§18](https://fsharp.github.io/fslang-spec/the-f-library-fsharpcoredll/)) |
 | F# 4.1 | FS-1008 | [Struct Records](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1008-struct-records.md) | |
 | F# 4.1 | FS-1009 | [Mutually Referential Types and Modules in Single Scope](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1009-mutually-referential-types-and-modules-single-scope.md) | |
-| F# 4.1 | FS-1010 | [Add Map.count](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1010-add-map-count.md) | |
+| F# 4.1 | FS-1010 | [Add Map.count](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1010-add-map-count.md) | This specifies some details of the `FSharp.Core` library, which is not part of this spec (except for the basic items listed in [§18](https://fsharp.github.io/fslang-spec/the-f-library-fsharpcoredll/)) |
 | F# 4.1 | FS-1012 | [Caller Info Attributes](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1012-caller-info-attributes.md) | [completed](https://github.com/fsharp/fslang-spec/pull/74) |
 | F# 4.1 | FS-1013 | [Enable Reflection Functionality on Portable Profiles](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1013-enable-reflection-functionality-on-portable-profiles.md) | |
 | F# 4.1 | FS-1014 | [Struct Discriminated Unions](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1014-struct-discriminated-unions.md) | |
@@ -53,7 +53,7 @@
 | F# 5.0 | FS-1075 | [Nullable Interop](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1075-nullable-interop.md) | |
 | F# 5.0 | FS-1077 | [3D/4D Fixed Index Slicing](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1077-3d-4d-fixed-index-slicing.md) | |
 | F# 5.0 | FS-1077 | [Tolerant Slicing](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1077-tolerant-slicing.md) | |
-| F# 5.0 | FS-1080 | [Float32 Without Dot](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1080-float32-without-dot.md) | |
+| F# 5.0 | FS-1080 | [Float32 Without Dot](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1080-float32-without-dot.md) | [completed](https://github.com/fsharp/fslang-spec/pull/73) |
 | F# 5.0 | FS-1082 | [Uint Type Abbreviation](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1082-uint-type-abbreviation.md) | |
 | F# 5.0 | FS-1085 | [Nameof Pattern](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1085-nameof-pattern.md) | |
 | F# 5.0 | FS-1089 | [Allow String Everywhere](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1089-allow-string-everywhere.md) | |
