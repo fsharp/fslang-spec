@@ -53,7 +53,7 @@
 | F# 5.0 | FS-1075 | [Nullable Interop](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1075-nullable-interop.md) | |
 | F# 5.0 | FS-1077 | [3D/4D Fixed Index Slicing](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1077-3d-4d-fixed-index-slicing.md) | |
 | F# 5.0 | FS-1077 | [Tolerant Slicing](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1077-tolerant-slicing.md) | |
-| F# 5.0 | FS-1080 | [Float32 Without Dot](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1080-float32-without-dot.md) | |
+| F# 5.0 | FS-1080 | [Float32 Without Dot](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1080-float32-without-dot.md) | [completed](https://github.com/fsharp/fslang-spec/pull/73) |
 | F# 5.0 | FS-1082 | [Uint Type Abbreviation](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1082-uint-type-abbreviation.md) | |
 | F# 5.0 | FS-1085 | [Nameof Pattern](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1085-nameof-pattern.md) | |
 | F# 5.0 | FS-1089 | [Allow String Everywhere](https://github.com/fsharp/fslang-design/tree/main/FSharp-5.0/FS-1089-allow-string-everywhere.md) | |

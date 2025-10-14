@@ -146,7 +146,7 @@ The following identifiers are treated as keywords of the F# language:
 
 ```fsgrammar
 token ident-keyword =
-    abstract and as assert base begin class default delegate do done
+    abstract and as assert base begin class const default delegate do done
     downcast downto elif else end exception extern false finally fixed for
     fun function global if in inherit inline interface internal lazy let
     match member module mutable namespace new null of open or
@@ -158,7 +158,7 @@ The following identifiers are reserved for future use:
 
 ```fsgrammar
 token reserved-ident-keyword =
-    break checked component const constraint
+    break checked component constraint
     continue fori include
     mixin parallel params process protected pure
     sealed tailcall trait virtual
@@ -402,7 +402,7 @@ token float =
     int (. int?)? (e|E) (+|-)? int
 
 token ieee32 =
-    | float [Ff]                                 For example, 3.0F or 3.0f
+    | (float | int) [Ff]                         For example, 3.0F, 3.0f or 3f
     | xint 'lf'                                  For example, 0x00000000lf
 token ieee64 =
     | float                                      For example, 3.0
