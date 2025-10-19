@@ -29,4 +29,8 @@ theme:
   icon:
     logo: simple/fsharp
   favicon: fsharp128.png
+
+markdown_extensions:
+  - pymdownx.superfences
+
 nav:
