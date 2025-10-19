@@ -190,12 +190,8 @@ module Part2 =
         member cache.Clear() = ()
 ```
 
-No two types or modules may have identical names in the same namespace. The
-`[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]` attribute adds the
-suffix `Module` to the name of a module to distinguish the module name from a type of a similar name.
-
-For example, this is frequently used when defining a type and a set of functions and values to
-manipulate values of this type.
+No two types or modules may have identical names in the same namespace. If a type and a module in the same assembly and namespace are given the same name, the compiler will automatically append `Module` as a suffix to the compiled name. The
+`[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]` attribute can be used to cause a module name to always be appended with `Module`.
 
 ```fsharp
 type Cat(kind: string) =
@@ -204,13 +200,39 @@ type Cat(kind: string) =
     member x.Kind = kind
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module Cat =
+module Cat = // Cat is explicitly compiled as CatModule
 
     let tabby = Cat "Tabby"
-    let purr (c:Cat) = c.Purr()
-    let purrTwice (c:Cat) = purr(); purr()
+    let purr (c:Cat) = c.Purr(); c
+    let purrTwice (c:Cat) = purr (purr c)
 
 Cat.tabby |> Cat.purr |> Cat.purrTwice
+
+type Dog(kind: string) =
+    member x.Bark() = printfn "woof"
+    member x.Wag() = printfn "wag"
+    member x.Kind = kind
+
+module Dog = // Dog is implicitly compiled as DogModule
+
+    let beagle = Dog "Beagle"
+    let bark (d:Dog) = d.Bark(); d
+    let barkTwice (d:Dog) = bark (bark d)
+
+Dog.beagle |> Dog.bark |> Dog.barkTwice
+
+type Cage<'Pet>(pet: 'Pet) =
+    member x.Pet = pet
+
+module Cage = // Cage is compiled as Cage because Cage<'Pet> is a generic type so the name does not conflict
+    let putInCage pet = Cage pet
+    let getPet (cage: Cage<'Pet>) = cage.Pet
+
+let catCage = Cage.putInCage Cat.tabby
+let dogCage = Cage.putInCage Dog.beagle
+
+catCage |> Cage.getPet |> Cat.purr
+dogCage |> Cage.getPet |> Dog.bark
 ```
 
 ### Function and Value Definitions in Modules

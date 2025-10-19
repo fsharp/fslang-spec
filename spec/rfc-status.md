@@ -28,7 +28,7 @@
 | F# 4.1 | FS-1016 | [Unreserve Keywords](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1016-unreserve-keywords.md) | [completed](https://github.com/fsharp/fslang-spec/pull/63) |
 | F# 4.1 | FS-1017 | [Fix SRTP Constraint Parsing](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1017-fix-srtp-constraint-parsing.md) | |
 | F# 4.1 | FS-1018 | [Adjust Extensions Method Scope](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1018-adjust-extensions-method-scope.md) | |
-| F# 4.1 | FS-1019 | [Implicitly Add the Module Suffix](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1019-implicitly-add-the-module-suffix.md) | |
+| F# 4.1 | FS-1019 | [Implicitly Add the Module Suffix](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1019-implicitly-add-the-module-suffix.md) | [completed](https://github.com/fsharp/fslang-spec/pull/77) |
 | F# 4.1 | FS-1020 | [ByRef Returns](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1020-byref-returns.md) | |
 | F# 4.1 | FS-1025 | [Improve Record Type Inference](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1025-improve-record-type-inference.md) | |
 | F# 4.1 | FS-1027 | [Complete Optional DefaultParameterValue](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1027-complete-optional-defaultparametervalue.md) | |
