@@ -149,10 +149,14 @@ token ident-keyword =
     abstract and as assert base begin class const default delegate do done
     downcast downto elif else end exception extern false finally fixed for
     fun function global if in inherit inline interface internal lazy let
-    match member module mutable namespace new null of open or
+    match member mod module mutable namespace new null of open or
     override private public rec return sig static struct then to
     true try type upcast use val void when while with yield
 ```
+
+The `mod` keyword is treated as an infix operator for compatibility with OCaml syntax. Other infix keywords
+used in OCaml have been deprecated ([§](features-for-ml-compatibility.md#extra-operators)). A future FSharp.Core
+version may add a definition for the `mod` operator.
 
 The following identifiers are reserved for future use:
 
