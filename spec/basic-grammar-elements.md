@@ -195,15 +195,15 @@ elsewhere in the table.
 
 ```fsgrammar
 infix-or-prefix-op :=
-    +, -, +., -., %, &, &&
+    +, -, +., -., %, %%, &, &&, ?+, ?-
 prefix-op :=
     infix-or-prefix-op
     ~ ~~ ~~~    (and any repetitions of ~)
     !OP         (except !=)
 infix-op :=
     infix-or-prefix-op
-    - OP +OP || <OP >OP = |OP &OP ^OP *OP /OP %OP !=
-                (or any of these preceded by one or more ‘.’)
+    -OP +OP |OP <OP >OP =OP &OP ^OP *OP /OP %OP @OP !=OP
+                (or any of these preceded by one or more '.' or '?')
     :=
     ::
     $
@@ -211,7 +211,7 @@ infix-op :=
     ?
 ```
 
-The operators `+`, `-`, `+.`, `-.`, `%`, `%%`, `&`, `&&` can be used as both prefix and infix operators. When these
+The operators `+`, `-`, `+.`, `-.`, `%`, `%%`, `&`, `&&`, `?+`, `?-` can be used as both prefix and infix operators. When these
 operators are used as prefix operators, the tilde character is prepended internally to generate the
 operator name so that the parser can distinguish such usage from an infix use of the operator. For
 example, `-x` is parsed as an application of the operator `~-` to the identifier `x`. This generated name is
@@ -256,32 +256,32 @@ elsewhere in the table.
 
 | Operator or expression | Associativity | Comments |
 | --- | --- | --- |
-| f<types> | Left | High-precedence type application; see [§](lexical-filtering.md#lexical-analysis-of-type-applications) |
-| f(x) | Left | High-precedence application; see [§](lexical-filtering.md#high-precedence-application) |
-| . | Left |  |
+| `f<types>` | Left | High-precedence type application; see [§](lexical-filtering.md#lexical-analysis-of-type-applications) |
+| `f(x)` | Left | High-precedence application; see [§](lexical-filtering.md#high-precedence-application) |
+| `.` `?` | Left |  |
 | _prefix-op_ | Left | Applies to prefix uses of these symbols |
-| "| rule" | Right Pattern matching rules |
-| "f x" <br> "lazy x" <br> "assert x" | Left | |
-| **OP | Right | |
-| *OP /OP %OP | Left |  |
-| - OP +OP | Left | Applies to infix uses of these symbols |
-| :? | Not associative |  |
-| :: | Right | |
-| ^OP | Right | |
-| !=OP \<OP \>OP = \|OP &OP $ | Left |  |
-| :> :?> | Right |  |
-| & && | Left |  |
-| or \|\| | Left |  |
-| , | Not associative |  |
-| := | Right |  |
-| -> | Right |  |
-| if | Not associative |  |
-| function, fun, match, try | Not associative |  |
-| let | Not associative |  |
-| ; | Right |  |
-| \| | Left |  |
-| when | Right |  |
-| as | Right |  |
+| `\| rule` | Right | Pattern matching rules |
+| `f x` `lazy x` `assert x` | Left | |
+| `**OP` | Right | |
+| `*OP` `/OP` `%OP` | Left |  |
+| `-OP` `+OP` | Left | Applies to infix uses of these symbols |
+| `:?` | Not associative |  |
+| `::` | Right | |
+| `^OP` `@OP` | Right | |
+| `!=OP` `<OP` `>OP` `=OP` `\|OP` `&OP` `$` | Left |  |
+| `:>` `:?>` | Right |  |
+| `&` `&&` | Left |  |
+| `or` `\|\|` | Left |  |
+| `,` | Not associative |  |
+| `:=` | Right |  |
+| `->` | Right |  |
+| `if` | Not associative |  |
+| `function`, `fun`, `match`, `try` | Not associative |  |
+| `let` | Not associative |  |
+| `;` | Right |  |
+| `\|` | Left |  |
+| `when` | Right |  |
+| `as` | Right |  |
 
 If ambiguous grammar rules (such as the rules from §6) involve tokens in the table, a construct that
 appears earlier in the table has higher precedence than a construct that appears later in the table.
