@@ -490,6 +490,8 @@ be given the `AbstractClass` attribute.
 
 Record types are implicitly marked serializable unless the `AutoSerializable(false)` attribute is used.
 
+Record types are reference types unless the `Struct` attribute is used (see [§](type-definitions.md#struct-type-definitions)).
+
 ### Members in Record Types
 
 Record types may declare members ([§](type-definitions.md#members)), overrides, and interface implementations. Like all types
