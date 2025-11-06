@@ -57,8 +57,9 @@ let SimpleSample() =
     (x,y,r1,r2)
 ```
 
-```fsharp
 Normal Syntax
+
+```fsharp
 #indent "off"
 let SimpleSample() =
     let x = 10 + 12 - 3 in
@@ -82,7 +83,7 @@ let FunctionSample() =
         if f x then g x else h x
     for i = 0 to 10 do
         choose (fun n -> n%2 = 0) tick tock i
-    printfn "done!" 
+    printfn "done!"
 ```
 
 Normal Syntax
@@ -175,7 +176,7 @@ expr +:=
     | for expr to expr do expr $done
     | try expr $end with expr $done
     | try expr $end finally expr $done
-    
+
     | expr $app expr            // equivalent to " expr ( expr )"
     | expr $sep expr            // equivalent to " expr ; expr "
     | expr $tyapp < types >     // equivalent to " expr < types >"
@@ -362,8 +363,8 @@ let FunctionSample() =
     for i = 0 to 10 do
         choose (fun n - > n% 2 = 0 ) tick tock i
     printfn "done!"
-//      ^ Offside limit for inner let and for contexts
-//  ^ Offside limit for outer let context
+//      ^ Offside limit for inner `let` and `for` contexts
+//  ^ Offside limit for outer `let` context
 ```
 
 When a token occurs on or before the _offside limit_ for the current offside stack, and a _permitted
@@ -622,6 +623,42 @@ type MyNestedModule = interface
     abstract P : int
 end
 ```
+
+#### Undentation of Bodies of Collection and Computation Expressions
+
+The bodies of collection and computation expressions delimited by `[` ... `]`,  `[|` ... `|]`, `seq {` ... `}`, `anyBuilder {` ... `}` may be undented to the offside line established by the enclosing expression, specifically ignoring the _SeqBlock_ introduced by `(` or `=`.
+
+```fsharp
+Class.Method(seq {
+    ...
+})
+
+Class.Method(Array.ofSeq (seq {
+    ...
+}))
+
+Class.Method(arg1=expr1, arg2=expr2, seq {
+    ...
+})
+
+Class.Method [
+    ...
+]
+
+Class.Method([|
+    ...
+|])
+
+Class.Method(Array.ofList [
+    ...
+])
+
+Class.Method(arg1=expr1, arg2=expr2, [
+    ...
+])
+```
+
+In each of these cases the offside line of `Class.Method` defines the undentation permitted after `seq {`, `[`, and `[|`.
 
 ## High Precedence Application
 

@@ -36,7 +36,7 @@
 | F# 4.1 | FS-1040 | [Enum Match](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1040-enum-match.md) | |
 | F# 4.5 | FS-1047 | [Match Bang](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.5/FS-1047-match-bang.md) | [completed](https://github.com/fsharp/fslang-spec/pull/67) |
 | F# 4.5 | FS-1053 | [Span](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.5/FS-1053-span.md) | |
-| F# 4.5 | FS-1054 | [Undent List Args](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.5/FS-1054-undent-list-args.md) | |
+| F# 4.5 | FS-1054 | [Undent List Args](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.5/FS-1054-undent-list-args.md) | [completed](https://github.com/fsharp/fslang-spec/pull/80) |
 | F# 4.5 | FS-1055 | [Subsumption for Yield in Sequence Expression](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.5/FS-1055-subsumption-for-yield-in-sequence-expression.md) | |
 | F# 4.5 | FS-1058 | [Make Enum Cases Public](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.5/FS-1058-make-enum-cases-public.md) | |
 | F# 4.6 | FS-1030 | [Anonymous Records](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.6/FS-1030-anonymous-records.md) | |
