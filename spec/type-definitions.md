@@ -490,6 +490,8 @@ be given the `AbstractClass` attribute.
 
 Record types are implicitly marked serializable unless the `AutoSerializable(false)` attribute is used.
 
+Record types are reference types unless the `Struct` attribute is used (see [§](type-definitions.md#struct-type-definitions)).
+
 ### Members in Record Types
 
 Record types may declare members ([§](type-definitions.md#members)), overrides, and interface implementations. Like all types
@@ -1255,9 +1257,9 @@ because the size of `BadStruct2` would be infinite:
 
 ```fsharp
 [<Struct>]
-type BadStruct 2 =
+type BadStruct2 =
     val data : float;
-    val rest : BadStruct 2
+    val rest : BadStruct2
     new (data, rest) = { data = data; rest = rest }
 ```
 
@@ -1265,7 +1267,7 @@ Likewise, the implied size of the following struct would be infinite:
 
 ```fsharp
 [<Struct>]
-type BadStruct 3 (data : float, rest : BadStruct 3 ) =
+type BadStruct3 (data : float, rest : BadStruct3 ) =
     member s.Data = data
     member s.Rest = rest
 ```
@@ -1294,6 +1296,18 @@ abnormal value.
 <br>
 Public struct types for use from other CLI languages should be designed with the
 existence of the default zero-initializing constructor in mind.
+
+[Record Type Defintions](#record-type-definitions) may also use the `[<Struct>]` attribute to change their representation from a reference type to a value type:
+
+```fsharp
+[<Struct>]
+type Vector3 = { X: float; Y: float; Z: float }
+```
+
+Record structs have the following limitations:
+
+- Unlike normal F# structs you cannot call the default constructor
+- When marked with `[<CLIMutable>]` attribute, a default constructor is not created because it already exists implicitly
 
 ## Enum Type Definitions
 
