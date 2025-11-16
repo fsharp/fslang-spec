@@ -40,6 +40,7 @@ expr :=
     let value-defn in expr              -- value definition expression
     let rec function-or-value-defns in expr -- recursive definition expression
     use ident = expr in expr            -- deterministic disposal expression
+    use ident = fixed expr              -- pinned pointer expression
     fun argument-pats - > expr          -- function expression
     function rules                      -- matching function expression
     expr ; expr                         -- sequential execution expression
@@ -134,10 +135,11 @@ comp-expr :=
     use pat = expr in comp-expr
     yield! expr                     -- yield computation
     yield expr                      -- yield result
-return! expr                        -- return computation
+    return! expr                    -- return computation
     return expr                     -- return result
     if expr then comp - expr        -- control flow or imperative action
     if expr then expr else comp-expr
+    match! expr with pat -> comp-expr | ... | pat -> comp-expr
     match expr with pat -> comp-expr | ... | pat -> comp-expr
     try comp - expr with pat -> comp-expr | ... | pat -> comp-expr
     try comp - expr finally expr
@@ -701,6 +703,7 @@ expr { yield! ... }
 expr { try ... }
 expr { return ... }
 expr { return! ... }
+expr { match! ... }
 ```
 
 More specifically, computation expressions have the following form:
@@ -784,6 +787,8 @@ Then, T is defined for each computation expression e:
 **T** (use! p = e in ce, **V** , **C** , q) = **C** (b.Bind( `src` (e), fun p -> b.Using(p, fun p -> {| `ce` |} 0 ))
 
 **T** (match e with pi - > cei, **V** , **C** , q) = **C** (match e with pi - > {| `ce` i |} 0 )
+
+**T** (match! e with pi - > cei, **V** , **C** , q) = **C** (let! p = e in match p with pi - > {| `ce` i |} 0 )
 
 **T** (while e do ce, **V** , **C** , q) = **T** (ce, **V** , v. **C** (b.While(fun () -> e, b.Delay(fun () -> v))), q)
 
@@ -1207,7 +1212,7 @@ type SimpleSequenceBuilder() =
         seq { for a in src1 do
             for b in src2 do
             if ks1 a = ks2 b then yield((ret a ) b)
-        }   
+        }
 
 let myseq = SimpleSequenceBuilder()
 ```
@@ -1945,7 +1950,7 @@ type 'T[,] with
     member arr.GetSlice : idx1:int * ?start2:int * ?end2:int -> 'T[]
     member arr.GetSlice : ?start1:int * ?end1:int * idx2:int - > 'T[]
 type 'T[,,] with
-    member arr.GetSlice : ?start1:int * ?end1:int * ?start2:int * ?end2:int * 
+    member arr.GetSlice : ?start1:int * ?end1:int * ?start2:int * ?end2:int *
                           ?start3:int * ?end3:int
                             -> 'T[,,]
 type 'T[,,,] with
@@ -1968,7 +1973,7 @@ type 'T[,] with
     member arr.SetSlice : ?start1:int * ?end1:int * idx2:int * values:T[] -> unit
 
 type 'T[,,] with
-    member arr.SetSlice : ?start1:int * ?end1:int * ?start2:int * ?end2:int * 
+    member arr.SetSlice : ?start1:int * ?end1:int * ?start2:int * ?end2:int *
                           ?start3:int * ?end3:int *
                           values:T[,,] -> unit
 
@@ -2077,12 +2082,12 @@ must resolve to one of the following constructs:
     type SA =
         new(v) = { x = v }
         val mutable x : int
-    
+
     [<Struct>]
     type SB =
         new(v) = { sa = v }
         val mutable sa : SA
-    
+
     let s1 = SA(0)
     let mutable s2 = SA(0)
     let s3 = SB(0)
@@ -2671,6 +2676,51 @@ finally (match ( ident :> obj) with
          | null -> ()
          | _ -> (ident :> System.IDisposable).Dispose())
 ```
+
+### Pinned Pointer Expressions
+
+A _pinned pointer expression_ allows a pointer to be extracted from an expression and bound to a name, preventing the value from being collected or moved by the garbage collector for the scope of the binding. This feature is intended for low-level programming scenarios.
+
+A pinned pointer expression has the following form:
+
+```fsgrammar
+use ident = fixed expr
+```
+
+For example, pinning a field within an object:
+
+```fsharp
+type Point = { mutable x : int; mutable y : int }
+
+let pinObject() =
+    let point = { x = 1; y = 2 }
+    use p1 = fixed &point.x
+    // code that uses p1 as a nativeptr<int>
+```
+
+Pinning an array:
+
+```fsharp
+let pinArray() =
+    let arr = [| 0.0; 1.5; 2.3 |]
+    use p = fixed arr
+    // code that uses p as a nativeptr<float>
+```
+
+Pinning a string:
+
+```fsharp
+let pinString() =
+    let str = "Hello"
+    use pChar = fixed str
+    // code that uses pChar as a nativeptr<char>
+```
+
+The `fixed` keyword is used to pin the expression and can only appear immediately to the right of a `use` binding. The pointer is fixed for the duration of the `use` binding's scope; once it goes out of scope, it is no longer pinned. This construct is not a try/finally `IDisposable` pattern but is instead used to define the scope of the pinning.
+
+A _pinned pointer expression_ is more efficient and convenient than creating a `GCHandle`.
+
+Like all pointer-related code, the use of `fixed` is considered an unsafe feature and will result in a compiler warning. The use of `fixed` is restricted to expressions within functions or methods and cannot be used at the script or module level.
 
 ## Type-related Expressions
 

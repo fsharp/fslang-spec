@@ -2,7 +2,7 @@
 
 This chapter describes attributes and types that have special significance to the F# compiler.
 
-## Custom Attributes Recognized by F#.
+## Custom Attributes Recognized by F\#
 
 The following custom attributes have special meanings recognized by the F# compiler. Except where
 indicated, the attributes may be used in F# code, in referenced assemblies authored in F#, or in
@@ -26,14 +26,18 @@ assemblies that are authored in other CLI languages.
 | System.Reflection.AssemblyProductAttribute <br> `[<AssemblyProduct(...)>]` | Attaches product name metadata to the compiled form of the assembly, such as the “ProductName” attribute in the Win32 version resource for the assembly. <br>This attribute may be used in both F# and imported assemblies. |
 | System.Reflection.AssemblyKeyFileAttribute <br> `[<AssemblyKeyFile(...)>]` | Indicates to the F# compiler how to sign an assembly. <br>This attribute may be used in both F# and imported assemblies. |
 | System.Reflection.DefaultMemberAttribute <br> `[<DefaultMember(...)>]` | When applied to a type, specifies the name of the indexer property for that type. <br>This attribute may be used in both F# and imported assemblies. |
+| System.Runtime.CompilerServices.CallerFilePathAttribute  `[<CallerFilePath>]` | A string optional argument with this attribute will be given a runtime value matching the absolute file path of source of the callsite. <br>This attribute may be used in both F# and imported assemblies. |
+| System.Runtime.CompilerServices.CallerLineNumberAttribute  `[<CallerLineNumber>]` | An integer optional argument with this attribute will be given a runtime value matching the line number of the source of the callsite. <br>This attribute may be used in both F# and imported assemblies. |
+| System.Runtime.CompilerServices.CallerMemberNameAttribute  `[<CallerMemberName>]` | A string optional argument with this attribute will be given a runtime value matching the unqualified name of the enclosing member of the callsite. <br>This attribute may be used in both F# and imported assemblies. |
 | System.Runtime.CompilerServices.InternalsVisibleToAttribute `[<InternalsVisibleTo(...)>]` | Directs the F# compiler to permit access to the internals of the assembly. <br>This attribute may be used in both F# and imported assemblies. |
 | System.Runtime.CompilerServices.TypeForwardedToAttribute `[<TypeForwardedTo(...)>]` | Indicates a type redirection. <br>This attribute may be used only in imported non-F# assemblies. It is not permitted in F# code. |
 | System.Runtime.CompilerServices.ExtensionAttribute <br> `[<Extension(...)>]` | Indicates the compiled form of a C# extension member. <br>This attribute may be used only in imported non-F# assemblies. It is not permitted in F# code. |
+| System.Runtime.InteropServices.DefaultParameterValueAttribute <br> `[<DefaultParameterValue(...)>]` | When applied to a parameter in conjunction with the `[<Optional>]` attribute, specifies the default value to be inserted at the callsite. <br>This attribute may be used in both F# and imported assemblies. |
 | System.Runtime.InteropServices.DllImportAttribute <br> `[<DllImport(...)>]` | When applied to a function definition in a module, causes the F# compiler to ignore the implementation of the definition, and instead compile it as a CLI P/Invoke stub declaration. <br>This attribute may be used in both F# and imported assemblies. |
 | System.Runtime.InteropServices.MarshalAsAttribute <br> `[<MarshalAs(...)>]` | When applied to a parameter or return type, specifies the marshalling attribute for a CLI P/Invoke stub declaration. <br>This attribute may be used in both F# and imported assemblies. However, F# does not support the specification of "custom" marshallers. |
 | System.Runtime.InteropServices.InAttribute <br> `[<In>]` | When applied to a parameter, specifies the CLI In attribute. <br>This attribute may be used in both F# and imported assemblies. However, in F# its only effect is to change the corresponding attribute in the CLI compiled form. |
 | System.Runtime.InteropServices.OutAttribute <br> `[<Out>]` | When applied to a parameter, specifies the CLI Out attribute. <br>This attribute may be used in both F# and imported assemblies. However, in F# its only effect is to change the corresponding attribute in the CLI compiled form. |
-| System.Runtime.InteropServices.OptionalAttribute <br> `[<Optional(...)>]` | When applied to a parameter, specifies the CLI Optional attribute. <br>This attribute may be used in both F# and imported assemblies. However, in F# its only effect is to change the corresponding attribute in the CLI compiled form. |
+| System.Runtime.InteropServices.OptionalAttribute <br> `[<Optional(...)>]` | When applied to a parameter, specifies the CLI Optional attribute. Should be used in conjunction with `[<DefaultParameterValue(...)>]`. <br>This attribute may be used in both F# and imported assemblies. |
 | System.Runtime.InteropServices.FieldOffsetAttribute <br> `[<FieldOffset(...)>]` | When applied to a field, specifies the field offset of the underlying CLI field. <br>This attribute may be used in both F# and imported assemblies. |
 | System.NonSerializedAttribute <br> `[<NonSerialized>]` | When applied to a field, sets the "not serialized" bit for the underlying CLI field. <br>This attribute may be used in both F# and imported assemblies. |
 | System.Runtime.InteropServices.StructLayoutAttribute <br> `[<StructLayout(...)>]` | Specifies the layout of a CLI type. <br>This attribute may be used in both F# and imported assemblies. |
@@ -64,7 +68,7 @@ assemblies that are authored in other CLI languages.
 | FSharp.Core.TypeProviderXmlDocAttribute | Specifies documentation for provided type definitions and provided members |
 | FSharp.Core.TypeProviderDefinitionLocationAttribute | Specifies location information for provided type definitions and provided members |
 
-## Custom Attributes Emitted by F#.
+## Custom Attributes Emitted by F\#
 
 The F# compiler can emit the following custom attributes:
 
@@ -81,7 +85,7 @@ The F# compiler can emit the following custom attributes:
 | FSharp.Core.FSharpInterfaceDataVersionAttribute | Defines the schema number for the embedded binary resource for F#-specific interface and optimization data. |
 | FSharp.Core.OptionalArgumentAttribute | Indicates optional arguments to F# members. |
 
-## Custom Attributes not Recognized by F#.
+## Custom Attributes not Recognized by F\#
 
 The following custom attributes are defined in some CLI implementations and may appear to be
 relevant to F#. However, they either do not affect the behavior of the F# compiler, or result in an

@@ -490,6 +490,8 @@ be given the `AbstractClass` attribute.
 
 Record types are implicitly marked serializable unless the `AutoSerializable(false)` attribute is used.
 
+Record types are reference types unless the `Struct` attribute is used (see [§](type-definitions.md#struct-type-definitions)).
+
 ### Members in Record Types
 
 Record types may declare members ([§](type-definitions.md#members)), overrides, and interface implementations. Like all types
@@ -1255,9 +1257,9 @@ because the size of `BadStruct2` would be infinite:
 
 ```fsharp
 [<Struct>]
-type BadStruct 2 =
+type BadStruct2 =
     val data : float;
-    val rest : BadStruct 2
+    val rest : BadStruct2
     new (data, rest) = { data = data; rest = rest }
 ```
 
@@ -1265,7 +1267,7 @@ Likewise, the implied size of the following struct would be infinite:
 
 ```fsharp
 [<Struct>]
-type BadStruct 3 (data : float, rest : BadStruct 3 ) =
+type BadStruct3 (data : float, rest : BadStruct3 ) =
     member s.Data = data
     member s.Rest = rest
 ```
@@ -1294,6 +1296,18 @@ abnormal value.
 <br>
 Public struct types for use from other CLI languages should be designed with the
 existence of the default zero-initializing constructor in mind.
+
+[Record Type Defintions](#record-type-definitions) may also use the `[<Struct>]` attribute to change their representation from a reference type to a value type:
+
+```fsharp
+[<Struct>]
+type Vector3 = { X: float; Y: float; Z: float }
+```
+
+Record structs have the following limitations:
+
+- Unlike normal F# structs you cannot call the default constructor
+- When marked with `[<CLIMutable>]` attribute, a default constructor is not created because it already exists implicitly
 
 ## Enum Type Definitions
 
@@ -1939,10 +1953,28 @@ type C =
 
 ### Optional Arguments to Method Members
 
-Method members—but not functions definitions—may have optional arguments. Optional
-arguments must appear at the end of the argument list. An optional argument is marked with a?
-before its name in the method declaration. Inside the member, the argument has type
-`option<argType>`.
+Method members—but not functions definitions—may have optional arguments. F# supports
+two forms of optional arguments: F#-style optional arguments and CLI-compatible optional arguments.
+
+CLI-compatible optional arguments are handled on the **caller side**. When a method call omits
+an optional argument, the compiler reads the default value from the method's metadata and
+explicitly passes that value. This contrasts with F#-style optional arguments, which are
+handled by the **callee**. With F#-style optional arguments, if an argument is omitted, the
+compiler passes `None`, and the callee determines the default value to use.
+
+From the caller's perspective both styles appear as optional arguments. However, their
+underlying mechanism and primary use cases differ.
+
+The compiled representation of members varies as additional optional arguments are added. The
+addition of optional arguments to a member signature results in a compiled form that is not binary-
+compatible with the previous compiled form.
+
+#### F\#-Style Optional Arguments
+
+F#-style optional arguments must appear at the end of the argument list. An optional argument
+is marked with a `?` before its name in the method declaration. Inside the member, the argument
+has the type `option<argType>`. The `option` type is used to represent a value that may or may
+not exist.
 
 The following example declares a method member that has two optional arguments:
 
@@ -1993,10 +2025,72 @@ The resolution of calls that use optional arguments is specified in _Method Appl
 
 Optional arguments may not be used in member constraints.
 
+Marking an argument as optional is equivalent to adding the `FSharp.Core.OptionalArgument`
+attribute ([§](special-attributes-and-types.md#custom-attributes-recognized-by-f)) to a required argument. This attribute is added implicitly for optional arguments.
+Adding the `[<OptionalArgument>]` attribute to a parameter of type `'a option` in a virtual method
+signature is equivalent to using the `(?x:'a)` syntax in a method definition. If the attribute is applied
+to an argument of a method, it should also be applied to all subsequent arguments of the method.
+Otherwise, it has no effect and callers must provide all of the arguments.
+
+#### CLI-Compatible Optional Arguments
+
+For interoperability with C# and other CLI languages, F# supports optional arguments with default values using
+the `Optional` and `DefaultParameterValue` attributes. This mechanism is equivalent to defining an optional
+argument in C# with a default value, such as `MyMethod(int i = 3)`. In F#, this would be written as:
+
+```fsharp
+open System.Runtime.InteropServices
+
+type C() =
+    static member MyMethod([<Optional; DefaultParameterValue(3)>] i: int) =
+        i + 1
+```
+
+These attributes are typically used for C# and VB interop so that callers in those languages see an argument as optional.
+They can also be from F# code in the same assembly and from separate assemblies.
+
+CLI-compatible optional arguments are not passed as values of type `Option<_>`. If the optional
+argument is present, its value is passed. If the optional argument is omitted, the default
+value from the CLI metadata is supplied instead. The value `System.Reflection.Missing.Value`
+is supplied for any CLI optional arguments of type `System.Object` that do not have a
+corresponding CLI default value, and the default (zero-bit pattern) value is supplied for
+other CLI optional arguments of other types that have no default value.
+
+##### Allowable Default Values
+
+The `DefaultParameterValue` attribute accepts the following types of values:
+
+- **Primitive Types**: Constant values for `sbyte`, `byte`, `int16`, `uint16`, `int32`, `uint32`, `int64`, `uint64`, `float32`, `float`, and `string`.
+- **Reference Types**: The only allowed default value is `null`.
+- **Value Types**: The only allowed default value is the default value of the struct.
+
+##### Usage and Considerations
+
+The value provided to `DefaultParameterValue` must match the parameter's type. A mismatch will generate a compiler warning, and both the `Optional` and `DefaultParameterValue` attributes will be ignored.
+
+For example, the following is not allowed:
+
+```fsharp
+type Class() =
+  static member Wrong([<Optional; DefaultParameterValue("string")>] i:int) = ()```
+
+This will be compiled as if it were written:
+```fsharp
+type Class() =
+  static member Wrong(i:int) = ()
+```
+
+Note that the `null` value for reference types must be type-annotated, for instance: `[<Optional; DefaultParameterValue(null:obj)>] o:obj`.
+
+It is possible to use these attributes in the following ways, though it is not standard practice:
+
+- Specifying `Optional` without `DefaultParameterValue`: Callers can omit the argument, and a default value will be chosen by convention (the default constructor for primitive types and structs).
+- Specifying `DefaultParameterValue` without `Optional`.
+- Specifying `Optional; DefaultParameterValue` on any parameter, not necessarily the last one.
+
 > Note : Imported CLI metadata may specify arguments as optional and may additionally
-specify a default value for the argument. These are treated as F# optional arguments. CLI
-optional arguments can propagate an existing optional value by name; for example,
-`?ValueTitle = Some (...)`.
+specify a default value for the argument. CLI optional arguments can propagate an existing optional
+value by name; for example, `?ValueTitle = Some (...)`.
 <br>For example, here is a fragment of a call to a Microsoft Excel COM automation API that
 uses named and optional arguments.
 
@@ -2009,25 +2103,6 @@ uses named and optional arguments.
                                   CategoryTitle = "Sample Category Type",
                                   ValueTitle = "Sample Value Type")
 ```
-
-> CLI optional arguments are not passed as values of type `Option<_>`. If the optional
-argument is present, its value is passed. If the optional argument is omitted, the default
-value from the CLI metadata is supplied instead. The value
-`System.Reflection.Missing.Value` is supplied for any CLI optional arguments of type
-`System.Object` that do not have a corresponding CLI default value, and the default (zero-
-bit pattern) value is supplied for other CLI optional arguments of other types that have
-no default value.
-
-The compiled representation of members varies as additional optional arguments are added. The
-addition of optional arguments to a member signature results in a compiled form that is not binary-
-compatible with the previous compiled form.
-
-Marking an argument as optional is equivalent to adding the `FSharp.Core.OptionalArgument`
-attribute ([§](special-attributes-and-types.md#custom-attributes-recognized-by-f)) to a required argument. This attribute is added implicitly for optional arguments.
-Adding the `[<OptionalArgument>]` attribute to a parameter of type `'a option` in a virtual method
-signature is equivalent to using the `(?x:'a)` syntax in a method definition. If the attribute is applied
-to an argument of a method, it should also be applied to all subsequent arguments of the method.
-Otherwise, it has no effect and callers must provide all of the arguments.
 
 ### Type-directed Conversions at Member Invocations
 
