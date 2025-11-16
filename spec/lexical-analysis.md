@@ -340,9 +340,6 @@ token symbolic-op =
 For example, `&&&` and `|||` are valid symbolic operators. Only the operators `?` and `?<-` may start with
 `?`.
 
-Use of `:` in symbolic operators is partially reserved. It may only be used in operators where the first character
-is `>` or where the first character after any number of leading `.` is `>` e.g. `>:` or `.>:`.
-
 The `quote-op-left` and `quote-op-right` operators are used in quoted expressions ([§](expressions.md#quoted-expressions)).
 
 For details about the associativity and precedence of symbolic operators in expression forms, see
