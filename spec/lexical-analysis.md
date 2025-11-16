@@ -310,7 +310,7 @@ The following symbolic or partially symbolic character sequences are treated as 
 ```fsgrammar
 token symbolic-keyword =
     let! use! do! yield! return! match!
-    | -> <-. : ( ) [ ] [< >] [| |] { }
+    | -> <- . : ( ) [ ] [< >] [| |] { }
     ' # :?> :? :> .. :: := ;; ; =
     _? ?? (*) <@ @> <@@ @@>
 ```
@@ -329,7 +329,7 @@ except where the sequence of characters is a symbolic keyword ([§](lexical-anal
 
 ```fsgrammar
 regexp first-op-char = !%&*+-./<=>@^|~
-regexp op-char = first-op-char |?
+regexp op-char = first-op-char | [?:]
 
 token quote-op-left =
     | <@ <@@
@@ -338,7 +338,7 @@ token quote-op-right =
     | @> @@>
 
 token symbolic-op =
-    |?
+    | ?
     | ?<-
     | first-op-char op-char *
     | quote-op-left
