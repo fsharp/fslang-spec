@@ -24,22 +24,22 @@ important only if ambiguities occur in referencing the contents of assemblies—
 two assemblies define the type `MyNamespace.C`.
 
 - _ExprItems_ : a table that maps names to the following items:
-  - A value
-  - A union case for use when constructing data
-  - An active pattern result tag for use when returning results from active patterns
-  - A type name for each class or struct type
+    - A value
+    - A union case for use when constructing data
+    - An active pattern result tag for use when returning results from active patterns
+    - A type name for each class or struct type
 - _FieldLabels_ : a table that maps names to sets of field references for record types
 - _PatItems_ : a table that maps names to the following items:
-  - A union case, for use when pattern matching on data
-  - An active pattern case name, for use when specifying active patterns
-  - A literal definition
+    - A union case, for use when pattern matching on data
+    - An active pattern case name, for use when specifying active patterns
+    - A literal definition
 - _Types_ : a table that maps names to type definitions. Two queries are supported on this table:
-  - Find a type by name alone. This query may return multiple types. For example, in the default
-       type-checking environment, the resolution of `System.Tuple` returns multiple tuple types.
+    - Find a type by name alone. This query may return multiple types. For example, in the default
+        type-checking environment, the resolution of `System.Tuple` returns multiple tuple types.
 
-  - Find a type by name and generic arity `n`. This query returns at most one type. For example, in
-    the default type-checking environment, the resolution of `System.Tuple` with `n = 2` returns a
-    single type.
+    - Find a type by name and generic arity `n`. This query returns at most one type. For example, in
+        the default type-checking environment, the resolution of `System.Tuple` with `n = 2` returns a
+        single type.
 - _ExtensionsInScope_ : a table that maps type names to one or more member definitions
 
 The dot notation is resolved during type checking by consulting these tables.
