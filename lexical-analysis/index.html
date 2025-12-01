@@ -1,0 +1,1746 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://fsharp.github.io/fslang-spec/lexical-analysis/">
+      
+      
+        <link rel="prev" href="../program-structure/">
+      
+      
+        <link rel="next" href="../basic-grammar-elements/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../fsharp128.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>3. Lexical Analysis - F# Language Specification</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#3-lexical-analysis" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="F# Language Specification" class="md-header__button md-logo" aria-label="F# Language Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12 11.39.61v5.695L5.695 12l5.695 5.695v5.695zm7.322 0 4.068-4.068v8.136zM24 12 12.203.61v5.695L17.898 12l-5.695 5.695v5.695z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            F# Language Specification
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3. Lexical Analysis
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fsharp/fslang-spec" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="F# Language Specification" class="md-nav__button md-logo" aria-label="F# Language Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12 11.39.61v5.695L5.695 12l5.695 5.695v5.695zm7.322 0 4.068-4.068v8.136zM24 12 12.203.61v5.695L17.898 12l-5.695 5.695v5.695z"/></svg>
+
+    </a>
+    F# Language Specification
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fsharp/fslang-spec" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Front Matter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rfc-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFC status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Program Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Lexical Analysis
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Lexical Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#31-whitespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Whitespace
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#32-comments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Comments
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#33-conditional-compilation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Conditional Compilation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#34-identifiers-and-keywords" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Identifiers and Keywords
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#35-strings-and-characters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Strings and Characters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#36-symbolic-keywords" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Symbolic Keywords
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#37-symbolic-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7 Symbolic Operators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#38-numeric-literals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8 Numeric Literals
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.8 Numeric Literals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#381-post-filtering-of-adjacent-prefix-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8.1 Post-filtering of Adjacent Prefix Tokens
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#382-post-filtering-of-integers-followed-by-adjacent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8.2 Post-filtering of Integers Followed by Adjacent “..”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#383-reserved-numeric-literal-forms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8.3 Reserved Numeric Literal Forms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#384-shebang" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8.4 Shebang
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#39-line-directives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.9 Line Directives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#310-hidden-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.10 Hidden Tokens
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#311-identifier-replacements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.11 Identifier Replacements
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basic-grammar-elements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Basic Grammar Elements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../types-and-type-constraints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Types and Type Constraints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../expressions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Expressions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type-definitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Type Definitions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../units-of-measure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Units of Measure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespaces-and-modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Namespaces and Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespace-and-module-signatures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Namespace and Module Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program-structure-and-execution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Program Structure and Execution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../custom-attributes-and-reflection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Custom Attributes and Reflection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inference-procedures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Inference Procedures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lexical-filtering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Lexical Filtering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../provided-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Provided Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../special-attributes-and-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17. Special Attributes and Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../the-f-library-fsharpcoredll/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18. The F# Library FSharp.Core.dll
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features-for-ml-compatibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19. Features for ML Compatibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#31-whitespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Whitespace
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#32-comments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Comments
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#33-conditional-compilation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Conditional Compilation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#34-identifiers-and-keywords" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Identifiers and Keywords
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#35-strings-and-characters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 Strings and Characters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#36-symbolic-keywords" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Symbolic Keywords
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#37-symbolic-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.7 Symbolic Operators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#38-numeric-literals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8 Numeric Literals
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.8 Numeric Literals">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#381-post-filtering-of-adjacent-prefix-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8.1 Post-filtering of Adjacent Prefix Tokens
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#382-post-filtering-of-integers-followed-by-adjacent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8.2 Post-filtering of Integers Followed by Adjacent “..”
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#383-reserved-numeric-literal-forms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8.3 Reserved Numeric Literal Forms
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#384-shebang" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.8.4 Shebang
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#39-line-directives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.9 Line Directives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#310-hidden-tokens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.10 Hidden Tokens
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#311-identifier-replacements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.11 Identifier Replacements
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="3-lexical-analysis">3. Lexical Analysis</h1>
+<p>Lexical analysis converts an input stream of Unicode characters into a stream of tokens by iteratively
+processing the stream. If more than one token can match a sequence of characters in the source file,
+lexical processing always forms the longest possible lexical element. Some tokens, such as <code>block-comment-start</code>, are discarded after processing as described later in this section.</p>
+<h2 id="31-whitespace">3.1 Whitespace</h2>
+<p>Whitespace consists of spaces and newline characters.</p>
+<div class="highlight"><pre><span></span><code>regexp whitespace = &#39; &#39;+
+regexp newline = &#39;\n&#39; | &#39;\r&#39; &#39;\n&#39;
+token whitespace-or-newline = whitespace | newline
+</code></pre></div>
+<p>Whitespace tokens <code>whitespace-or-newline</code> are discarded from the returned token stream.</p>
+<h2 id="32-comments">3.2 Comments</h2>
+<p>Block comments are delimited by <code>(*</code> and <code>*)</code> and may be nested. Single-line comments begin with
+two backslashes (<code>//</code>) and extend to the end of the line.</p>
+<div class="highlight"><pre><span></span><code>token block-comment-start = &quot;(*&quot;
+token block-comment-end = &quot;*)&quot;
+token end-of-line-comment = &quot;//&quot; [^&#39;\n&#39; &#39;\r&#39;]*
+</code></pre></div>
+<p>When the input stream matches a <code>block-comment-start</code> token, the subsequent text is tokenized
+recursively against the tokens that are described in §3 until a <code>block-comment-end</code> token is found. The
+intermediate tokens are discarded.</p>
+<p>For example, comments can be nested, and strings that are embedded within comments are
+tokenized by the rules for <code>string</code>, <code>verbatim-string</code> , and <code>triple-quoted string</code>. In particular, strings
+that are embedded in comments are tokenized in their entirety, without considering closing <code>*)</code>
+marks. As a result of this rule, the following is a valid comment:</p>
+<div class="highlight"><pre><span></span><code><span class="c">(* Here&#39;s a code snippet: let s = </span><span class="s">&quot;*)&quot;</span><span class="c"> *)</span>
+</code></pre></div>
+<p>However, the following construct, which was valid in F# 2.0, now produces a syntax error because a
+closing comment token *) followed by a triple-quoted mark is parsed as part of a string:</p>
+<div class="highlight"><pre><span></span><code><span class="c">(* </span><span class="s">&quot;&quot;&quot; *)</span>
+</code></pre></div>
+<p>For the purposes of this specification, comment tokens are discarded from the returned lexical
+stream. In practice, XML documentation tokens are <code>end-of-line-comments</code> that begin with ///. The
+delimiters are retained and are associated with the remaining elements to generate XML
+documentation.</p>
+<h2 id="33-conditional-compilation">3.3 Conditional Compilation</h2>
+<p>The lexical preprocessing directives <code>#if ident /#else/#endif</code> delimit conditional compilation
+sections. The following describes the grammar for such sections:</p>
+<div class="highlight"><pre><span></span><code>token if-directive = &quot;#if&quot; whitespace if-expression-text
+token else-directive = &quot;#else&quot;
+token endif-directive = &quot;#endif&quot;
+
+if-expression-term =
+    ident-text
+    &#39;(&#39; if-expression &#39;)&#39;
+
+if-expression-neg =
+    if-expression-term
+    &#39;!&#39; if-expression-term
+
+if-expression-and =
+    if-expression-neg
+    if-expression-and &amp;&amp; if-expression-and
+
+if-expression-or =
+    if-expression-and
+    if-expression-or || if-expression-or
+
+if-expression = if-expression-or
+</code></pre></div>
+<p>A preprocessing directive always occupies a separate line of source code and always begins with a #
+character followed immediately by a preprocessing directive name, with no intervening whitespace.
+However, whitespace can appear before the # character. A source line that contains the <code>#if</code>, <code>#else</code>,
+or <code>#endif</code> directive can end with whitespace and a single-line comment. Multiple-line comments are
+not permitted on source lines that contain preprocessing directives.</p>
+<p>If an <code>if-directive</code> token is matched during tokenization, text is recursively tokenized until a
+corresponding <code>else-directive</code> or <code>endif-directive</code>. If the evaluation of the associated
+<code>if-expression-text</code> when parsed as an <em>if-expression</em> is true in the compilation environment defines
+(where each <code>ident-text</code> is evaluataed according to the values given by command line options such
+as <code>–define</code>), the token stream includes the tokens between the <code>if-directive</code> and the corresponding
+<code>else-directive</code> or <code>endif-directive</code>. Otherwise, the tokens are discarded. The converse applies to
+the text between any corresponding <code>else-directive</code> and the <code>endif-directive</code>.</p>
+<ul>
+<li>In skipped text, <code>#if ident /#else/#endif</code> sections can be nested.</li>
+<li>Strings and comments are not treated as special</li>
+</ul>
+<h2 id="34-identifiers-and-keywords">3.4 Identifiers and Keywords</h2>
+<p>Identifiers follow the specification in this section.</p>
+<div class="highlight"><pre><span></span><code>regexp digit-char = [0-9]
+regexp letter-char = &#39;\Lu&#39; | &#39;\Ll&#39; | &#39;\Lt&#39; | &#39;\Lm&#39; | &#39;\Lo&#39; | &#39;\Nl&#39;
+regexp connecting-char = &#39;\Pc&#39;
+regexp combining-char = &#39;\Mn&#39; | &#39;\Mc&#39;
+regexp formatting-char = &#39;\Cf&#39;
+
+regexp ident-start-char =
+    | letter-char
+    | _
+
+regexp ident-char =
+    | letter-char
+    | digit-char
+    | connecting-char
+    | combining-char
+    | formatting-char
+    | &#39;
+    | _
+
+regexp ident-text = ident-start-char ident-char *
+token ident =
+    | ident-text For example, myName1
+    | `` ( [^&#39;`&#39; &#39;\n&#39; &#39;\r&#39; &#39;\t&#39;] | &#39;`&#39; [^ &#39;`&#39; &#39;\n&#39; &#39;\r&#39; &#39;\t&#39;] )+ ``
+         example, ``value.with odd#name``
+</code></pre></div>
+<p>Any sequence of characters that is enclosed in double-backtick marks (<code>`` ``</code>), excluding newlines,
+tabs, and double-backtick pairs themselves, is treated as an identifier. Note that when an identifier is
+used for the name of a types, union type case, module, or namespace, the following characters are
+not allowed even inside double-backtick marks:</p>
+<div class="highlight"><pre><span></span><code>‘.&#39;, &#39;+&#39;, &#39;$&#39;, &#39;&amp;&#39;, &#39;[&#39;, &#39;]&#39;, &#39;/&#39;, &#39;\\&#39;, &#39;*&#39;, &#39;\&quot;&#39;, &#39;`&#39;
+</code></pre></div>
+<p>All input files are currently assumed to be encoded as UTF-8. See the C# specification for a list of the
+Unicode characters that are accepted for the Unicode character classes \Lu, \Li, \Lt, \Lm, \Lo, \Nl,
+\Pc, \Mn, \Mc, and \Cf.</p>
+<p>The following identifiers are treated as keywords of the F# language:</p>
+<div class="highlight"><pre><span></span><code>token ident-keyword =
+    abstract and as assert base begin class const default delegate do done
+    downcast downto elif else end exception extern false finally fixed for
+    fun function global if in inherit inline interface internal lazy let
+    match member module mutable namespace new null of open or
+    override private public rec return sig static struct then to
+    true try type upcast use val void when while with yield
+</code></pre></div>
+<p>The following identifiers are reserved for future use:</p>
+<div class="highlight"><pre><span></span><code>token reserved-ident-keyword =
+    break checked component constraint
+    continue fori include
+    mixin parallel params process protected pure
+    sealed tailcall trait virtual
+</code></pre></div>
+<p>A future revision of the F# language may promote any of these identifiers to be full keywords.</p>
+<p>The following identifiers were previously reserved but can now be used:</p>
+<div class="highlight"><pre><span></span><code>token ident =
+    atomic constructor eager functor measure method
+    object recursive volatile
+</code></pre></div>
+<p>The following token forms are reserved, except when they are part of a symbolic keyword (<a href="./#36-symbolic-keywords">§3.6</a>).</p>
+<div class="highlight"><pre><span></span><code>token reserved-ident-formats =
+    | ident-text ( &#39;!&#39; | &#39;#&#39;)
+</code></pre></div>
+<p>In the remainder of this specification, we refer to the token that is generated for a keyword simply
+by using the text of the keyword itself.</p>
+<h2 id="35-strings-and-characters">3.5 Strings and Characters</h2>
+<p>String literals may be specified for two types:</p>
+<ul>
+<li>Unicode strings, type <code>string = System.String</code></li>
+<li>Unsigned byte arrays, type <code>byte[] = bytearray</code></li>
+</ul>
+<p>Literals may also be specified by using C#-like verbatim forms that interpret <code>\</code> as a literal character
+rather than an escape sequence. In a UTF-8-encoded file, you can directly embed the following in a
+string in the same way as in C#:</p>
+<ul>
+<li>Unicode characters, such as “<code>\u0041bc</code>”</li>
+<li>Identifiers, as described in the previous section, such as “<code>abc</code>”</li>
+<li>Trigraph specifications of Unicode characters, such as “<code>\067</code>” which represents “<code>C</code>”</li>
+</ul>
+<div class="highlight"><pre><span></span><code>regexp escape-char = &#39;\&#39; [&quot;\&#39;ntbrafv]
+regexp non-escape-chars = &#39;\&#39; [^&quot;\&#39;ntbrafv]
+regexp simple-char-char =
+    | (any char except &#39;\n&#39; &#39;\t&#39; &#39;\r&#39; &#39;\b&#39; &#39;\a&#39; &#39;\f&#39; &#39;\v&#39; &#39; \ &quot;)
+
+regexp unicodegraph-short = &#39;\&#39; &#39;u&#39; hexdigit hexdigit hexdigit hexdigit
+regexp unicodegraph-long =  &#39;\&#39; &#39;U&#39; hexdigit hexdigit hexdigit hexdigit
+                                    hexdigit hexdigit hexdigit hexdigit
+
+regexp trigraph = &#39;\&#39; digit-char digit-char digit-char
+
+regexp char-char =
+    | simple-char-char
+    | escape-char
+    | trigraph
+    | unicodegraph-short
+
+regexp string-char =
+    | simple-string-char
+    | escape-char
+    | non-escape-chars
+    | trigraph
+    | unicodegraph-short
+    | unicodegraph-long
+    | newline
+
+regexp string-elem =
+    | string-char
+    | &#39;\&#39; newline whitespace * string-elem
+
+token char = &#39; char-char &#39;
+token string = &quot; string-char * &quot;
+
+regexp verbatim-string-char =
+    | simple-string-char
+    | non-escape-chars
+    | newline
+    | \
+    | &quot;&quot;
+
+token verbatim-string = @&quot; verbatim-string-char * &quot;
+
+token bytechar = &#39; simple-or-escape-char &#39;B
+token bytearray = &quot; string-char * &quot;B
+token verbatim-bytearray = @&quot; verbatim-string-char * &quot;B
+token simple-or-escape-char = escape-char | simple-char
+token simple-char = any char except newline,return,tab,backspace,&#39;,\,&quot;
+
+token triple-quoted-string = &quot;&quot;&quot; simple-or-escape-char* &quot;&quot;&quot;
+</code></pre></div>
+<p>To translate a string token to a string value, the F# parser concatenates all the Unicode characters
+for the <code>string-char</code> elements within the string. Strings may include <code>\n</code> as a newline character.
+However, if a line ends with <code>\</code>, the newline character and any leading whitespace elements on the
+subsequent line are ignored. Thus, the following gives <code>s</code> the value <code>"abcdef"</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;abc\</span>
+<span class="s">    def&quot;</span>
+</code></pre></div>
+<p>Without the backslash, the resulting string includes the newline and whitespace characters. For
+example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;abc</span>
+<span class="s">    def&quot;</span>
+</code></pre></div>
+<p>In this case, s has the value <code>abc\010    def</code> where <code>\010</code> is the embedded control character for <code>\n</code>,
+which has Unicode UTF-16 value 10.</p>
+<p>Verbatim strings may be specified by using the <code>@</code> symbol preceding the string as in C#. For example,
+the following assigns the value <code>"abc\def"</code> to <code>s</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">@&quot;abc\def&quot;</span>
+</code></pre></div>
+<p>String-like and character-like literals can also be specified for unsigned byte arrays (type <code>byte[]</code>).
+These tokens cannot contain Unicode characters that have surrogate-pair UTF-16 encodings or UTF-
+16 encodings greater than 127.</p>
+<p>A triple-quoted string is specified by using three quotation marks (<code>"""</code>) to ensure that a string that
+includes one or more escaped strings is interpreted verbatim. For example, a triple-quoted string can
+be used to embed XML blobs:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">catalog</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="s">&lt;catalog&gt;</span>
+<span class="s">    &lt;book id=&quot;book&quot;&gt;</span>
+<span class="s">        &lt;author&gt;Author&lt;/author&gt;</span>
+<span class="s">        &lt;title&gt;F#&lt;/title&gt;</span>
+<span class="s">        &lt;genre&gt;Computer&lt;/genre&gt;</span>
+<span class="s">        &lt;price&gt;44.95&lt;/price&gt;</span>
+<span class="s">        &lt;publish_date&gt;2012- 10 - 01&lt;/publish_date&gt;</span>
+<span class="s">        &lt;description&gt;An in-depth look at creating applications in F#&lt;/description&gt;</span>
+<span class="s">    &lt;/book&gt;</span>
+<span class="s">&lt;/catalog&gt;</span>
+<span class="s">&quot;&quot;&quot;</span>
+</code></pre></div>
+<h2 id="36-symbolic-keywords">3.6 Symbolic Keywords</h2>
+<p>The following symbolic or partially symbolic character sequences are treated as keywords:</p>
+<div class="highlight"><pre><span></span><code>token symbolic-keyword =
+    let! use! do! yield! return! match!
+    | -&gt; &lt;- . : ( ) [ ] [&lt; &gt;] [| |] { }
+    &#39; # :?&gt; :? :&gt; .. :: := ;; ; =
+    _? ?? (*) &lt;@ @&gt; &lt;@@ @@&gt;
+</code></pre></div>
+<p>The following symbols are reserved for future use:</p>
+<div class="highlight"><pre><span></span><code>token reserved-symbolic-sequence =
+    ~ `
+</code></pre></div>
+<h2 id="37-symbolic-operators">3.7 Symbolic Operators</h2>
+<p>User-defined and library-defined symbolic operators are sequences of characters as shown below,
+except where the sequence of characters is a symbolic keyword (<a href="./#36-symbolic-keywords">§3.6</a>).</p>
+<div class="highlight"><pre><span></span><code>regexp first-op-char = !%&amp;*+-./&lt;=&gt;@^|~
+regexp op-char = first-op-char | [?:]
+
+token quote-op-left =
+    | &lt;@ &lt;@@
+
+token quote-op-right =
+    | @&gt; @@&gt;
+
+token symbolic-op =
+    | ?
+    | ?&lt;-
+    | first-op-char op-char *
+    | quote-op-left
+    | quote-op-right
+</code></pre></div>
+<p>For example, <code>&amp;&amp;&amp;</code> and <code>|||</code> are valid symbolic operators. Only the operators <code>?</code> and <code>?&lt;-</code> may start with
+<code>?</code>.</p>
+<p>The <code>quote-op-left</code> and <code>quote-op-right</code> operators are used in quoted expressions (<a href="../expressions/#68-quoted-expressions">§6.8</a>).</p>
+<p>For details about the associativity and precedence of symbolic operators in expression forms, see
+§4.4.</p>
+<h2 id="38-numeric-literals">3.8 Numeric Literals</h2>
+<p>The lexical specification of numeric literals is as follows:</p>
+<div class="highlight"><pre><span></span><code>regexp digit = [0-9]
+regexp hexdigit = digit | [A-F] | [a-f]
+regexp octaldigit = [0-7]
+regexp bitdigit = [0-1]
+
+regexp int =
+    | digit+                                     For example, 34
+    | int _ int                                  For example, 123_456_789
+
+regexp hexint =
+    | hexdigit+                                  For example, 1f
+    | hexint _ hexint                            For example, abc_456_78
+
+regexp octalint =
+    | octaldigit+                                For example, 34
+    | octalint _ octalint                        For example, 123_4_711
+
+regexp bitint =
+    | bitdigit+                                  For example, 11
+    | bitint _ bitint                            For example, 1110_0101_0100
+
+regexp xint =
+    | 0 (x|X) hexint                             For example, 0x22_1f
+    | 0 (o|O) octalint                           For example, 0o42
+    | 0 (b|B) bitint                             For example, 0b10010
+
+token sbyte = ( int | xint ) &#39;y&#39;                 For example, 34y
+token byte = ( int | xint ) &#39; uy&#39;                For example, 34uy
+token int16 = ( int | xint ) &#39;s&#39;                 For example, 34s
+token uint16 = ( int | xint ) &#39;us&#39;               For example, 34us
+token int32 = ( int | xint ) &#39;l&#39;                 For example, 34l
+token uint32 = ( int | xint ) &#39;ul&#39;               For example, 34ul
+             | ( int | xint ) &#39;u&#39;                For example, 34u
+token nativeint = ( int | xint ) &#39;n&#39;             For example, 34n
+token unativeint = ( int | xint ) &#39;un&#39;           For example, 34un
+token int64 = ( int | xint ) &#39;L&#39;                 For example, 34L
+token uint64 = ( int | xint ) &#39;UL&#39;               For example, 34UL
+             | ( int | xint ) &#39;uL&#39;               For example, 34uL
+
+token float =
+    int . int?
+    int (. int?)? (e|E) (+|-)? int
+
+token ieee32 =
+    | (float | int) [Ff]                         For example, 3.0F, 3.0f or 3f
+    | xint &#39;lf&#39;                                  For example, 0x00000000lf
+token ieee64 =
+    | float                                      For example, 3.0
+    | xint &#39;LF&#39;                                  For example, 0x0000000000000000LF
+
+token bignum = int (&#39;Q&#39; | &#39; R&#39; | &#39;Z&#39; | &#39;I&#39; | &#39;N&#39; | &#39;G&#39;)
+                                                 For example, 34742626263193832612536171N
+
+token decimal = ( float | int ) [Mm]
+</code></pre></div>
+<h3 id="381-post-filtering-of-adjacent-prefix-tokens">3.8.1 Post-filtering of Adjacent Prefix Tokens</h3>
+<p>Negative integers are specified using the <code>–</code> token; for example, <code>-3</code>. The token steam is post-filtered
+according to the following rules:</p>
+<ul>
+<li>If the token stream contains the adjacent tokens <code>– token</code>:</li>
+</ul>
+<p>If <code>token</code> is a constant numeric literal, the pair of tokens is merged. For example, adjacent tokens
+  <code>-</code> and <code>3</code> becomes the single token <code>-3</code>. Otherwise, the tokens remain separate. However the <code>-</code>
+  token is marked as an <code>ADJACENT_PREFIX_OP</code> token.</p>
+<p>This rule does not apply to the sequence <code>token1 - token2</code>, if all three tokens are adjacent and
+  <code>token1</code> is a terminating token from expression forms that have lower precedence than the
+  grammar production <code>expr = MINUS expr</code>.</p>
+<p>For example, the <code>–</code> and <code>b</code> tokens in the following sequence are not merged if all three tokens
+  are adjacent:</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="n">a</span><span class="o">-</span><span class="n">b</span>
+</code></pre></div>
+<ul>
+<li>Otherwise, the usual grammar rules apply to the uses of <code>–</code> and <code>+</code>, with an addition for
+  <code>ADJACENT_PREFIX_OP</code>:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>  expr = expr MINUS expr
+      | MINUS expr
+      | ADJACENT_PREFIX_OP expr
+</code></pre></div>
+<h3 id="382-post-filtering-of-integers-followed-by-adjacent">3.8.2 Post-filtering of Integers Followed by Adjacent “..”</h3>
+<p>Tokens of the form</p>
+<div class="highlight"><pre><span></span><code>token intdotdot = int..
+</code></pre></div>
+<p>such as <code>34..</code> are post-filtered to two tokens: one <code>int</code> and one <code>symbolic-keyword</code> , “<code>..</code>”.</p>
+<p>This rule allows “<code>..</code>” to immediately follow an integer. This construction is used in expressions of the
+form <code>[for x in 1..2 -&gt; x + x ]</code>. Without this rule, the longest-match rule would consider this
+sequence to be a floating-point number followed by a “<code>.</code>”.</p>
+<h3 id="383-reserved-numeric-literal-forms">3.8.3 Reserved Numeric Literal Forms</h3>
+<p>The following token forms are reserved for future numeric literal formats:</p>
+<div class="highlight"><pre><span></span><code>token reserved-literal-formats =
+    | (xint | ieee32 | ieee64) ident-char+
+</code></pre></div>
+<h3 id="384-shebang">3.8.4 Shebang</h3>
+<p>A shebang (#!) directive may exist at the beginning of F# source files. Such a line is treated as a
+comment. This allows F# scripts to be compatible with the Unix convention whereby a script
+indicates the interpreter to use by providing the path to that interpreter on the first line, following
+the #! directive.</p>
+<div class="highlight"><pre><span></span><code><span class="o">#!/</span><span class="n">bin</span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">env</span><span class="w"> </span><span class="n">fsharpi</span><span class="w"> </span><span class="o">--</span><span class="n">exec</span>
+</code></pre></div>
+<h2 id="39-line-directives">3.9 Line Directives</h2>
+<p>Line directives adjust the source code filenames and line numbers that are reported in error
+messages, recorded in debugging symbols, and propagated to quoted expressions. F# supports the
+following line directives:</p>
+<div class="highlight"><pre><span></span><code>token line-directive =
+    # int
+    # int string
+    # int verbatim-string
+    #line int
+    #line int string
+    #line int verbatim-string
+</code></pre></div>
+<p>A line directive applies to the line that immediately follows the directive. If no line directive is
+present, the first line of a file is numbered 1.</p>
+<h2 id="310-hidden-tokens">3.10 Hidden Tokens</h2>
+<p>Some hidden tokens are inserted by lexical filtering (§ 15 ) or are used to replace existing tokens. See
+§ 15 for a full specification and for the augmented grammar rules that take these into account.</p>
+<h2 id="311-identifier-replacements">3.11 Identifier Replacements</h2>
+<p>The following table lists identifiers that are automatically replaced by expressions.</p>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>Replacement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__SOURCE_DIRECTORY__</code></td>
+<td>A literal verbatim string that specifies the name of the directory that contains the <br> current file. For example:<br><code>C:\source</code><br>The name of the current file is derived from the most recent line directive in the file. If no line directive has appeared, the name is derived from the name that was specificed to the command-line compiler in combination with<br> <code>System.IO.Path.GetFullPath</code>.<br> In F# Interactive, the name <code>stdin</code> is used. When F# Interactive is used from tools such as Visual Studio, a line directive is implicitly added before the interactive execution of each script fragment.</td>
+</tr>
+<tr>
+<td><code>__SOURCE_FILE__</code></td>
+<td>A literal verbatim string that contains the name of the current file. For example:<br><code>file.fs</code></td>
+</tr>
+<tr>
+<td><code>__LINE__</code></td>
+<td>A literal string that specifies the line number in the source file, after taking into account adjustments from line directives.</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2005-2025 F# contributors. Made available under the <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons CC-by 4.0</a> licence.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

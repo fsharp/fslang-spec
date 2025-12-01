@@ -1,0 +1,1441 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://fsharp.github.io/fslang-spec/namespace-and-module-signatures/">
+      
+      
+        <link rel="prev" href="../namespaces-and-modules/">
+      
+      
+        <link rel="next" href="../program-structure-and-execution/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../fsharp128.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>11. Namespace and Module Signatures - F# Language Specification</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#11-namespace-and-module-signatures" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="F# Language Specification" class="md-header__button md-logo" aria-label="F# Language Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12 11.39.61v5.695L5.695 12l5.695 5.695v5.695zm7.322 0 4.068-4.068v8.136zM24 12 12.203.61v5.695L17.898 12l-5.695 5.695v5.695z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            F# Language Specification
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              11. Namespace and Module Signatures
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fsharp/fslang-spec" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="F# Language Specification" class="md-nav__button md-logo" aria-label="F# Language Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12 11.39.61v5.695L5.695 12l5.695 5.695v5.695zm7.322 0 4.068-4.068v8.136zM24 12 12.203.61v5.695L17.898 12l-5.695 5.695v5.695z"/></svg>
+
+    </a>
+    F# Language Specification
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fsharp/fslang-spec" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Front Matter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rfc-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFC status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Program Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lexical-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Lexical Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basic-grammar-elements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Basic Grammar Elements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../types-and-type-constraints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Types and Type Constraints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../expressions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Expressions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type-definitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Type Definitions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../units-of-measure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Units of Measure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespaces-and-modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Namespaces and Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Namespace and Module Signatures
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Namespace and Module Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#111-signature-elements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1 Signature Elements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11.1 Signature Elements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1111-value-signatures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1.1 Value Signatures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1112-type-definition-and-member-signatures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1.2 Type Definition and Member Signatures
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#112-signature-conformance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2 Signature Conformance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11.2 Signature Conformance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1121-signature-conformance-for-functions-and-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2.1 Signature Conformance for Functions and Values
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11.2.1 Signature Conformance for Functions and Values">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11211-arity-conformance-for-functions-and-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2.1.1 Arity Conformance for Functions and Values
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11212-signature-conformance-for-type-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2.1.2 Signature Conformance for Type Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1122-signature-conformance-for-members" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2.2 Signature Conformance for Members
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program-structure-and-execution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Program Structure and Execution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../custom-attributes-and-reflection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Custom Attributes and Reflection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inference-procedures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Inference Procedures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lexical-filtering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Lexical Filtering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../provided-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Provided Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../special-attributes-and-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17. Special Attributes and Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../the-f-library-fsharpcoredll/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18. The F# Library FSharp.Core.dll
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features-for-ml-compatibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19. Features for ML Compatibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#111-signature-elements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1 Signature Elements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11.1 Signature Elements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1111-value-signatures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1.1 Value Signatures
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1112-type-definition-and-member-signatures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.1.2 Type Definition and Member Signatures
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#112-signature-conformance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2 Signature Conformance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11.2 Signature Conformance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1121-signature-conformance-for-functions-and-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2.1 Signature Conformance for Functions and Values
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11.2.1 Signature Conformance for Functions and Values">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11211-arity-conformance-for-functions-and-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2.1.1 Arity Conformance for Functions and Values
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11212-signature-conformance-for-type-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2.1.2 Signature Conformance for Type Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1122-signature-conformance-for-members" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11.2.2 Signature Conformance for Members
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="11-namespace-and-module-signatures">11. Namespace and Module Signatures</h1>
+<p>A signature file contains one or more namespace or module signatures, and specifies the
+functionality that is implemented by its corresponding implementation file. It also can hide
+functionality that the corresponding implementation file contains.</p>
+<div class="highlight"><pre><span></span><code>namespace-decl-group-signature :=
+    namespace long-ident module-signature-elements
+
+module-signature :=
+    module ident = module-signature-body
+
+module-signature-element :=
+    val mutable~opt curried-sig     -- value signature
+    val value-defn                  -- literal value signature
+    type type-signatures            -- type(s) signature
+    exception exception-signature   -- exception signature
+    module-signature                -- submodule signature
+    module-abbrev                   -- local alias for a module
+    import-decl                     -- locally import contents of a module
+
+module-signature-elements := module-signature-element ... module-signature-element
+
+module-signature-body :=
+    begin module-signature-elements end
+
+type-signature :=
+    abbrev-type-signature
+    record-type-signature
+    union-type-signature
+    anon-type-signature
+    class-type-signature
+    struct-type-signature
+    interface-type-signature
+    enum-type-signature
+    delegate-type-signature
+    type-extension-signature
+
+type-signatures := type-signature ... and ... type-signature
+
+type-signature-element :=
+    attributesopt access~opt new : uncurried-sig        -- constructor signature
+    attributesopt member acces~opt member-sig           -- member signature
+    attributesopt abstract access~opt member-sig        -- member signature
+    attributesopt override member-sig                   -- member signature
+    attributesopt default member-sig                    -- member signature
+    attributes~opt static member access~opt member-sig  -- static member signature
+    interface type                                      -- interface signature
+
+abbrev-type-signature := type-name &#39;=&#39; type
+
+union-type-signature := type-name &#39;=&#39; union-type-cases type-extension-elements-
+    signature~opt
+
+record-type-signature := type-name &#39;=&#39; &#39;{&#39; record-fields &#39;}&#39; type-extension-
+    elements-signature~opt
+
+anon-type-signature := type-name &#39;=&#39; begin type-elements-signature end
+
+class-type-signature := type-name &#39;=&#39; class type-elements-signature end
+
+struct-type-signature := type-name &#39;=&#39; struct type-elements-signature end
+
+interface-type-signature := type-name &#39;=&#39; interface type-elements-signature end
+
+enum-type-signature := type-name &#39; =&#39; enum-type-cases
+
+delegate-type-signature := type-name &#39; =&#39; delegate-sig
+
+type-extension-signature := type-name type-extension-elements-signature
+
+type-extension-elements-signature := with type-elements-signature end
+</code></pre></div>
+<p>The <code>begin</code> and <code>end</code> tokens are optional when lightweight syntax is used.</p>
+<p>Like module declarations, signature declarations are processed sequentially rather than
+simultaneously, so that later signature declarations are not in scope when earlier ones are
+processed.</p>
+<div class="highlight"><pre><span></span><code><span class="k">namespace</span><span class="w"> </span><span class="nn">Utilities</span><span class="p">.</span><span class="n">Part1</span>
+
+<span class="w">    </span><span class="k">module</span><span class="w"> </span><span class="nn">Module1</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="k">val</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nn">Utilities</span><span class="p">.</span><span class="nn">Part2</span><span class="p">.</span><span class="n">StorageCache</span><span class="w"> </span><span class="c1">// error (Part2 not yet declared)</span>
+
+<span class="k">namespace</span><span class="w"> </span><span class="nn">Utilities</span><span class="p">.</span><span class="n">Part2</span>
+
+<span class="w">    </span><span class="k">type</span><span class="w"> </span><span class="nc">StorageCache</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">unit</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">unit</span>
+</code></pre></div>
+<h2 id="111-signature-elements">11.1 Signature Elements</h2>
+<p>A namespace or module signature declares one or more <em>value signatures</em> and one or more <em>type
+definition signatures</em>. A type definition signature may include one or more <em>member signatures</em> , in
+addition to other elements of type definitions that are specified in the signature grammar at the
+start of this chapter.</p>
+<h3 id="1111-value-signatures">11.1.1 Value Signatures</h3>
+<p>A value signature indicates that a value exists in the implementation. For example, in the signature
+of a module, the following declares two value signatures:</p>
+<div class="highlight"><pre><span></span><code><span class="k">module</span><span class="w"> </span><span class="nn">MyMap</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">val</span><span class="w"> </span><span class="n">mapForward</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">index1</span><span class="o">:</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">index2</span><span class="o">:</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">    </span><span class="k">val</span><span class="w"> </span><span class="n">mapBackward</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">name</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">(</span><span class="n">int</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">int</span><span class="o">)</span>
+</code></pre></div>
+<p>The corresponding implementation file might contain the following implementation:</p>
+<div class="highlight"><pre><span></span><code><span class="k">module</span><span class="w"> </span><span class="nn">MyMap</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">mapForward</span><span class="w"> </span><span class="o">(</span><span class="n">index1</span><span class="o">:</span><span class="n">int</span><span class="o">,</span><span class="w"> </span><span class="n">index2</span><span class="o">:</span><span class="n">int</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">index1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;,&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="n">index2</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">mapBackward</span><span class="w"> </span><span class="o">(</span><span class="n">name</span><span class="o">:</span><span class="kt">string</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="w"> </span><span class="mi">0</span><span class="o">)</span>
+</code></pre></div>
+<h3 id="1112-type-definition-and-member-signatures">11.1.2 Type Definition and Member Signatures</h3>
+<p>A type definition signature indicates that a corresponding type definition appears in the
+implementation. For example, in an interface type, the following declares a type definition signature
+for <code>Forward</code> and <code>Backward</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">type</span><span class="w"> </span><span class="nc">IMap</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">interface</span>
+<span class="w">        </span><span class="k">abstract</span><span class="w"> </span><span class="n">Forward</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">index1</span><span class="o">:</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">index2</span><span class="o">:</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">        </span><span class="k">abstract</span><span class="w"> </span><span class="n">Backward</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">name</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">(</span><span class="n">int</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">int</span><span class="o">)</span>
+<span class="w">    </span><span class="k">end</span>
+</code></pre></div>
+<p>A member signature indicates that a corresponding member appears on the corresponding type
+definition in the implementation. Member specifications must specify argument and return types,
+and can optionally specify names and attributes for parameters.</p>
+<p>For example, the following declares a type definition signature for a type with one constructor
+member, one property member <code>Kind</code> and one method member <code>Purr</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">type</span><span class="w"> </span><span class="nc">Cat</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">new</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">kind</span><span class="o">:</span><span class="kt">string</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Cat</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">Kind</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">Purr</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">unit</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Cat</span>
+</code></pre></div>
+<p>The corresponding implementation file might contain the following implementation:</p>
+<div class="highlight"><pre><span></span><code><span class="k">type</span><span class="w"> </span><span class="nc">Cat</span><span class="o">(</span><span class="n">kind</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="o">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="nf">Meow</span><span class="bp">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;meow&quot;</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="nf">Purr</span><span class="bp">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;purr&quot;</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="nf">Kind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kind</span>
+</code></pre></div>
+<h2 id="112-signature-conformance">11.2 Signature Conformance</h2>
+<p>Values, types, and members that are present in implementations can be omitted in signatures, with
+the following exceptions:</p>
+<ul>
+<li>Type abbreviations may not be hidden by signatures. That is, a type abbreviation <code>type T = ty</code> in
+    an implementation does not match type <code>T</code> (without an abbreviation) in a signature.</li>
+<li>Any type that is represented as a record or union must reveal either all or none of its fields or
+    cases, in the same order as that specified in the implementation. Types that are represented as
+    classes may reveal some, all, or none of their fields in a signature.</li>
+<li>Any type that is revealed to be an interface, or a type that is a class or struct with one or more
+    constructors may not hide its <code>inherit</code> declaration, abstract dispatch slot declarations, or abstract
+    interface declarations.</li>
+</ul>
+<blockquote>
+<p>Note: This section does not yet document all checks made by the F# 3.1 language
+implementation.</p>
+</blockquote>
+<h3 id="1121-signature-conformance-for-functions-and-values">11.2.1 Signature Conformance for Functions and Values</h3>
+<p>If both a signature and an implementation contain a function or value definition with a given name,
+the signature and implementation must conform as follows:</p>
+<ul>
+<li>The declared accessibilities, <code>inline</code>, and <code>mutable</code> modifiers must be identical in both the
+    signature and the implementation.</li>
+<li>If either the signature or the implementation has the <code>[&lt;Literal&gt;]</code> attribute, both must have this
+    attribute. Furthermore, the declared literal values must be identical.</li>
+<li>The number of generic parameters—both inferred and explicit—must be identical.</li>
+<li>The types and type constraints must be identical up to renaming of inferred and/or explicit
+    generic parameters. For example, assume a signature is written <code>val head : seq&lt;'T&gt; -&gt; 'T</code> and
+    the compiler could infer the type <code>val head : seq&lt;'a&gt; -&gt; 'a</code> from the implementation. These
+    are considered identical up to renaming the generic parameters.</li>
+<li>The arities must match, as described in the next section.</li>
+</ul>
+<h4 id="11211-arity-conformance-for-functions-and-values">11.2.1.1 Arity Conformance for Functions and Values</h4>
+<p>Arities of functions and values must conform between implementation and signature. Arities of
+values are implicit in module signatures. A signature that contains the following results in the arity
+<code>[A1 ... An]</code> for <code>F</code>:</p>
+<div class="highlight"><pre><span></span><code>val F : ty11 * ... * ty1A1 - &gt; ... -&gt; tyn1 * ... * tynAn - &gt; rty
+</code></pre></div>
+<p>Arities in a signature must be equal to or shorter than the corresponding arities in an
+implementation, and the prefix must match. This means that F# makes a deliberate distinction
+between the following two signatures:</p>
+<div class="highlight"><pre><span></span><code><span class="k">val</span><span class="w"> </span><span class="n">F</span><span class="o">:</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">int</span>
+</code></pre></div>
+<p>and</p>
+<div class="highlight"><pre><span></span><code><span class="k">val</span><span class="w"> </span><span class="n">F</span><span class="o">:</span><span class="w"> </span><span class="o">(</span><span class="n">int</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">int</span><span class="o">)</span>
+</code></pre></div>
+<p>The parentheses indicate a top-level function, which might be a first-class computed expression that
+computes to a function value, rather than a compile-time function value.</p>
+<p>The first signature can be satisfied only by a true function; that is, the implementation must be a
+lambda value as in the following:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">F</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+</code></pre></div>
+<blockquote>
+<p>Note: Because arity inference also permits right-hand-side function expressions, the
+implementation may currently also be:
+<br><code>let F = fun x -&gt; x + 1</code></p>
+</blockquote>
+<p>The second signature</p>
+<div class="highlight"><pre><span></span><code><span class="k">val</span><span class="w"> </span><span class="n">F</span><span class="o">:</span><span class="w"> </span><span class="o">(</span><span class="n">int</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">int</span><span class="o">)</span>
+</code></pre></div>
+<p>can be satisfied by any value of the appropriate type. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">f</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">myTable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nn">System</span><span class="p">.</span><span class="nn">Collections</span><span class="p">.</span><span class="nn">Generic</span><span class="p">.</span><span class="n">Dictionary</span><span class="o">&lt;</span><span class="n">int</span><span class="o">,</span><span class="n">int</span><span class="o">&gt;(</span><span class="mi">4</span><span class="o">)</span>
+<span class="w">    </span><span class="k">fun</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">myTable</span><span class="o">.</span><span class="n">ContainsKey</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="n">myTable</span><span class="o">.[</span><span class="n">x</span><span class="o">]</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="k">let</span><span class="w"> </span><span class="nv">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span>
+<span class="w">            </span><span class="n">myTable</span><span class="o">.[</span><span class="n">x</span><span class="o">]</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">res</span>
+<span class="w">            </span><span class="n">res</span>
+</code></pre></div>
+<p>—or—</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">fun</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+</code></pre></div>
+<p>—or—</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// throw an exception as soon as the module initialization is triggered</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">f</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">failwith</span><span class="w"> </span><span class="s">&quot;failure&quot;</span>
+</code></pre></div>
+<p>For both the first and second signatures, you can still use the functions as first-class function values
+from client code—the parentheses simply act as a constraint on the implementation of the value.</p>
+<p>The reason for this interpretation of types in value and member signatures is that CLI
+interoperability requires that F# functions compile to methods, rather than to fields that are
+function values. Thus, signatures must contain enough information to reveal the desired arity of a
+method as it is revealed to other CLI programming languages.</p>
+<h4 id="11212-signature-conformance-for-type-functions">11.2.1.2 Signature Conformance for Type Functions</h4>
+<p>If a value is a type function, then its corresponding value signature must have explicit type
+arguments. For example, the implementation</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">empty</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">list</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;hello&quot;</span><span class="o">;</span><span class="w"> </span><span class="bp">[]</span>
+</code></pre></div>
+<p>conforms to this signature:</p>
+<div class="highlight"><pre><span></span><code><span class="k">val</span><span class="w"> </span><span class="n">empty</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">list</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>but not to this signature:</p>
+<div class="highlight"><pre><span></span><code><span class="k">val</span><span class="w"> </span><span class="n">empty</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">list</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>The reason for this rule is that the second signature indicates that the value is, by default,
+generalizable (<a href="../inference-procedures/#1467-generalization">§14.6.7</a>).</p>
+<h3 id="1122-signature-conformance-for-members">11.2.2 Signature Conformance for Members</h3>
+<p>If both a signature and an implementation contain a member with a given name, the signature and
+implementation must conform as follows:</p>
+<ul>
+<li>If one is an extension member, both must be extension members.</li>
+<li>If one is a constructor, then both must be constructors.</li>
+<li>
+<p>If one is a property, then both must be properties.</p>
+</li>
+<li>
+<p>The types must be identical up to renaming of inferred or explicit type parameters (as for
+    functions and values).</p>
+</li>
+<li>The <code>static</code>, <code>abstract</code>, and <code>override</code> qualifiers must match precisely.</li>
+<li>Abstract members must be present in the signature if a representation is given for a type.</li>
+</ul>
+<blockquote>
+<p>Note: This section does not yet document all checks made by the F# 3 .1 language
+implementation.</p>
+</blockquote>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2005-2025 F# contributors. Made available under the <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons CC-by 4.0</a> licence.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

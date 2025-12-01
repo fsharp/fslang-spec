@@ -1,0 +1,1612 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://fsharp.github.io/fslang-spec/introduction/">
+      
+      
+        <link rel="prev" href="../rfc-status/">
+      
+      
+        <link rel="next" href="../program-structure/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../fsharp128.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>1. Introduction - F# Language Specification</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1-introduction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="F# Language Specification" class="md-header__button md-logo" aria-label="F# Language Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12 11.39.61v5.695L5.695 12l5.695 5.695v5.695zm7.322 0 4.068-4.068v8.136zM24 12 12.203.61v5.695L17.898 12l-5.695 5.695v5.695z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            F# Language Specification
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1. Introduction
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fsharp/fslang-spec" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="F# Language Specification" class="md-nav__button md-logo" aria-label="F# Language Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12 11.39.61v5.695L5.695 12l5.695 5.695v5.695zm7.322 0 4.068-4.068v8.136zM24 12 12.203.61v5.695L17.898 12l-5.695 5.695v5.695z"/></svg>
+
+    </a>
+    F# Language Specification
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fsharp/fslang-spec" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Front Matter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rfc-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFC status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Introduction
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#11-a-first-program" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 A First Program
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 A First Program">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-lightweight-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.1 Lightweight Syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112-making-data-simple" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.2 Making Data Simple
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113-making-types-simple" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.3 Making Types Simple
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#114-functional-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.4 Functional Programming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#115-imperative-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.5 Imperative Programming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#116-net-interoperability-and-cli-fidelity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.6 .NET Interoperability and CLI Fidelity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#117-parallel-and-asynchronous-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.7 Parallel and Asynchronous Programming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#118-strong-typing-for-numerical-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.8 Strong Typing for Numerical Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#119-object-oriented-programming-and-code-organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.9 Object-Oriented Programming and Code Organization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1110-information-rich-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.10 Information-rich Programming
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-notational-conventions-in-this-specification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Notational Conventions in This Specification
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Program Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lexical-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Lexical Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basic-grammar-elements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Basic Grammar Elements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../types-and-type-constraints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Types and Type Constraints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../expressions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Expressions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type-definitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Type Definitions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../units-of-measure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Units of Measure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespaces-and-modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Namespaces and Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespace-and-module-signatures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Namespace and Module Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program-structure-and-execution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Program Structure and Execution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../custom-attributes-and-reflection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Custom Attributes and Reflection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inference-procedures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Inference Procedures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lexical-filtering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Lexical Filtering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../provided-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Provided Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../special-attributes-and-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17. Special Attributes and Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../the-f-library-fsharpcoredll/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18. The F# Library FSharp.Core.dll
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features-for-ml-compatibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19. Features for ML Compatibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#11-a-first-program" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 A First Program
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1.1 A First Program">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-lightweight-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.1 Lightweight Syntax
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112-making-data-simple" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.2 Making Data Simple
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113-making-types-simple" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.3 Making Types Simple
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#114-functional-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.4 Functional Programming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#115-imperative-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.5 Imperative Programming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#116-net-interoperability-and-cli-fidelity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.6 .NET Interoperability and CLI Fidelity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#117-parallel-and-asynchronous-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.7 Parallel and Asynchronous Programming
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#118-strong-typing-for-numerical-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.8 Strong Typing for Numerical Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#119-object-oriented-programming-and-code-organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.9 Object-Oriented Programming and Code Organization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1110-information-rich-programming" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1.10 Information-rich Programming
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-notational-conventions-in-this-specification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Notational Conventions in This Specification
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="1-introduction">1. Introduction</h1>
+<p>F# is a scalable, succinct, type-safe, type-inferred, efficiently executing functional/imperative/object-oriented programming language. It aims to be the premier typed functional programming language for .NET and other implementations of the <a href="https://ecma-international.org/publications-and-standards/standards/ecma-335/">ECMA-335 Common Language Infrastructure (CLI) specification</a>. F# was partly inspired by the <a href="https://ocaml.org/">OCaml language</a> and shares some common core constructs with it.</p>
+<h2 id="11-a-first-program">1.1 A First Program</h2>
+<p>Over the next few sections, we will look at some small F# programs, describing some important aspects of F# along the way. As an introduction to F#, consider the following program:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">numbers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">..</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">]</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">square</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">squares</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">List</span><span class="p">.</span><span class="n">map</span><span class="w"> </span><span class="n">square</span><span class="w"> </span><span class="n">numbers</span>
+<span class="n">printfn</span><span class="w"> </span><span class="s">&quot;N^2 = %A&quot;</span><span class="w"> </span><span class="n">squares</span>
+</code></pre></div>
+<p>To explore this program, you can:</p>
+<ul>
+<li>Compile it as a project in a development environment such as Visual Studio.</li>
+<li>Manually invoke the F# command line compiler fsc.exe.</li>
+<li>Use F# Interactive, the dynamic compiler that is part of the F# distribution.</li>
+</ul>
+<h3 id="111-lightweight-syntax">1.1.1 Lightweight Syntax</h3>
+<p>The F# language uses simplified, indentation-aware syntactic constructs known as lightweight syntax. The lines of the sample program in the previous section form a sequence of declarations and are aligned on the same column. For example, the two lines in the following code are two separate declarations:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">squares</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">List</span><span class="p">.</span><span class="n">map</span><span class="w"> </span><span class="n">square</span><span class="w"> </span><span class="n">numbers</span>
+<span class="n">printfn</span><span class="w"> </span><span class="s">&quot;N^2 = %A&quot;</span><span class="w"> </span><span class="n">squares</span>
+</code></pre></div>
+<p>Lightweight syntax applies to all the major constructs of the F# syntax. In the next example, the code is incorrectly aligned. The declaration starts in the first line and continues to the second and subsequent lines, so those lines must be indented to the same column under the first line:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">computeDerivative</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">05</span><span class="o">)</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">05</span><span class="o">)</span>
+<span class="w">        </span><span class="o">(</span><span class="n">p2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p1</span><span class="o">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span>
+</code></pre></div>
+<p>The following shows the correct alignment:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">computeDerivative</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">05</span><span class="o">)</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">05</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">p2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">p1</span><span class="o">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span>
+</code></pre></div>
+<p>The use of lightweight syntax is the default for all F# code in files with the extension .fs, .fsx, .fsi, or .fsscript.</p>
+<h3 id="112-making-data-simple">1.1.2 Making Data Simple</h3>
+<p>The first line in our sample simply declares a list of numbers from one through ten.</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">numbers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="mi">1</span><span class="w"> </span><span class="o">..</span><span class="w"> </span><span class="mi">10</span><span class="o">]</span>
+</code></pre></div>
+<p>An F# list is an immutable linked list, which is a type of data used extensively in functional programming. Some operators that are related to lists include <code>::</code> to add an item to the front of a list and <code>@</code> to concatenate two lists. If we try these operators in F# Interactive, we see the following results:</p>
+<div class="highlight"><pre><span></span><code>&gt; let vowels = [&#39;e&#39;; &#39;i&#39;; &#39;o&#39;; &#39;u&#39;];;
+val vowels: char list = [&#39;e&#39;; &#39;i&#39;; &#39;o&#39;; &#39;u&#39;]
+
+&gt; [&#39;a&#39;] @ vowels;;
+val it: char list = [&#39;a&#39;; &#39;e&#39;; &#39;i&#39;; &#39;o&#39;; &#39;u&#39;]
+
+&gt; vowels @ [&#39;y&#39;];;
+val it: char list = [&#39;e&#39;; &#39;i&#39;; &#39;o&#39;; &#39;u&#39;; &#39;y&#39;]
+</code></pre></div>
+<p>Note that double semicolons delimit lines in F# Interactive, and that F# Interactive prefaces the result with val to indicate that the result is an immutable value, rather than a variable.</p>
+<p>F# supports several other highly effective techniques to simplify the process of modeling and manipulating data such as tuples, options, records, unions, and sequence expressions. A tuple is an ordered collection of values that is treated as an atomic unit. In many languages, if you want to pass around a group of related values as a single entity, you need to create a named type, such as a class or record, to store these values. A tuple allows you to keep things organized by grouping related values together, without introducing a new type.</p>
+<p>To define a tuple, you separate the individual components with commas:</p>
+<div class="highlight"><pre><span></span><code>&gt; let tuple = (1, false, &quot;text&quot;);;
+val tuple : int * bool * string = (1, false, &quot;text&quot;)
+
+&gt; let getNumberInfo (x : int) = (x, x.ToString(), x * x);;
+val getNumberInfo : int -&gt; int * string * int
+
+&gt; getNumberInfo 42;;
+val it : int * string * int = (42, &quot;42&quot;, 1764)
+</code></pre></div>
+<p>A key concept in F# is immutability. Tuples and lists are some of the many types in F# that are immutable, and indeed most things in F# are immutable by default. Immutability means that once a value is created and given a name, the value associated with the name cannot be changed. Immutability has several benefits. Most notably, it prevents many classes of bugs, and immutable data is inherently thread-safe, which makes the process of parallelizing code simpler.</p>
+<h3 id="113-making-types-simple">1.1.3 Making Types Simple</h3>
+<p>The next line of the sample program defines a function called <code>square</code>, which squares its input.</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">square</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span>
+</code></pre></div>
+<p>Most statically-typed languages require that you specify type information for a function declaration. However, F# typically infers this type information for you. This process is referred to as <em>type inference</em>.</p>
+<p>From the function signature, F# knows that <code>square</code> takes a single parameter named <code>x</code> and that the function returns <code>x * x</code>. The last thing evaluated in an F# function body is the return value; hence there is no "return" keyword here. Many primitive types support the multiplication (*) operator (such as <code>byte</code>, <code>uint64</code>, and <code>double</code>); however, for arithmetic operations, F# infers the type <code>int</code> (a signed 32-bit integer) by default.</p>
+<p>Although F# can typically infer types on your behalf, occasionally you must provide explicit type annotations in F# code. For example, the following code uses a type annotation for one of the parameters to tell the compiler the type of the input.</p>
+<div class="highlight"><pre><span></span><code>&gt; let concat (x : string) y = x + y;;
+val concat : string -&gt; string -&gt; string
+</code></pre></div>
+<p>Because <code>x</code> is stated to be of type <code>string</code>, and the only version of the <code>+</code> operator that accepts a left-hand argument of type <code>string</code> also takes a <code>string</code> as the right-hand argument, the F# compiler infers that the parameter <code>y</code> must also be a string. Thus, the result of <code>x + y</code> is the concatenation of the strings. Without the type annotation, the F# compiler would not have known which version of the <code>+</code> operator was intended and would have assumed <code>int</code> data by default.</p>
+<p>The process of type inference also applies <em>automatic generalization</em> to declarations. This automatically makes code <em>generic</em> when possible, which means the code can be used on many types of data. For example, the following code defines a function that returns a new tuple in which the two values are swapped:</p>
+<div class="highlight"><pre><span></span><code>&gt; let swap (x, y) = (y, x);;
+val swap : &#39;a * &#39;b -&gt; &#39;b * &#39;a
+
+&gt; swap (1, 2);;
+val it : int * int = (2, 1)
+
+&gt; swap (&quot;you&quot;, true);;
+val it : bool * string = (true,&quot;you&quot;)
+</code></pre></div>
+<p>Here the function <code>swap</code> is generic, and <code>'a</code> and <code>'b</code> represent type variables, which are placeholders for types in generic code. Type inference and automatic generalization greatly simplify the process of writing reusable code fragments.</p>
+<h3 id="114-functional-programming">1.1.4 Functional Programming</h3>
+<p>Continuing with the sample, we have a list of integers named <code>numbers</code>, and the <code>square</code> function, and we want to create a new list in which each item is the result of a call to our function. This is called <em>mapping</em> our function over each item in the list. The F# library function <code>List.map</code> does just that:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">squares</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">List</span><span class="p">.</span><span class="n">map</span><span class="w"> </span><span class="n">square</span><span class="w"> </span><span class="n">numbers</span>
+</code></pre></div>
+<p>Consider another example:</p>
+<div class="highlight"><pre><span></span><code>&gt; List.map (fun x -&gt; x % 2 = 0) [1 .. 5];;
+val it : bool list = [false; true; false; true; false]
+</code></pre></div>
+<p>The code <code>(fun x -&gt; x % 2 = 0)</code> defines an anonymous function, called a <em>function expression</em>, that takes a single parameter <code>x</code> and returns the result <code>x % 2 = 0</code>, which is a Boolean value that indicates whether <code>x</code> is even. The <code>-&gt;</code> symbol separates the argument list (<code>x</code>) from the function body (<code>x % 2 = 0</code>).</p>
+<p>Both of these examples pass a function as a parameter to another function — the first parameter to <code>List.map</code> is itself another function. Using functions as <em>function values</em> is a hallmark of functional programming.</p>
+<p>Another tool for data transformation and analysis is <em>pattern matching</em>. This powerful switch construct allows you to branch control flow and to bind new values. For example, we can match an F# list against a sequence of list elements.</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">checkList</span><span class="w"> </span><span class="n">alist</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">alist</span><span class="w"> </span><span class="k">with</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="bp">[]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">[</span><span class="n">a</span><span class="o">]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">[</span><span class="n">a</span><span class="o">;</span><span class="w"> </span><span class="n">b</span><span class="o">]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">[</span><span class="n">a</span><span class="o">;</span><span class="w"> </span><span class="n">b</span><span class="o">;</span><span class="w"> </span><span class="n">c</span><span class="o">]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">failwith</span><span class="w"> </span><span class="s">&quot;List is too big!&quot;</span>
+</code></pre></div>
+<p>In this example, <code>alist</code> is compared with each potentially matching pattern of elements. When <code>alist</code> matches a pattern, the result expression is evaluated and is returned as the value of the match expression. Here, the <code>-&gt;</code> operator separates a pattern from the result that a match returns.</p>
+<p>Pattern matching can also be used as a control construct — for example, by using a pattern that performs a dynamic type test:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">getType</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">obj</span><span class="o">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="k">with</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">:?</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;x is a string&quot;</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">:?</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;x is an int&quot;</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">:?</span><span class="w"> </span><span class="nn">System</span><span class="p">.</span><span class="n">Exception</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;x is an exception&quot;</span>
+</code></pre></div>
+<p>The <code>:?</code> operator returns true if the value matches the specified type, so if <code>x</code> is a string, <code>getType</code> returns <code>"x is a string"</code>.</p>
+<p>Function values can also be combined with the <em>pipeline operator</em>, <code>|&gt;</code>. For example, given these functions:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">square</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">toStr</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">int</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">.</span><span class="n">ToString</span><span class="bp">()</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">reverse</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nn">System</span><span class="p">.</span><span class="n">String</span><span class="o">(</span><span class="nn">Array</span><span class="p">.</span><span class="n">rev</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="n">ToCharArray</span><span class="bp">()</span><span class="o">))</span>
+</code></pre></div>
+<p>We can use the functions as values in a pipeline:</p>
+<div class="highlight"><pre><span></span><code>&gt; let result = 32 |&gt; square |&gt; toStr |&gt; reverse;;
+val it : string = &quot;4201&quot;
+</code></pre></div>
+<p>Pipelining demonstrates one way in which F# supports <em>compositionality</em>, a key concept in functional programming. The pipeline operator simplifies the process of writing compositional code where the result of one function is passed into the next.</p>
+<h3 id="115-imperative-programming">1.1.5 Imperative Programming</h3>
+<p>The next line of the sample program prints text in the console window.</p>
+<div class="highlight"><pre><span></span><code><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;N^2 = %A&quot;</span><span class="w"> </span><span class="n">squares</span>
+</code></pre></div>
+<p>The F# library function <code>printfn</code> is a simple and type-safe way to print text in the console window. Consider this example, which prints an integer, a floating-point number, and a string:</p>
+<div class="highlight"><pre><span></span><code>&gt; printfn &quot;%d * %f = %s&quot; 5 0.75 ((5.0 * 0.75).ToString());;
+5 * 0.750000 = 3.75
+val it : unit = ()
+</code></pre></div>
+<p>The format specifiers <code>%d</code>, <code>%f</code>, and <code>%s</code> are placeholders for integers, floats, and strings. The <code>%A</code> format can be used to print arbitrary data types (including lists).</p>
+<p>The <code>printfn</code> function is an example of <em>imperative programming</em>, which means calling functions for their side effects. Other commonly used imperative programming techniques include arrays and dictionaries (also called hash tables). F# programs typically use a mixture of functional and imperative techniques.</p>
+<h3 id="116-net-interoperability-and-cli-fidelity">1.1.6 .NET Interoperability and CLI Fidelity</h3>
+<p>The Common Language Infrastructure (CLI) function <code>System.Console.ReadKey</code> can be used to pause the program before the console window closes:</p>
+<div class="highlight"><pre><span></span><code><span class="nn">System</span><span class="p">.</span><span class="nn">Console</span><span class="p">.</span><span class="n">ReadKey</span><span class="o">(</span><span class="k">true</span><span class="o">)</span>
+</code></pre></div>
+<p>Because F# is built on top of CLI implementations, you can call any CLI library from F#. Furthermore, other CLI languages can easily use any F# component.</p>
+<h3 id="117-parallel-and-asynchronous-programming">1.1.7 Parallel and Asynchronous Programming</h3>
+<p>F# is both a <em>parallel</em> and a <em>reactive</em> language. During execution, F# programs can have multiple parallel active evaluations and multiple pending reactions, such as callbacks and agents that wait to react to events and messages.</p>
+<p>One way to write parallel and reactive F# programs is to use F# <em>async</em> expressions. For example, the code below is similar to the original program in <a href="./#11-a-first-program">§1.1</a> except that it computes the Fibonacci function (using a technique that will take some time) and schedules the computation of the numbers in parallel:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">rec</span><span class="w"> </span><span class="n">fib</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">fib</span><span class="o">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="o">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fib</span><span class="o">(</span><span class="n">x</span><span class="o">-</span><span class="mi">2</span><span class="o">)</span>
+
+<span class="k">let</span><span class="w"> </span><span class="nv">fibs</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="nn">Async</span><span class="p">.</span><span class="n">Parallel</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">0</span><span class="o">..</span><span class="mi">40</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">async</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">fib</span><span class="o">(</span><span class="n">i</span><span class="o">)</span><span class="w"> </span><span class="o">}</span><span class="w"> </span><span class="o">]</span>
+<span class="w">    </span><span class="o">|&gt;</span><span class="w"> </span><span class="nn">Async</span><span class="p">.</span><span class="n">RunSynchronously</span>
+
+<span class="n">printfn</span><span class="w"> </span><span class="s">&quot;The Fibonacci numbers are %A&quot;</span><span class="w"> </span><span class="n">fibs</span>
+
+<span class="nn">System</span><span class="p">.</span><span class="nn">Console</span><span class="p">.</span><span class="n">ReadKey</span><span class="o">(</span><span class="k">true</span><span class="o">)</span>
+</code></pre></div>
+<p>The preceding code sample shows multiple, parallel, CPU-bound computations.</p>
+<p>F# is also a reactive language. The following example requests multiple web pages in parallel, reacts to the responses for each request, and finally returns the collected results.</p>
+<div class="highlight"><pre><span></span><code><span class="k">open</span><span class="w"> </span><span class="nn">System</span>
+<span class="k">open</span><span class="w"> </span><span class="nn">System.IO</span>
+<span class="k">open</span><span class="w"> </span><span class="nn">System.Net</span>
+
+<span class="k">let</span><span class="w"> </span><span class="nv">http</span><span class="w"> </span><span class="n">url</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="n">async</span><span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="k">let</span><span class="w"> </span><span class="nv">req</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">WebRequest</span><span class="p">.</span><span class="n">Create</span><span class="o">(</span><span class="n">Uri</span><span class="w"> </span><span class="n">url</span><span class="o">)</span>
+<span class="w">        </span><span class="k">use</span><span class="o">!</span><span class="w"> </span><span class="n">resp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">req</span><span class="o">.</span><span class="n">AsyncGetResponse</span><span class="bp">()</span>
+<span class="w">        </span><span class="k">use</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resp</span><span class="o">.</span><span class="n">GetResponseStream</span><span class="bp">()</span>
+<span class="w">        </span><span class="k">use</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">StreamReader</span><span class="o">(</span><span class="n">stream</span><span class="o">)</span>
+<span class="w">        </span><span class="k">let</span><span class="w"> </span><span class="nv">contents</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="o">.</span><span class="n">ReadToEnd</span><span class="bp">()</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">contents</span>
+<span class="w">    </span><span class="o">}</span>
+
+<span class="k">let</span><span class="w"> </span><span class="nv">sites</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="o">[</span><span class="w"> </span><span class="s">&quot;http://www.bing.com&quot;</span>
+<span class="w">      </span><span class="s">&quot;http://www.google.com&quot;</span>
+<span class="w">      </span><span class="s">&quot;http://www.yahoo.com&quot;</span>
+<span class="w">      </span><span class="s">&quot;http://www.search.com&quot;</span><span class="w"> </span><span class="o">]</span>
+
+<span class="k">let</span><span class="w"> </span><span class="nv">htmlOfSites</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="nn">Async</span><span class="p">.</span><span class="n">Parallel</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">site</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">sites</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">http</span><span class="w"> </span><span class="n">site</span><span class="w"> </span><span class="o">]</span>
+<span class="w">    </span><span class="o">|&gt;</span><span class="w"> </span><span class="nn">Async</span><span class="p">.</span><span class="n">RunSynchronously</span>
+</code></pre></div>
+<p>By using asynchronous workflows together with other CLI libraries, F# programs can implement parallel tasks, parallel I/O operations, and message-receiving agents.</p>
+<h3 id="118-strong-typing-for-numerical-code">1.1.8 Strong Typing for Numerical Code</h3>
+<p>F# applies type checking and type inference to numerically-intensive domains through <em>units of measure inference and checking</em>. This feature allows you to type-check programs that manipulate numerical values that represent physical and abstract quantities in a stronger way than other typed languages, without losing any performance in your compiled code. You can think of this feature as providing a type system for numerical code.</p>
+<p>Consider the following example:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="nc">kg</span>
+<span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="nc">m</span>
+<span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="nc">s</span>
+
+<span class="k">let</span><span class="w"> </span><span class="nv">gravityOnEarth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="o">.</span><span class="mi">81</span><span class="o">&lt;</span><span class="n">m</span><span class="o">/</span><span class="n">s</span><span class="o">^</span><span class="mi">2</span><span class="o">&gt;</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">heightOfTowerOfPisa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">55</span><span class="o">.</span><span class="mi">86</span><span class="o">&lt;</span><span class="n">m</span><span class="o">&gt;</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">speedOfImpact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqrt</span><span class="o">(</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">gravityOnEarth</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">heightOfTowerOfPisa</span><span class="o">)</span>
+</code></pre></div>
+<p>The <code>Measure</code> attribute tells F# that <code>kg</code>, <code>s</code>, and <code>m</code> are not really types in the usual sense of the word, but are used to build units of measure. Here <code>speedOfImpact</code> is inferred to have type <code>float&lt;m/s&gt;</code>.</p>
+<h3 id="119-object-oriented-programming-and-code-organization">1.1.9 Object-Oriented Programming and Code Organization</h3>
+<p>The sample program shown at the start of this chapter is a <em>script</em>. Although scripts are excellent for rapid prototyping, they are not suitable for larger software components. F# supports the transition from scripting to structured code through several techniques.</p>
+<p>The most important of these is <em>object-oriented programming</em> through the use of <em>class type definitions</em>, <em>interface type definitions</em>, and <em>object expressions</em>. Object-oriented programming is a primary application programming interface (API) design technique for controlling the complexity of large software projects. For example, here is a class definition for an encoder/decoder object.</p>
+<div class="highlight"><pre><span></span><code><span class="k">open</span><span class="w"> </span><span class="nn">System</span>
+
+<span class="sd">/// Build an encoder/decoder object that maps characters to an</span>
+<span class="sd">/// encoding and back. The encoding is specified by a sequence</span>
+<span class="sd">/// of character pairs, for example, [(&#39;a&#39;,&#39;Z&#39;); (&#39;Z&#39;,&#39;a&#39;)]</span>
+<span class="k">type</span><span class="w"> </span><span class="nc">CharMapEncoder</span><span class="o">(</span><span class="n">symbols</span><span class="o">:</span><span class="w"> </span><span class="n">seq</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">*</span><span class="kt">char</span><span class="o">&gt;)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">swap</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="w"> </span><span class="n">y</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">(</span><span class="n">y</span><span class="o">,</span><span class="w"> </span><span class="n">x</span><span class="o">)</span>
+
+<span class="w">    </span><span class="sd">/// An immutable tree map for the encoding</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">fwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">symbols</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nn">Map</span><span class="p">.</span><span class="n">ofSeq</span>
+
+<span class="w">    </span><span class="sd">/// An immutable tree map for the decoding</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">bwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">symbols</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nn">Seq</span><span class="p">.</span><span class="n">map</span><span class="w"> </span><span class="n">swap</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nn">Map</span><span class="p">.</span><span class="n">ofSeq</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">encode</span><span class="w"> </span><span class="o">(</span><span class="n">s</span><span class="o">:</span><span class="kt">string</span><span class="o">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="o">[|</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">fwd</span><span class="o">.</span><span class="n">ContainsKey</span><span class="o">(</span><span class="n">c</span><span class="o">)</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="n">fwd</span><span class="o">.[</span><span class="n">c</span><span class="o">]</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">|]</span>
+
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">decode</span><span class="w"> </span><span class="o">(</span><span class="n">s</span><span class="o">:</span><span class="kt">string</span><span class="o">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="o">[|</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">bwd</span><span class="o">.</span><span class="n">ContainsKey</span><span class="o">(</span><span class="n">c</span><span class="o">)</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="n">bwd</span><span class="o">.[</span><span class="n">c</span><span class="o">]</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">|]</span>
+
+<span class="w">    </span><span class="sd">/// Encode the input string</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="nf">Encode</span><span class="o">(</span><span class="n">s</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">encode</span><span class="w"> </span><span class="n">s</span>
+
+<span class="w">    </span><span class="sd">/// Decode the given string</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="nf">Decode</span><span class="o">(</span><span class="n">s</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">decode</span><span class="w"> </span><span class="n">s</span>
+</code></pre></div>
+<p>You can instantiate an object of this type as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">rot13</span><span class="w"> </span><span class="o">(</span><span class="n">c</span><span class="o">:</span><span class="kt">char</span><span class="o">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="kt">char</span><span class="o">(</span><span class="n">int</span><span class="w"> </span><span class="sc">&#39;a&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="o">((</span><span class="n">int</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="sc">&#39;a&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">13</span><span class="o">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">26</span><span class="o">))</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">encoder</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="n">CharMapEncoder</span><span class="o">(</span><span class="w"> </span><span class="o">[</span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="sc">&#39;a&#39;</span><span class="o">..</span><span class="sc">&#39;z&#39;</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">(</span><span class="n">c</span><span class="o">,</span><span class="w"> </span><span class="n">rot13</span><span class="w"> </span><span class="n">c</span><span class="o">)])</span>
+</code></pre></div>
+<p>And use the object as follows:</p>
+<div class="highlight"><pre><span></span><code>&gt; &quot;F# is fun!&quot; |&gt; encoder.Encode ;;
+val it : string = &quot;F# vf sha!&quot;
+
+&gt; &quot;F# is fun!&quot; |&gt; encoder.Encode |&gt; encoder.Decode ;;
+val it : String = &quot;F# is fun!&quot;
+</code></pre></div>
+<p>An interface type can encapsulate a family of object types:</p>
+<div class="highlight"><pre><span></span><code><span class="k">open</span><span class="w"> </span><span class="nn">System</span>
+
+<span class="k">type</span><span class="w"> </span><span class="nc">IEncoding</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">abstract</span><span class="w"> </span><span class="n">Encode</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">    </span><span class="k">abstract</span><span class="w"> </span><span class="n">Decode</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">string</span>
+</code></pre></div>
+<p>In this example, <code>IEncoding</code> is an interface type that includes both <code>Encode</code> and <code>Decode</code> object types.</p>
+<p>Both object expressions and type definitions can implement interface types. For example, here is an object expression that implements the <code>IEncoding</code> interface type:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">nullEncoder</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="o">{</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IEncoding</span><span class="w"> </span><span class="k">with</span>
+<span class="w">        </span><span class="k">member</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="nf">Encode</span><span class="o">(</span><span class="n">s</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span>
+<span class="w">        </span><span class="k">member</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="nf">Decode</span><span class="o">(</span><span class="n">s</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">}</span>
+</code></pre></div>
+<p><em>Modules</em> are a simple way to encapsulate code during rapid prototyping when you do not want to spend the time to design a strict object-oriented type hierarchy. In the following example, we place a portion of our original script in a module.</p>
+<div class="highlight"><pre><span></span><code><span class="k">module</span><span class="w"> </span><span class="nn">ApplicationLogic</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">numbers</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="mi">1</span><span class="w"> </span><span class="o">..</span><span class="w"> </span><span class="n">n</span><span class="o">]</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">square</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">squares</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">numbers</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nn">List</span><span class="p">.</span><span class="n">map</span><span class="w"> </span><span class="n">square</span>
+
+<span class="n">printfn</span><span class="w"> </span><span class="s">&quot;Squares up to 5 = %A&quot;</span><span class="w"> </span><span class="o">(</span><span class="nn">ApplicationLogic</span><span class="p">.</span><span class="n">squares</span><span class="w"> </span><span class="mi">5</span><span class="o">)</span>
+<span class="n">printfn</span><span class="w"> </span><span class="s">&quot;Squares up to 10 = %A&quot;</span><span class="w"> </span><span class="o">(</span><span class="nn">ApplicationLogic</span><span class="p">.</span><span class="n">squares</span><span class="w"> </span><span class="mi">10</span><span class="o">)</span>
+<span class="nn">System</span><span class="p">.</span><span class="nn">Console</span><span class="p">.</span><span class="n">ReadKey</span><span class="o">(</span><span class="k">true</span><span class="o">)</span>
+</code></pre></div>
+<p>Modules are also used in the F# library design to associate extra functionality with types. For example, <code>List.map</code> is a function in a module.</p>
+<p>Other mechanisms aimed at supporting software engineering include <em>signatures</em>, which can be used to give explicit types to components, and namespaces, which serve as a way of organizing the name hierarchies for larger APIs.</p>
+<h3 id="1110-information-rich-programming">1.1.10 Information-rich Programming</h3>
+<p>F# Information-rich programming addresses the trend toward greater availability of data, services, and information. The key to information-rich programming is to eliminate barriers to working with diverse information sources that are available on the Internet and in modern enterprise environments. Type providers and query expressions are a significant part of F# support for information-rich programming.</p>
+<p>The F# Type Provider mechanism allows you to seamlessly incorporate, in a strongly typed manner, data and services from external sources. A <em>type provider</em> presents your program with new types and methods that are typically based on the schemas of external information sources. For example, an F# type provider for Structured Query Language (SQL) supplies types and methods that allow programmers to work directly with the tables of any SQL database:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Add References to FSharp.Data.TypeProviders, System.Data, and System.Data.Linq</span>
+<span class="k">type</span><span class="w"> </span><span class="nc">schema</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SqlDataConnection</span><span class="o">&lt;</span><span class="s">&quot;Data Source=localhost;Integrated Security=SSPI;&quot;</span><span class="o">&gt;</span>
+
+<span class="k">let</span><span class="w"> </span><span class="nv">db</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">schema</span><span class="o">.</span><span class="n">GetDataContext</span><span class="bp">()</span>
+</code></pre></div>
+<p>The type provider connects to the database automatically and uses this for IntelliSense and type information.</p>
+<p>Query expressions (added in F# 3.0) add the established power of query-based programming against SQL, Open Data Protocol (OData), and other structured or relational data sources. Query expressions provide support for language-Integrated Query (LINQ) in F#, and several query operators enable you to construct more complex queries. For example, we can create a query to filter the customers in the data source:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">countOfCustomers</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="n">query</span><span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">customer</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">db</span><span class="o">.</span><span class="n">Customers</span><span class="w"> </span><span class="k">do</span>
+<span class="w">            </span><span class="n">where</span><span class="w"> </span><span class="o">(</span><span class="n">customer</span><span class="o">.</span><span class="n">LastName</span><span class="o">.</span><span class="n">StartsWith</span><span class="o">(</span><span class="s">&quot;N&quot;</span><span class="o">))</span>
+<span class="w">            </span><span class="k">select</span><span class="w"> </span><span class="o">(</span><span class="n">customer</span><span class="o">.</span><span class="n">FirstName</span><span class="o">,</span><span class="w"> </span><span class="n">customer</span><span class="o">.</span><span class="n">LastName</span><span class="o">)</span>
+<span class="w">        </span><span class="o">}</span>
+</code></pre></div>
+<p>Now it is easier than ever to access many important data sources—including enterprise, web, and cloud—by using a set of built-in type providers for SQL databases and web data protocols. Where necessary, you can create your own custom type providers or reference type providers that others have created. For example, assume your organization has a data service that provides a large and growing number of named data sets, each with its own stable data schema. You may choose to create a type provider that reads the schemas and presents the latest available data sets to the programmer in a strongly typed way.</p>
+<h2 id="12-notational-conventions-in-this-specification">1.2 Notational Conventions in This Specification</h2>
+<p>This specification describes the F# language by using a mixture of informal and semiformal techniques. All examples in this specification use lightweight syntax, unless otherwise specified.</p>
+<p>Regular expressions are given in the usual notation, as shown in the table:</p>
+<table>
+<thead>
+<tr>
+<th>Notation</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>regexp+</td>
+<td>One or more occurrences</td>
+</tr>
+<tr>
+<td>regexp*</td>
+<td>Zero or more occurrences</td>
+</tr>
+<tr>
+<td>regexp?</td>
+<td>Zero or one occurrences</td>
+</tr>
+<tr>
+<td>[ char - char ]</td>
+<td>Range of ASCII characters</td>
+</tr>
+<tr>
+<td>[ ^ char - char ]</td>
+<td>Any characters except those in the range</td>
+</tr>
+</tbody>
+</table>
+<p>Unicode character classes are referred to by their abbreviation as used in CLI libraries for regular expressions—for example, <code>\Lu</code> refers to any uppercase letter. The following characters are referred to using the indicated notation:</p>
+<table>
+<thead>
+<tr>
+<th>Character</th>
+<th>Name</th>
+<th>Notation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\b</td>
+<td>backspace</td>
+<td>ASCII/UTF-8/UTF-16/UTF-32 code 08</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>newline</td>
+<td>ASCII/UTF-8/UTF-16/UTF-32 code 10</td>
+</tr>
+<tr>
+<td>\r</td>
+<td>return</td>
+<td>ASCII/UTF-8/UTF-16/UTF-32 code 13</td>
+</tr>
+<tr>
+<td>\t</td>
+<td>tab</td>
+<td>ASCII/UTF-8/UTF-16/UTF-32 code 09</td>
+</tr>
+</tbody>
+</table>
+<p>Strings of characters that are clearly not a regular expression are written verbatim. Therefore, the following string</p>
+<div class="highlight"><pre><span></span><code>abstract
+</code></pre></div>
+<p>matches precisely the characters <code>abstract</code>.</p>
+<p>Where appropriate, apostrophes and quotation marks enclose symbols that are used in the specification of the grammar itself, such as <code>'&lt;'</code> and <code>'|'</code>. For example, the following regular expression matches <code>(+)</code> or <code>(-)</code>:</p>
+<div class="highlight"><pre><span></span><code>&#39;(&#39; (+|-) &#39;)&#39;
+</code></pre></div>
+<p>This regular expression matches precisely the characters <code>#if</code>:</p>
+<div class="highlight"><pre><span></span><code>&quot;#if&quot;
+</code></pre></div>
+<p>Regular expressions are typically used to specify tokens.</p>
+<div class="highlight"><pre><span></span><code>token token-name = regexp
+</code></pre></div>
+<p>In the grammar rules, the notation <code>element-name?</code> indicates an optional element. The notation <code>...</code> indicates repetition of the preceding non-terminal construct and the separator token. For example, <code>expr ',' ... ',' expr</code> means a sequence of one or more <code>expr</code> elements separated by commas.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2005-2025 F# contributors. Made available under the <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons CC-by 4.0</a> licence.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

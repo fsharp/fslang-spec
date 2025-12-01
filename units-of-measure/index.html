@@ -1,0 +1,1513 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://fsharp.github.io/fslang-spec/units-of-measure/">
+      
+      
+        <link rel="prev" href="../type-definitions/">
+      
+      
+        <link rel="next" href="../namespaces-and-modules/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../fsharp128.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>9. Units of Measure - F# Language Specification</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#9-units-of-measure" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="F# Language Specification" class="md-header__button md-logo" aria-label="F# Language Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12 11.39.61v5.695L5.695 12l5.695 5.695v5.695zm7.322 0 4.068-4.068v8.136zM24 12 12.203.61v5.695L17.898 12l-5.695 5.695v5.695z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            F# Language Specification
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              9. Units of Measure
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fsharp/fslang-spec" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="F# Language Specification" class="md-nav__button md-logo" aria-label="F# Language Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12 11.39.61v5.695L5.695 12l5.695 5.695v5.695zm7.322 0 4.068-4.068v8.136zM24 12 12.203.61v5.695L17.898 12l-5.695 5.695v5.695z"/></svg>
+
+    </a>
+    F# Language Specification
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fsharp/fslang-spec" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Front Matter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rfc-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFC status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Program Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lexical-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Lexical Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basic-grammar-elements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Basic Grammar Elements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../types-and-type-constraints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Types and Type Constraints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../expressions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Expressions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type-definitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Type Definitions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Units of Measure
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Units of Measure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#91-measures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Measures
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#92-constants-annotated-by-measures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Constants Annotated by Measures
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#93-relations-of-measures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 Relations of Measures
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.3 Relations of Measures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#931-constraint-solving" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3.1 Constraint Solving
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#932-generalization-of-measure-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3.2 Generalization of Measure Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#94-measure-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 Measure Definitions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#95-measure-parameter-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5 Measure Parameter Definitions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#96-measure-parameter-erasure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.6 Measure Parameter Erasure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#97-type-definitions-with-measures-in-the-f-core-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.7 Type Definitions with Measures in the F# Core Library
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#98-restrictions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.8 Restrictions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespaces-and-modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Namespaces and Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespace-and-module-signatures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Namespace and Module Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program-structure-and-execution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Program Structure and Execution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../custom-attributes-and-reflection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Custom Attributes and Reflection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inference-procedures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Inference Procedures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lexical-filtering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Lexical Filtering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../provided-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Provided Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../special-attributes-and-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17. Special Attributes and Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../the-f-library-fsharpcoredll/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18. The F# Library FSharp.Core.dll
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features-for-ml-compatibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19. Features for ML Compatibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#91-measures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Measures
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#92-constants-annotated-by-measures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Constants Annotated by Measures
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#93-relations-of-measures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 Relations of Measures
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9.3 Relations of Measures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#931-constraint-solving" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3.1 Constraint Solving
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#932-generalization-of-measure-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3.2 Generalization of Measure Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#94-measure-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 Measure Definitions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#95-measure-parameter-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5 Measure Parameter Definitions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#96-measure-parameter-erasure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.6 Measure Parameter Erasure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#97-type-definitions-with-measures-in-the-f-core-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.7 Type Definitions with Measures in the F# Core Library
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#98-restrictions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.8 Restrictions
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="9-units-of-measure">9. Units of Measure</h1>
+<p>F# supports static checking of <em>units of measure</em>. Units of measure, or <em>measures</em> for short, are like types in that they can appear as parameters to other types and values (as in <code>float&lt;kg&gt;</code>, <code>vector&lt;m/s&gt;</code>, <code>add&lt;m&gt;</code>), can be represented by variables (as in <code>float&lt;'U&gt;</code>), and are checked for consistency by the type-checker.</p>
+<p>However, measures differ from types in several important ways:</p>
+<ul>
+<li>Measures play no role at runtime; in fact, they are erased.</li>
+<li>Measures obey special rules of <em>equivalence</em> , so that <code>N m</code> can be interchanged with <code>m N</code>.</li>
+<li>Measures are supported by special syntax.</li>
+</ul>
+<p>The syntax of constants (<a href="../basic-grammar-elements/#43-constants">§4.3</a>) is extended to support numeric constants with units of measure. The syntax of types is extended with measure type annotations.</p>
+<div class="highlight"><pre><span></span><code>measure-literal-atom :=
+    long-ident                                  -- named measure e.g. kg
+    ( measure-literal-simp )                    -- parenthesized measure, such as (N m)
+
+measure-literal-power :=
+    measure-literal-atom
+    measure-literal-atom ^ int32                -- power of measure, such as m^3
+
+measure-literal-seq :=
+    measure-literal-power
+    measure-literal-power measure-literal-seq
+
+measure-literal-simp :=
+    measure-literal-seq                         -- implicit product, such as m s^- 2
+    measure-literal-simp * measure-literal-simp -- product, such as m * s^3
+    measure-literal-simp / measure-literal-simp -- quotient, such as m/s^2
+    / measure-literal-simp                      -- reciprocal, such as /s
+    1                                           -- dimensionless
+
+measure-literal :=
+    _                                           -- anonymous measure
+    measure-literal-simp                        -- simple measure, such as N m
+
+const :=
+    ...
+    byte &lt; measure-literal &gt;                    -- 8 - bit unsigned integer constant
+    uint16 &lt; measure-literal &gt;                  -- 16 - bit unsigned integer constant
+    uint32 &lt; measure-literal &gt;                  -- 32 - bit unsigned integer constant
+    uint64 &lt; measure-literal &gt;                  -- 64 - bit unsigned integer constant
+    sbyte &lt; measure-literal &gt;                   -- 8 - bit integer constant
+    int16 &lt; measure-literal &gt;                   -- 16 - bit integer constant
+    int32 &lt; measure-literal &gt;                   -- 32 - bit integer constant
+    int64 &lt; measure-literal &gt;                   -- 64 - bit integer constant
+    ieee32 &lt; measure-literal &gt;                  -- single-precision float32 constant
+    ieee64 &lt; measure-literal &gt;                  -- double-precision float constant
+    decimal &lt; measure-literal &gt;                 -- decimal constant
+
+measure-atom :=
+    typar                                       -- variable measure, such as &#39;U
+    long-ident                                  -- named measure, such as kg
+    ( measure-simp )                            -- parenthesized measure, such as (N m)
+
+measure-power :=
+    measure-atom
+    measure-atom ^ int32                        -- power of measure, such as m^3
+
+measure-seq :=
+    measure-power
+    measure-power measure-seq
+
+measure-simp :=
+    measure-seq                                 -- implicit product, such as &#39;U &#39;V^3
+    measure-simp * measure-simp                 -- product, such as &#39;U * &#39;V
+    measure-simp / measure-simp                 -- quotient, such as &#39;U / &#39;V
+    / measure-simp                              -- reciprocal, such as /&#39;U
+    1                                           -- dimensionless measure (no units)
+
+measure :=
+    _                                           -- anonymous measure
+measure-simp                                    -- simple measure, such as &#39;U &#39;V
+</code></pre></div>
+<p>Measure definitions use the special <code>Measure</code> attribute on type definitions. Measure parameters, meanwhile, use a variation on the syntax of generic parameters (see <a href="./#95-measure-parameter-definitions">§9.5</a>) to parameterize types and members by units of measure. The primitive types <code>byte</code>, <code>uint16</code>, <code>uint</code>, <code>uint64</code>, <code>sbyte</code>, <code>int16</code>, <code>int</code>, <code>int64</code>, <code>float</code>, <code>float32</code>, <code>decimal</code>, <code>unativeint</code>, and <code>nativeint</code> have non-parameterized (dimensionless) and parameterized versions.</p>
+<p>Here is a simple example:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="nc">m</span><span class="w">          </span><span class="c1">// base measure: meters</span>
+<span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="nc">s</span><span class="w">          </span><span class="c1">// base measure: seconds</span>
+<span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="nc">sqm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="o">^</span><span class="mi">2</span><span class="w">  </span><span class="c1">// derived measure: square meters</span>
+
+<span class="k">let</span><span class="w"> </span><span class="nv">areaOfTriangle</span><span class="w"> </span><span class="o">(</span><span class="n">baseLength</span><span class="o">:</span><span class="kt">float</span><span class="o">&lt;</span><span class="n">m</span><span class="o">&gt;,</span><span class="w"> </span><span class="n">height</span><span class="o">:</span><span class="kt">float</span><span class="o">&lt;</span><span class="n">m</span><span class="o">&gt;)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">float</span><span class="o">&lt;</span><span class="n">sqm</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="n">baseLength</span><span class="o">*</span><span class="n">height</span><span class="o">/</span><span class="mi">2</span><span class="o">.</span><span class="mi">0</span>
+
+<span class="k">let</span><span class="w"> </span><span class="nv">distanceTravelled</span><span class="w"> </span><span class="o">(</span><span class="n">speed</span><span class="o">:</span><span class="kt">float</span><span class="o">&lt;</span><span class="n">m</span><span class="o">/</span><span class="n">s</span><span class="o">&gt;,</span><span class="w"> </span><span class="n">time</span><span class="o">:</span><span class="kt">float</span><span class="o">&lt;</span><span class="n">s</span><span class="o">&gt;)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">float</span><span class="o">&lt;</span><span class="n">m</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">speed</span><span class="o">*</span><span class="n">time</span>
+</code></pre></div>
+<p>As with ordinary types, F# can infer that functions are generic in their units. For example, consider the following function definitions:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">sqr</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="o">:</span><span class="kt">float</span><span class="o">&lt;_&gt;)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span>
+
+<span class="k">let</span><span class="w"> </span><span class="nv">sumOfSquares</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqr</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sqr</span><span class="w"> </span><span class="n">y</span>
+</code></pre></div>
+<p>The inferred types are:</p>
+<div class="highlight"><pre><span></span><code>val sqr : float&lt;&#39;u&gt; -&gt; float&lt;&#39;u ^ 2&gt;
+
+val sumOfSquares : float&lt;&#39;u&gt; -&gt; float&lt;&#39;u&gt; -&gt; float&lt;&#39;u ^ 2&gt;
+</code></pre></div>
+<p>Measures are type-like annotations such as <code>kg</code> or <code>m/s</code> or <code>m^2</code>. Their special syntax includes the use of <code>*</code> and <code>/</code> for product and quotient of measures, juxtaposition as shorthand for product, and <code>^</code> for integer powers.</p>
+<h2 id="91-measures">9.1 Measures</h2>
+<p>Measures are built from:</p>
+<ul>
+<li><em>Atomic measures</em> from long identifiers such as <code>SI.kg</code> or <code>FreedomUnits.feet</code>.</li>
+<li><em>Product measures</em> , which are written <code>measure measure</code> (juxtaposition) or <code>measure * measure</code>.</li>
+<li><em>Quotient measures</em> , which are written <code>measure / measure</code>.</li>
+<li><em>Integer powers of measures</em> , which are written <code>measure ^ int</code>.</li>
+<li><em>Dimensionless measures</em> , which are written <code>1</code>.</li>
+<li><em>Variable measures</em>, which are written <code>'u</code> or <code>'U</code>. Variable measures can include anonymous measures <code>_</code>, which indicates that the compiler can infer the measure from the context.</li>
+</ul>
+<p>Dimensionless measures indicate “without units,” but are rarely needed, because non-parameterized types such as <code>float</code> are aliases for the parameterized type with <code>1</code> as parameter, that is, <code>float = float&lt;1&gt;</code>.</p>
+<p>The precedence of operations involving measure is similar to that for floating-point expressions:</p>
+<ul>
+<li>Products and quotients (<code>*</code> and <code>/</code>) have the same precedence, and associate to the left, but juxtaposition has higher syntactic precedence than both <code>*</code> and <code>/</code>.</li>
+<li>Integer powers (<code>^</code>) have higher precedence than juxtaposition.</li>
+<li>The <code>/</code> symbol can also be used as a unary reciprocal operator.</li>
+</ul>
+<h2 id="92-constants-annotated-by-measures">9.2 Constants Annotated by Measures</h2>
+<p>A floating-point constant can be annotated with its measure by specifying a literal measure in angle brackets following the constant.</p>
+<p>Measure annotations on constants may not include measure variables.</p>
+<p>Here are some examples of annotated constants:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">earthGravity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="o">.</span><span class="mi">81</span><span class="n">f</span><span class="o">&lt;</span><span class="n">m</span><span class="o">/</span><span class="n">s</span><span class="o">^</span><span class="mi">2</span><span class="o">&gt;</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">atmosphere</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">101325</span><span class="o">.</span><span class="mi">0</span><span class="o">&lt;</span><span class="n">N</span><span class="w"> </span><span class="n">m</span><span class="o">^-</span><span class="mi">2</span><span class="o">&gt;</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">zero</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="n">f</span><span class="o">&lt;_&gt;</span>
+</code></pre></div>
+<p>Constants that are annotated with units of measure are assigned a corresponding numeric type with the measure parameter that is specified in the annotation. In the example above, <code>earthGravity</code> is assigned the type <code>float32&lt;m/s^2&gt;</code>, <code>atmosphere</code> is assigned the type <code>float&lt;N/m^2&gt;</code> and <code>zero</code> is assigned the type <code>float&lt;'U&gt;</code>.</p>
+<h2 id="93-relations-of-measures">9.3 Relations of Measures</h2>
+<p>After measures are parsed and checked, they are maintained in the following normalized form:</p>
+<div class="highlight"><pre><span></span><code>measure-int := 1 | long-ident | measure-par | measure-int measure-int | / measure-int
+</code></pre></div>
+<p>Powers of measures are expanded. For example, <code>kg^3</code> is equivalent to <code>kg</code> <code>kg</code> <code>kg</code>.</p>
+<p>Two measures are indistinguishable if they can be made equivalent by repeated application of the following rules:</p>
+<ul>
+<li><em>Commutativity</em>. <code>measure-int1 measure-int2</code> is equivalent to <code>measure-int2 measure-int1</code>.</li>
+<li><em>Associativity</em>. It does not matter what grouping is used for juxtaposition (product) of measures, so parentheses are not required. For example, <code>kg m s</code> can be split as the product of <code>kg m</code> and <code>s</code>, or as the product of <code>kg</code> and <code>m s</code>.</li>
+<li><em>Identity</em>. 1 <code>measure-int</code> is equivalent to <code>measure-int</code>.</li>
+<li><em>Inverses</em>. <code>measure-int / measure-int</code> is equivalent to <code>1</code>.</li>
+<li><em>Abbreviation</em>. <code>long-ident</code> is equivalent to <code>measure</code> if a measure abbreviation of the form <code>[&lt;Measure&gt;] type long-ident = measure</code> is currently in scope.</li>
+</ul>
+<p>Note that these are the laws of Abelian groups together with expansion of abbreviations.</p>
+<p>For example, <code>kg m / s^2</code> is the same as <code>m kg / s^2</code>.</p>
+<p>For presentation purposes (for example, in error messages), measures are presented in the normalized form that appears at the beginning of this section, but with the following restrictions:</p>
+<ul>
+<li>Powers are positive and greater than 1. This splits the measure into positive powers and negative powers, separated by <code>/</code>.</li>
+<li>Atomic measures are ordered as follows: measure parameters first, ordered alphabetically, followed by measure identifiers, ordered alphabetically.</li>
+</ul>
+<p>For example, the measure expression <code>m^1 kg s^-1</code> would be normalized to <code>kg m / s</code>.</p>
+<p>This normalized form provides a convenient way to check the equality of measures: given two measure expressions <code>measure-int1</code> and <code>measure-int2</code> , reduce each to normalized form by using the rules of commutativity, associativity, identity, inverses, and abbreviation, and then compare the syntax.</p>
+<p>To check the equality of two measures, abbreviations are expanded to compare their normalized forms. However, abbreviations are not expanded for presentation. For example, consider the following definitions:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="nc">a</span>
+<span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="nc">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">a</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">&lt;</span><span class="n">b</span><span class="o">&gt;</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1</span><span class="o">&lt;</span><span class="n">a</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>The inferred type is presented as <code>int&lt;b/a&gt;</code>, not <code>int&lt;a&gt;</code>. If a measure is equivalent to <code>1</code>, however, abbreviations are expanded to cancel each other and are presented without units:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">&lt;</span><span class="n">b</span><span class="o">&gt;</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">1</span><span class="o">&lt;</span><span class="n">a</span><span class="w"> </span><span class="n">a</span><span class="o">&gt;</span><span class="w"> </span><span class="c1">// val y : int = 1</span>
+</code></pre></div>
+<h3 id="931-constraint-solving">9.3.1 Constraint Solving</h3>
+<p>The mechanism described in <a href="../inference-procedures/#145-constraint-solving">§14.5</a> is extended to support equational constraints between measure expressions. Such expressions arise from equations between parameterized types — that is, when <code>type&lt;tyarg11 , ..., tyarg1n&gt; = type&lt;tyarg21, ..., tyarg2n&gt;</code> is reduced to a series of constraints <code>tyarg1i = tyarg2i</code>. For the arguments that are measures, rather than types, the rules listed in <a href="./#93-relations-of-measures">§9.3</a> are applied to obtain primitive equations of the form <code>'U = measure-int</code> where <code>'U</code> is a measure variable and <code>measure-int</code> is a measure expression in internal form. The variable <code>'U</code> is then replaced by <code>measure-int</code> wherever else it occurs. For example, the equation <code>float&lt;m^2/s^2&gt; = float&lt;'U^2&gt;</code> would be reduced to the <code>constraint m^2/s^2 = 'U^2</code>, which would be further reduced to the primitive equation <code>'U = m/s</code>.</p>
+<p>If constraints cannot be solved, a type error occurs. For example, the following expression</p>
+<div class="highlight"><pre><span></span><code><span class="k">fun</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">float</span><span class="o">&lt;</span><span class="n">m</span><span class="o">^</span><span class="mi">2</span><span class="o">&gt;,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">float</span><span class="o">&lt;</span><span class="n">s</span><span class="o">&gt;)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">y</span>
+</code></pre></div>
+<p>would eventually result in the constraint <code>m^2 = s</code>, which cannot be solved, indicating a type error.</p>
+<h3 id="932-generalization-of-measure-variables">9.3.2 Generalization of Measure Variables</h3>
+<p>Analogous to the process of generalization of type variables described in <a href="../inference-procedures/#1467-generalization">§14.6.7</a>, a generalization procedure produces measure variables over which a value, function, or member can be generalized.</p>
+<h2 id="94-measure-definitions">9.4 Measure Definitions</h2>
+<p>Measure definitions define new named units of measure by using the same syntax as for type definitions, with the addition of the <code>Measure</code> attribute. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="nc">kg</span>
+<span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="nc">m</span>
+<span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="nc">s</span>
+<span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="nc">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kg</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="n">s</span><span class="o">^</span><span class="mi">2</span>
+</code></pre></div>
+<p>A primitive measure abbreviation defines a fresh, named measure that is distinct from other measures. Measure abbreviations, like type abbreviations, define new names for existing measures. Also like type abbreviations, repeatedly eliminating measure abbreviations in favor of their equivalent measures must not result in infinite measure expressions. For example, the following is not a valid measure definition because it results in the infinite squaring of <code>X</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="nc">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">X</span><span class="o">^</span><span class="mi">2</span>
+</code></pre></div>
+<p>Measure definitions and abbreviations may not have type or measure parameters.</p>
+<h2 id="95-measure-parameter-definitions">9.5 Measure Parameter Definitions</h2>
+<p>Measure parameter definitions can appear wherever ordinary type parameter definitions can (see <a href="../types-and-type-constraints/#529-unmanaged-constraints">§5.2.9</a>). If an explicit parameter definition is used, the parameter name is prefixed by the special <code>Measure</code> attribute. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">val</span><span class="w"> </span><span class="n">sqr</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">float</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">float</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">U</span><span class="o">^</span><span class="mi">2</span><span class="o">&gt;</span>
+
+<span class="k">type</span><span class="w"> </span><span class="nc">Vector</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="o">{</span><span class="w"> </span><span class="n">X</span><span class="o">:</span><span class="w"> </span><span class="kt">float</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;;</span>
+<span class="w">      </span><span class="n">Y</span><span class="o">:</span><span class="w"> </span><span class="kt">float</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;;</span>
+<span class="w">      </span><span class="n">Z</span><span class="o">:</span><span class="w"> </span><span class="kt">float</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span><span class="w"> </span><span class="o">}</span>
+
+<span class="k">type</span><span class="w"> </span><span class="nc">Sphere</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="o">{</span><span class="w"> </span><span class="n">Center</span><span class="o">:</span><span class="n">Vector</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;;</span>
+<span class="w">      </span><span class="n">Radius</span><span class="o">:</span><span class="kt">float</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span><span class="w"> </span><span class="o">}</span>
+
+<span class="k">type</span><span class="w"> </span><span class="nc">Disc</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="o">{</span><span class="w"> </span><span class="n">Center</span><span class="o">:</span><span class="n">Vector</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;;</span>
+<span class="w">      </span><span class="n">Radius</span><span class="o">:</span><span class="kt">float</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;;</span>
+<span class="w">      </span><span class="n">Norm</span><span class="o">:</span><span class="n">Vector</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="w"> </span><span class="o">}</span>
+
+<span class="k">type</span><span class="w"> </span><span class="nc">SceneObject</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">Sphere</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">Sphere</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">Disc</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">Disc</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>Internally, the type checker distinguishes between type parameters and measure parameters by assigning one of two <em>sorts</em> (Type or Measure) to each parameter. This technique is used to check the actual arguments to types and other parameterized definitions. The type checker rejects ill-formed types such as <code>float&lt;int&gt;</code> and <code>IEnumerable&lt;m/s&gt;</code>.</p>
+<h2 id="96-measure-parameter-erasure">9.6 Measure Parameter Erasure</h2>
+<p>In contrast to <em>type</em> parameters on generic types, <em>measure</em> parameters are not exposed in the metadata that the runtime interprets; instead, measures are <em>erased</em>. Erasure has several consequences:</p>
+<ul>
+<li>Casting is with respect to erased types.</li>
+<li>Method application resolution (see <a href="../inference-procedures/#144-method-application-resolution">§14.4</a>) is with respect to erased types.</li>
+<li>Reflection is with respect to erased types.</li>
+</ul>
+<h2 id="97-type-definitions-with-measures-in-the-f-core-library">9.7 Type Definitions with Measures in the F# Core Library</h2>
+<p>The F# core library defines the following types:</p>
+<div class="highlight"><pre><span></span><code><span class="k">type</span><span class="w"> </span><span class="nc">float</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span>
+<span class="k">type</span><span class="w"> </span><span class="nc">float32</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span>
+<span class="k">type</span><span class="w"> </span><span class="nc">decimal</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span>
+<span class="k">type</span><span class="w"> </span><span class="nc">sbyte</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span>
+<span class="k">type</span><span class="w"> </span><span class="nc">int16</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span>
+<span class="k">type</span><span class="w"> </span><span class="nc">int</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span>
+<span class="k">type</span><span class="w"> </span><span class="nc">int64</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span>
+<span class="k">type</span><span class="w"> </span><span class="nc">nativeint</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span>
+<span class="k">type</span><span class="w"> </span><span class="nc">uint</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span>
+<span class="k">type</span><span class="w"> </span><span class="nc">byte</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span>
+<span class="k">type</span><span class="w"> </span><span class="nc">uint16</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span>
+<span class="k">type</span><span class="w"> </span><span class="nc">uint64</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span>
+<span class="k">type</span><span class="w"> </span><span class="nc">unativeint</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span>
+</code></pre></div>
+<blockquote>
+<p>Note: These definitions are called measure-annotated base types and are marked with the <code>MeasureAnnotatedAbbreviation</code> attribute in the implementation of the library. The <code>MeasureAnnotatedAbbreviation</code> attribute is not for use in user code and in future revisions of the language may result in a warning or error.</p>
+</blockquote>
+<p>These type definitions have the following special properties:</p>
+<ul>
+<li>They extend <code>System.ValueType</code>.</li>
+<li>They explicitly implement <code>System.IFormattable</code>, <code>System.IComparable</code>, <code>System.IConvertible</code>, and corresponding generic interfaces, instantiated at the given type—for example, <code>System.IComparable&lt;float&lt;'u&gt;&gt;</code> and <code>System.IEquatable&lt;float&lt;'u&gt;&gt;</code> (so that you can invoke, for example, <code>CompareTo</code> after an explicit upcast).</li>
+<li>As a result of erasure, their compiled form is the corresponding primitive type.</li>
+<li>
+<p>For the purposes of constraint solving and other logical operations on types, a type equivalence holds between the unparameterized primitive type and the corresponding measured type definition that is instantiated at <code>&lt;1&gt;</code>:</p>
+<div class="highlight"><pre><span></span><code>sbyte = sbyte&lt;1&gt;
+int16 = int16&lt;1&gt;
+int = int&lt;1&gt;
+int64 = int64&lt;1&gt;
+byte = byte&lt;1&gt;
+uint16 = uint16&lt;1&gt;
+uint = uint&lt;1&gt;
+uint64 = uint64&lt;1&gt;
+float = float&lt;1&gt;
+float32 = float32&lt;1&gt;
+decimal = decimal&lt;1&gt;
+</code></pre></div>
+</li>
+<li>
+<p>The measured type definitions <code>byte</code>,  <code>uint16</code>, <code>uint</code>, <code>uint64</code>, <code>sbyte</code>, <code>int16</code>, <code>int</code>, <code>int64</code>, <code>float</code>, <code>float32</code>, <code>decimal</code>, <code>unativeint</code>, and <code>nativeint</code> are assumed to have additional static members that have the measure types that are listed in the table. Note that <code>N</code> is any of these types, and <code>F</code> is either <code>float32</code> or <code>float</code>.</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Measure Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Sqrt</code></td>
+<td><code>F&lt;'U^2&gt; -&gt; F&lt;'U&gt;</code></td>
+</tr>
+<tr>
+<td><code>Atan2</code></td>
+<td><code>F&lt;'U&gt; -&gt; F&lt;'U&gt; -&gt; F&lt;1&gt;</code></td>
+</tr>
+<tr>
+<td><code>op_Addition</code><br><code>op_Subtraction</code><br><code>op_Modulus</code></td>
+<td><code>N&lt;'U&gt; -&gt; N&lt;'U&gt; -&gt; N&lt;'U&gt;</code></td>
+</tr>
+<tr>
+<td><code>op_Multiply</code></td>
+<td><code>N&lt;'U&gt; -&gt; N&lt;'V&gt; -&gt; N&lt;'U 'V&gt;</code></td>
+</tr>
+<tr>
+<td><code>op_Division</code></td>
+<td><code>N&lt;'U&gt; -&gt; N&lt;'V&gt; -&gt; N&lt;'U/'V&gt;</code></td>
+</tr>
+<tr>
+<td><code>Abs</code><br><code>op_UnaryNegation</code><br><code>op_UnaryPlus</code></td>
+<td><code>N&lt;'U&gt; -&gt; N&lt;'U&gt;</code></td>
+</tr>
+<tr>
+<td><code>Sign</code></td>
+<td><code>N&lt;'U&gt; -&gt; int</code></td>
+</tr>
+</tbody>
+</table>
+<p>This mechanism is used to support units of measure in the following math functions of the F# library:
+<code>(+)</code>, <code>(-)</code>, <code>(*)</code>, <code>(/)</code>, <code>(%)</code>, <code>(~+)</code>, <code>(~-)</code>, <code>abs</code>, <code>sign</code>, <code>atan2</code> and <code>sqrt</code>.</p>
+<p>Additionally, the F# core library provides the following measure-annotated aliases, which are functionally equivalent to the previously-listed measure-annotated types, and which are included for the sake of completeness:</p>
+<div class="highlight"><pre><span></span><code><span class="k">type</span><span class="w"> </span><span class="nc">double</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span><span class="w"> </span><span class="c1">// aliases float&lt;&#39;U&gt;</span>
+<span class="k">type</span><span class="w"> </span><span class="nc">single</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span><span class="w"> </span><span class="c1">// aliases float32&lt;&#39;U&gt;</span>
+<span class="k">type</span><span class="w"> </span><span class="nc">int8</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span><span class="w">   </span><span class="c1">// aliases sbyte&lt;&#39;U&gt;</span>
+<span class="k">type</span><span class="w"> </span><span class="nc">int32</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span><span class="w">  </span><span class="c1">// aliases int&lt;&#39;U&gt;</span>
+<span class="k">type</span><span class="w"> </span><span class="nc">uint8</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span><span class="w">  </span><span class="c1">// aliases byte&lt;&#39;U&gt;</span>
+<span class="k">type</span><span class="w"> </span><span class="nc">uint32</span><span class="o">&lt;[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;</span><span class="w"> </span><span class="c1">// aliases uint&lt;&#39;U&gt;</span>
+</code></pre></div>
+<h2 id="98-restrictions">9.8 Restrictions</h2>
+<p>Measures can be used in range expressions but a properly measured step is required. For example, these are not allowed:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[&lt;</span><span class="n">Measure</span><span class="o">&gt;]</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="nc">s</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">&lt;</span><span class="n">s</span><span class="o">&gt;</span><span class="w"> </span><span class="o">..</span><span class="w"> </span><span class="mi">5</span><span class="o">&lt;</span><span class="n">s</span><span class="o">&gt;]</span><span class="w"> </span><span class="c1">// error: The type &#39;int&lt;s&gt;&#39; does not match the type &#39;int&#39;</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">&lt;</span><span class="n">s</span><span class="o">&gt;</span><span class="w"> </span><span class="o">..</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">..</span><span class="w"> </span><span class="mi">5</span><span class="o">&lt;</span><span class="n">s</span><span class="o">&gt;]</span><span class="w"> </span><span class="c1">// error: The type &#39;int&lt;s&gt;&#39; does not match the type &#39;int&#39;</span>
+</code></pre></div>
+<p>However, the following range expression is valid:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span><span class="mi">1</span><span class="o">&lt;</span><span class="n">s</span><span class="o">&gt;</span><span class="w"> </span><span class="o">..</span><span class="w"> </span><span class="mi">1</span><span class="o">&lt;</span><span class="n">s</span><span class="o">&gt;</span><span class="w"> </span><span class="o">..</span><span class="w"> </span><span class="mi">5</span><span class="o">&lt;</span><span class="n">s</span><span class="o">&gt;]</span><span class="w"> </span><span class="c1">// int&lt;s&gt; list = [1; 2; 3; 4; 5]</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2005-2025 F# contributors. Made available under the <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons CC-by 4.0</a> licence.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

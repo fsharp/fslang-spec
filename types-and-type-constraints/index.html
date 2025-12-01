@@ -1,0 +1,2436 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://fsharp.github.io/fslang-spec/types-and-type-constraints/">
+      
+      
+        <link rel="prev" href="../basic-grammar-elements/">
+      
+      
+        <link rel="next" href="../expressions/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../fsharp128.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>5. Types and Type Constraints - F# Language Specification</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#5-types-and-type-constraints" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="F# Language Specification" class="md-header__button md-logo" aria-label="F# Language Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12 11.39.61v5.695L5.695 12l5.695 5.695v5.695zm7.322 0 4.068-4.068v8.136zM24 12 12.203.61v5.695L17.898 12l-5.695 5.695v5.695z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            F# Language Specification
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              5. Types and Type Constraints
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fsharp/fslang-spec" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="F# Language Specification" class="md-nav__button md-logo" aria-label="F# Language Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12 11.39.61v5.695L5.695 12l5.695 5.695v5.695zm7.322 0 4.068-4.068v8.136zM24 12 12.203.61v5.695L17.898 12l-5.695 5.695v5.695z"/></svg>
+
+    </a>
+    F# Language Specification
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fsharp/fslang-spec" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Front Matter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rfc-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFC status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Program Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lexical-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Lexical Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basic-grammar-elements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Basic Grammar Elements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Types and Type Constraints
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Types and Type Constraints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#51-checking-syntactic-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Checking Syntactic Types
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.1 Checking Syntactic Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#511-named-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1.1 Named Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#512-variable-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1.2 Variable Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#513-tuple-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1.3 Tuple Types
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.1.3 Tuple Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5131-struct-tuple-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1.3.1 Struct Tuple Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#514-array-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1.4 Array Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#515-constrained-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1.5 Constrained Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#52-type-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Type Constraints
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.2 Type Constraints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#521-subtype-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.1 Subtype Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#522-nullness-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.2 Nullness Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#523-member-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.3 Member Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#524-default-constructor-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.4 Default Constructor Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#525-value-type-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.5 Value Type Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#526-reference-type-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.6 Reference Type Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#527-enumeration-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.7 Enumeration Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#528-delegate-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.8 Delegate Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#529-unmanaged-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.9 Unmanaged Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5210-equality-and-comparison-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.10 Equality and Comparison Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#53-type-parameter-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Type Parameter Definitions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#54-logical-properties-of-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Logical Properties of Types
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.4 Logical Properties of Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#541-characteristics-of-type-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4.1 Characteristics of Type Definitions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#542-expanding-abbreviations-and-inference-equations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4.2 Expanding Abbreviations and Inference Equations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#543-type-variables-and-definition-sites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4.3 Type Variables and Definition Sites
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#544-base-type-of-a-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4.4 Base Type of a Type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#545-interfaces-types-of-a-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4.5 Interfaces Types of a Type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#546-type-equivalence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4.6 Type Equivalence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#547-subtyping-and-coercion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4.7 Subtyping and Coercion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#548-nullness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4.8 Nullness
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#549-default-initialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4.9 Default Initialization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5410-dynamic-conversion-between-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4.10 Dynamic Conversion Between Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../expressions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Expressions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type-definitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Type Definitions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../units-of-measure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Units of Measure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespaces-and-modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Namespaces and Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespace-and-module-signatures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Namespace and Module Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program-structure-and-execution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Program Structure and Execution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../custom-attributes-and-reflection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Custom Attributes and Reflection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inference-procedures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Inference Procedures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lexical-filtering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Lexical Filtering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../provided-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Provided Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../special-attributes-and-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17. Special Attributes and Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../the-f-library-fsharpcoredll/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18. The F# Library FSharp.Core.dll
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features-for-ml-compatibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19. Features for ML Compatibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#51-checking-syntactic-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Checking Syntactic Types
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.1 Checking Syntactic Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#511-named-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1.1 Named Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#512-variable-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1.2 Variable Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#513-tuple-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1.3 Tuple Types
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.1.3 Tuple Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5131-struct-tuple-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1.3.1 Struct Tuple Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#514-array-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1.4 Array Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#515-constrained-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1.5 Constrained Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#52-type-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Type Constraints
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.2 Type Constraints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#521-subtype-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.1 Subtype Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#522-nullness-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.2 Nullness Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#523-member-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.3 Member Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#524-default-constructor-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.4 Default Constructor Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#525-value-type-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.5 Value Type Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#526-reference-type-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.6 Reference Type Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#527-enumeration-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.7 Enumeration Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#528-delegate-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.8 Delegate Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#529-unmanaged-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.9 Unmanaged Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5210-equality-and-comparison-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2.10 Equality and Comparison Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#53-type-parameter-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Type Parameter Definitions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#54-logical-properties-of-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Logical Properties of Types
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.4 Logical Properties of Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#541-characteristics-of-type-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4.1 Characteristics of Type Definitions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#542-expanding-abbreviations-and-inference-equations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4.2 Expanding Abbreviations and Inference Equations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#543-type-variables-and-definition-sites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4.3 Type Variables and Definition Sites
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#544-base-type-of-a-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4.4 Base Type of a Type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#545-interfaces-types-of-a-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4.5 Interfaces Types of a Type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#546-type-equivalence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4.6 Type Equivalence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#547-subtyping-and-coercion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4.7 Subtyping and Coercion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#548-nullness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4.8 Nullness
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#549-default-initialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4.9 Default Initialization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5410-dynamic-conversion-between-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4.10 Dynamic Conversion Between Types
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="5-types-and-type-constraints">5. Types and Type Constraints</h1>
+<p>The notion of <em>type</em> is central to both the static checking of F# programs and to dynamic type tests
+and reflection at runtime. The word is used with four distinct but related meanings:</p>
+<ul>
+<li><strong>Type definitions</strong>, such as the actual CLI or F# definitions of <code>System.String</code> or
+  <code>FSharp.Collections.Map&lt;_,_&gt;</code>.</li>
+<li><strong>Syntactic types</strong>, such as the text <code>option&lt;_&gt;</code> that might occur in a program text. Syntactic types
+  are converted to static types during the process of type checking and inference.</li>
+<li><strong>Static types</strong>, which result from type checking and inference, either by the translation of syntactic
+  types that appear in the source text, or by the application of constraints that are related to
+  particular language constructs. For example, <code>option&lt;int&gt;</code> is the fully processed static type that is
+  inferred for an expression <code>Some(1+1)</code>. Static types may contain <code>type variables</code> as described later
+  in this section.</li>
+<li><strong>Runtime types</strong>, which are objects of type <code>System.Type</code> and represent some or all of the
+  information that type definitions and static types convey at runtime. The <code>obj.GetType()</code> method,
+  which is available on all F# values, provides access to the runtime type of an object. An object’s
+  runtime type is related to the static type of the identifiers and expressions that correspond to
+  the object. Runtime types may be tested by built-in language operators such as <code>:?</code> and <code>:?&gt;</code>, the
+  expression form downcast <code>expr</code>, and pattern matching type tests. Runtime types of objects do
+  not contain type variables. Runtime types that <code>System.Reflection</code> reports may contain type
+  variables that are represented by <code>System.Type</code> values.</li>
+</ul>
+<p>The following describes the syntactic forms of types as they appear in programs:</p>
+<div class="highlight"><pre><span></span><code>type :=
+    ( type )
+    type - &gt; type                  -- function type
+    type * ... * type              -- tuple type
+    struct (type * ... * type)     -- struct tuple type
+    typar                          -- variable type
+    long-ident                     -- named type, such as int
+    long-ident &lt;type-args&gt;         -- named type, such as list&lt;int&gt;
+    long-ident &lt; &gt;                 -- named type, such as IEnumerable&lt; &gt;
+    type long-ident                -- named type, such as int list
+    type [ , ... , ]               -- array type
+    type typar-defns               -- type with constraints
+    typar :&gt; type                  -- variable type with subtype constraint
+    # type                         -- anonymous type with subtype constraint
+
+type-args := type-arg , ..., type-arg
+
+type-arg :=
+    type                           -- type argument
+    measure                        -- unit of measure argument
+    static-parameter               -- static parameter
+
+atomic-type :=
+    type : one of
+            #type typar ( type ) long-ident long-ident &lt;type-args&gt;
+
+typar :=
+    _                              -- anonymous variable type
+    &#39; ident                        -- type variable
+    ^ ident                        -- static head-type type variable
+
+constraint :=
+    typar :&gt; type                  -- coercion constraint
+    typar : null                   -- nullness constraint
+    static-typars : ( member-sig ) -- member &quot;trait&quot; constraint
+    typar : (new : unit -&gt; &#39;T)     -- CLI default constructor constraint
+    typar : struct                 -- CLI non-Nullable struct
+    typar : not struct             -- CLI reference type
+    typar : enum&lt; type &gt;           -- enum decomposition constraint
+    typar : unmanaged              -- unmanaged constraint
+    typar : delegate&lt;type, type&gt;   -- delegate decomposition constraint
+    typar : equality
+    typar : comparison
+
+typar-defn := attributes opt typar
+
+typar-defns := &lt; typar-defn, ..., typar-defn typar-constraints opt &gt;
+
+typar-constraints := when constraint and ... and constraint
+
+static-typars :=
+    ^ ident
+    (^ ident or ... or ^ ident )
+
+member-sig := &lt;see Section 10&gt;
+</code></pre></div>
+<p>In a type instantiation, the type name and the opening angle bracket must be syntactically adjacent
+with no intervening whitespace, as determined by lexical filtering (<a href="../lexical-filtering/#15-lexical-filtering">§15.</a>). Specifically:</p>
+<div class="highlight"><pre><span></span><code><span class="n">array</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>and not</p>
+<div class="highlight"><pre><span></span><code><span class="n">array</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="o">&gt;</span>
+</code></pre></div>
+<h2 id="51-checking-syntactic-types">5.1 Checking Syntactic Types</h2>
+<p>Syntactic types are checked and converted to <em>static types</em> as they are encountered. Static types are a
+specification device used to describe</p>
+<ul>
+<li>The process of type checking and inference.</li>
+<li>The connection between syntactic types and the execution of F# programs.</li>
+</ul>
+<p>Every expression in an F# program is given a unique inferred static type, possibly involving one or
+more explicit or implicit generic parameters.</p>
+<p>For the remainder of this specification we use the same syntax to represent syntactic types and
+static types. For example <code>int32 * int32</code> is used to represent the syntactic type that appears in
+source code and the static type that is used during checking and type inference.</p>
+<p>The conversion from syntactic types to static types happens in the context of a <em>name resolution
+environment</em> (see <a href="../inference-procedures/#141-name-resolution">§14.1</a>), a <em>floating type variable environment</em>, which is a mapping from names to type
+variables, and a <em>type inference environment</em> (see <a href="../inference-procedures/#145-constraint-solving">§14.5</a>).</p>
+<p>The phrase “fresh type” means a static type that is formed from a <em>fresh type inference variable</em>. Type
+inference variables are either solved or generalized by <em>type inference</em> (<a href="../inference-procedures/#145-constraint-solving">§14.5</a>). During conversion and
+throughout the checking of types, expressions, declarations, and entire files, a set of <em>current
+inference constraints</em> is maintained. That is, each static type is processed under input constraints <code>Χ</code> ,
+and results in output constraints <code>Χ’</code>. Type inference variables and constraints are progressively
+<em>simplified</em> and <em>eliminated</em> based on these equations through <em>constraint solving</em> (<a href="../inference-procedures/#145-constraint-solving">§14.5</a>).</p>
+<h3 id="511-named-types">5.1.1 Named Types</h3>
+<p><em>Named types</em> have several forms, as listed in the following table.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Form</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>long-ident &lt;ty1, ..., tyn&gt;</code></td>
+<td>Named type with one or more suffixed type arguments.</td>
+</tr>
+<tr>
+<td><code>long-ident</code></td>
+<td>Named type with no type arguments</td>
+</tr>
+<tr>
+<td><code>type long-ident</code></td>
+<td>Named type with one type argument; processed the same as <code>long-ident&lt;type&gt;</code></td>
+</tr>
+<tr>
+<td><code>ty1 -&gt; ty2</code></td>
+<td>A function type, where: <br> ▪ ty1 is the domain of the function values associated with the type<br> ▪ ty2 is the range.<br>In compiled code it is represented by the named type<br><code>FSharp.Core.FastFunc&lt;ty1, ty2&gt;</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Named types are converted to static types as follows:</p>
+<ul>
+<li><em>Name Resolution for Types</em> (see <a href="../inference-procedures/#141-name-resolution">§14.1</a>) resolves <code>long-ident</code> to a type definition with formal generic
+  parameters <code>&lt;typar1, ..., typarn&gt;</code> and formal constraints <code>C</code>. The number of type arguments <code>n</code> is
+  used during the name resolution process to distinguish between similarly named types that take
+  different numbers of type arguments.</li>
+<li>Fresh type inference variables <code>&lt;ty'1, ..., ty'n&gt;</code> are generated for each formal type parameter. The
+  formal constraints <code>C</code> are added to the current inference constraints for the new type inference
+  variables; and constraints <code>tyi = ty'i</code> are added to the current inference constraints.</li>
+</ul>
+<h3 id="512-variable-types">5.1.2 Variable Types</h3>
+<p>A type of the form <code>'ident</code> is a <em>variable</em> type. For example, the following are all variable types:</p>
+<div class="highlight"><pre><span></span><code><span class="k">&#39;</span><span class="n">a</span>
+<span class="k">&#39;</span><span class="n">T</span>
+<span class="k">&#39;</span><span class="n">Key</span>
+</code></pre></div>
+<p>During checking, <em>Name Resolution</em> (see <a href="../inference-procedures/#141-name-resolution">§14.1</a>) is applied to the identifier.</p>
+<ul>
+<li>If name resolution succeeds, the result is a variable type that refers to an existing declared type
+  parameter.</li>
+<li>If name resolution fails, the current <em>floating type variable environment</em> is consulted, although
+  only in the context of a syntactic type that is embedded in an expression or pattern. If the type
+  variable name is assigned a type in that environment, F# uses that mapping. Otherwise, a fresh</li>
+</ul>
+<p>type inference variable is created (see <a href="../inference-procedures/#145-constraint-solving">§14.5</a>) and added to both the type inference environment
+and the floating type variable environment.</p>
+<p>A type of the form <code>_</code> is an <em>anonymous variable</em> type. A fresh type inference variable is created and
+added to the type inference environment (see <a href="../inference-procedures/#145-constraint-solving">§14.5</a>) for such a type.</p>
+<p>A type of the form <code>^ident</code> is a <em>statically resolved type variable</em>. A fresh type inference variable is
+created and added to the type inference environment (see <a href="../inference-procedures/#145-constraint-solving">§14.5</a>). This type variable is tagged with
+an attribute that indicates that it can be generalized only at <code>inline</code> definitions (see <a href="../inference-procedures/#1467-generalization">§14.6.7</a>). The
+same restriction on generalization applies to any type variables that are contained in any type that is
+equated with the <code>^ident</code> type in a type inference equation.</p>
+<blockquote>
+<p>Note: This specification generally uses uppercase identifiers such as <code>'T</code> or <code>'Key</code> for user-declared generic type parameters,
+ and uses lowercase identifiers such as <code>'a</code> or <code>'b</code> for compiler-inferred generic parameters.</p>
+</blockquote>
+<h3 id="513-tuple-types">5.1.3 Tuple Types</h3>
+<p>A <em>tuple type</em> has the following form:</p>
+<div class="highlight"><pre><span></span><code>ty 1 * ... * tyn
+</code></pre></div>
+<p>The elaborated form of a tuple type is shorthand for a use of the family of F# library types
+<code>System.Tuple&lt;_, ..., _&gt;</code>. (see <a href="../expressions/#632-tuple-expressions">§6.3.2</a>) for the details of this encoding.</p>
+<p>When considered as static types, tuple types are distinct from their encoded form. However, the
+encoded form of tuple types is visible in the F# type system through runtime types. For example,
+<code>typeof&lt;int * int&gt;</code> is equivalent to <code>typeof&lt;System.Tuple&lt;int,int&gt;&gt;</code>.</p>
+<h4 id="5131-struct-tuple-types">5.1.3.1 Struct Tuple Types</h4>
+<p>A <em>struct tuple type</em> has the following form:</p>
+<div class="highlight"><pre><span></span><code>struct ( ty 1 * ... * tyn )
+</code></pre></div>
+<p>The elaborated form of a tuple type is shorthand for a use of the family of .NET types
+<a href="https://learn.microsoft.com/dotnet/api/system.valuetuple">System.ValueTuple</a>.</p>
+<p>When considered as static types, tuple types are distinct from their encoded form. However, the
+encoded form of tuple types is visible in the F# type system through runtime types. For example,
+<code>typeof&lt;int * int&gt;</code> is equivalent to <code>typeof&lt;System.ValueTuple&lt;int,int&gt;&gt;</code>.</p>
+<p>Struct tuple types are value types (as opposed to tuple types which are reference types). Struct tuple types are primarily aimed at use in interop and performance tuning.</p>
+<p>The "structness" (i.e. tuple type vs. struct tuple type) of tuple expressions and tuple patterns is inferred in the F# type inference process (unless they are explicitly tagged "struct"). However, code cannot be generic over structness, and there is no implicit conversion between struct tuples and reference tuples.</p>
+<h3 id="514-array-types">5.1.4 Array Types</h3>
+<p>Array types have the following forms:</p>
+<div class="highlight"><pre><span></span><code>ty []
+ty [ , ... , ]
+</code></pre></div>
+<p>A type of the form <code>ty []</code> is a <em>single-dimensional array</em> type, and a type of the form <code>ty[ , ... , ]</code> is a
+<em>multidimensional array type</em>. For example, <code>int[,,]</code> is an array of integers of rank 3.</p>
+<p>Except where specified otherwise in this document, these array types are treated as named types, as
+if they are an instantiation of a fictitious type definition <code>System.Arrayn&lt;ty&gt;</code> where <code>n</code> corresponds to
+the rank of the array type.</p>
+<blockquote>
+<p>Note: The type <code>int[][,]</code> in F# is the same as the type <code>int[,][]</code> in C# although the
+dimensions are swapped. This ensures consistency with other postfix type names in F# such as <code>int list list</code>.</p>
+</blockquote>
+<p>F# supports multidimensional array types only up to rank 4.</p>
+<h3 id="515-constrained-types">5.1.5 Constrained Types</h3>
+<p>A <em>type with constraints</em> has the following form:</p>
+<div class="highlight"><pre><span></span><code>type when constraints
+</code></pre></div>
+<p>During checking, <code>type</code> is first checked and converted to a static type, then <code>constraints</code> are checked
+and added to the current inference constraints. The various forms of constraints are described
+in (see <a href="./#52-type-constraints">§5.2</a>)</p>
+<p>A type of the form <code>typar :&gt; type</code> is a <em>type variable with a subtype constraint</em> and is equivalent to
+<code>typar when typar :&gt; type</code>.</p>
+<p>A type of the form <code>#type</code> is an <em>anonymous type with a subtype constraint</em> and is equivalent to <code>'a
+when 'a :&gt; type</code> , where <code>'a</code> is a fresh type inference variable.</p>
+<h2 id="52-type-constraints">5.2 Type Constraints</h2>
+<p>A <em>type constraint</em> limits the types that can be used to create an instance of a type parameter or type
+variable. F# supports the following type constraints:</p>
+<ul>
+<li>Subtype constraints</li>
+<li>Nullness constraints</li>
+<li>Member constraints</li>
+<li>Default constructor constraints</li>
+<li>Value type constraints</li>
+<li>Reference type constraints</li>
+<li>Enumeration constraints</li>
+<li>Delegate constraints</li>
+<li>Unmanaged constraints</li>
+<li>Equality and comparison constraints</li>
+</ul>
+<h3 id="521-subtype-constraints">5.2.1 Subtype Constraints</h3>
+<p>An <em>explicit subtype constraint</em> has the following form:</p>
+<div class="highlight"><pre><span></span><code>typar :&gt; type
+</code></pre></div>
+<p>During checking, <code>typar</code> is first checked as a variable type, <code>type</code> is checked as a type, and the
+constraint is added to the current inference constraints. Subtype constraints affect type coercion as
+specified in (see <a href="./#547-subtyping-and-coercion">§5.4.7</a>)</p>
+<p>Note that subtype constraints also result implicitly from:</p>
+<ul>
+<li>Expressions of the form <code>expr :&gt; type</code>.</li>
+<li>Patterns of the form <code>pattern :&gt; type</code>.</li>
+<li>The use of generic values, types, and members with constraints.</li>
+<li>The implicit use of subsumption when using values and members (see <a href="../inference-procedures/#1443-implicit-insertion-of-flexibility-for-uses-of-functions-and-members">§14.4.3</a>).</li>
+</ul>
+<p>A type variable cannot be constrained by two distinct instantiations of the same named type. If two
+such constraints arise during constraint solving, the type instantiations are constrained to be equal.
+For example, during type inference, if a type variable is constrained by both <code>IA&lt;int&gt;</code> and <code>IA&lt;string&gt;</code>,
+an error occurs when the type instantiations are constrained to be equal. This limitation is
+specifically necessary to simplify type inference, reduce the size of types shown to users, and help
+ensure the reporting of useful error messages.</p>
+<h3 id="522-nullness-constraints">5.2.2 Nullness Constraints</h3>
+<p>An <em>explicit nullness constraint</em> has the following form:</p>
+<div class="highlight"><pre><span></span><code>typar : null
+</code></pre></div>
+<p>During checking, <code>typar</code> is checked as a variable type and the constraint is added to the current
+inference constraints. The conditions that govern when a type satisfies a nullness constraint are
+specified in (see <a href="./#548-nullness">§5.4.8</a>)</p>
+<p>In addition:</p>
+<ul>
+<li>The <code>typar</code> must be a statically resolved type variable of the form <code>^ident</code>. This limitation ensures
+  that the constraint is resolved at compile time, and means that generic code may not use this
+  constraint unless that code is marked inline (see <a href="../inference-procedures/#1467-generalization">§14.6.7</a>).</li>
+</ul>
+<blockquote>
+<p>Note: Nullness constraints are primarily for use during type checking and are used relatively rarely in F# code.
+<br>
+Nullness constraints also arise from expressions of the form <code>null</code>.</p>
+</blockquote>
+<h3 id="523-member-constraints">5.2.3 Member Constraints</h3>
+<p>An <em>explicit member constraint</em> has the following form:</p>
+<div class="highlight"><pre><span></span><code>( typar or ... or typar ) : ( member-sig )
+</code></pre></div>
+<p>For example, the F# library defines the + operator with the following signature:</p>
+<div class="highlight"><pre><span></span><code><span class="k">val</span><span class="w"> </span><span class="k">inline</span><span class="w"> </span><span class="o">(+)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">^</span><span class="n">a</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">^</span><span class="n">b</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">^</span><span class="n">c</span>
+<span class="w">    </span><span class="k">when</span><span class="w"> </span><span class="o">(^</span><span class="n">a</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="o">^</span><span class="n">b</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">(</span><span class="k">static</span><span class="w"> </span><span class="k">member</span><span class="w"> </span><span class="o">(+)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">^</span><span class="n">a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="o">^</span><span class="n">b</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">^</span><span class="n">c</span><span class="o">)</span>
+</code></pre></div>
+<p>This definition indicates that each use of the <code>+</code> operator results in a constraint on the types that
+correspond to parameters <code>^a</code>, <code>^b</code>, and <code>^c</code>. If these are named types, then either the named type for
+<code>^a</code> or the named type for <code>^b</code> must support a static member called <code>+</code> that has the given signature.</p>
+<p>In addition:</p>
+<ul>
+<li>Each <code>typar</code> must be a statically resolved type variable (see <a href="./#512-variable-types">§5.1.2</a>) in the form <code>^ident</code>. This ensures
+  that the constraint is resolved at compile time against a corresponding named type. It also
+  means that generic code cannot use this constraint unless that code is marked inline (see <a href="../inference-procedures/#1467-generalization">§14.6.7</a>).</li>
+<li>The <code>member-sig</code> cannot be generic; that is, it cannot include explicit type parameter definitions.</li>
+<li>The conditions that govern when a type satisfies a member constraint are specified in (see <a href="../inference-procedures/#1454-solving-member-constraints">§14.5.4</a>).</li>
+</ul>
+<blockquote>
+<p>Note: Member constraints are primarily used to define overloaded functions in the F# library and are used relatively rarely in F# code.<br>
+Uses of overloaded operators do not result in generalized code unless definitions are marked as inline. For example, the function<br><br> <code>let f x = x + x</code><br><br>
+results in a function <code>f</code> that can be used only to add one type of value, such as <code>int</code> or <code>float</code>. The exact type is determined by later constraints.</p>
+</blockquote>
+<p>A type variable may not be involved in the support set of more than one member constraint that has
+the same name, staticness, argument arity, and support set (see <a href="../inference-procedures/#1454-solving-member-constraints">§14.5.4</a>). If it is, the argument and
+return types in the two member constraints are themselves constrained to be equal. This limitation
+is specifically necessary to simplify type inference, reduce the size of types shown to users, and
+ensure the reporting of useful error messages.</p>
+<h3 id="524-default-constructor-constraints">5.2.4 Default Constructor Constraints</h3>
+<p>An <em>explicit default constructor constraint</em> has the following form:</p>
+<div class="highlight"><pre><span></span><code>typar : (new : unit -&gt; &#39;T)
+</code></pre></div>
+<p>During constraint solving (see <a href="../inference-procedures/#145-constraint-solving">§14.5</a>), the constraint <code>type : (new : unit -&gt; 'T)</code> is met if <code>type</code> has a
+parameterless object constructor.</p>
+<blockquote>
+<p>Note: This constraint form exists primarily to provide the full set of constraints that CLI implementations allow. It is rarely used in F# programming.</p>
+</blockquote>
+<h3 id="525-value-type-constraints">5.2.5 Value Type Constraints</h3>
+<p>An <em>explicit value type constraint</em> has the following form:</p>
+<div class="highlight"><pre><span></span><code>typar : struct
+</code></pre></div>
+<p>During constraint solving (see <a href="../inference-procedures/#145-constraint-solving">§14.5</a>), the constraint <code>type</code> : struct is met if <code>type</code> is a value type other
+than the CLI type <code>System.Nullable&lt;_&gt;</code>.</p>
+<blockquote>
+<p>Note: This constraint form exists primarily to provide the full set of constraints that CLI
+implementations allow. It is rarely used in F# programming.<br><br>
+The restriction on <code>System.Nullable</code> is inherited from C# and other CLI languages, which
+give this type a special syntactic status. In F#, the type <code>option&lt;_&gt;</code> is similar to some uses
+of <code>System.Nullable&lt;_&gt;</code>. For various technical reasons the two types cannot be equated,
+notably because types such as <code>System.Nullable&lt;System.Nullable&lt;_&gt;&gt;</code> and <code>System.Nullable&lt;string&gt;</code> are not valid CLI types.</p>
+</blockquote>
+<h3 id="526-reference-type-constraints">5.2.6 Reference Type Constraints</h3>
+<p>An <em>explicit reference type constraint</em> has the following form:</p>
+<div class="highlight"><pre><span></span><code>typar : not struct
+</code></pre></div>
+<p>During constraint solving (see <a href="../inference-procedures/#145-constraint-solving">§14.5</a>), the constraint <code>type : not struct</code> is met if <code>type</code> is a reference type.</p>
+<blockquote>
+<p>Note: This constraint form exists primarily to provide the full set of constraints that CLI implementations allow. It is rarely used in F# programming.</p>
+</blockquote>
+<h3 id="527-enumeration-constraints">5.2.7 Enumeration Constraints</h3>
+<p>An <em>explicit enumeration constraint</em> has the following form:</p>
+<div class="highlight"><pre><span></span><code>typar : enum&lt;underlying-type&gt;
+</code></pre></div>
+<p>During constraint solving (see <a href="../inference-procedures/#145-constraint-solving">§14.5</a>), the constraint <code>type : enum&lt;underlying-type&gt;</code> is met if <code>type</code> is a CLI
+or F# enumeration type that has constant literal values of type <code>underlying-type</code>.</p>
+<blockquote>
+<p>Note: This constraint form exists primarily to allow the definition of library functions such as <code>enum</code>. It is rarely used directly in F# programming.<br>
+The <code>enum</code> constraint does not imply anything about subtypes. For example, an <code>enum</code> constraint does not imply that the type is a subtype of <code>System.Enum</code>.</p>
+</blockquote>
+<h3 id="528-delegate-constraints">5.2.8 Delegate Constraints</h3>
+<p>An <em>explicit delegate constraint</em> has the following form:</p>
+<div class="highlight"><pre><span></span><code>typar : delegate&lt; tupled-arg-type , return-type&gt;
+</code></pre></div>
+<p>During constraint solving (see <a href="../inference-procedures/#14-inference-procedures">§14.</a> .5), the constraint <code>type : delegate&lt;tupled-arg-type, return-types&gt;</code>
+is met if <code>type</code> is a delegate type <code>D</code> with declaration <code>type D = delegate of object * arg1 * ... *
+argN</code> and <code>tupled-arg-type = arg1 * ... * argN.</code> That is, the delegate must match the CLI design
+pattern where the sender object is the first argument to the event.</p>
+<blockquote>
+<p>Note: This constraint form exists primarily to allow the definition of certain F# library
+functions that are related to event programming. It is rarely used directly in F#
+programming.<br><br>
+The <code>delegate</code> constraint does not imply anything about subtypes. In particular, a
+<code>delegate</code> constraint does not imply that the type is a subtype of <code>System.Delegate</code>.<br><br>
+The <code>delegate</code> constraint applies only to delegate types that follow the usual form for CLI
+event handlers, where the first argument is a <code>sender</code> object. The reason is that the
+purpose of the constraint is to simplify the presentation of CLI event handlers to the F#
+programmer.</p>
+</blockquote>
+<h3 id="529-unmanaged-constraints">5.2.9 Unmanaged Constraints</h3>
+<p>An <em>unmanaged constraint</em> has the following form:</p>
+<div class="highlight"><pre><span></span><code>typar : unmanaged
+</code></pre></div>
+<p>During constraint solving (see <a href="../inference-procedures/#145-constraint-solving">§14.5</a>), the constraint <code>type : unmanaged</code> is met if <code>type</code> is unmanaged as
+specified below:</p>
+<ul>
+<li>Types sbyte, <code>byte</code>, <code>char</code>, <code>nativeint</code>, <code>unativeint</code>, <code>float32</code>, <code>float</code>, <code>int16</code>, <code>uint16</code>, <code>int32</code>, <code>uint32</code>,
+  <code>int64</code>, <code>uint64</code>, <code>decimal</code> are unmanaged.</li>
+<li>Type <code>nativeptr&lt;type&gt;</code> is unmanaged.</li>
+<li>A non-generic struct type whose fields are all unmanaged types is unmanaged.</li>
+</ul>
+<h3 id="5210-equality-and-comparison-constraints">5.2.10 Equality and Comparison Constraints</h3>
+<p><em>Equality constraints</em> and <em>comparison constraints</em> have the following forms, respectively:</p>
+<div class="highlight"><pre><span></span><code>typar : equality
+typar : comparison
+</code></pre></div>
+<p>During constraint solving (see <a href="../inference-procedures/#145-constraint-solving">§14.5</a>), the constraint <code>type : equality</code> is met if both of the following
+conditions are true:</p>
+<ul>
+<li>The type is a named type, and the type definition does not have, and is not inferred to have, the
+  <code>NoEquality</code> attribute.</li>
+<li>The type has <code>equality</code> dependencies <code>ty1,..., tyn</code>, each of which satisfies <code>tyi: equality</code>.</li>
+</ul>
+<p>The constraint <code>type : comparison</code> is a <code>comparison constraint</code>. Such a constraint is met if all the
+following conditions hold:</p>
+<ul>
+<li>If the type is a named type, then the type definition does not have, and is not inferred to have,
+  the <code>NoComparison</code> attribute, and the type definition implements <code>System.IComparable</code> or is an
+  array type or is <code>System.IntPtr</code> or is <code>System.UIntPtr</code>.</li>
+<li>If the type has <code>comparison dependencies</code> <code>ty1, ..., tyn</code> , then each of these must satisfy <code>tyi :
+  comparison</code></li>
+</ul>
+<p>An equality constraint is a relatively weak constraint, because with two exceptions, all CLI types
+satisfy this constraint. The exceptions are F# types that are annotated with the <code>NoEquality</code> attribute
+and structural types that are inferred to have the <code>NoEquality</code> attribute. The reason is that in other
+CLI languages, such as C#, it possible to use reference equality on all reference types.</p>
+<p>A comparison constraint is a stronger constraint, because it usually implies that a type must
+implement <code>System.IComparable</code>.</p>
+<h2 id="53-type-parameter-definitions">5.3 Type Parameter Definitions</h2>
+<p>Type parameter definitions can occur in the following locations:</p>
+<ul>
+<li>Value definitions in modules</li>
+<li>Member definitions</li>
+<li>Type definitions</li>
+<li>Corresponding specifications in signatures</li>
+</ul>
+<p>For example, the following defines the type parameter ‘T in a function definition:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">id</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="o">:</span><span class="k">&#39;</span><span class="n">T</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span>
+</code></pre></div>
+<p>Likewise, in a type definition:</p>
+<div class="highlight"><pre><span></span><code><span class="k">type</span><span class="w"> </span><span class="nc">Funcs</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T1</span><span class="o">,</span><span class="k">&#39;</span><span class="n">T2</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="o">{</span><span class="w"> </span><span class="n">Forward</span><span class="o">:</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T1</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T2</span>
+<span class="w">      </span><span class="n">Backward</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T2</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T2</span><span class="w"> </span><span class="o">}</span>
+</code></pre></div>
+<p>Likewise, in a signature file:</p>
+<div class="highlight"><pre><span></span><code><span class="k">val</span><span class="w"> </span><span class="n">id</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span>
+</code></pre></div>
+<p>Explicit type parameter definitions can include <code>explicit constraint declarations</code>. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">dispose2</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="k">when</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="o">:&gt;</span><span class="w"> </span><span class="nn">System</span><span class="p">.</span><span class="n">IDisposable</span><span class="o">&gt;</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="o">:</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="o">,</span><span class="w"> </span><span class="n">y</span><span class="o">:</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="o">)</span><span class="w"> </span><span class="o">=</span>
+<span class="n">x</span><span class="o">.</span><span class="n">Dispose</span><span class="bp">()</span>
+<span class="n">y</span><span class="o">.</span><span class="n">Dispose</span><span class="bp">()</span>
+</code></pre></div>
+<p>The constraint in this example requires that <code>'T</code> be a type that supports the <code>IDisposable</code> interface.</p>
+<p>However, in most circumstances, declarations that imply subtype constraints on arguments can be
+written more concisely:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">throw</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="o">:</span><span class="w"> </span><span class="n">Exception</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">raise</span><span class="w"> </span><span class="n">x</span>
+</code></pre></div>
+<p>Multiple explicit constraint declarations use and:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">multipleConstraints</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="k">when</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="o">:&gt;</span><span class="w"> </span><span class="nn">System</span><span class="p">.</span><span class="n">IDisposable</span><span class="w"> </span><span class="ow">and</span>
+<span class="w">                                </span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="o">:&gt;</span><span class="w"> </span><span class="nn">System</span><span class="p">.</span><span class="n">IComparable</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="o">:</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="o">,</span><span class="w"> </span><span class="n">y</span><span class="o">:</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="o">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">x</span><span class="o">.</span><span class="n">CompareTo</span><span class="o">(</span><span class="n">y</span><span class="o">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="n">x</span><span class="o">.</span><span class="n">Dispose</span><span class="bp">()</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">y</span><span class="o">.</span><span class="n">Dispose</span><span class="bp">()</span>
+</code></pre></div>
+<p>Explicit type parameter definitions can declare custom attributes on type parameter definitions
+(see <a href="../custom-attributes-and-reflection/#131-custom-attributes">§13.1</a>).</p>
+<h2 id="54-logical-properties-of-types">5.4 Logical Properties of Types</h2>
+<p>During type checking and elaboration, syntactic types and constraints are processed into a reduced
+form composed of:</p>
+<ul>
+<li>Named types <code>op&lt;types&gt;</code>, where each <code>op</code> consists of a specific type definition, an operator to form
+  function types, an operator to form array types of a specific rank, or an operator to form specific
+  <code>n-tuple</code> types.</li>
+<li>Type variables <code>'ident</code>.</li>
+</ul>
+<h3 id="541-characteristics-of-type-definitions">5.4.1 Characteristics of Type Definitions</h3>
+<p>Type definitions include CLI type definitions such as <code>System.String</code> and types that are defined in F#
+code (see <a href="../type-definitions/#8-type-definitions">§8.</a>). The following terms are used to describe type definitions:</p>
+<ul>
+<li>Type definitions may be <em>generic</em> , with one or more type parameters; for example,
+  <code>System.Collections.Generic.Dictionary&lt;'Key,'Value&gt;</code>.</li>
+<li>The generic parameters of type definitions may have associated <code>formal type constraints</code>.</li>
+<li>Type definitions may have <em>custom attributes</em> (see <a href="../custom-attributes-and-reflection/#131-custom-attributes">§13.1</a>), some of which are relevant to checking and
+  inference.</li>
+<li>
+<p>Type definitions may be <em>type abbreviations</em> (see <a href="../type-definitions/#83-type-abbreviations">§8.3</a>). These are eliminated for the purposes of
+  checking and inference (see <a href="./#542-expanding-abbreviations-and-inference-equations">§5.4.2</a>).</p>
+</li>
+<li>
+<p>Type definitions have a <code>kind</code> which is one of the following:</p>
+</li>
+<li><code>Class</code></li>
+<li><code>Interface</code></li>
+<li><code>Delegate</code></li>
+<li><code>Struct</code></li>
+<li><code>Record</code></li>
+<li><code>Union</code></li>
+<li><code>Enum</code></li>
+<li><code>Measure</code></li>
+<li><code>Abstract</code></li>
+</ul>
+<p>The kind is determined at the point of declaration by Type Kind Inference (see <a href="../type-definitions/#82-type-kind-inference">§8.2</a>) if it is not
+  specified explicitly as part of the type definition. The <em>kind</em> of a type refers to the kind of its
+  outermost named type definition, after expanding abbreviations. For example, a type is a <em>class</em>
+  type if it is a named type <code>C&lt;types&gt;</code> where <code>C</code> is of kind <em>class</em>. Thus,
+  <code>System.Collections.Generic.List&lt;int&gt;</code> is a class type.</p>
+<ul>
+<li>Type definitions may be <em>sealed</em>. Record, union, function, tuple, struct, delegate, enum, and array
+  types are all sealed, as are class types that are marked with the <code>SealedAttribute</code> attribute.</li>
+<li>Type definitions may have zero or one <em>base type declarations</em>. Each base type declaration
+  represents an additional type that is supported by any values that are formed using the type
+  definition. Furthermore, some aspects of the base type are used to form the implementation of
+  the type definition.</li>
+<li>Type definitions may have one or more <em>interface declarations</em>. These represent additional
+  encapsulated types that are supported by values that are formed using the type.</li>
+</ul>
+<p>Class, interface, delegate, function, tuple, record, and union types are all <em>reference</em> type definitions.
+A type is a reference type if its outermost named type definition is a reference type, after expanding
+type definitions.</p>
+<p>Struct types are <em>value types</em>.</p>
+<h3 id="542-expanding-abbreviations-and-inference-equations">5.4.2 Expanding Abbreviations and Inference Equations</h3>
+<p>Two static types are considered equivalent and indistinguishable if they are equivalent after taking
+into account both of the following:</p>
+<ul>
+<li>The inference equations that are inferred from the current inference constraints (see <a href="../inference-procedures/#145-constraint-solving">§14.5</a>).</li>
+<li>The expansion of type abbreviations (see <a href="../type-definitions/#83-type-abbreviations">§8.3</a>).</li>
+</ul>
+<p>For example, static types may refer to type abbreviations such as <code>int</code>, which is an abbreviation for
+<code>System.Int32</code> and is declared by the F# library:</p>
+<div class="highlight"><pre><span></span><code><span class="k">type</span><span class="w"> </span><span class="nc">int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">System</span><span class="p">.</span><span class="n">Int32</span>
+</code></pre></div>
+<p>This means that the types <code>int32</code> and <code>System.Int32</code> are considered equivalent, as are <code>System.Int32 -&gt; int</code> and <code>int -&gt; System.Int32</code>.</p>
+<p>Likewise, consider the process of checking this function:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">checkString</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="o">:</span><span class="kt">string</span><span class="o">)</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="o">(</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="o">),</span><span class="w"> </span><span class="n">y</span><span class="o">.</span><span class="n">Contains</span><span class="o">(</span><span class="s">&quot;Hello&quot;</span><span class="o">)</span>
+</code></pre></div>
+<p>During checking, fresh type inference variables are created for values <code>x</code> and <code>y</code>; let’s call them <code>ty1</code> and
+<code>ty2</code>. Checking imposes the constraints <code>ty1 = string</code> and <code>ty1 = ty2</code>. The second constraint results
+from the use of the generic <code>=</code> operator. As a result of constraint solving, <code>ty2 = string</code> is inferred, and
+thus the type of <code>y</code> is <code>string</code>.</p>
+<p>All relations on static types are considered after the elimination of all equational inference
+constraints and type abbreviations. For example, we say <code>int</code> is a struct type because <code>System.Int32</code> is
+a struct type.</p>
+<blockquote>
+<p>Note: Implementations of F# should attempt to preserve type abbreviations when
+reporting types and errors to users. This typically means that type abbreviations should
+be preserved in the logical structure of types throughout the checking process.</p>
+</blockquote>
+<h3 id="543-type-variables-and-definition-sites">5.4.3 Type Variables and Definition Sites</h3>
+<p>Static types may be type variables. During type inference, static types may be <em>partial</em>, in that they
+contain type inference variables that have not been solved or generalized. Type variables may also
+refer to explicit type parameter definitions, in which case the type variable is said to be <em>rigid</em> and
+have a <em>definition site</em>.</p>
+<p>For example, in the following, the definition site of the type parameter 'T is the type definition of C:</p>
+<div class="highlight"><pre><span></span><code><span class="k">type</span><span class="w"> </span><span class="nc">C</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span>
+</code></pre></div>
+<p>Type variables that do not have a binding site are <em>inference variables</em>. If an expression is composed
+of multiple sub-expressions, the resulting constraint set is normally the union of the constraints that
+result from checking all the sub-expressions. However, for some constructs (notably function, value
+and member definitions), the checking process applies <em>generalization</em> (see <a href="../inference-procedures/#1467-generalization">§14.6.7</a>). Consequently, some
+intermediate inference variables and constraints are factored out of the intermediate constraint sets
+and new implicit definition site(s) are assigned for these variables.</p>
+<p>For example, given the following declaration, the type inference variable that is associated with the
+value <code>x</code> is generalized and has an implicit definition site at the definition of function <code>id</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">id</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span>
+</code></pre></div>
+<p>Occasionally in this specification we use a more fully annotated representation of inferred and
+generalized type information. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">id</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">a</span><span class="o">&gt;</span><span class="w"> </span><span class="n">x&#39;a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x&#39;a</span>
+</code></pre></div>
+<p>Here, <code>'a</code> represents a generic type parameter that is inferred by applying type inference and
+generalization to the original source code (see <a href="../inference-procedures/#1467-generalization">§14.6.7</a>), and the annotation represents the definition site
+of the type variable.</p>
+<h3 id="544-base-type-of-a-type">5.4.4 Base Type of a Type</h3>
+<p>The <em>base type</em> for the static types is shown in the table. These types are defined in the CLI
+specifications and corresponding implementation documentation.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Static Type</strong></th>
+<th><strong>Base Type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Abstract types</td>
+<td><code>System.Object</code></td>
+</tr>
+<tr>
+<td>All array types</td>
+<td><code>System.Array</code></td>
+</tr>
+<tr>
+<td>Class types</td>
+<td>The declared base type of the type definition if the type has one; otherwise,<br> <code>System.Object</code>. For generic types <code>C&lt;type-inst&gt;</code>, substitute the formal generic parameters of <code>C</code> for <code>type-inst</code></td>
+</tr>
+<tr>
+<td>Delegate types</td>
+<td><code>System.MulticastDelegate</code></td>
+</tr>
+<tr>
+<td>Enum types</td>
+<td><code>System.Enum</code></td>
+</tr>
+<tr>
+<td>Exception types</td>
+<td><code>System.Exception</code></td>
+</tr>
+<tr>
+<td>Interface types</td>
+<td><code>System.Object</code></td>
+</tr>
+<tr>
+<td>Record types</td>
+<td><code>System.Object</code></td>
+</tr>
+<tr>
+<td>Struct types</td>
+<td><code>System.ValueType</code></td>
+</tr>
+<tr>
+<td>Union types</td>
+<td><code>System.Object</code></td>
+</tr>
+<tr>
+<td>Variable types</td>
+<td><code>System.Object</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="545-interfaces-types-of-a-type">5.4.5 Interfaces Types of a Type</h3>
+<p>The <em>interface types</em> of a named type <code>C&lt;type-inst&gt;</code> are defined by the transitive closure of the
+interface declarations of <code>C</code> and the interface types of the base type of <code>C</code>, where formal generic
+parameters are substituted for the actual type instantiation <code>type-inst</code>.</p>
+<p>The interface types for single dimensional array types <code>ty[]</code> include the transitive closure that starts
+from the interface <code>System.Collections.Generic.IList&lt;ty&gt;</code>, which includes
+<code>System.Collections.Generic.ICollection&lt;ty&gt;</code> and <code>System.Collections.Generic.IEnumerable&lt;ty&gt;</code>.</p>
+<h3 id="546-type-equivalence">5.4.6 Type Equivalence</h3>
+<p>Two static types <code>ty1</code> and <code>ty2</code> are <em>definitely equivalent</em> (with respect to a set of current inference
+constraints) if either of the following is true:</p>
+<ul>
+<li><code>ty1</code> has form <code>op&lt;ty11, ..., ty1n&gt;</code>, <code>ty2</code> has form <code>op&lt;ty21, ..., ty2n&gt;</code> and each <code>ty1i</code> is
+  definitely equivalent to <code>ty2i</code> for all <code>1</code> &lt;= <code>i</code> &lt;= <code>n</code>.</li>
+</ul>
+<p><strong>OR</strong></p>
+<ul>
+<li><code>ty1</code> and <code>ty2</code> are both variable types, and they both refer to the same definition site or are the
+  same type inference variable.</li>
+</ul>
+<p>This means that the addition of new constraints may make types definitely equivalent where
+previously they were not. For example, given <code>Χ = { 'a = int }</code>, we have <code>list&lt;int&gt;</code> = <code>list&lt;'a&gt;</code>.</p>
+<p>Two static types <code>ty1</code> and <code>ty2</code> are <em>feasibly equivalent</em> if <code>ty1</code> and <code>ty2</code> may become definitely equivalent if
+further constraints are added to the current inference constraints. Thus <code>list&lt;int&gt;</code> and <code>list&lt;'a&gt;</code> are
+feasibly equivalent for the empty constraint set.</p>
+<h3 id="547-subtyping-and-coercion">5.4.7 Subtyping and Coercion</h3>
+<p>A static type <code>ty2</code> <em>coerces to</em> static type <code>ty1</code> (with respect to a set of current inference constraints X), if
+<code>ty1</code> is in the transitive closure of the base types and interface types of <code>ty2</code>. Static coercion is written
+with the <code>:&gt;</code> symbol:</p>
+<div class="highlight"><pre><span></span><code><span class="n">ty2</span><span class="w"> </span><span class="o">:&gt;</span><span class="w"> </span><span class="n">ty1</span>
+</code></pre></div>
+<p>Variable types <code>'T</code> coerce to all types <code>ty</code> if the current inference constraints include a constraint of the
+form <code>'T :&gt; ty2</code>, and <code>ty</code> is in the inclusive transitive closure of the base and interface types of <code>ty2</code>.</p>
+<p>A static type <code>ty2</code> <em>feasibly coerces</em> to static type <code>ty1</code> if <code>ty2</code> <em>coerces</em> to <code>ty1</code> may hold through the addition
+of further constraints to the current inference constraints. The result of adding constraints is defined
+in <code>Constraint Solving</code> (see <a href="../inference-procedures/#145-constraint-solving">§14.5</a>).</p>
+<h3 id="548-nullness">5.4.8 Nullness</h3>
+<p>The design of F# aims to greatly reduce the use of null literals in common programming tasks,
+because they generally result in error-prone code. However:</p>
+<ul>
+<li>The use of some <code>null</code> literals is required for interoperation with CLI libraries.</li>
+<li>The appearance of <code>null</code> values during execution cannot be completely precluded for technical
+  reasons related to the CLI and CLI libraries.</li>
+</ul>
+<p>As a result, F# types differ in their treatment of the <code>null</code> literal and <code>null</code> values. All named types and
+type definitions fall into one of the following categories:</p>
+<ul>
+<li><strong>Types with the <code>null</code> literal.</strong> These types have <code>null</code> as an "extra" value. The following types are in
+  this category:</li>
+<li>All CLI reference types that are defined in other CLI languages.</li>
+<li>All types that are defined in F# and annotated with the <code>AllowNullLiteral</code> attribute.</li>
+</ul>
+<p>For example, <code>System.String</code> and other CLI reference types satisfy this constraint, and these types
+  permit the direct use of the <code>null</code> literal.</p>
+<ul>
+<li><strong>Types with <code>null</code> as an abnormal value.</strong> These types do not permit the <code>null</code> literal, but do have
+  <code>null</code> as an abnormal value. The following types are in this category:</li>
+<li>All F# list, record, tuple, function, class, and interface types.</li>
+<li>All F# union types except those that have <code>null</code> as a normal value, as discussed in the next
+      bullet point.</li>
+</ul>
+<p>For types in this category, the use of the <code>null</code> literal is not directly allowed. However, strictly
+  speaking, it is possible to generate a <code>null</code> value for these types by using certain functions such as
+  <code>Unchecked.defaultof&lt;type&gt;</code>. For these types, <code>null</code> is considered an abnormal value. Operations
+  differ in their use and treatment of <code>null</code> values; for details about evaluation of expressions that
+  might include <code>null</code> values, see (see <a href="../expressions/#69-evaluation-of-elaborated-forms">§6.9</a>).</p>
+<ul>
+<li><strong>Types with <code>null</code> as a representation value.</strong> These types do not permit the <code>null</code> literal but use
+  the <code>null</code> value as a representation.
+  For these types, the use of the null literal is not directly permitted. However, one or all of the
+  “normal” values of the type is represented by the null value. The following types are in this
+  category:</li>
+<li>The unit type. The <code>null</code> value is used to represent all values of this type.</li>
+<li>Any union type that has the
+      <code>FSharp.Core.CompilationRepresentation(CompilationRepresentationFlags.UseNullAsTrueV
+      alue)</code> attribute flag and a single null union case. The null value represents this case. In
+      particular, <code>null</code> represents <code>None</code> in the F# <code>option&lt;_&gt;</code> type.</li>
+<li><strong>Types without <code>null</code>.</strong> These types do not permit the <code>null</code> literal and do not have the null value.
+  All value types are in this category, including primitive integers, floating-point numbers, and any
+  value of a CLI or F# <code>struct</code> type.</li>
+</ul>
+<p>A static type <code>ty</code> satisfies a <em>nullness constraint</em> <code>ty : null</code> if it:</p>
+<ul>
+<li>Has an outermost named type that has the <code>null</code> literal.</li>
+<li>Is a variable type with a <code>typar : null</code> constraint.</li>
+</ul>
+<h3 id="549-default-initialization">5.4.9 Default Initialization</h3>
+<p>Related to nullness is the <em>default initialization</em> of values of some types to <em>zero values</em>. This technique
+is common in some programming languages, but the design of F# deliberately de-emphasizes it.
+However, default initialization is allowed in some circumstances:</p>
+<ul>
+<li>Checked default initialization may be used when a type is known to have a valid and “safe”
+  default zero value. For example, the types of fields that are labeled with <code>DefaultValue(true)</code> are
+  checked to ensure that they allow default initialization.</li>
+<li>CLI libraries sometimes perform unchecked default initialization, as do the F# library primitives
+  <code>Unchecked.defaultof&lt;_&gt;</code> and <code>Array.zeroCreate</code>.</li>
+</ul>
+<p>The following types permit <em>default initialization</em> :</p>
+<ul>
+<li>Any type that satisfies the nullness constraint.</li>
+<li>Primitive value types.</li>
+<li>Struct types whose field types all permit default initialization.</li>
+</ul>
+<h3 id="5410-dynamic-conversion-between-types">5.4.10 Dynamic Conversion Between Types</h3>
+<p>A runtime type <code>vty</code> <em>dynamically converts</em> to a static type <code>ty</code> if any of the following are true:</p>
+<ul>
+<li><code>vty</code> coerces to <code>ty</code>.</li>
+<li><code>vty</code> is <code>int32[]</code> and <code>ty</code> is <code>uint32[]</code>(or conversely). Likewise for <code>sbyte[]</code>/<code>byte[]</code>, <code>int16[]</code>/<code>uint16[]</code>,
+  <code>int64[]</code>/<code>uint64[]</code>, and <code>nativeint[]</code>/<code>unativeint[]</code>.</li>
+<li><code>vty</code> is <code>enum[]</code> where <code>enum</code> has underlying type <code>underlying</code> , and <code>ty</code> is <code>underlying[]</code> (or conversely),
+  or the (un)signed equivalent of <code>underlying[]</code> by the immediately preceding rule.</li>
+<li><code>vty</code> is <code>elemty1[]</code>, <code>ty</code> is <code>elemty2[]</code>, <code>elemty1</code> is a reference type, and <code>elemty1</code> converts to <code>elemty2</code>.</li>
+<li><code>ty</code> is <code>System.Nullable&lt;vty&gt;</code>.</li>
+</ul>
+<p>Note that this specification does not define the full algebra of the conversions of runtime types to
+static types because the information that is available in runtime types is implementation dependent.
+However, the specification does state the conditions under which objects are guaranteed to have a
+runtime type that is compatible with a particular static type.</p>
+<blockquote>
+<p>Note: This specification covers the additional rules of CLI dynamic conversions, all of
+which apply to F# types. For example:</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">box</span><span class="w"> </span><span class="o">[|</span><span class="w"> </span><span class="nn">System</span><span class="p">.</span><span class="nn">DayOfWeek</span><span class="p">.</span><span class="n">Monday</span><span class="w"> </span><span class="o">|]</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:?</span><span class="w"> </span><span class="kt">int32</span><span class="bp">[]</span>
+<span class="n">printf</span><span class="w"> </span><span class="s">&quot;%b&quot;</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="c1">// true</span>
+</code></pre></div>
+<p>In the previous code, the type <code>System.DayOfWeek.Monday[]</code> does not statically coerce to
+<code>int32[]</code>, but the expression <code>x :? int32[]</code> evaluates to true.</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">box</span><span class="w"> </span><span class="o">[|</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">|]</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:?</span><span class="w"> </span><span class="kt">uint32</span><span class="w"> </span><span class="bp">[]</span>
+<span class="n">printf</span><span class="w"> </span><span class="s">&quot;%b&quot;</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="c1">// true</span>
+</code></pre></div>
+<p>In the previous code, the type <code>int32[]</code> does not statically coerce to <code>uint32[]</code>, but the
+expression <code>x :? uint32 []</code> evaluates to true.</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">box</span><span class="w"> </span><span class="o">[|</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="o">|]</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:?</span><span class="w"> </span><span class="kt">obj</span><span class="w"> </span><span class="bp">[]</span>
+<span class="n">printf</span><span class="w"> </span><span class="s">&quot;%b&quot;</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="c1">// true</span>
+</code></pre></div>
+<p>In the previous code, the type <code>string[]</code> does not statically coerce to <code>obj[]</code>, but the
+expression <code>x :? obj []</code> evaluates to true.</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">box</span><span class="w"> </span><span class="mi">1</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">:?</span><span class="w"> </span><span class="nn">System</span><span class="p">.</span><span class="n">Nullable</span><span class="o">&lt;</span><span class="kt">int32</span><span class="o">&gt;</span>
+<span class="n">printf</span><span class="w"> </span><span class="s">&quot;%b&quot;</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="c1">// true</span>
+</code></pre></div>
+<p>In the previous code, the type <code>int32</code> does not coerce to <code>System.Nullable&lt;int32&gt;</code>, but the
+expression <code>x :? System.Nullable&lt;int32&gt;</code> evaluates to true.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2005-2025 F# contributors. Made available under the <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons CC-by 4.0</a> licence.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

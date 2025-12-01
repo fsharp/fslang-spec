@@ -1,0 +1,1498 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://fsharp.github.io/fslang-spec/program-structure-and-execution/">
+      
+      
+        <link rel="prev" href="../namespace-and-module-signatures/">
+      
+      
+        <link rel="next" href="../custom-attributes-and-reflection/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../fsharp128.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>12. Program Structure and Execution - F# Language Specification</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#12-program-structure-and-execution" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="F# Language Specification" class="md-header__button md-logo" aria-label="F# Language Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12 11.39.61v5.695L5.695 12l5.695 5.695v5.695zm7.322 0 4.068-4.068v8.136zM24 12 12.203.61v5.695L17.898 12l-5.695 5.695v5.695z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            F# Language Specification
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              12. Program Structure and Execution
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fsharp/fslang-spec" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="F# Language Specification" class="md-nav__button md-logo" aria-label="F# Language Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12 11.39.61v5.695L5.695 12l5.695 5.695v5.695zm7.322 0 4.068-4.068v8.136zM24 12 12.203.61v5.695L17.898 12l-5.695 5.695v5.695z"/></svg>
+
+    </a>
+    F# Language Specification
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fsharp/fslang-spec" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Front Matter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rfc-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFC status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Program Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lexical-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Lexical Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basic-grammar-elements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Basic Grammar Elements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../types-and-type-constraints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Types and Type Constraints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../expressions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Expressions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type-definitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Type Definitions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../units-of-measure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Units of Measure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespaces-and-modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Namespaces and Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespace-and-module-signatures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Namespace and Module Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Program Structure and Execution
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Program Structure and Execution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#121-implementation-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.1 Implementation Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#122-signature-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.2 Signature Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#123-script-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.3 Script Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#124-compiler-directives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.4 Compiler Directives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#125-program-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.5 Program Execution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12.5 Program Execution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1251-execution-of-static-initializers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.5.1 Execution of Static Initializers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1252-explicit-entry-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.5.2 Explicit Entry Point
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../custom-attributes-and-reflection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Custom Attributes and Reflection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inference-procedures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Inference Procedures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lexical-filtering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Lexical Filtering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../provided-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Provided Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../special-attributes-and-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17. Special Attributes and Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../the-f-library-fsharpcoredll/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18. The F# Library FSharp.Core.dll
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features-for-ml-compatibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19. Features for ML Compatibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#121-implementation-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.1 Implementation Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#122-signature-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.2 Signature Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#123-script-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.3 Script Files
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#124-compiler-directives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.4 Compiler Directives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#125-program-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.5 Program Execution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12.5 Program Execution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1251-execution-of-static-initializers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.5.1 Execution of Static Initializers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1252-explicit-entry-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.5.2 Explicit Entry Point
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="12-program-structure-and-execution">12. Program Structure and Execution</h1>
+<p>F# programs are made up of a collection of assemblies. F# assemblies are made up of static
+references to existing assemblies, called the <em>referenced assemblies</em> , and an interspersed sequence of
+signature (<code>.fsi</code>) files, implementation (<code>.fs</code>) files, script (<code>.fsx</code> or <code>.fsscript</code>) files, and interactively
+executed code fragments.</p>
+<div class="highlight"><pre><span></span><code>implementation-file :=
+    namespace-decl-group ... namespace-decl-group
+    named-module
+    anonynmous-module
+
+script-file := implementation-file  -- script file, additional directives allowed
+
+signature-file :=
+    namespace-decl-group-signature ... namespace-decl-group-signature
+    anonynmous-module-signature
+    named-module-signature
+
+named-module :=
+    module long-ident module-elems
+
+anonymous-module :=
+    module-elems
+
+named-module-signature :=
+    module long-ident module-signature-elements
+
+anonymous-module-signature :=
+    module-signature-elements
+
+script-fragment :=
+    module-elems                    -- interactively entered code fragment
+</code></pre></div>
+<p>A sequence of implementation and signature files is checked as follows.</p>
+<ol>
+<li>
+<p>Form an initial environment <code>sig-env0</code> and <code>impl-env0</code> by adding all assembly references to the
+    environment in the order in which they are supplied to the compiler. This means that the
+    following procedure is applied for each referenced assembly:</p>
+<ul>
+<li>Add the top level types, modules, and namespaces to the environment.</li>
+<li>For each <code>AutoOpen</code> attribute in the assembly, find the types, modules, and namespaces that
+   the attribute references and add these to the environment.</li>
+</ul>
+<p>The resulting environment becomes the active environment for the first file to be processed.
+2. For each file:
+- If the <code>i</code>th file is a signature file <code>file.fsi</code>:</p>
+<pre><code>a. Check it against the current signature environment `sig-envi1`, which generates the
+signature `Sigfile` for the current file.
+
+b. Add `Sigfile` to `sig-envi-1` to produce `sig-envi` to make it available for use in later
+signature files.
+
+The processing of the signature file has no effect on the implementation environment, so
+</code></pre>
+<p><code>impl-envi</code> is identical to <code>impl-envi-1</code>.</p>
+<ul>
+<li>If the file is an implementation file <code>file.fs</code>, check it against the environment <code>impl-envi-1</code>,
+which gives elaborated namespace declaration groups <code>Implfile</code>.</li>
+</ul>
+<p>a. If a corresponding signature <code>Sigfile</code> exists, check <code>Implfile</code> against <code>Sigfile</code> during this
+      process (<a href="../namespace-and-module-signatures/#112-signature-conformance">§11.2</a>). Then add <code>Sigfile</code> to <code>impl-envi-1</code> to produce <code>impl-envi</code>. This step makes
+      the signature-constrained view of the implementation file available for use in later
+      implementation files. The processing of the implementation file has no effect on the
+      signature environment, so <code>sig-envi</code> is identical to <code>sig-envi-1</code>.</p>
+<p>b. If the implementation file has no signature file, add <code>Implfile</code> to both <code>sig-envi-1</code> and <code>impl-envi-1</code>,
+      to produce <code>sig-envi</code> and <code>impl-envi</code>. This makes the contents of the
+      implementation available for use in both later signature and implementation files.</p>
+</li>
+</ol>
+<p>The signature file for a particular implementation must occur before the implementation file in the
+compilation order. For every signature file, a corresponding implementation file must occur after the
+file in the compilation order. Script files may not have signatures.</p>
+<h2 id="121-implementation-files">12.1 Implementation Files</h2>
+<p>Implementation files consist of one or more namespace declaration groups. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">namespace</span><span class="w"> </span><span class="nn">MyCompany</span><span class="p">.</span><span class="n">MyOtherLibrary</span>
+
+<span class="w">    </span><span class="k">type</span><span class="w"> </span><span class="nc">MyType</span><span class="bp">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="k">member</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="nf">P</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span>
+
+<span class="w">    </span><span class="k">module</span><span class="w"> </span><span class="nn">MyInnerModule</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="k">let</span><span class="w"> </span><span class="nv">myValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="k">namespace</span><span class="w"> </span><span class="nn">MyCompany</span><span class="p">.</span><span class="w"> </span><span class="nn">MyOtherLibrary</span><span class="p">.</span><span class="n">Collections</span>
+
+<span class="w">    </span><span class="k">type</span><span class="w"> </span><span class="nc">MyCollection</span><span class="o">(</span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">int</span><span class="o">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="k">member</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="nf">P</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span>
+</code></pre></div>
+<p>An implementation file that begins with a <code>module</code> declaration defines a single namespace declaration
+group with one module. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">module</span><span class="w"> </span><span class="nn">MyCompany.MyLibrary.MyModule</span>
+
+<span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+</code></pre></div>
+<p>is equivalent to:</p>
+<div class="highlight"><pre><span></span><code><span class="k">namespace</span><span class="w"> </span><span class="nn">MyCompany</span><span class="p">.</span><span class="n">MyLibrary</span>
+
+<span class="k">module</span><span class="w"> </span><span class="nn">MyModule</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+</code></pre></div>
+<p>The final identifier in the <code>long-ident</code> that follows the <code>module</code> keyword is interpreted as the module
+name, and the preceding identifiers are interpreted as the namespace.</p>
+<p><em>Anonymous implementation files</em> do not have either a leading <code>module</code> or <code>namespace</code> declaration. Only
+the scripts and the last file within an implementation group for an executable image (.exe) may be
+anonymous. An anonymous implementation file contains module definitions that are implicitly
+placed in a module. The name of the module is generated from the name of the source file by
+capitalizing the first letter and removing the filename extensionIf the filename contains characters
+that are not valid in an F# identifier, the resulting module name is unusable and a warning occurs.</p>
+<p>Given an initial environment <code>env0</code>, an implementation file is checked as follows:</p>
+<ul>
+<li>Create a new constraint solving context.</li>
+<li>Check the namespace declaration groups in the file against the existing environment <code>envi-1</code> and
+    incrementally add them to the environment (<a href="../namespaces-and-modules/#101-namespace-declaration-groups">§10.1</a>) to create a new environment <code>envi</code>.</li>
+<li>Apply default solutions to any remaining type inference variables that include <code>default</code>
+    constraints. The defaults are applied in the order that the type variables appear in the type-
+    annotated text of the checked namespace declaration groups.</li>
+<li>Check the inferred signature of the implementation file against any required signature by using
+    <em>Signature Conformance</em> (<a href="../namespace-and-module-signatures/#112-signature-conformance">§11.2</a>). The resulting signature of an implementation file is the required
+    signature, if it is present; otherwise it is the inferred signature.</li>
+<li>Report a “value restriction” error if the resulting signature of any item that is not a member,
+    constructor, function, or type function contains any free inference type variables.</li>
+<li>Choose solutions for any remaining type inference variables in the elaborated form of an
+    expression. Process any remaining type variables in the elaborated form from left-to-right to
+    find a minimal type solution that is consistent with constraints on the type variable. If no unique
+    minimal solution exists for a type variable, report an error.</li>
+</ul>
+<p>The result of checking an implementation file is a set of elaborated namespace declaration groups.</p>
+<h2 id="122-signature-files">12.2 Signature Files</h2>
+<p>Signature files specify the functionality that is implemented by a corresponding implementation file.
+Each signature file contains a sequence of <code>namespace-decl-group-signature</code> elements. The inclusion
+of a signature file in compilation implicitly applies that signature type to the contents of a
+corresponding implementation file.</p>
+<p><em>Anonymous signature files</em> do not have either a leading <code>module</code> or <code>namespace</code> declaration. Anonymous
+signature files contain <code>module-elems</code> that are implicitly placed in a module. The name of the module
+is generated from the name of the source file by capitalizing the first letter and removing the
+filename extension. If the filename contains characters that are not valid in an F# identifier, the
+resulting module name is unusable and a warning occurs.</p>
+<p>Given an initial environment <code>env</code> , a signature file is checked as follows:</p>
+<ul>
+<li>Create a new constraint solving context.</li>
+<li>Check each <code>namespace-decl-group-signaturei</code> in <code>envi-1</code> and add the result to that environment to
+    create a new environment <code>envi</code>.</li>
+</ul>
+<p>The result of checking a signature file is a set of elaborated namespace declaration group types.</p>
+<h2 id="123-script-files">12.3 Script Files</h2>
+<p>Script files have the <code>.fsx</code> or <code>.fsscript</code> filename extension. They are processed in the same way as
+files that have the <code>.fs</code> extension, with the following exceptions:</p>
+<ul>
+<li>Side effects from all scripts are executed at program startup.</li>
+<li>For script files, the namespace <code>FSharp.Compiler.Interactive.Settings</code> is opened by default.</li>
+<li>F# Interactive references the assembly <code>FSharp.Compiler.Interactive.Settings.dll</code> by default,
+    but the F# compiler does not. If the script uses the script helper <code>fsi</code> object, then the script
+    should explicitly reference <code>FSharp.Compiler.Interactive.Settings.dll</code>.</li>
+</ul>
+<p>Script files may add to the set of referenced assemblies by using the <code>#r</code> directive (<a href="./#124-compiler-directives">§12.4</a>).</p>
+<p>Script files may add other signature, implementation, and script files to the list of sources by using
+the <code>#load</code> directive. Files are compiled in the same order that was passed to the compiler, except
+that each script is searched for <code>#load</code> directives and the loaded files are placed before the script, in
+the order they appear in the script. If a filename appears in more than one <code>#load</code> directive, the file is
+placed in the list only once, at the position it first appeared.</p>
+<p>Script files may have <code>#nowarn</code> directives, which disable a warning for the entire compilation.</p>
+<p>The F# compiler defines the <code>COMPILED</code> compilation symbol for input files that it has processed. F#
+Interactive defines the <code>INTERACTIVE</code> symbol.</p>
+<p>Script files may not have corresponding signature files.</p>
+<h2 id="124-compiler-directives">12.4 Compiler Directives</h2>
+<p><em>Compiler directives</em> are declarations in non-nested modules or namespace declaration groups in the
+following form:</p>
+<div class="highlight"><pre><span></span><code># id string ... string
+</code></pre></div>
+<p>The lexical preprocessor directives <code>#if</code>, <code>#else</code>, <code>#endif</code> and <code>#indent "off"</code> are similar to compiler
+directives. For details on <code>#if</code>, <code>#else</code>, <code>#endif</code>, see <a href="../lexical-analysis/#33-conditional-compilation">§3.3</a>. The <code>#indent "off"</code> directive is described in
+<a href="../features-for-ml-compatibility/#194-file-extensions-and-lexical-matters">§19.4</a>.</p>
+<p>The following directives are valid in all files:</p>
+<table>
+<thead>
+<tr>
+<th>Directive</th>
+<th>Example</th>
+<th>Short Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>#nowarn</code></td>
+<td><code>#nowarn "54"</code></td>
+<td>For signature (<code>.fsi</code>) files and implementation (<code>.fs</code>) files, turns off warnings within this lexical scope.<br>For script (<code>.fsx</code> or <code>.fsscript</code>) files, turns off warnings globally.</td>
+</tr>
+</tbody>
+</table>
+<p>The following directives are valid in script files:</p>
+<table>
+<thead>
+<tr>
+<th>Directive</th>
+<th>Example</th>
+<th>Short Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>#r</code><br><code>#reference</code></td>
+<td><code>#r "System.Core"</code><br><code>#r @"Nunit.Core.dll"</code>&lt;br<code>#r @"c:\NUnit\Nunit.Core.dll"</code><br><code>#r "nunit.core, Version=2.2.2.0, Culture=neutral,PublicKeyToken=96d09a1eb7f44a77"</code></td>
+<td>References a DLL within this entire script.</td>
+</tr>
+<tr>
+<td><code>#I</code><br><code>#Include</code></td>
+<td><code>#I @"c:\Projects\Libraries\Bin"</code></td>
+<td>Adds a path to the search paths for DLLs that are referenced within this entire script.`</td>
+</tr>
+<tr>
+<td><code>#load #load "library.fs"</code></td>
+<td><code>#load "core.fsi" "core.fs"</code></td>
+<td>Loads a set of signature and implementation files into the script execution engine.</td>
+</tr>
+<tr>
+<td><code>#time</code></td>
+<td><code>#time</code><br><code>#time "on"</code><br><code>#time "off"</code></td>
+<td>Enables or disables the display of performance information, including elapsed real time, CPU time, and garbage collection information for each section of code that is interpreted and executed.</td>
+</tr>
+<tr>
+<td><code>#help</code></td>
+<td><code>#help</code></td>
+<td>Asks the script execution environment for help.</td>
+</tr>
+<tr>
+<td><code>#q</code><br><code>#quit</code></td>
+<td><code>#q</code><br><code>#quit</code></td>
+<td>Requests the script execution environment to halt execution and exit.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="125-program-execution">12.5 Program Execution</h2>
+<p>Execution of F# code occurs in the context of an executing CLI program into which one or more
+compiled F# assemblies or script fragments is loaded. During execution, the CLI program can use the
+functions, values, static members, and object constructors that the assemblies and script fragments
+define.</p>
+<h3 id="1251-execution-of-static-initializers">12.5.1 Execution of Static Initializers</h3>
+<p>Each implementation file, script file, and script fragment involves a <em>static initializer</em>. The execution of
+the static initializer is triggered as follows:</p>
+<ul>
+<li>For executable (.exe) files that have an explicit entry point function, the static initializer for the
+    last file that appears on the command line is forced immediately as the first action in the
+    execution of the entry point function.</li>
+<li>For executable files that have an implicit entry point, the static initializer for the last file that
+    appears on the command line is the body of the implicit entry point function.</li>
+<li>For scripts, F# Interactive executes the static initializer for each program fragment immediately.</li>
+<li>For all other implementation files, the static initializer for the file is executed on first access of a
+    value that has observable initialization according to the rules that follow, or first access to any
+    member of any type in the file that has at least one “static let” or “static do” declaration.</li>
+</ul>
+<p>At runtime, the static initializer evaluates, in order, the definitions in the file that have observable
+initialization according to the rules that follow. Definitions with observable initialization in nested
+modules and types are included in the static initializer for the overall file.</p>
+<p>All definitions have observable initialization except for the following definitions in modules:</p>
+<ul>
+<li>Function definitions</li>
+<li>Type function definitions</li>
+<li>Literal definitions</li>
+<li>Value definitions that are generalized to have one or more type variables</li>
+<li>Non-mutable, non-thread-local values that are bound to an <em>initialization constant expression</em> ,
+    which is an expression whose elaborated form is one of the following:</li>
+<li>A simple constant expression.</li>
+<li>A null expression.</li>
+<li>A use of the <code>typeof&lt;_&gt;</code> or <code>sizeof&lt;_&gt;</code> operator from <code>FSharp.Core.Operators</code>, or the
+       <code>defaultof&lt;_&gt;</code> operator from <code>FSharp.Core.Operators.Unchecked</code>.</li>
+<li>A let expression where the constituent expressions are initialization constant expressions.</li>
+<li>A match expression where the input is an initialization constant expression, each case is a
+       test against a constant, and each target is an initialization constant expression.</li>
+<li>A use of one of the unary or binary operators <code>=</code>, <code>&lt;&gt;</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>+</code>, <code>-</code>, <code>*</code> , <code>&lt;&lt;&lt;</code>, <code>&gt;&gt;&gt;</code>, <code>|||</code>, <code>&amp;&amp;&amp;</code>, <code>^^^</code>,
+       <code>~~~</code>, <code>enum&lt;_&gt;</code>, <code>not</code>, <code>compare</code>, prefix <code>–</code>, and prefix <code>+</code> from <code>FSharp.Core.Operators</code> on one or two
+       arguments, respectively. The arguments themselves must be initialization constant
+       expressions, but cannot be operations on decimals or strings. Note that the operators are
+       unchecked for arithmetic operations, and that the operators <code>%</code> and <code>/</code> are not included
+       because their use can raise division-by-zero exceptions.</li>
+<li>A use of a <code>[&lt;Literal&gt;]</code> value.</li>
+<li>A use of a case from an enumeration type.</li>
+<li>A use of a null case from a union type.</li>
+<li>A use of a value that is defined in the same assembly and does not have observable
+       initialization, or the use of a value that is defined by a <code>let</code> or <code>match</code> expression within the
+       expression itself.</li>
+</ul>
+<p>If the execution environment supports the concurrent execution of multiple threads of F# code, each
+static initializer runs as a mutual exclusion region. The use of a mutual exclusion region ensures that
+if another thread attempts to access a value that has observable initialization, that thread pauses
+until static initialization is complete. A static initializer runs only once, on the first thread that
+acquires entry to the mutual exclusion region.</p>
+<p>Values that have observable initialization have implied CLI fields that are private to the assembly. If
+such a field is accessed by using CLI reflection before the execution of the corresponding
+initialization code, then the default value for the type of the field will be returned.</p>
+<p>Within implementation files, generic types that have static value definitions receive a static initializer
+for each generic instantiation. These initializers are executed immediately before the first
+dereference of the static fields for the generic type, subject to any limitations present in the specific
+CLI implementation in used. If the static initializer for the enclosing file is first triggered during
+execution of the static initializer for a generic instantiation, references to static values definition in
+the generic class evaluate to the default value.</p>
+<p>For example, if external code accesses <code>data</code> in this example, the static initializer runs and the
+program prints “hello”:</p>
+<div class="highlight"><pre><span></span><code><span class="k">module</span><span class="w"> </span><span class="nn">LibraryModule</span>
+<span class="n">printfn</span><span class="w"> </span><span class="s">&quot;hello&quot;</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Dictionary</span><span class="o">&lt;</span><span class="n">int</span><span class="o">,</span><span class="n">int</span><span class="o">&gt;</span><span class="bp">()</span>
+</code></pre></div>
+<p>That is, the side effect of printing “hello” is guaranteed to be triggered by an access to the value
+<code>data</code>.</p>
+<p>If external code calls <code>id</code> or accesses <code>size</code> in the following example, the execution of the static
+initializer is not yet triggered. However if external code calls <code>f()</code>, the execution of the static initializer
+is triggered because the body refers to the value <code>data</code>, which has observable initialization.</p>
+<div class="highlight"><pre><span></span><code><span class="k">module</span><span class="w"> </span><span class="nn">LibraryModule</span>
+<span class="n">printfn</span><span class="w"> </span><span class="s">&quot;hello&quot;</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Dictionary</span><span class="o">&lt;</span><span class="n">int</span><span class="o">,</span><span class="n">int</span><span class="o">&gt;</span><span class="bp">()</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">id</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">f</span><span class="bp">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">data</span>
+</code></pre></div>
+<p>All of the following represent definitions that do not have observable initialization because they are
+initialization constant expressions.</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">System</span><span class="p">.</span><span class="nn">DayOfWeek</span><span class="p">.</span><span class="n">Friday</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;two&quot;</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">enum</span><span class="o">&lt;</span><span class="nn">System</span><span class="p">.</span><span class="n">DayOfWeek</span><span class="o">&gt;(</span><span class="mi">0</span><span class="o">)</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="kt">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">[]</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="n">option</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">None</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">compare</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">1</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="k">true</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="k">true</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="k">false</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">2</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">true</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="k">true</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="w"> </span><span class="o">&gt;&gt;&gt;</span><span class="w"> </span><span class="mi">2</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">typeof</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">Unchecked</span><span class="p">.</span><span class="n">defaultof</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">Unchecked</span><span class="p">.</span><span class="n">defaultof</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sizeof</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;</span>
+</code></pre></div>
+<h3 id="1252-explicit-entry-point">12.5.2 Explicit Entry Point</h3>
+<p>The last file that is specified in the compilation order for an executable file may contain an explicit
+entry point. The entry point is indicated by annotating a function in a module with <code>EntryPoint</code>
+attribute:</p>
+<ul>
+<li>The <code>EntryPoint</code> attribute applies only to a “let”-bound function in a module. The function cannot
+    be a member.</li>
+<li>This attribute can apply to only one function, and the function must be the last declaration in the
+    last file processed on the command line. The function may be in a nested module.</li>
+<li>The function is asserted to have type <code>string[] -&gt; int</code> before type checking. If the assertion fails,
+    an error occurs.</li>
+<li>At runtime, the entry point is passed one argument at startup: an array that contains the same
+    entries as <code>System.Environment.GetCommandLineArgs()</code>, minus the first entry in that array.</li>
+</ul>
+<p>The function becomes the entry point to the program. At startup, F# immediately forces execution
+of the static initializer for the file in which the function is declared, and then evaluates the body of
+the function.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2005-2025 F# contributors. Made available under the <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons CC-by 4.0</a> licence.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1505 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://fsharp.github.io/fslang-spec/basic-grammar-elements/">
+      
+      
+        <link rel="prev" href="../lexical-analysis/">
+      
+      
+        <link rel="next" href="../types-and-type-constraints/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../fsharp128.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>4. Basic Grammar Elements - F# Language Specification</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#4-basic-grammar-elements" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="F# Language Specification" class="md-header__button md-logo" aria-label="F# Language Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12 11.39.61v5.695L5.695 12l5.695 5.695v5.695zm7.322 0 4.068-4.068v8.136zM24 12 12.203.61v5.695L17.898 12l-5.695 5.695v5.695z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            F# Language Specification
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4. Basic Grammar Elements
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fsharp/fslang-spec" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="F# Language Specification" class="md-nav__button md-logo" aria-label="F# Language Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12 11.39.61v5.695L5.695 12l5.695 5.695v5.695zm7.322 0 4.068-4.068v8.136zM24 12 12.203.61v5.695L17.898 12l-5.695 5.695v5.695z"/></svg>
+
+    </a>
+    F# Language Specification
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fsharp/fslang-spec" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Front Matter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rfc-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFC status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Program Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lexical-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Lexical Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Basic Grammar Elements
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Basic Grammar Elements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#41-operator-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Operator Names
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#42-long-identifiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Long Identifiers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#43-constants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Constants
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#44-operators-and-precedence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Operators and Precedence
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.4 Operators and Precedence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#441-categorization-of-symbolic-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4.1 Categorization of Symbolic Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#442-precedence-of-symbolic-operators-and-patternexpression-constructs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4.2 Precedence of Symbolic Operators and Pattern/Expression Constructs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../types-and-type-constraints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Types and Type Constraints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../expressions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Expressions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type-definitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Type Definitions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../units-of-measure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Units of Measure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespaces-and-modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Namespaces and Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespace-and-module-signatures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Namespace and Module Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program-structure-and-execution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Program Structure and Execution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../custom-attributes-and-reflection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Custom Attributes and Reflection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inference-procedures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Inference Procedures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lexical-filtering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Lexical Filtering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../provided-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Provided Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../special-attributes-and-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17. Special Attributes and Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../the-f-library-fsharpcoredll/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18. The F# Library FSharp.Core.dll
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features-for-ml-compatibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19. Features for ML Compatibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#41-operator-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Operator Names
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#42-long-identifiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Long Identifiers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#43-constants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Constants
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#44-operators-and-precedence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Operators and Precedence
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.4 Operators and Precedence">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#441-categorization-of-symbolic-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4.1 Categorization of Symbolic Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#442-precedence-of-symbolic-operators-and-patternexpression-constructs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4.2 Precedence of Symbolic Operators and Pattern/Expression Constructs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="4-basic-grammar-elements">4. Basic Grammar Elements</h1>
+<p>This section defines grammar elements that are used repeatedly in later sections.</p>
+<h2 id="41-operator-names">4.1 Operator Names</h2>
+<p>Several places in the grammar refer to an <code>ident-or-op</code> rather than an <code>ident</code> :</p>
+<div class="highlight"><pre><span></span><code>ident-or-op :=
+    | ident
+    | ( op-name )
+    | (*)
+op-name :=
+    | symbolic-op
+    | range-op-name
+    | active-pattern-op-name
+range-op-name :=
+    | ..
+    | .. ..
+active-pattern-op-name :=
+    | | ident | ... | ident |
+    | | ident | ... | ident | _ |
+</code></pre></div>
+<p>In operator definitions, the operator name is placed in parentheses. For example:</p>
+<div class="highlight"><pre><span></span><code>let (+++) x y = (x, y)
+</code></pre></div>
+<p>This example defines the binary operator <code>+++</code>. The text <code>(+++)</code> is an <code>ident-or-op</code> that acts as an
+identifier with associated text <code>+++</code>. Likewise, for active pattern definitions (§ 7), the active pattern
+case names are placed in parentheses, as in the following example:</p>
+<div class="highlight"><pre><span></span><code>let (|A|B|C|) x = if x &lt; 0 then A elif x = 0 then B else C
+</code></pre></div>
+<p>Because an <code>ident-or-op</code> acts as an identifier, such names can be used in expressions. For example:</p>
+<div class="highlight"><pre><span></span><code>List.map ((+) 1) [ 1; 2; 3 ]
+</code></pre></div>
+<p>The three character token <code>(*)</code> defines the <code>*</code> operator:</p>
+<div class="highlight"><pre><span></span><code>let (*) x y = (x + y)
+</code></pre></div>
+<p>To define other operators that begin with <code>*</code>, whitespace must follow the opening parenthesis;
+otherwise <code>(*</code> is interpreted as the start of a comment:</p>
+<div class="highlight"><pre><span></span><code>let ( *+* ) x y = (x + y)
+</code></pre></div>
+<p>Symbolic operators and some symbolic keywords have a compiled name that is visible in the
+compiled form of F# programs. The compiled names are shown below.</p>
+<div class="highlight"><pre><span></span><code>[]    op_Nil
+::    op_ColonColon
++     op_Addition
+-     op_Subtraction
+*     op_Multiply
+/     op_Division
+**    op_Exponentiation
+@     op_Append
+^     op_Concatenate
+%     op_Modulus
+&amp;&amp;&amp;   op_BitwiseAnd
+|||   op_BitwiseOr
+^^^   op_ExclusiveOr
+&lt;&lt;&lt;   op_LeftShift
+~~~   op_LogicalNot
+&gt;&gt;&gt;   op_RightShift
+~+    op_UnaryPlus
+~-    op_UnaryNegation
+=     op_Equality
+&lt;&gt;    op_Inequality
+&lt;=    op_LessThanOrEqual
+&gt;=    op_GreaterThanOrEqual
+&lt;     op_LessThan
+&gt;     op_GreaterThan
+?     op_Dynamic
+?&lt;-   op_DynamicAssignment
+|&gt;    op_PipeRight
+||&gt;   op_PipeRight2
+|||&gt;  op_PipeRight3
+&lt;|    op_PipeLeft
+&lt;||   op_PipeLeft2
+&lt;|||  op_PipeLeft3
+!     op_Dereference
+&gt;&gt;    op_ComposeRight
+&lt;&lt;    op_ComposeLeft
+&lt;@ @&gt; op_Quotation
+&lt;@@ @@&gt; op_QuotationUntyped
+~%    op_Splice
+~%%   op_SpliceUntyped
+~&amp;    op_AddressOf
+~&amp;&amp;   op_IntegerAddressOf
+||    op_BooleanOr
+&amp;&amp;    op_BooleanAnd
++=    op_AdditionAssignment
+- =   op_SubtractionAssignment
+*=    op_MultiplyAssignment
+/=    op_DivisionAssignment
+..    op_Range
+.. .. op_RangeStep
+</code></pre></div>
+<p>Compiled names for other symbolic operators are <code>op_N1</code> ... <code>Nn</code> where <code>N1</code> to <code>Nn</code> are the names for the
+characters as shown in the table below. For example, the symbolic identifier <code>&lt;*</code> has the compiled
+name <code>op_LessMultiply</code>:</p>
+<div class="highlight"><pre><span></span><code>&gt;   Greater
+&lt;   Less
++   Plus
+-   Minus
+*   Multiply
+=   Equals
+~   Twiddle
+%   Percent
+.   Dot
+&amp;   Amp
+|   Bar
+@   At
+#   Hash
+^   Hat
+!   Bang
+?   Qmark
+/   Divide
+.   Dot
+:   Colon
+(   LParen
+,   Comma
+)   RParen
+[   LBrack
+]   RBrack
+</code></pre></div>
+<h2 id="42-long-identifiers">4.2 Long Identifiers</h2>
+<p>Long identifiers <code>long-ident</code> are sequences of identifiers that are separated by ‘<code>.</code>’ and optional
+whitespace. Long identifiers <code>long-ident-or-op</code> are long identifiers that may terminate with an
+operator name.</p>
+<div class="highlight"><pre><span></span><code>long-ident := ident &#39;.&#39; ... &#39;.&#39; ident
+long-ident-or-op :=
+    | long-ident &#39;.&#39; ident-or-op
+    | ident-or-op
+</code></pre></div>
+<h2 id="43-constants">4.3 Constants</h2>
+<p>The constants in the following table may be used in patterns and expressions. The individual lexical
+formats for the different constants are defined in <a href="../lexical-analysis/#3-lexical-analysis">§3.</a></p>
+<div class="highlight"><pre><span></span><code>const :=
+    | sbyte
+    | int16
+    | int32
+    | int64                 -- 8, 16, 32 and 64-bit signed integers
+    | byte
+    | uint16
+    | uint32
+    | int                   -- 32 - bit signed integer
+    | uint64                -- 8, 16, 32 and 64-bit unsigned integers
+    | ieee32                -- 32 - bit number of type &quot;float32&quot;
+    | ieee64                -- 64 - bit number of type &quot;float&quot;
+    | bignum                -- User or library-defined integral literal type
+    | char                  -- Unicode character of type &quot;char&quot;
+    | string v              -- String of type &quot;string&quot; (System.String)
+    | verbatim-string       -- String of type &quot;string&quot; (System.String)
+    | triple-quoted-string  -- String of type &quot;string&quot; (System.String)
+    | bytestring            -- String of type &quot;byte[]&quot;
+    | verbatim-bytearray    -- String of type &quot;byte[]&quot;
+    | bytechar              -- Char of type &quot;byte&quot;
+    | false | true          -- Boolean constant of type &quot;bool&quot;
+    | &#39;(&#39; &#39;)&#39;               -- unit constant of type &quot;unit&quot;
+</code></pre></div>
+<h2 id="44-operators-and-precedence">4.4 Operators and Precedence</h2>
+<h3 id="441-categorization-of-symbolic-operators">4.4.1 Categorization of Symbolic Operators</h3>
+<p>The following <code>symbolic-op</code> tokens can be used to form prefix and infix expressions. The marker <code>OP</code>
+represents all <code>symbolic-op</code> tokens that begin with the indicated prefix, except for tokens that appear
+elsewhere in the table.</p>
+<div class="highlight"><pre><span></span><code>infix-or-prefix-op :=
+    +, -, +., -., %, %%, &amp;, &amp;&amp;, ?+, ?-
+prefix-op :=
+    infix-or-prefix-op
+    ~ ~~ ~~~    (and any repetitions of ~)
+    !OP         (except !=)
+infix-op :=
+    infix-or-prefix-op
+    -OP +OP |OP &lt;OP &gt;OP =OP &amp;OP ^OP *OP /OP %OP @OP !=OP
+                (or any of these preceded by one or more &#39;.&#39; or &#39;?&#39;)
+    :=
+    ::
+    $
+    or
+    ?
+</code></pre></div>
+<p>The operators <code>+</code>, <code>-</code>, <code>+.</code>, <code>-.</code>, <code>%</code>, <code>%%</code>, <code>&amp;</code>, <code>&amp;&amp;</code>, <code>?+</code>, <code>?-</code> can be used as both prefix and infix operators. When these
+operators are used as prefix operators, the tilde character is prepended internally to generate the
+operator name so that the parser can distinguish such usage from an infix use of the operator. For
+example, <code>-x</code> is parsed as an application of the operator <code>~-</code> to the identifier <code>x</code>. This generated name is
+also used in definitions for these prefix operators. Consequently, the definitions of the following
+prefix operators include the <code>~</code> character:</p>
+<div class="highlight"><pre><span></span><code>// To completely redefine the prefix + operator:
+let (~+) x = x
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>// To completely redefine the infix + operator to be addition modulo- 7
+let (+) a b = (a + b) % 7
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>// To define the operator on a type:
+type C(n:int) =
+let n = n % 7
+    member x.N = n
+    static member (~+) (x:C) = x
+    static member (~-) (x:C) = C(-n)
+    static member (+) (x1:C,x2:C) = C(x1.N+x2.N)
+    static member (-) (x1:C,x2:C) = C(x1.N-x2.N)
+</code></pre></div>
+<p>The <code>::</code> operator is special. It represents the union case for the addition of an element to the head of
+an immutable linked list, and cannot be redefined, although it may be used to form infix expressions.
+It always accepts arguments in tupled form — as do all union cases — rather than in curried form.</p>
+<h3 id="442-precedence-of-symbolic-operators-and-patternexpression-constructs">4.4.2 Precedence of Symbolic Operators and Pattern/Expression Constructs</h3>
+<p>Rules of precedence control the order of evaluation for ambiguous expression and pattern
+constructs. Higher precedence items are evaluated before lower precedence items.</p>
+<p>The following table shows the order of precedence, from highest to lowest, and indicates whether
+the operator or expression is associated with the token to its left or right. The <code>OP</code> marker represents
+the <code>symbolic-op</code> tokens that begin with the specified prefix, except those listed elsewhere in the
+table. For example, <code>+OP</code> represents any token that begins with a plus sign, unless the token appears
+elsewhere in the table.</p>
+<table>
+<thead>
+<tr>
+<th>Operator or expression</th>
+<th>Associativity</th>
+<th>Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>f&lt;types&gt;</code></td>
+<td>Left</td>
+<td>High-precedence type application; see <a href="../lexical-filtering/#153-lexical-analysis-of-type-applications">§15.3</a></td>
+</tr>
+<tr>
+<td><code>f(x)</code></td>
+<td>Left</td>
+<td>High-precedence application; see <a href="../lexical-filtering/#152-high-precedence-application">§15.2</a></td>
+</tr>
+<tr>
+<td><code>.</code> <code>?</code></td>
+<td>Left</td>
+<td></td>
+</tr>
+<tr>
+<td><em>prefix-op</em></td>
+<td>Left</td>
+<td>Applies to prefix uses of these symbols</td>
+</tr>
+<tr>
+<td><code>\| rule</code></td>
+<td>Right</td>
+<td>Pattern matching rules</td>
+</tr>
+<tr>
+<td><code>f x</code> <code>lazy x</code> <code>assert x</code></td>
+<td>Left</td>
+<td></td>
+</tr>
+<tr>
+<td><code>**OP</code></td>
+<td>Right</td>
+<td></td>
+</tr>
+<tr>
+<td><code>*OP</code> <code>/OP</code> <code>%OP</code></td>
+<td>Left</td>
+<td></td>
+</tr>
+<tr>
+<td><code>-OP</code> <code>+OP</code></td>
+<td>Left</td>
+<td>Applies to infix uses of these symbols</td>
+</tr>
+<tr>
+<td><code>:?</code></td>
+<td>Not associative</td>
+<td></td>
+</tr>
+<tr>
+<td><code>::</code></td>
+<td>Right</td>
+<td></td>
+</tr>
+<tr>
+<td><code>^OP</code> <code>@OP</code></td>
+<td>Right</td>
+<td></td>
+</tr>
+<tr>
+<td><code>!=OP</code> <code>&lt;OP</code> <code>&gt;OP</code> <code>=OP</code> <code>\|OP</code> <code>&amp;OP</code> <code>$</code></td>
+<td>Left</td>
+<td></td>
+</tr>
+<tr>
+<td><code>:&gt;</code> <code>:?&gt;</code></td>
+<td>Right</td>
+<td></td>
+</tr>
+<tr>
+<td><code>&amp;</code> <code>&amp;&amp;</code></td>
+<td>Left</td>
+<td></td>
+</tr>
+<tr>
+<td><code>or</code> <code>\|\|</code></td>
+<td>Left</td>
+<td></td>
+</tr>
+<tr>
+<td><code>,</code></td>
+<td>Not associative</td>
+<td></td>
+</tr>
+<tr>
+<td><code>:=</code></td>
+<td>Right</td>
+<td></td>
+</tr>
+<tr>
+<td><code>-&gt;</code></td>
+<td>Right</td>
+<td></td>
+</tr>
+<tr>
+<td><code>if</code></td>
+<td>Not associative</td>
+<td></td>
+</tr>
+<tr>
+<td><code>function</code>, <code>fun</code>, <code>match</code>, <code>try</code></td>
+<td>Not associative</td>
+<td></td>
+</tr>
+<tr>
+<td><code>let</code></td>
+<td>Not associative</td>
+<td></td>
+</tr>
+<tr>
+<td><code>;</code></td>
+<td>Right</td>
+<td></td>
+</tr>
+<tr>
+<td><code>\|</code></td>
+<td>Left</td>
+<td></td>
+</tr>
+<tr>
+<td><code>when</code></td>
+<td>Right</td>
+<td></td>
+</tr>
+<tr>
+<td><code>as</code></td>
+<td>Right</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>If ambiguous grammar rules (such as the rules from §6) involve tokens in the table, a construct that
+appears earlier in the table has higher precedence than a construct that appears later in the table.</p>
+<p>The associativity indicates whether the operator or construct applies to the item to the left or the
+right of the operator.</p>
+<p>For example, consider the following token stream:</p>
+<div class="highlight"><pre><span></span><code><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c</span>
+</code></pre></div>
+<p>In this expression, the <code>expr infix-op expr</code> rule for <code>b * c</code> takes precedence over the
+<code>expr infix-op expr</code> rule for <code>a + b</code>, because the <code>*</code> operator has higher precedence than the <code>+</code> operator. Thus, this
+expression can be pictured as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="w">   </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c</span>
+<span class="c1">// _________</span>
+<span class="c1">//     _____</span>
+</code></pre></div>
+<p>rather than</p>
+<div class="highlight"><pre><span></span><code><span class="w">   </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c</span>
+<span class="c1">// _________</span>
+<span class="c1">// _____</span>
+</code></pre></div>
+<p>Likewise, given the tokens</p>
+<div class="highlight"><pre><span></span><code><span class="n">a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c</span>
+</code></pre></div>
+<p>the left associativity of <code>*</code> means we can picture the resolution of the ambiguity as:</p>
+<div class="highlight"><pre><span></span><code><span class="w">   </span><span class="n">a</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c</span>
+<span class="c1">// _____</span>
+</code></pre></div>
+<p>In the preceding table, leading <code>.</code> characters are ignored when determining precedence for infix
+operators. For example, <code>.*</code> has the same precedence as <code>*.</code> This rule ensures that operators such as
+<code>.*</code>, which is frequently used for pointwise-operation on matrices, have the expected precedence.</p>
+<p>The table entries marked as “High-precedence application” and “High-precedence type application”
+are the result of the augmentation of the lexical token stream, as described in <a href="../lexical-filtering/#1512-inserted-tokens">§15.1.2</a> and <a href="../lexical-filtering/#153-lexical-analysis-of-type-applications">§15.3</a>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2005-2025 F# contributors. Made available under the <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons CC-by 4.0</a> licence.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

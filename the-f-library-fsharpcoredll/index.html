@@ -1,0 +1,2605 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://fsharp.github.io/fslang-spec/the-f-library-fsharpcoredll/">
+      
+      
+        <link rel="prev" href="../special-attributes-and-types/">
+      
+      
+        <link rel="next" href="../features-for-ml-compatibility/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../fsharp128.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>18. The F# Library FSharp.Core.dll - F# Language Specification</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#18-the-f-library-fsharpcoredll" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="F# Language Specification" class="md-header__button md-logo" aria-label="F# Language Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12 11.39.61v5.695L5.695 12l5.695 5.695v5.695zm7.322 0 4.068-4.068v8.136zM24 12 12.203.61v5.695L17.898 12l-5.695 5.695v5.695z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            F# Language Specification
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              18. The F# Library FSharp.Core.dll
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fsharp/fslang-spec" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="F# Language Specification" class="md-nav__button md-logo" aria-label="F# Language Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12 11.39.61v5.695L5.695 12l5.695 5.695v5.695zm7.322 0 4.068-4.068v8.136zM24 12 12.203.61v5.695L17.898 12l-5.695 5.695v5.695z"/></svg>
+
+    </a>
+    F# Language Specification
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fsharp/fslang-spec" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Front Matter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rfc-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFC status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Program Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lexical-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Lexical Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basic-grammar-elements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Basic Grammar Elements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../types-and-type-constraints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Types and Type Constraints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../expressions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Expressions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type-definitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Type Definitions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../units-of-measure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Units of Measure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespaces-and-modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Namespaces and Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespace-and-module-signatures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Namespace and Module Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program-structure-and-execution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Program Structure and Execution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../custom-attributes-and-reflection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Custom Attributes and Reflection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inference-procedures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Inference Procedures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lexical-filtering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Lexical Filtering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../provided-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Provided Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../special-attributes-and-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17. Special Attributes and Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18. The F# Library FSharp.Core.dll
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18. The F# Library FSharp.Core.dll
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#181-basic-types-fsharpcore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.1 Basic Types (FSharp.Core)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.1 Basic Types (FSharp.Core)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1811-basic-type-abbreviations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.1.1 Basic Type Abbreviations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1812-basic-types-that-accept-unit-of-measure-annotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.1.2 Basic Types that Accept Unit of Measure Annotations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1813-the-nativeptr_-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.1.3 The nativeptr&lt;_&gt; Type
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#182-basic-operators-and-functions-fsharpcoreoperators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2 Basic Operators and Functions (FSharp.Core.Operators)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.2 Basic Operators and Functions (FSharp.Core.Operators)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1821-basic-arithmetic-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2.1 Basic Arithmetic Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1822-generic-equality-and-comparison-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2.2 Generic Equality and Comparison Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1823-bitwise-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2.3 Bitwise Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1824-math-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2.4 Math Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1825-function-pipelining-and-composition-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2.5 Function Pipelining and Composition Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1826-object-transformation-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2.6 Object Transformation Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1827-pair-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2.7 Pair Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1828-exception-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2.8 Exception Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1829-inputoutput-handles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2.9 Input/Output Handles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#18210-overloaded-conversion-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2.10 Overloaded Conversion Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#183-checked-arithmetic-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.3 Checked Arithmetic Operators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#184-list-and-option-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.4 List and Option Types
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.4 List and Option Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1841-the-list-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.4.1 The List Type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1842-the-option-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.4.2 The Option Type
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#185-choices-and-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.5 Choices and Results
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#186-lazy-computations-lazy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.6 Lazy Computations (Lazy)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#187-asynchronous-computations-async" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.7 Asynchronous Computations (Async)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#188-query-expressions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.8 Query Expressions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#189-agents-mailboxprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.9 Agents (MailboxProcessor)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1810-event-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.10 Event Types
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1811-immutable-collection-types-map-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.11 Immutable Collection Types (Map, Set)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1812-text-formatting-printf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.12 Text Formatting (printf)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1813-reflection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.13 Reflection
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1814-quotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.14 Quotations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1815-native-pointer-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.15 Native Pointer Operations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.15 Native Pointer Operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#18151-stack-allocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.15.1 Stack Allocation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features-for-ml-compatibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19. Features for ML Compatibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#181-basic-types-fsharpcore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.1 Basic Types (FSharp.Core)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.1 Basic Types (FSharp.Core)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1811-basic-type-abbreviations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.1.1 Basic Type Abbreviations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1812-basic-types-that-accept-unit-of-measure-annotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.1.2 Basic Types that Accept Unit of Measure Annotations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1813-the-nativeptr_-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.1.3 The nativeptr&lt;_&gt; Type
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#182-basic-operators-and-functions-fsharpcoreoperators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2 Basic Operators and Functions (FSharp.Core.Operators)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.2 Basic Operators and Functions (FSharp.Core.Operators)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1821-basic-arithmetic-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2.1 Basic Arithmetic Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1822-generic-equality-and-comparison-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2.2 Generic Equality and Comparison Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1823-bitwise-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2.3 Bitwise Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1824-math-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2.4 Math Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1825-function-pipelining-and-composition-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2.5 Function Pipelining and Composition Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1826-object-transformation-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2.6 Object Transformation Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1827-pair-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2.7 Pair Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1828-exception-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2.8 Exception Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1829-inputoutput-handles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2.9 Input/Output Handles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#18210-overloaded-conversion-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.2.10 Overloaded Conversion Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#183-checked-arithmetic-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.3 Checked Arithmetic Operators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#184-list-and-option-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.4 List and Option Types
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.4 List and Option Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1841-the-list-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.4.1 The List Type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1842-the-option-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.4.2 The Option Type
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#185-choices-and-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.5 Choices and Results
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#186-lazy-computations-lazy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.6 Lazy Computations (Lazy)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#187-asynchronous-computations-async" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.7 Asynchronous Computations (Async)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#188-query-expressions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.8 Query Expressions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#189-agents-mailboxprocessor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.9 Agents (MailboxProcessor)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1810-event-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.10 Event Types
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1811-immutable-collection-types-map-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.11 Immutable Collection Types (Map, Set)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1812-text-formatting-printf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.12 Text Formatting (printf)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1813-reflection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.13 Reflection
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1814-quotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.14 Quotations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1815-native-pointer-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.15 Native Pointer Operations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="18.15 Native Pointer Operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#18151-stack-allocation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        18.15.1 Stack Allocation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="18-the-f-library-fsharpcoredll">18. The F# Library FSharp.Core.dll</h1>
+<p>All compilations reference the following two base libraries:</p>
+<ul>
+<li>The CLI base library <code>mscorlib.dll</code>.</li>
+<li>The F# base library <code>FSharp.Core.dll</code>.</li>
+</ul>
+<p>The API documentation of these libraries can be found at <a href="https://fsharp.github.io/fsharp-core-docs">https://fsharp.github.io/fsharp-core-docs</a> and <a href="https://learn.microsoft.com/dotnet/standard/runtime-libraries-overview">https://learn.microsoft.com/dotnet/standard/runtime-libraries-overview</a>, resp.</p>
+<p>The following namespaces are automatically opened for all F# code:</p>
+<div class="highlight"><pre><span></span><code><span class="k">open</span><span class="w"> </span><span class="nn">FSharp</span>
+<span class="k">open</span><span class="w"> </span><span class="nn">FSharp.Core</span>
+<span class="k">open</span><span class="w"> </span><span class="nn">FSharp.Core.LanguagePrimitives</span>
+<span class="k">open</span><span class="w"> </span><span class="nn">FSharp.Core.Operators</span>
+<span class="k">open</span><span class="w"> </span><span class="nn">FSharp.Text</span>
+<span class="k">open</span><span class="w"> </span><span class="nn">FSharp.Collections</span>
+<span class="k">open</span><span class="w"> </span><span class="nn">FSharp.Core.ExtraTopLevelOperators</span>
+</code></pre></div>
+<p>A compilation may open additional namespaces may be opened if the referenced F# DLLs contain
+<code>AutoOpenAttribute</code> declarations.</p>
+<h2 id="181-basic-types-fsharpcore">18.1 Basic Types (FSharp.Core)</h2>
+<p>This section provides details about the basic types that are defined in <code>FSharp.Core</code>.</p>
+<h3 id="1811-basic-type-abbreviations">18.1.1 Basic Type Abbreviations</h3>
+<table>
+<thead>
+<tr>
+<th>Type Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>obj</code></td>
+<td><code>System.Object</code></td>
+</tr>
+<tr>
+<td><code>exn</code></td>
+<td><code>System.Exception</code></td>
+</tr>
+<tr>
+<td><code>nativeint</code></td>
+<td><code>System.IntPtr</code></td>
+</tr>
+<tr>
+<td><code>unativeint</code></td>
+<td><code>System.UIntPtr</code></td>
+</tr>
+<tr>
+<td><code>string</code></td>
+<td><code>System.String</code></td>
+</tr>
+<tr>
+<td><code>float32</code>, <code>single</code></td>
+<td><code>System.Single</code></td>
+</tr>
+<tr>
+<td><code>float</code>, <code>double</code></td>
+<td><code>System.Double</code></td>
+</tr>
+<tr>
+<td><code>sbyte</code>, <code>int8</code></td>
+<td><code>System.SByte</code></td>
+</tr>
+<tr>
+<td><code>byte</code>, <code>uint8</code></td>
+<td><code>System.Byte</code></td>
+</tr>
+<tr>
+<td><code>int16</code></td>
+<td><code>System.Int16</code></td>
+</tr>
+<tr>
+<td><code>uint16</code></td>
+<td><code>System.UInt16</code></td>
+</tr>
+<tr>
+<td><code>int32</code>, <code>int</code></td>
+<td><code>System.Int32</code></td>
+</tr>
+<tr>
+<td><code>uint32</code></td>
+<td><code>System.UInt32</code></td>
+</tr>
+<tr>
+<td><code>int64</code></td>
+<td><code>System.Int64</code></td>
+</tr>
+<tr>
+<td><code>uint64</code></td>
+<td><code>System.UInt64</code></td>
+</tr>
+<tr>
+<td><code>char</code></td>
+<td><code>System.Char</code></td>
+</tr>
+<tr>
+<td><code>bool</code></td>
+<td><code>System.Boolean</code></td>
+</tr>
+<tr>
+<td><code>decimal</code></td>
+<td><code>System.Decimal</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="1812-basic-types-that-accept-unit-of-measure-annotations">18.1.2 Basic Types that Accept Unit of Measure Annotations</h3>
+<table>
+<thead>
+<tr>
+<th>Type Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sbyte&lt;_&gt;</code></td>
+<td>Underlying representation <code>System.SByte</code>, but accepts a unit of measure.</td>
+</tr>
+<tr>
+<td><code>int16&lt;_&gt;</code></td>
+<td>Underlying representation <code>System.Int16</code>, but accepts a unit of measure.</td>
+</tr>
+<tr>
+<td><code>int32&lt;_&gt;</code></td>
+<td>Underlying representation <code>System.Int32</code>, but accepts a unit of measure.</td>
+</tr>
+<tr>
+<td><code>int64&lt;_&gt;</code></td>
+<td>Underlying representation <code>System.Int64</code>, but accepts a unit of measure.</td>
+</tr>
+<tr>
+<td><code>float32&lt;_&gt;</code></td>
+<td>Underlying representation <code>System.Single</code>, but accepts a unit of measure.</td>
+</tr>
+<tr>
+<td><code>float&lt;_&gt;</code></td>
+<td>Underlying representation <code>System.Double</code>, but accepts a unit of measure.</td>
+</tr>
+<tr>
+<td><code>decimal&lt;_&gt;</code></td>
+<td>Underlying representation <code>System.Decimal</code>, but accepts a unit of measure.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1813-the-nativeptr_-type">18.1.3 The nativeptr&lt;_&gt; Type</h3>
+<p>When the <code>nativeptr&lt;type&gt;</code> is used in method argument or return position, it is represented in
+compiled CIL code as either:</p>
+<ul>
+<li>A CLI pointer type <code>type*</code>, if <code>type</code> does not contain any generic type parameters.</li>
+<li>T CLI type <code>System.IntPtr</code> otherwise.</li>
+</ul>
+<blockquote>
+<p>Note : CLI pointer types are rarely used. In CLI metadata, pointer types sometimes
+appear in CLI metadata unsafe object constructors for the CLI type <code>System.String</code>.
+<br>
+You can convert between <code>System.UIntPtr</code> and <code>nativeptr&lt;'T&gt;</code> by using the inlined
+unverifiable functions in <code>FSharp.NativeInterop.NativePtr</code>.
+<br>
+<code>nativeptr&lt;_&gt;</code> compiles in different ways because CLI restricts where pointer types can
+appear.</p>
+</blockquote>
+<h2 id="182-basic-operators-and-functions-fsharpcoreoperators">18.2 Basic Operators and Functions (FSharp.Core.Operators)</h2>
+<h3 id="1821-basic-arithmetic-operators">18.2.1 Basic Arithmetic Operators</h3>
+<p>The following operators are defined in <code>FSharp.Core.Operators</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Operator or Function Name</th>
+<th>Expression Form</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>(+)</code></td>
+<td><code>x + y</code></td>
+<td>Overloaded addition.</td>
+</tr>
+<tr>
+<td><code>(-)</code></td>
+<td><code>x - y</code></td>
+<td>Overloaded subtraction.</td>
+</tr>
+<tr>
+<td><code>(*)</code></td>
+<td><code>x * y</code></td>
+<td>Overloaded multiplication.</td>
+</tr>
+<tr>
+<td><code>(/)</code></td>
+<td><code>x / y</code></td>
+<td>Overloaded division.<br>For negative numbers, the behavior of this operator follows the definition of the corresponding operator in the C# specification.</td>
+</tr>
+<tr>
+<td><code>(%)</code></td>
+<td><code>x % y</code></td>
+<td>Overloaded remainder.<br>For integer types, the result of x % y is the value produced by x – (x / y) * y. If y is zero, <code>System.DivideByZeroException</code> is thrown. The remainder operator never causes an overflow. This follows the definition of the remainder operator in the C# specification.<br>For floating-point types, the behavior of this operator also follows the definition of the remainder operator in the C# specification.</td>
+</tr>
+<tr>
+<td><code>(~-)</code></td>
+<td><code>-x</code></td>
+<td>Overloaded unary negation.</td>
+</tr>
+<tr>
+<td><code>not</code></td>
+<td><code>not x</code></td>
+<td>Boolean negation.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1822-generic-equality-and-comparison-operators">18.2.2 Generic Equality and Comparison Operators</h3>
+<p>The following operators are defined in <code>FSharp.Core.Operators</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Operator or Function Name</th>
+<th>Expression Form</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>(&lt;)</code></td>
+<td><code>x &lt; y</code></td>
+<td>Generic less-than</td>
+</tr>
+<tr>
+<td><code>(&lt;=)</code></td>
+<td><code>x &lt;= y</code></td>
+<td>Generic less-than-or-equal</td>
+</tr>
+<tr>
+<td><code>(&gt;)</code></td>
+<td><code>x &gt; y</code></td>
+<td>Generic greater-than</td>
+</tr>
+<tr>
+<td><code>(&gt;=)</code></td>
+<td><code>x &gt;= y</code></td>
+<td>Generic greater-than-or-equal</td>
+</tr>
+<tr>
+<td><code>(=)</code></td>
+<td><code>x = y</code></td>
+<td>Generic equality</td>
+</tr>
+<tr>
+<td><code>(&lt;&gt;)</code></td>
+<td><code>x &lt;&gt; y</code></td>
+<td>Generic disequality</td>
+</tr>
+<tr>
+<td><code>max</code></td>
+<td><code>max x y</code></td>
+<td>Generic maximum</td>
+</tr>
+<tr>
+<td><code>min</code></td>
+<td><code>min x y</code></td>
+<td>Generic minimum</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1823-bitwise-operators">18.2.3 Bitwise Operators</h3>
+<p>The following operators are defined in <code>FSharp.Core.Operators</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Operator or Function Name</th>
+<th>Expression Form</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>(&lt;&lt;&lt;)</code></td>
+<td><code>x &lt;&lt;&lt; y</code></td>
+<td>Overloaded bitwise left-shift</td>
+</tr>
+<tr>
+<td><code>(&gt;&gt;&gt;)</code></td>
+<td><code>x &gt;&gt;&gt; y</code></td>
+<td>Overloaded bitwise arithmetic right-shift</td>
+</tr>
+<tr>
+<td><code>(^^^)</code></td>
+<td><code>x ^^^ y</code></td>
+<td>Overloaded bitwise exclusive or (XOR)</td>
+</tr>
+<tr>
+<td><code>(&amp;&amp;&amp;)</code></td>
+<td><code>x &amp;&amp;&amp; y</code></td>
+<td>Overloaded bitwise and</td>
+</tr>
+<tr>
+<td><code>(\|\|\|)</code></td>
+<td><code>x \|\|\| y</code></td>
+<td>Overloaded bitwise or</td>
+</tr>
+<tr>
+<td><code>(~~~)</code></td>
+<td><code>~~~x</code></td>
+<td>Overloaded bitwise negation</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1824-math-operators">18.2.4 Math Operators</h3>
+<p>The following operators are defined in <code>FSharp.Core.Operators</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Operator or Function Name</th>
+<th>Expression Form</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>abs</code></td>
+<td><code>abs x</code></td>
+<td>Overloaded absolute value</td>
+</tr>
+<tr>
+<td><code>acos</code></td>
+<td><code>acos x</code></td>
+<td>Overloaded inverse cosine</td>
+</tr>
+<tr>
+<td><code>asin</code></td>
+<td><code>asin x</code></td>
+<td>Overloaded inverse sine</td>
+</tr>
+<tr>
+<td><code>atan</code></td>
+<td><code>atan x</code></td>
+<td>Overloaded inverse tangent</td>
+</tr>
+<tr>
+<td><code>atan2</code></td>
+<td><code>atan2 x y</code></td>
+<td>Overloaded inverse tangent of x/y</td>
+</tr>
+<tr>
+<td><code>ceil</code></td>
+<td><code>ceil x</code></td>
+<td>Overloaded floating-point ceiling</td>
+</tr>
+<tr>
+<td><code>cos</code></td>
+<td><code>cos x</code></td>
+<td>Overloaded cosine</td>
+</tr>
+<tr>
+<td><code>cosh</code></td>
+<td><code>cosh x</code></td>
+<td>Overloaded hyperbolic cosine</td>
+</tr>
+<tr>
+<td><code>exp</code></td>
+<td><code>exp x</code></td>
+<td>Overloaded exponent</td>
+</tr>
+<tr>
+<td><code>floor</code></td>
+<td><code>floor x</code></td>
+<td>Overloaded floating-point floor</td>
+</tr>
+<tr>
+<td><code>log</code></td>
+<td><code>log x</code></td>
+<td>Overloaded natural logarithm</td>
+</tr>
+<tr>
+<td><code>log10</code></td>
+<td><code>log10 x</code></td>
+<td>Overloaded base-10 logarithm</td>
+</tr>
+<tr>
+<td><code>(**)</code></td>
+<td><code>x ** y</code></td>
+<td>Overloaded exponential</td>
+</tr>
+<tr>
+<td><code>pown</code></td>
+<td><code>pown x y</code></td>
+<td>Overloaded integer exponential</td>
+</tr>
+<tr>
+<td><code>round</code></td>
+<td><code>round x</code></td>
+<td>Overloaded rounding</td>
+</tr>
+<tr>
+<td><code>sign</code></td>
+<td><code>sign x</code></td>
+<td>Overloaded sign function</td>
+</tr>
+<tr>
+<td><code>sin</code></td>
+<td><code>sin x</code></td>
+<td>Overloaded sine function</td>
+</tr>
+<tr>
+<td><code>sinh</code></td>
+<td><code>sinh x</code></td>
+<td>Overloaded hyperbolic sine function</td>
+</tr>
+<tr>
+<td><code>sqrt</code></td>
+<td><code>sqrt x</code></td>
+<td>Overloaded square root function</td>
+</tr>
+<tr>
+<td><code>tan</code></td>
+<td><code>tan x</code></td>
+<td>Overloaded tangent function</td>
+</tr>
+<tr>
+<td><code>tanh</code></td>
+<td><code>tanh x</code></td>
+<td>Overloaded hyperbolic tangent function</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1825-function-pipelining-and-composition-operators">18.2.5 Function Pipelining and Composition Operators</h3>
+<p>The following operators are defined in <code>FSharp.Core.Operators</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Operator or Function Name</th>
+<th>Expression Form</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>(\|&gt;)</code></td>
+<td><code>x \|&gt; f</code></td>
+<td>Pipelines the value <code>x</code> to the function <code>f</code> (forward pipelining)</td>
+</tr>
+<tr>
+<td><code>(&gt;&gt;)</code></td>
+<td><code>f &gt;&gt; g</code></td>
+<td>Composes two functions, so that they are applied in order from left to right</td>
+</tr>
+<tr>
+<td><code>(&lt;\|)</code></td>
+<td><code>f &lt;\| x</code></td>
+<td>Pipelines the value <code>x</code> to the function <code>f</code> (backward pipelining)</td>
+</tr>
+<tr>
+<td><code>(&lt;&lt;)</code></td>
+<td><code>g &lt;&lt; f</code></td>
+<td>Composes two functions, so that they are applied in order from right to left (backward function composition)</td>
+</tr>
+<tr>
+<td><code>ignore</code></td>
+<td><code>ignore x</code></td>
+<td>Computes and discards a value</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1826-object-transformation-operators">18.2.6 Object Transformation Operators</h3>
+<p>The following operators are defined in <code>FSharp.Core.Operators</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Operator or Function Name</th>
+<th>Expression Form</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>box</code></td>
+<td><code>box x</code></td>
+<td>Converts to object representation.</td>
+</tr>
+<tr>
+<td><code>hash</code></td>
+<td><code>hash x</code></td>
+<td>Generates a hash value.</td>
+</tr>
+<tr>
+<td><code>sizeof</code></td>
+<td><code>sizeof&lt;type&gt;</code></td>
+<td>Computes the size of a value of the given type.</td>
+</tr>
+<tr>
+<td><code>typeof</code></td>
+<td><code>typeof&lt;type&gt;</code></td>
+<td>Computes the <code>System.Type</code> representation of the giventype.</td>
+</tr>
+<tr>
+<td><code>typedefof</code></td>
+<td><code>typedefof&lt;type&gt;</code></td>
+<td>Computes the <code>System.Type</code> representation of <code>type</code> and calls <code>GetGenericTypeDefinition</code> if it is a generic type.</td>
+</tr>
+<tr>
+<td><code>unbox</code></td>
+<td><code>unbox x</code></td>
+<td>Converts from object representation.</td>
+</tr>
+<tr>
+<td><code>ref</code></td>
+<td><code>ref x</code></td>
+<td>Allocates a mutable reference cell.</td>
+</tr>
+<tr>
+<td><code>(!)</code></td>
+<td><code>!x</code></td>
+<td>Reads a mutable reference cell.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1827-pair-operators">18.2.7 Pair Operators</h3>
+<p>The following operators are defined in <code>FSharp.Core.Operators</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Operator or Function Name</th>
+<th>Expression Form</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fst</code></td>
+<td><code>fst p</code></td>
+<td>Returns the first element of a pair.</td>
+</tr>
+<tr>
+<td><code>snd</code></td>
+<td><code>snd p</code></td>
+<td>Returns the second element of a pair</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1828-exception-operators">18.2.8 Exception Operators</h3>
+<p>The following operators are defined in <code>FSharp.Core.Operators</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Operator or Function Name</th>
+<th>Expression Form</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>failwith</code></td>
+<td><code>failwith x</code></td>
+<td>Raises a <code>FailureException</code> exception.</td>
+</tr>
+<tr>
+<td><code>invalidArg</code></td>
+<td><code>invalidArg x</code></td>
+<td>Raises an <code>ArgumentException</code> exception.</td>
+</tr>
+<tr>
+<td><code>raise</code></td>
+<td><code>raise x</code></td>
+<td>Raises an `exception.</td>
+</tr>
+<tr>
+<td>reraise</td>
+<td>reraise()</td>
+<td>Rethrows the current exception.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1829-inputoutput-handles">18.2.9 Input/Output Handles</h3>
+<p>The following operators are defined in <code>FSharp.Core.Operators</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Operator or Function Name</th>
+<th>Expression Form</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stdin</code></td>
+<td><code>Stdin</code></td>
+<td>Computes <code>System.Console.In</code>.</td>
+</tr>
+<tr>
+<td><code>stdout</code></td>
+<td><code>Stdout</code></td>
+<td>Computes <code>System.Console.Out</code>.</td>
+</tr>
+<tr>
+<td><code>stderr</code></td>
+<td><code>Stderr</code></td>
+<td>Computes <code>System.Console.Error</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="18210-overloaded-conversion-functions">18.2.10 Overloaded Conversion Functions</h3>
+<p>The following operators are defined in <code>FSharp.Core.Operators</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Operator or Function Name</th>
+<th>Expression Form</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>byte</code></td>
+<td><code>byte x</code></td>
+<td>Overloaded conversion to a byte</td>
+</tr>
+<tr>
+<td><code>sbyte</code></td>
+<td><code>sbyte x</code></td>
+<td>Overloaded conversion to a signed byte</td>
+</tr>
+<tr>
+<td><code>int16</code></td>
+<td><code>int16 x</code></td>
+<td>Overloaded conversion to a 16-bit integer</td>
+</tr>
+<tr>
+<td><code>uint16</code></td>
+<td><code>uint16 x</code></td>
+<td>Overloaded conversion to an unsigned 16-bit integer</td>
+</tr>
+<tr>
+<td><code>int32</code>, <code>int</code></td>
+<td><code>int32 x</code>, <code>int x</code></td>
+<td>Overloaded conversion to a 32-bit integer</td>
+</tr>
+<tr>
+<td><code>uint32</code></td>
+<td><code>uint32 x</code></td>
+<td>Overloaded conversion to an unsigned 32-bit integer</td>
+</tr>
+<tr>
+<td><code>int64</code></td>
+<td><code>int64 x</code></td>
+<td>Overloaded conversion to a 64-bit integer</td>
+</tr>
+<tr>
+<td><code>uint64</code></td>
+<td><code>uint64 x</code></td>
+<td>Overloaded conversion to an unsigned 64-bit integer</td>
+</tr>
+<tr>
+<td><code>nativeint</code></td>
+<td><code>nativeint x</code></td>
+<td>Overloaded conversion to an native integer</td>
+</tr>
+<tr>
+<td><code>unativeint</code></td>
+<td><code>unativeint x</code></td>
+<td>Overloaded conversion to an unsigned native integer</td>
+</tr>
+<tr>
+<td><code>float</code>, <code>double</code></td>
+<td><code>float x</code>, <code>double x</code></td>
+<td>Overloaded conversion to a 64-bit IEEE floating-point number</td>
+</tr>
+<tr>
+<td><code>float32</code>, <code>single</code></td>
+<td><code>float32 x</code>, <code>single x</code></td>
+<td>Overloaded conversion to a 32-bit IEEE floating-point number</td>
+</tr>
+<tr>
+<td><code>decimal</code></td>
+<td><code>decimal x</code></td>
+<td>Overloaded conversion to a System.Decimal number</td>
+</tr>
+<tr>
+<td><code>char</code></td>
+<td><code>char x</code></td>
+<td>Overloaded conversion to a System.Char value</td>
+</tr>
+<tr>
+<td><code>enum</code></td>
+<td><code>enum x</code></td>
+<td>Overloaded conversion to a typed enumeration value</td>
+</tr>
+</tbody>
+</table>
+<h2 id="183-checked-arithmetic-operators">18.3 Checked Arithmetic Operators</h2>
+<p>The module <code>FSharp.Core.Operators.Checked</code> defines runtime-overflow-checked versions of the
+following operators:</p>
+<table>
+<thead>
+<tr>
+<th>Operator or Function Name</th>
+<th>Expression Form</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>(+)</code></td>
+<td><code>x + y</code></td>
+<td>Checked overloaded addition</td>
+</tr>
+<tr>
+<td><code>(-)</code></td>
+<td><code>x – y</code></td>
+<td>Checked overloaded subtraction</td>
+</tr>
+<tr>
+<td><code>(*)</code></td>
+<td><code>x * y</code></td>
+<td>Checked overloaded multiplication</td>
+</tr>
+<tr>
+<td>(~-)</td>
+<td><code>-x</code></td>
+<td>Checked overloaded unary negation</td>
+</tr>
+<tr>
+<td><code>byte</code></td>
+<td><code>byte x</code></td>
+<td>Checked overloaded conversion to a byte</td>
+</tr>
+<tr>
+<td><code>sbyte</code></td>
+<td><code>sbyte x</code></td>
+<td>Checked overloaded conversion to a signed byte</td>
+</tr>
+<tr>
+<td><code>int16</code></td>
+<td><code>int16 x</code></td>
+<td>Checked overloaded conversion to a 16-bit integer</td>
+</tr>
+<tr>
+<td><code>uint16</code></td>
+<td><code>uint16 x</code></td>
+<td>Checked overloaded conversion to an unsigned 16-bit integer</td>
+</tr>
+<tr>
+<td><code>int32</code>, <code>int</code></td>
+<td><code>int32 x</code>, <code>int x</code></td>
+<td>Checked overloaded conversion to a 32-bit integer</td>
+</tr>
+<tr>
+<td><code>uint32</code></td>
+<td><code>uint32 x</code></td>
+<td>Checked overloaded conversion to an unsigned 32-bit integer</td>
+</tr>
+<tr>
+<td><code>int64</code></td>
+<td><code>int64 x</code></td>
+<td>Checked overloaded conversion to a 64 - bit integer</td>
+</tr>
+<tr>
+<td><code>uint64</code></td>
+<td><code>uint64 x</code></td>
+<td>Checked overloaded conversion to an unsigned 64-bit integer</td>
+</tr>
+<tr>
+<td><code>nativeint</code></td>
+<td><code>nativeint x</code></td>
+<td>Checked overloaded conversion to an native integer</td>
+</tr>
+<tr>
+<td><code>unativeint</code></td>
+<td><code>unativeint x</code></td>
+<td>Checked overloaded conversion to an unsigned native integer</td>
+</tr>
+<tr>
+<td><code>char</code></td>
+<td><code>char x</code></td>
+<td>Checked overloaded conversion to a <code>System.Char</code> value</td>
+</tr>
+</tbody>
+</table>
+<h2 id="184-list-and-option-types">18.4 List and Option Types</h2>
+<h3 id="1841-the-list-type">18.4.1 The List Type</h3>
+<p>The following shows the elements of the F# type <code>FSharp.Collections.list</code> referred to in this
+specification:</p>
+<div class="highlight"><pre><span></span><code><span class="k">type</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="kt">list</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">(</span><span class="bp">[]</span><span class="o">)</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">(::)</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="kt">list</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">member</span><span class="w"> </span><span class="n">Empty</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="kt">list</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">Length</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">int</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">IsEmpty</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">bool</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">Head</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">Tail</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="kt">list</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">Item</span><span class="w"> </span><span class="o">:</span><span class="n">int</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">get</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">member</span><span class="w"> </span><span class="n">Cons</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="kt">list</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="kt">list</span>
+<span class="w">    </span><span class="k">interface</span><span class="w"> </span><span class="nn">System</span><span class="p">.</span><span class="nn">Collections</span><span class="p">.</span><span class="nn">Generic</span><span class="p">.</span><span class="n">IEnumerable</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="o">&gt;</span>
+<span class="w">    </span><span class="k">interface</span><span class="w"> </span><span class="nn">System</span><span class="p">.</span><span class="nn">Collections</span><span class="p">.</span><span class="n">IEnumerable</span>
+</code></pre></div>
+<p>See also the <a href="https://learn.microsoft.com/dotnet/fsharp/language-reference/lists">Language Guide</a> and the <a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-list-1.html">FSharp.Core documentation</a>.</p>
+<h3 id="1842-the-option-type">18.4.2 The Option Type</h3>
+<p>The following shows the elements of the F# type <code>FSharp.Core.option</code> referred to in this specification:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[&lt;</span><span class="n">DefaultAugmentation</span><span class="o">(</span><span class="k">false</span><span class="o">)&gt;]</span>
+<span class="o">[&lt;</span><span class="n">CompilationRepresentation</span><span class="o">(</span><span class="nn">CompilationRepresentationFlags</span><span class="p">.</span><span class="n">UseNullAsTrueValue</span><span class="o">)&gt;]</span>
+<span class="k">type</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="n">option</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">None</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">Some</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">member</span><span class="w"> </span><span class="n">None</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="n">option</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="k">member</span><span class="w"> </span><span class="n">Some</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="n">option</span>
+<span class="w">    </span><span class="o">[&lt;</span><span class="n">CompilationRepresentation</span><span class="o">(</span><span class="nn">CompilationRepresentationFlags</span><span class="p">.</span><span class="n">Instance</span><span class="o">)&gt;]</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">Value</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">IsSome</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">bool</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">IsNone</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">bool</span>
+</code></pre></div>
+<p>See also the <a href="https://learn.microsoft.com/dotnet/fsharp/language-reference/options">Language Guide</a> and the <a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-core-option-1.html">FSharp.Core documentation</a>.</p>
+<h2 id="185-choices-and-results">18.5 Choices and Results</h2>
+<p>Check the <a href="https://learn.microsoft.com/dotnet/fsharp/language-reference/results">Language Guide</a> and the <a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-core.html#category-3_4">FSharp.Core documentation</a>.</p>
+<h2 id="186-lazy-computations-lazy">18.6 Lazy Computations (Lazy)</h2>
+<p>Check the <a href="https://learn.microsoft.com/dotnet/fsharp/language-reference/lazy-expressions">Language Guide</a> and the <a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-lazyextensions.html">FSharp.Core documentation</a>.</p>
+<h2 id="187-asynchronous-computations-async">18.7 Asynchronous Computations (Async)</h2>
+<p>Check the <a href="https://learn.microsoft.com/dotnet/fsharp/language-reference/async-expressions">Language Guide</a> and the <a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpasync.html">FSharp.Core documentation</a>.</p>
+<h2 id="188-query-expressions">18.8 Query Expressions</h2>
+<p>Check the <a href="https://learn.microsoft.com/dotnet/fsharp/language-reference/query-expressions">Language Guide</a> and the <a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-linq-querybuilder.html">FSharp.Core documentation</a>.</p>
+<h2 id="189-agents-mailboxprocessor">18.9 Agents (MailboxProcessor)</h2>
+<p>Check the <a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-fsharpmailboxprocessor-1.html">FSharp.Core documentation</a>.</p>
+<h2 id="1810-event-types">18.10 Event Types</h2>
+<p>Check the <a href="https://learn.microsoft.com/dotnet/fsharp/language-reference/members/events">Language Guide</a> and the <a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-control-eventmodule.html">FSharp.Core documentation</a>.</p>
+<h2 id="1811-immutable-collection-types-map-set">18.11 Immutable Collection Types (Map, Set)</h2>
+<p>Check the <a href="https://learn.microsoft.com/dotnet/fsharp/language-reference/fsharp-collection-types">Language Guide</a> and the <a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-fsharpmap-2.html">FSharp.Core documentation for Map</a> and for <a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-collections-fsharpset-1.html">Set</a>.</p>
+<h2 id="1812-text-formatting-printf">18.12 Text Formatting (printf)</h2>
+<p>Check the <a href="https://learn.microsoft.com/dotnet/fsharp/language-reference/plaintext-formatting">Language Guide</a> and the <a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-core-printfmodule.html">FSharp.Core documentation</a></p>
+<h2 id="1813-reflection">18.13 Reflection</h2>
+<p>Check the <a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-reflection.html">FSharp.Core documentation</a>.</p>
+<h2 id="1814-quotations">18.14 Quotations</h2>
+<p>Check the <a href="https://learn.microsoft.com/dotnet/fsharp/language-reference/code-quotations">Language Guide</a> and the <a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-quotations.html">FSharp.Core documentation</a>.</p>
+<h2 id="1815-native-pointer-operations">18.15 Native Pointer Operations</h2>
+<p>The <a href="https://fsharp.github.io/fsharp-core-docs/reference/fsharp-nativeinterop.html">FSharp.Core.NativeInterop namespace</a> contains functionality for interoperating with native code.</p>
+<p>Use of these functions is unsafe, and incorrect use may generate invalid IL code.</p>
+<table>
+<thead>
+<tr>
+<th>Operator or Function Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NativePtr.ofNativeInt</code></td>
+<td>Returns a typed native pointer for a machine address.</td>
+</tr>
+<tr>
+<td><code>NativePtr.toNativeInt</code></td>
+<td>Returns a machine address for a typed native pointer.</td>
+</tr>
+<tr>
+<td><code>NativePtr.add</code></td>
+<td>Computes an indexed offset from the input pointer.</td>
+</tr>
+<tr>
+<td><code>NativePtr.read</code></td>
+<td>Reads the memory that the input pointer references.</td>
+</tr>
+<tr>
+<td><code>NativePtr.write</code></td>
+<td>Writes to the memory that the input pointer references.</td>
+</tr>
+<tr>
+<td><code>NativePtr.get</code></td>
+<td>Reads the memory at an indexed offset from the input pointer.</td>
+</tr>
+<tr>
+<td><code>NativePtr.set</code></td>
+<td>Writes the memory at an indexed offset from the input pointer.</td>
+</tr>
+<tr>
+<td><code>NativePtr.stackalloc</code></td>
+<td>Allocates a region of memory on the stack.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="18151-stack-allocation">18.15.1 Stack Allocation</h3>
+<p>The <code>NativePtr.stackalloc</code> function works as follows. Given</p>
+<div class="highlight"><pre><span></span><code><span class="n">stackalloc</span><span class="o">&lt;</span><span class="n">ty</span><span class="o">&gt;</span><span class="w"> </span><span class="n">n</span>
+</code></pre></div>
+<p>the unmanaged type <code>ty</code> specifies the type of the items that will be stored in the newly allocated
+location, and <code>n</code> indicates the number of these items. Taken together, these establish the required
+allocation size.</p>
+<p>The <code>stackalloc</code> function allocates <code>n * sizeof&lt;ty&gt;</code> bytes from the call stack and returns a pointer of
+type <code>nativeptr&lt;ty&gt;</code> to the newly allocated block. The content of the newly allocated memory is
+undefined. If <code>n</code> is a negative value, the behavior of the function is undefined. If <code>n</code> is zero, no allocation
+is made, and the returned pointer is implementation-defined. If insufficient memory is available to
+allocate a block of the requested size, the <code>System.StackOverflowException</code> is thrown.</p>
+<p>Use of this function is unsafe, and incorrect use might generate invalid IL code. For example, the
+function should not be used in <code>with</code> or <code>finally</code> blocks in <code>try</code>/<code>with</code> or <code>try</code>/<code>finally</code> expressions. These
+conditions are not checked by the F# compiler, because this primitive is rarely used from F# code.</p>
+<p>There is no way to explicitly free memory that is allocated using stackalloc. All stack-allocated
+memory blocks that are created during the execution of a function or member are automatically
+discarded when that function or member returns. This behavior is similar to that of the <code>alloca</code>
+function, an extension commonly found in C and C++ implementations.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2005-2025 F# contributors. Made available under the <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons CC-by 4.0</a> licence.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1721 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://fsharp.github.io/fslang-spec/namespaces-and-modules/">
+      
+      
+        <link rel="prev" href="../units-of-measure/">
+      
+      
+        <link rel="next" href="../namespace-and-module-signatures/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../fsharp128.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>10. Namespaces and Modules - F# Language Specification</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#10-namespaces-and-modules" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="F# Language Specification" class="md-header__button md-logo" aria-label="F# Language Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12 11.39.61v5.695L5.695 12l5.695 5.695v5.695zm7.322 0 4.068-4.068v8.136zM24 12 12.203.61v5.695L17.898 12l-5.695 5.695v5.695z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            F# Language Specification
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              10. Namespaces and Modules
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fsharp/fslang-spec" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="F# Language Specification" class="md-nav__button md-logo" aria-label="F# Language Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12 11.39.61v5.695L5.695 12l5.695 5.695v5.695zm7.322 0 4.068-4.068v8.136zM24 12 12.203.61v5.695L17.898 12l-5.695 5.695v5.695z"/></svg>
+
+    </a>
+    F# Language Specification
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fsharp/fslang-spec" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Front Matter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rfc-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFC status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Program Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lexical-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Lexical Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basic-grammar-elements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Basic Grammar Elements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../types-and-type-constraints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Types and Type Constraints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../expressions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Expressions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type-definitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Type Definitions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../units-of-measure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Units of Measure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Namespaces and Modules
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Namespaces and Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#101-namespace-declaration-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 Namespace Declaration Groups
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#102-module-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 Module Definitions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.2 Module Definitions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1021-function-and-value-definitions-in-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2.1 Function and Value Definitions in Modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1022-literal-definitions-in-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2.2 Literal Definitions in Modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1023-type-function-definitions-in-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2.3 Type Function Definitions in Modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1024-active-pattern-definitions-in-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2.4 Active Pattern Definitions in Modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1025-do-statements-in-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2.5 “do” statements in Modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#103-import-declarations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 Import Declarations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#104-module-abbreviations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.4 Module Abbreviations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#105-accessibility-annotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5 Accessibility Annotations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespace-and-module-signatures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Namespace and Module Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program-structure-and-execution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Program Structure and Execution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../custom-attributes-and-reflection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Custom Attributes and Reflection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inference-procedures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Inference Procedures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lexical-filtering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Lexical Filtering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../provided-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Provided Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../special-attributes-and-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17. Special Attributes and Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../the-f-library-fsharpcoredll/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18. The F# Library FSharp.Core.dll
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features-for-ml-compatibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19. Features for ML Compatibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#101-namespace-declaration-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 Namespace Declaration Groups
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#102-module-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 Module Definitions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10.2 Module Definitions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1021-function-and-value-definitions-in-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2.1 Function and Value Definitions in Modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1022-literal-definitions-in-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2.2 Literal Definitions in Modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1023-type-function-definitions-in-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2.3 Type Function Definitions in Modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1024-active-pattern-definitions-in-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2.4 Active Pattern Definitions in Modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1025-do-statements-in-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2.5 “do” statements in Modules
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#103-import-declarations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 Import Declarations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#104-module-abbreviations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.4 Module Abbreviations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#105-accessibility-annotations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.5 Accessibility Annotations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="10-namespaces-and-modules">10. Namespaces and Modules</h1>
+<p>F# is primarily an expression-based language. However, F# source code units are made up of
+<em>declarations</em> , some of which can contain further declarations. Declarations are grouped using
+<em>namespace declaration groups</em> , <em>type definitions</em> , and <em>module definitions</em>. These also have
+corresponding forms in <em>signatures</em>. For example, a file may contain multiple namespace declaration
+groups, each of which defines types and modules, and the types and modules may contain member,
+function, and value definitions, which contain expressions.</p>
+<p>Declaration elements are processed in the context of an <em>environment</em>. The definition of the elements
+of an environment is found in <a href="../inference-procedures/#141-name-resolution">§14.1</a>.</p>
+<div class="highlight"><pre><span></span><code>namespace-decl-group :=
+    namespace long-ident module-elems       -- elements within a namespace
+    namespace global module-elems           -- elements within no namespace
+
+module-defn :=
+    attributesopt module accessopt ident = module-defn-body
+
+module-defn-body :=
+    begin module-elemsopt end
+
+module-elem :=
+    module-function-or-value-defn           -- function or value definitions
+    type-defns                              -- type definitions
+    exception-defn                          -- exception definitions
+    module-defn                             -- module definitions
+    module-abbrev                           -- module abbreviations
+    import-decl                             -- import declarations
+    compiler-directive-decl                 -- compiler directives
+
+module-function-or-value-defn :=
+    attributesopt let function-defn
+    attributesopt let value-defn
+    attributesopt let rec opt function-or-value-defns
+    attributesopt do expr
+
+import-decl := open long-ident
+
+module-abbrev := module ident = long-ident
+
+compiler-directive-decl := # ident string ... string
+
+module-elems := module-elem ... module-elem
+
+access :=
+    private
+    internal
+    public
+</code></pre></div>
+<h2 id="101-namespace-declaration-groups">10.1 Namespace Declaration Groups</h2>
+<p>Modules and types in an F# program are organized into <em>namespaces</em>, which encompass the
+identifiers that are defined in the modules and types. New components may contribute entities to
+existing namespaces. Each such contribution to a namespace is called a <em>namespace declaration
+group</em>.</p>
+<p>In the following example, the <code>MyCompany.MyLibrary</code> namespace contains <code>Values</code> and <code>x</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">namespace</span><span class="w"> </span><span class="nn">MyCompany</span><span class="p">.</span><span class="n">MyLibrary</span>
+
+<span class="w">    </span><span class="k">module</span><span class="w"> </span><span class="nn">Values1</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+</code></pre></div>
+<p>A namespace declaration group is the basic declaration unit within an F# implementation file and is
+of the form</p>
+<div class="highlight"><pre><span></span><code>namespace long-ident
+
+module-elems
+</code></pre></div>
+<p>The <code>long-ident</code> must be fully qualified. Each such group contains a series of module and type
+definitions that contribute to the indicated namespace. An implementation file may contain multiple
+namespace declaration groups, as in this example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">namespace</span><span class="w"> </span><span class="nn">MyCompany</span><span class="p">.</span><span class="n">MyOtherLibrary</span>
+
+<span class="w">    </span><span class="k">type</span><span class="w"> </span><span class="nc">MyType</span><span class="bp">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="k">member</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="nf">P</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span>
+
+<span class="w">    </span><span class="k">module</span><span class="w"> </span><span class="nn">MyInnerModule</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="k">let</span><span class="w"> </span><span class="nv">myValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="k">namespace</span><span class="w"> </span><span class="nn">MyCompany</span><span class="p">.</span><span class="nn">MyOtherLibrary</span><span class="p">.</span><span class="n">Collections</span>
+
+<span class="w">    </span><span class="k">type</span><span class="w"> </span><span class="nc">MyCollection</span><span class="o">(</span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">int</span><span class="o">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="k">member</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="nf">P</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span>
+</code></pre></div>
+<p>Namespace declaration groups may not be nested.</p>
+<p>A namespace declaration group can contain type and module definitions, but not function or value
+definitions. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">namespace</span><span class="w"> </span><span class="nn">MyCompany</span><span class="p">.</span><span class="n">MyLibrary</span>
+
+<span class="c1">// A type definition in a namespace</span>
+<span class="k">type</span><span class="w"> </span><span class="nc">MyType</span><span class="bp">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="nf">P</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">+</span><span class="mi">2</span>
+
+<span class="c1">// A module definition in a namespace</span>
+<span class="w">    </span><span class="k">module</span><span class="w"> </span><span class="nn">MyInnerModule</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="k">let</span><span class="w"> </span><span class="nv">myValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="c1">// The following is not allowed: value definitions are not allowed in namespaces</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">addOne</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+</code></pre></div>
+<p>When a namespace declaration group <code>N</code> is checked in an environment <code>env</code> , the individual
+declarations are checked in order and an overall <em>namespace declaration group signature</em> <code>Nsig</code> is
+inferred for the module. An entry for <code>N</code> is then added to the <em>ModulesAndNamespaces</em> table in the
+environment <code>env</code> (see <a href="../inference-procedures/#1413-opening-modules-and-namespace-declaration-groups">§14.1.3</a>).</p>
+<p>Like module declarations, namespace declaration groups are processed sequentially rather than
+simultaneously, so that later namespace declaration groups are not in scope when earlier ones are
+processed. This prevents invalid recursive definitions.</p>
+<p>In the following example, the declaration of <code>x</code> in <code>Module1</code> generates an error because the
+<code>Utilities.Part2</code> namespace is not in scope:</p>
+<div class="highlight"><pre><span></span><code><span class="k">namespace</span><span class="w"> </span><span class="nn">Utilities</span><span class="p">.</span><span class="n">Part1</span>
+
+<span class="k">module</span><span class="w"> </span><span class="nn">Module1</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">Utilities</span><span class="p">.</span><span class="nn">Part2</span><span class="p">.</span><span class="nn">Module2</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="c1">// error (Part2 not yet declared)</span>
+
+<span class="k">namespace</span><span class="w"> </span><span class="nn">Utilities</span><span class="p">.</span><span class="n">Part2</span>
+
+<span class="w">    </span><span class="k">module</span><span class="w"> </span><span class="nn">Module2</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">Utilities</span><span class="p">.</span><span class="nn">Part1</span><span class="p">.</span><span class="nn">Module1</span><span class="p">.</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span>
+</code></pre></div>
+<p>Within a namespace declaration group, the namespace itself is implicitly opened if any preceding
+namespace declaration groups or referenced assemblies contribute to it. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">namespace</span><span class="w"> </span><span class="nn">MyCompany</span><span class="p">.</span><span class="n">MyLibrary</span>
+
+<span class="w">    </span><span class="k">module</span><span class="w"> </span><span class="nn">Values1</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="k">namespace</span><span class="w"> </span><span class="nn">MyCompany</span><span class="p">.</span><span class="n">MyLibrary</span>
+
+<span class="w">    </span><span class="c1">// Here, the implicit open of MyCompany.MyLibrary brings Values1 into scope</span>
+<span class="w">    </span><span class="k">module</span><span class="w"> </span><span class="nn">Values2</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">Values1</span><span class="p">.</span><span class="n">x</span>
+</code></pre></div>
+<h2 id="102-module-definitions">10.2 Module Definitions</h2>
+<p>A module definition is a named collection of declarations such as values, types, and function values.
+Grouping code in modules helps keep related code together and helps avoid name conflicts in your
+program. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">module</span><span class="w"> </span><span class="nn">MyModule</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="k">type</span><span class="w"> </span><span class="nc">Foo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">B</span>
+<span class="w">    </span><span class="k">module</span><span class="w"> </span><span class="nn">MyNestedModule</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="k">let</span><span class="w"> </span><span class="nv">f</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="k">type</span><span class="w"> </span><span class="nc">Bar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">D</span>
+</code></pre></div>
+<p>When a module definition <code>M</code> is checked in an environment <code>env0</code>, the individual declarations are
+checked in order and an overall <em>module signature</em> <code>Msig</code> is inferred for the module. An entry for <code>M</code> is
+then added to the <em>ModulesAndNamespaces</em> table to environment <code>env0</code> to form the new environment
+used for checking subsequent modules.</p>
+<p>Like namespace declaration groups, module definitions are processed sequentially rather than
+simultaneously, so that later modules are not in scope when earlier ones are processed.</p>
+<div class="highlight"><pre><span></span><code><span class="k">module</span><span class="w"> </span><span class="nn">Part1</span><span class="w"> </span><span class="o">=</span>
+
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">Part2</span><span class="p">.</span><span class="n">StorageCache</span><span class="bp">()</span><span class="w"> </span><span class="c1">// error (Part2 not yet declared)</span>
+
+<span class="k">module</span><span class="w"> </span><span class="nn">Part2</span><span class="w"> </span><span class="o">=</span>
+
+<span class="w">    </span><span class="k">type</span><span class="w"> </span><span class="nc">StorageCache</span><span class="bp">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="k">member</span><span class="w"> </span><span class="n">cache</span><span class="p">.</span><span class="nf">Clear</span><span class="bp">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">()</span>
+</code></pre></div>
+<p>No two types or modules may have identical names in the same namespace. If a type and a module in the same assembly and namespace are given the same name, the compiler will automatically append <code>Module</code> as a suffix to the compiled name. The
+<code>[&lt;CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)&gt;]</code> attribute can be used to cause a module name to always be appended with <code>Module</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="k">type</span><span class="w"> </span><span class="nc">Cat</span><span class="o">(</span><span class="n">kind</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="o">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="nf">Meow</span><span class="bp">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;meow&quot;</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="nf">Purr</span><span class="bp">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;purr&quot;</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="nf">Kind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kind</span>
+
+<span class="o">[&lt;</span><span class="n">CompilationRepresentation</span><span class="o">(</span><span class="nn">CompilationRepresentationFlags</span><span class="p">.</span><span class="n">ModuleSuffix</span><span class="o">)&gt;]</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">Cat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="c1">// Cat is explicitly compiled as CatModule</span>
+
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">tabby</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Cat</span><span class="w"> </span><span class="s">&quot;Tabby&quot;</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">purr</span><span class="w"> </span><span class="o">(</span><span class="n">c</span><span class="o">:</span><span class="n">Cat</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="o">.</span><span class="n">Purr</span><span class="bp">()</span><span class="o">;</span><span class="w"> </span><span class="n">c</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">purrTwice</span><span class="w"> </span><span class="o">(</span><span class="n">c</span><span class="o">:</span><span class="n">Cat</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">purr</span><span class="w"> </span><span class="o">(</span><span class="n">purr</span><span class="w"> </span><span class="n">c</span><span class="o">)</span>
+
+<span class="nn">Cat</span><span class="p">.</span><span class="n">tabby</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nn">Cat</span><span class="p">.</span><span class="n">purr</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nn">Cat</span><span class="p">.</span><span class="n">purrTwice</span>
+
+<span class="k">type</span><span class="w"> </span><span class="nc">Dog</span><span class="o">(</span><span class="n">kind</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="o">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="nf">Bark</span><span class="bp">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;woof&quot;</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="nf">Wag</span><span class="bp">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;wag&quot;</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="nf">Kind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kind</span>
+
+<span class="k">module</span><span class="w"> </span><span class="nn">Dog</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="c1">// Dog is implicitly compiled as DogModule</span>
+
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">beagle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Dog</span><span class="w"> </span><span class="s">&quot;Beagle&quot;</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">bark</span><span class="w"> </span><span class="o">(</span><span class="n">d</span><span class="o">:</span><span class="n">Dog</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d</span><span class="o">.</span><span class="n">Bark</span><span class="bp">()</span><span class="o">;</span><span class="w"> </span><span class="n">d</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">barkTwice</span><span class="w"> </span><span class="o">(</span><span class="n">d</span><span class="o">:</span><span class="n">Dog</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bark</span><span class="w"> </span><span class="o">(</span><span class="n">bark</span><span class="w"> </span><span class="n">d</span><span class="o">)</span>
+
+<span class="nn">Dog</span><span class="p">.</span><span class="n">beagle</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nn">Dog</span><span class="p">.</span><span class="n">bark</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nn">Dog</span><span class="p">.</span><span class="n">barkTwice</span>
+
+<span class="k">type</span><span class="w"> </span><span class="nc">Cage</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">Pet</span><span class="o">&gt;(</span><span class="n">pet</span><span class="o">:</span><span class="w"> </span><span class="k">&#39;</span><span class="n">Pet</span><span class="o">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">member</span><span class="w"> </span><span class="n">x</span><span class="p">.</span><span class="nf">Pet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pet</span>
+
+<span class="k">module</span><span class="w"> </span><span class="nn">Cage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="c1">// Cage is compiled as Cage because Cage&lt;&#39;Pet&gt; is a generic type so the name does not conflict</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">putInCage</span><span class="w"> </span><span class="n">pet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Cage</span><span class="w"> </span><span class="n">pet</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">getPet</span><span class="w"> </span><span class="o">(</span><span class="n">cage</span><span class="o">:</span><span class="w"> </span><span class="n">Cage</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">Pet</span><span class="o">&gt;)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cage</span><span class="o">.</span><span class="n">Pet</span>
+
+<span class="k">let</span><span class="w"> </span><span class="nv">catCage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">Cage</span><span class="p">.</span><span class="n">putInCage</span><span class="w"> </span><span class="nn">Cat</span><span class="p">.</span><span class="n">tabby</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">dogCage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">Cage</span><span class="p">.</span><span class="n">putInCage</span><span class="w"> </span><span class="nn">Dog</span><span class="p">.</span><span class="n">beagle</span>
+
+<span class="n">catCage</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nn">Cage</span><span class="p">.</span><span class="n">getPet</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nn">Cat</span><span class="p">.</span><span class="n">purr</span>
+<span class="n">dogCage</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nn">Cage</span><span class="p">.</span><span class="n">getPet</span><span class="w"> </span><span class="o">|&gt;</span><span class="w"> </span><span class="nn">Dog</span><span class="p">.</span><span class="n">bark</span>
+</code></pre></div>
+<h3 id="1021-function-and-value-definitions-in-modules">10.2.1 Function and Value Definitions in Modules</h3>
+<p>Function and value definitionsin modules introduce named values and functions.</p>
+<div class="highlight"><pre><span></span><code>let rec~opt function-or-value-defn1 and ... and function-or-value-defnn
+</code></pre></div>
+<p>The following example defines value <code>x</code> and functions <code>id</code> and <code>fib</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">module</span><span class="w"> </span><span class="nn">M</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">id</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">rec</span><span class="w"> </span><span class="n">fib</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">fib</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fib</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span>
+</code></pre></div>
+<p>Function and value definitions in modules may declare explicit type variables and type constraints:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">pair</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="o">&gt;(</span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="w"> </span><span class="n">x</span><span class="o">)</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">dispose</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="k">when</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="o">:&gt;</span><span class="w"> </span><span class="nn">System</span><span class="p">.</span><span class="n">IDisposable</span><span class="o">&gt;(</span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">.</span><span class="n">Dispose</span><span class="bp">()</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">convert</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="o">,</span><span class="w"> </span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;(</span><span class="n">x</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">unbox</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">U</span><span class="o">&gt;(</span><span class="n">box</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="o">&gt;(</span><span class="n">x</span><span class="o">))</span>
+</code></pre></div>
+<p>A value definition that has explicit type variables is called a type function (<a href="./#1023-type-function-definitions-in-modules">§10.2.3</a>).</p>
+<p>Function and value definitions may specify attributes:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// A value definition with the System.Obsolete attribute</span>
+<span class="o">[&lt;</span><span class="nn">System</span><span class="p">.</span><span class="n">Obsolete</span><span class="o">(</span><span class="s">&quot;Don&#39;t use this&quot;</span><span class="o">)&gt;]</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">oneTwoPair</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">(</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">,</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">)</span>
+
+<span class="c1">// A function definition with an attribute</span>
+<span class="o">[&lt;</span><span class="nn">System</span><span class="p">.</span><span class="n">Obsolete</span><span class="o">(</span><span class="s">&quot;Don&#39;t use this either&quot;</span><span class="o">)&gt;]</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">pear</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">(</span><span class="n">v</span><span class="o">,</span><span class="w"> </span><span class="n">v</span><span class="o">)</span>
+</code></pre></div>
+<p>By the use of pattern matching, a value definition can define more than one value. In such cases,
+the attributes apply to each value.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// A value definition that defines two values, each with an attribute</span>
+<span class="o">[&lt;</span><span class="nn">System</span><span class="p">.</span><span class="n">Obsolete</span><span class="o">(</span><span class="s">&quot;Don&#39;t use this&quot;</span><span class="o">)&gt;]</span>
+<span class="k">let</span><span class="w"> </span><span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="w"> </span><span class="n">b</span><span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span>
+</code></pre></div>
+<p>Values may be declared mutable:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// A value definition that defines a mutable value</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">mutable</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">freshName</span><span class="bp">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">(</span><span class="n">count</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="o">;</span><span class="w"> </span><span class="n">count</span><span class="o">)</span>
+</code></pre></div>
+<p>Function and value definitions in modules are processed in the same way as function and value
+definitions in expressions (<a href="../inference-procedures/#146-checking-and-elaborating-function-value-and-member-definitions">§14.6</a>), with the following adjustments:</p>
+<ul>
+<li>Each defined value may have an accessibility annotation (<a href="./#105-accessibility-annotations">§10.5</a>). By default, the accessibility
+    annotation of a function or value definition in a module is <code>public</code>.</li>
+<li>Each defined value is <em>externally accessible</em> if its accessibility annotation is <code>public</code> and it is not
+    hidden by an explicit signature. Externally accessible values are guaranteed to have compiled CLI
+    representations in compiled CLI binaries.</li>
+<li>Each defined value can be used to satisfy the requirements of any signature for the module
+    (<a href="../namespace-and-module-signatures/#112-signature-conformance">§11.2</a>).</li>
+<li>Each defined value is subject to arity analysis (<a href="../inference-procedures/#1411-arity-inference">§14.11</a>).</li>
+<li>Values may have attributes, including the <code>ThreadStatic</code> or <code>ContextStatic</code> attribute.</li>
+</ul>
+<h3 id="1022-literal-definitions-in-modules">10.2.2 Literal Definitions in Modules</h3>
+<p>Value definitions in modules may have the <code>Literal</code> attribute. This attribute causes the value to be
+compiled as a constant. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[&lt;</span><span class="n">Literal</span><span class="o">&gt;]</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">PI</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="o">.</span><span class="mi">141592654</span>
+</code></pre></div>
+<p>Literal values may be used in custom attributes and pattern matching. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[&lt;</span><span class="n">Literal</span><span class="o">&gt;]</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">StartOfWeek</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">System</span><span class="p">.</span><span class="nn">DayOfWeek</span><span class="p">.</span><span class="n">Monday</span>
+
+<span class="o">[&lt;</span><span class="n">MyAttribute</span><span class="o">(</span><span class="n">StartOfWeek</span><span class="o">)&gt;]</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">feeling</span><span class="o">(</span><span class="n">day</span><span class="o">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">day</span><span class="w"> </span><span class="k">with</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">StartOfWeek</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;rough&quot;</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;great&quot;</span>
+</code></pre></div>
+<p>A value that has the <code>Literal</code> attribute is subject to the following restrictions:</p>
+<ul>
+<li>It may not be marked <code>mutable</code> or <code>inline</code>.</li>
+<li>It may not also have the <code>ThreadStatic</code> or <code>ContextStatic</code> attributes.</li>
+<li>The right-hand side expression must be a <em>literal constant expression</em> that is both a valid
+    expression after checking, and is made up of either:</li>
+<li>A simple constant expression, with the exception of <code>()</code>, native integer literals, unsigned native
+       integer literals, byte array literals, BigInteger literals, and user-defined numeric literals.</li>
+</ul>
+<p>— OR —</p>
+<ul>
+<li>A reference to another literal</li>
+</ul>
+<p>— OR —</p>
+<ul>
+<li>A bitwise combination of literal constant expressions</li>
+</ul>
+<p>— OR —</p>
+<ul>
+<li>A <code>+</code> concatenation of two literal constant expressions which are strings</li>
+</ul>
+<p>— OR —</p>
+<ul>
+<li><code>enum x</code> or <code>LanguagePrimitives.EnumOfValue x</code> where <code>x</code> is a literal constant expression.</li>
+</ul>
+<h3 id="1023-type-function-definitions-in-modules">10.2.3 Type Function Definitions in Modules</h3>
+<p>Value definitions within modules may have explicit generic parameters. For example, <code>‘T</code> is a generic
+parameter to the value <code>empty</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">empty</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="o">(</span><span class="kt">list</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Set</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="o">&gt;)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">(</span><span class="bp">[]</span><span class="o">,</span><span class="w"> </span><span class="nn">Set</span><span class="p">.</span><span class="n">empty</span><span class="o">)</span>
+</code></pre></div>
+<p>A value that has explicit generic parameters but has arity <code>[]</code> (that is, no explicit function parameters)
+is called a <em>type function</em>. The following are some example type functions from the F# library:</p>
+<div class="highlight"><pre><span></span><code><span class="k">val</span><span class="w"> </span><span class="n">typeof</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nn">System</span><span class="p">.</span><span class="n">Type</span>
+<span class="k">val</span><span class="w"> </span><span class="n">sizeof</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">int</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">Set</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">val</span><span class="w"> </span><span class="n">empty</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Set</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="o">&gt;</span>
+<span class="k">module</span><span class="w"> </span><span class="nn">Map</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">val</span><span class="w"> </span><span class="n">empty</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">Key</span><span class="o">,</span><span class="k">&#39;</span><span class="n">Value</span><span class="o">&gt;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">Key</span><span class="o">,</span><span class="k">&#39;</span><span class="n">Value</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>Type functions are rarely used in F# programming, although they are convenient in certain
+situations. Type functions are typically used for:</p>
+<ul>
+<li>Pure functions that compute type-specific information based on the supplied type arguments.</li>
+<li>Pure functions whose result is independent of inferred type arguments, such as empty sets and
+    maps.</li>
+</ul>
+<p>Type functions receive special treatment during generalization (<a href="../inference-procedures/#1467-generalization">§14.6.7</a>) and signature conformance
+(<a href="../namespace-and-module-signatures/#112-signature-conformance">§11.2</a>). They typically have either the <code>RequiresExplicitTypeArguments</code> attribute or the
+<code>GeneralizableValue</code> attribute. Type functions may not be defined inside types, expressions, or
+computation expressions.</p>
+<p>In general, type functions should be used only for computations that do not have observable side
+effects. However, type functions may still perform computations. In this example, <code>r</code> is a type function
+that calculates the number of times it has been called</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">mutable</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">r</span><span class="o">&lt;</span><span class="k">&#39;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">(</span><span class="n">count</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="o">);</span><span class="w"> </span><span class="n">ref</span><span class="w"> </span><span class="o">(</span><span class="bp">[]</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">&#39;</span><span class="n">T</span><span class="w"> </span><span class="kt">list</span><span class="o">);;</span>
+<span class="c1">// count = 1</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">x1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;</span>
+<span class="c1">// count = 2</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">x2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;</span>
+<span class="c1">// count = 3</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">z0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x1</span>
+<span class="c1">// count = 3</span>
+</code></pre></div>
+<p>The elaborated form of a type function is that of a function definition that takes one argument of
+type <code>unit</code>. That is, the elaborated form of</p>
+<div class="highlight"><pre><span></span><code>let ident typar-defns = expr
+</code></pre></div>
+<p>is the same as the compiled form for the following declaration:</p>
+<div class="highlight"><pre><span></span><code>let ident typar-defns () = expr
+</code></pre></div>
+<p>References to type functions are elaborated to invocations of such a function.</p>
+<h3 id="1024-active-pattern-definitions-in-modules">10.2.4 Active Pattern Definitions in Modules</h3>
+<p>A value definition within a module that has an <code>active-pattern-op-name</code> introduces pattern-matching
+tags into the environment when the module is accessed or opened. For example,</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="o">(|</span><span class="n">A</span><span class="o">|</span><span class="n">B</span><span class="o">|</span><span class="n">C</span><span class="o">|)</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="k">elif</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">C</span>
+</code></pre></div>
+<p>introduces pattern tags <code>A</code>, <code>B</code>, and <code>C</code> into the <em>PatItems</em> table in the name resolution environment.</p>
+<h3 id="1025-do-statements-in-modules">10.2.5 “do” statements in Modules</h3>
+<p>A <code>do</code> statement within a module has the following form:</p>
+<div class="highlight"><pre><span></span><code>do expr
+</code></pre></div>
+<p>The expression <code>expr</code> is checked with an arbitrary initial type <code>ty</code>. After checking <code>expr</code>, <code>ty</code> is asserted to
+be equal to <code>unit</code>. If the assertion fails, a warning rather than an error is reported. This warning is
+suppressed for plain expressions without do in script files (that is, .fsx and .fsscript files).</p>
+<p>A <code>do</code> statement may have attributes. In this example, the <code>STAThread</code> attribute specifies that main
+uses the single-threaded apartment (STA) threading model of COM:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">main</span><span class="bp">()</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">let</span><span class="w"> </span><span class="nv">form</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nn">System</span><span class="p">.</span><span class="nn">Windows</span><span class="p">.</span><span class="nn">Forms</span><span class="p">.</span><span class="n">Form</span><span class="bp">()</span>
+<span class="w">    </span><span class="nn">System</span><span class="p">.</span><span class="nn">Windows</span><span class="p">.</span><span class="nn">Forms</span><span class="p">.</span><span class="nn">Application</span><span class="p">.</span><span class="n">Run</span><span class="o">(</span><span class="n">form</span><span class="o">)</span>
+
+<span class="o">[&lt;</span><span class="n">STAThread</span><span class="o">&gt;]</span>
+<span class="k">do</span><span class="w"> </span><span class="n">main</span><span class="bp">()</span>
+</code></pre></div>
+<h2 id="103-import-declarations">10.3 Import Declarations</h2>
+<p>Namespace declaration groups and module definitions can include <em>import declarations</em> in the
+following form:</p>
+<div class="highlight"><pre><span></span><code>open long-ident
+</code></pre></div>
+<p>Import declarations make elements of other namespace declaration groups and modules accessible
+by the use of unqualified names. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">open</span><span class="w"> </span><span class="nn">FSharp.Collections</span>
+<span class="k">open</span><span class="w"> </span><span class="nn">System</span>
+</code></pre></div>
+<p>Import declarations can be used in:</p>
+<ul>
+<li>Module definitions and their signatures.</li>
+<li>Namespace declaration groups and their signatures.</li>
+</ul>
+<p>An import declaration is processed by first resolving the <code>long-ident</code> to one or more namespace
+declaration groups and/or modules [ <code>F1</code>, ..., <code>Fn</code> ] by <em>Name Resolution in Module and Namespace Paths</em>
+(<a href="../inference-procedures/#1412-name-resolution-in-module-and-namespace-paths">§14.1.2</a>). For example, <code>System.Collections.Generic</code> may resolve to one or more namespace
+declaration groups—one for each assembly that contributes a namespace declaration group in the
+current environment. Next, each <code>Fi</code> is added to the environment successively by using the technique
+specified in <a href="../inference-procedures/#1413-opening-modules-and-namespace-declaration-groups">§14.1.3</a>. An error occurs if any <code>Fi</code> is a module that has the <code>RequireQualifiedAccess</code>
+attribute.</p>
+<h2 id="104-module-abbreviations">10.4 Module Abbreviations</h2>
+<p>A module abbreviation defines a local name for a module long identifier, as follows:</p>
+<div class="highlight"><pre><span></span><code>module ident = long-ident
+</code></pre></div>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">module</span><span class="w"> </span><span class="nn">Ops</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">FSharp</span><span class="p">.</span><span class="nn">Core</span><span class="p">.</span><span class="n">Operators</span>
+</code></pre></div>
+<p>Module abbreviations can be used in:</p>
+<ul>
+<li>Module definitions and their signatures.</li>
+<li>Namespace declaration groups and their signatures.</li>
+</ul>
+<p>Module abbreviations are implicitly private to the module or namespace declaration group in which
+they appear.</p>
+<p>A module abbreviation is processed by first resolving the <code>long-ident</code> to a list of modules by <em>Name
+Resolution in Module and Namespace Paths</em> (see <a href="../inference-procedures/#141-name-resolution">§14.1</a>). The list is then appended to the set of
+names that are associated with <code>ident</code> in the <em>ModulesAndNamespaces</em> table.</p>
+<p>Module abbreviations may not be used to abbreviate namespaces.</p>
+<h2 id="105-accessibility-annotations">10.5 Accessibility Annotations</h2>
+<p>Accessibilities may be specified on declaration elements in namespace declaration groups and
+modules, and on members in types. The table lists the accessibilities that can appear in user code:</p>
+<table>
+<thead>
+<tr>
+<th>Accessibility</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>public</code></td>
+<td>No restrictions on access.</td>
+</tr>
+<tr>
+<td><code>private</code></td>
+<td>Access is permitted only from the enclosing type, module, or namespace declaration group.</td>
+</tr>
+<tr>
+<td><code>internal</code></td>
+<td>Access is permitted only from within the enclosing assembly, or from assemblies whose name is listed using the <code>InternalsVisibleTo</code> attribute in the current assembly.</td>
+</tr>
+</tbody>
+</table>
+<p>The default accessibilities are <code>public</code>. Specifically:</p>
+<ul>
+<li>Function definitions, value definitions, type definitions, and exception definitions in modules are
+    public.</li>
+<li>Modules, type definitions, and exception definitions in namespaces are public.</li>
+<li>Members in type definitions are public.</li>
+</ul>
+<p>Some function and value definitions may not be given an accessibility and, by their nature, have
+restricted lexical scope. In particular:</p>
+<ul>
+<li>Function and value definitions in classes are lexically available only within the class being
+    defined, and only from the point of their definition onward.</li>
+<li>Module type abbreviations are lexically available only within the module or namespace
+    declaration group being defined, and only from their point of their definition onward.</li>
+</ul>
+<p>Note that:</p>
+<ul>
+<li><code>private</code> on a member means “private to the enclosing type or module.”</li>
+<li><code>private</code> on a function or value definition in a module means “private to the module or
+    namespace declaration group.”</li>
+<li><code>private</code> on a type, module, or type representation in a module means “private to the module.”</li>
+</ul>
+<p>The CLI compiled form of all non-public entities is <code>internal</code>.</p>
+<blockquote>
+<p>Note: The <code>family</code> and <code>protected</code> specifications are not supported in this version of the F#
+language.</p>
+</blockquote>
+<p>Accessibility modifiers can appear only in the locations summarized in the following table.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Location</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Function or value <br>definition in module</td>
+<td>Precedes identifier</td>
+<td><code>let private x = 1</code><br><code>let inline private f x = 1</code><br><code>let mutable private x = 1</code></td>
+</tr>
+<tr>
+<td>Module definition</td>
+<td>Precedes identifier</td>
+<td><code>module private M =</code><br><code>let x = 1</code></td>
+</tr>
+<tr>
+<td>Type definition</td>
+<td>Precedes identifier</td>
+<td><code>type private C = A \| B</code><br><code>type private C&lt;'T&gt; = A \| B</code></td>
+</tr>
+<tr>
+<td><code>val</code> definition in a class</td>
+<td>Precedes identifier</td>
+<td><code>val private x : int</code></td>
+</tr>
+<tr>
+<td>Explicit constructor</td>
+<td>Precedes identifier</td>
+<td><code>private new () = { inherit Base }</code></td>
+</tr>
+<tr>
+<td>Implicit constructor</td>
+<td>Precedes identifier</td>
+<td><code>type C private() = ...</code></td>
+</tr>
+<tr>
+<td>Member definition</td>
+<td>Precedes identifier, but cannot appear on <br><code>inherit</code> definitions, <br><code>interface</code> definitions, <br><code>abstract</code> definitions, <br>individual union cases. <br>Accessibility for <br><code>inherit</code>, <code>interface</code>, <br>and <code>abstract</code> definitions is <br>always the same as that of <br>the enclosing class.</td>
+<td><code>member private x.X = 1</code></td>
+</tr>
+<tr>
+<td>Explicit property get <br>or set in a class</td>
+<td>Precedes identifier</td>
+<td><code>member __.Item</code><br> <code>with private get i = 1</code> <br><code>and private set i v = ()</code></td>
+</tr>
+<tr>
+<td>Type representation</td>
+<td>Precedes identifier</td>
+<td><code>type Cases = private \| A \| B</code></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2005-2025 F# contributors. Made available under the <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons CC-by 4.0</a> licence.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

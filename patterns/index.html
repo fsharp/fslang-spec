@@ -1,0 +1,1792 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://fsharp.github.io/fslang-spec/patterns/">
+      
+      
+        <link rel="prev" href="../expressions/">
+      
+      
+        <link rel="next" href="../type-definitions/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../fsharp128.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>7. Patterns - F# Language Specification</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#7-patterns" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="F# Language Specification" class="md-header__button md-logo" aria-label="F# Language Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12 11.39.61v5.695L5.695 12l5.695 5.695v5.695zm7.322 0 4.068-4.068v8.136zM24 12 12.203.61v5.695L17.898 12l-5.695 5.695v5.695z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            F# Language Specification
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              7. Patterns
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/fsharp/fslang-spec" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="F# Language Specification" class="md-nav__button md-logo" aria-label="F# Language Specification" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 12 11.39.61v5.695L5.695 12l5.695 5.695v5.695zm7.322 0 4.068-4.068v8.136zM24 12 12.203.61v5.695L17.898 12l-5.695 5.695v5.695z"/></svg>
+
+    </a>
+    F# Language Specification
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/fsharp/fslang-spec" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Front Matter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rfc-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RFC status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Program Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lexical-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Lexical Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basic-grammar-elements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Basic Grammar Elements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../types-and-type-constraints/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Types and Type Constraints
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../expressions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Expressions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Patterns
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#71-simple-constant-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Simple Constant Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#72-named-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Named Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.2 Named Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#721-union-case-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2.1 Union Case Patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#722-literal-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2.2 Literal Patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#723-active-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2.3 Active Patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#73-as-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 “As” Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#74-wildcard-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 Wildcard Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#75-disjunctive-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.5 Disjunctive Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#76-conjunctive-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.6 Conjunctive Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#77-list-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.7 List Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#78-type-annotated-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.8 Type-annotated Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#79-dynamic-type-test-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.9 Dynamic Type-test Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#710-record-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.10 Record Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#711-array-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.11 Array Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#712-null-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.12 Null Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#713-guarded-pattern-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.13 Guarded Pattern Rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../type-definitions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Type Definitions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../units-of-measure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Units of Measure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespaces-and-modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10. Namespaces and Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../namespace-and-module-signatures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11. Namespace and Module Signatures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program-structure-and-execution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12. Program Structure and Execution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../custom-attributes-and-reflection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13. Custom Attributes and Reflection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inference-procedures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    14. Inference Procedures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lexical-filtering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    15. Lexical Filtering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../provided-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    16. Provided Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../special-attributes-and-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    17. Special Attributes and Types
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../the-f-library-fsharpcoredll/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    18. The F# Library FSharp.Core.dll
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features-for-ml-compatibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    19. Features for ML Compatibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#71-simple-constant-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Simple Constant Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#72-named-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Named Patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7.2 Named Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#721-union-case-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2.1 Union Case Patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#722-literal-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2.2 Literal Patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#723-active-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2.3 Active Patterns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#73-as-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 “As” Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#74-wildcard-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 Wildcard Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#75-disjunctive-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.5 Disjunctive Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#76-conjunctive-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.6 Conjunctive Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#77-list-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.7 List Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#78-type-annotated-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.8 Type-annotated Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#79-dynamic-type-test-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.9 Dynamic Type-test Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#710-record-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.10 Record Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#711-array-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.11 Array Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#712-null-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.12 Null Patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#713-guarded-pattern-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.13 Guarded Pattern Rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="7-patterns">7. Patterns</h1>
+<p>Patterns are used to perform simultaneous case analysis and decomposition on values together with
+the <code>match</code>, <code>try...with</code>, <code>function</code>, <code>fun</code>, and <code>let</code> expression and declaration constructs. Rules are
+attempted in order from top to bottom and left to right. The syntactic forms of patterns are shown
+in the subsequent table.</p>
+<div class="highlight"><pre><span></span><code>rule :=
+    pat pattern-guard~opt -&gt; expr       -- pattern, optional guard and action
+
+pattern-guard := when expr
+
+pat :=
+    const                               -- constant pattern
+    long-ident pat-param~opt pat~opt    -- named pattern
+    _ -- wildcard pattern
+    pat as ident                        -- &quot;as&quot; pattern
+    pat &#39;|&#39; pat                         -- disjunctive pattern
+    pat &#39;&amp;&#39; pat                         -- conjunctive pattern
+    pat :: pat                          -- &quot;cons&quot; pattern
+    pat : type                          -- pattern with type constraint
+    pat , ... , pat                     -- tuple pattern
+    struct (pat , ... , pat)            -- struct tuple pattern
+    ( pat )                             -- parenthesized pattern
+    list-pat                            -- list pattern
+    array-pat                           -- array pattern
+    record-pat                          -- record pattern
+    :? atomic-type                      -- dynamic type test pattern
+    :? atomic-type as ident             -- dynamic type test pattern
+    null                                -- null-test pattern
+    attributes pat                      -- pattern with attributes
+
+list-pat :=
+    [ ]
+    [ pat ; ... ; pat ]
+
+array-pat :=
+    [| |]
+    [| pat ; ... ; pat |]
+
+record-pat :=
+    { field-pat ; ... ; field-pat }
+
+atomic-pat :=
+    pat : one of
+            const long-ident list-pat record-pat array-pat ( pat )
+            :? atomic-type
+            null _
+
+field-pat := long-ident = pat
+
+pat-param :=
+    | const
+    | long-ident
+    | [ pat-param ; ... ; pat-param ]
+    | ( pat-param , ..., pat-param )
+    | long-ident pat-param
+    | pat-param : type
+    | &lt;@ expr @&gt;
+    | &lt;@@ expr @@&gt;
+    | null
+
+pats := pat , ... , pat
+field-pats := field-pat ; ... ; field-pat
+rules := &#39;|&#39;~opt rule &#39;|&#39; ... &#39;|&#39; rule
+</code></pre></div>
+<p>Patterns are elaborated to expressions through a process called <em>pattern match compilation</em>. This
+reduces pattern matching to <em>decision trees</em> which operate on an input value, called the <em>pattern input</em>.
+The decision tree is composed of the following constructs:</p>
+<ul>
+<li>Conditionals on integers and other constants</li>
+<li>Switches on union cases</li>
+<li>Conditionals on runtime types</li>
+<li>Null tests</li>
+<li>Value definitions</li>
+<li>An array of pattern-match targets referred to by index</li>
+</ul>
+<h2 id="71-simple-constant-patterns">7.1 Simple Constant Patterns</h2>
+<p>The pattern <code>const</code> is a <em>constant pattern</em> which matches values equal to the given constant. For
+example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">rotate3</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="k">with</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;two&quot;</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;zero&quot;</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;one&quot;</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">failwith</span><span class="w"> </span><span class="s">&quot;rotate3&quot;</span>
+</code></pre></div>
+<p>In this example, the constant patterns are 0, 1, and 2. Any constant listed in <a href="../expressions/#631-simple-constant-expressions">§6.3.1</a> may be used as a
+constant pattern except for integer literals that have the suffixes <code>Q</code>, <code>R</code>, <code>Z</code>, <code>I</code>, <code>N</code>, <code>G</code>.</p>
+<p>Simple constant patterns have the corresponding simple type. Such patterns elaborate to a call to
+the F# structural equality function <code>FSharp.Core.Operators.(=)</code> with the pattern input and the
+constant as arguments. The match succeeds if this call returns <code>true</code>; otherwise, the match fails.</p>
+<blockquote>
+<p><strong>Note</strong>: The use of <code>FSharp.Core.Operators.(=)</code> means that CLI floating-point equality is
+used to match floating-point values, and CLI ordinal string equality is used to match
+strings.</p>
+</blockquote>
+<h2 id="72-named-patterns">7.2 Named Patterns</h2>
+<p>Patterns in the following forms are <em>named patterns</em> :</p>
+<div class="highlight"><pre><span></span><code>Long-ident
+Long-ident pat
+Long-ident pat-params pat
+</code></pre></div>
+<p>If <code>long-ident</code> is a single identifier that does not begin with an uppercase character, it is interpreted
+as a <em>variable pattern</em>. During checking, the variable is assigned the same value and type as the
+pattern input.</p>
+<p>If <code>long-ident</code> is more than one-character long or begins with an uppercase character (that is, if
+<code>System.Char.IsUpperInvariant</code> is <code>true</code> and <code>System.Char.IsLowerInvariant</code> is <code>false</code> on the first
+character), it is resolved by using <em>Name Resolution in Patterns</em> (<a href="../inference-procedures/#1416-name-resolution-in-patterns">§14.1.6</a>). This algorithm produces one
+of the following:</p>
+<ul>
+<li>A union case</li>
+<li>An exception label</li>
+<li>An active pattern case name</li>
+<li>A literal value</li>
+</ul>
+<p>Otherwise, <code>long-ident</code> must be a single uppercase identifier <code>ident</code>. In this case, <code>pat</code> is a variable
+pattern. An F# implementation may optionally generate a warning if the identifier is uppercase. Such
+a warning is recommended if the length of the identifier is greater than two.</p>
+<p>After name resolution, the subsequent treatment of the named pattern is described in the following
+sections.</p>
+<h3 id="721-union-case-patterns">7.2.1 Union Case Patterns</h3>
+<p>If <code>long-ident</code> from <a href="./#72-named-patterns">§7.2</a> resolves to a union case, the pattern is a union case pattern. If <code>long-ident</code>
+resolves to a union case <code>Case</code> , then <code>long-ident</code> and <code>long-ident pat</code> are patterns that match pattern
+inputs that have union case label <code>Case</code>. The <code>long-ident</code> form is used if the corresponding case takes
+no arguments, and the <code>long-ident pat</code> form is used if it takes arguments.</p>
+<p>At runtime, if the pattern input is an object that has the corresponding union case label, the data
+values carried by the union are matched against the given argument patterns.</p>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">type</span><span class="w"> </span><span class="nc">Data</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">Kind1</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">int</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">Kind2</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kt">string</span>
+
+<span class="k">let</span><span class="w"> </span><span class="nv">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Kind1</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span>
+
+<span class="k">let</span><span class="w"> </span><span class="nv">result</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="k">with</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">Kind1</span><span class="w"> </span><span class="o">(</span><span class="n">a</span><span class="o">,</span><span class="w"> </span><span class="n">b</span><span class="o">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">Kind2</span><span class="w"> </span><span class="o">(</span><span class="n">s1</span><span class="o">,</span><span class="w"> </span><span class="n">s2</span><span class="o">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">s1</span><span class="o">.</span><span class="n">Length</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">s2</span><span class="o">.</span><span class="n">Length</span>
+</code></pre></div>
+<p>In this case, result is given the value 5.</p>
+<p>When a union case has named fields, these names may be referenced in a union case pattem. When
+using pattern matching with multiple fields, semicolons are used to delimit the named fields. For
+example</p>
+<div class="highlight"><pre><span></span><code><span class="k">type</span><span class="w"> </span><span class="nc">Shape</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">Rectangle</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">width</span><span class="o">:</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">height</span><span class="o">:</span><span class="w"> </span><span class="kt">float</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">Square</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">width</span><span class="o">:</span><span class="w"> </span><span class="kt">float</span>
+
+<span class="k">let</span><span class="w"> </span><span class="nv">getArea</span><span class="w"> </span><span class="o">(</span><span class="n">s</span><span class="o">:</span><span class="w"> </span><span class="n">Shape</span><span class="o">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="k">with</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">Rectangle</span><span class="w"> </span><span class="o">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">w</span><span class="o">;</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">h</span><span class="o">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">w</span><span class="o">*</span><span class="n">h</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">Square</span><span class="w"> </span><span class="o">(</span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">w</span><span class="o">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">w</span><span class="o">*</span><span class="n">w</span>
+</code></pre></div>
+<h3 id="722-literal-patterns">7.2.2 Literal Patterns</h3>
+<p>If <code>long-ident</code> from <a href="./#72-named-patterns">§7.2</a> resolves to a literal value, the pattern is a literal pattern. The pattern is
+equivalent to the corresponding constant pattern.</p>
+<p>In the following example, the <code>Literal</code> attribute (<a href="../namespaces-and-modules/#1022-literal-definitions-in-modules">§10.2.2</a>) is first used to define two literals, and these
+literals are used as identifiers in the match expression:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[&lt;</span><span class="n">Literal</span><span class="o">&gt;]</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">Case1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+
+<span class="o">[&lt;</span><span class="n">Literal</span><span class="o">&gt;]</span>
+<span class="k">let</span><span class="w"> </span><span class="nv">Case2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span>
+
+<span class="k">let</span><span class="w"> </span><span class="nv">result</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">00</span><span class="w"> </span><span class="k">with</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">Case1</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;Case1&quot;</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">Case2</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;Case 2 &quot;</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;Some other case&quot;</span>
+</code></pre></div>
+<p>In this case, <code>result</code> is given the value <code>Case2</code>.</p>
+<h3 id="723-active-patterns">7.2.3 Active Patterns</h3>
+<p>If <code>long-ident</code> from <a href="./#72-named-patterns">§7.2</a> resolves to an <em>active pattern case name <code>CaseNamei</code></em> then the pattern is an
+active pattern. The rules for name resolution in patterns (<a href="../inference-procedures/#1416-name-resolution-in-patterns">§14.1.6</a>) ensure that <code>CaseNamei</code> is
+associated with an <em>active pattern function <code>f</code></em> in one of the following forms:</p>
+<ul>
+<li><code>(| CaseName |) inp</code></li>
+</ul>
+<p>Single case. The function accepts one argument (the value being matched) and can return any
+type.</p>
+<ul>
+<li><code>(| CaseName |_|) inp</code></li>
+</ul>
+<p>Partial. The function accepts one argument (the value being matched) and must return a value
+of type <code>FSharp.Core.option&lt;_&gt;</code></p>
+<ul>
+<li><code>(| CaseName1 | ...| CaseNamen |) inp</code></li>
+</ul>
+<p>Multi-case. The function accepts one argument (the value being matched), and must return a
+value of type <code>FSharp.Core.Choice&lt;_,...,_&gt;</code> based on the number of case names. In F#, the
+limitation n ≤ 7 applies.</p>
+<ul>
+<li><code>(| CaseName |) arg1 ... argn inp</code></li>
+</ul>
+<p>Single case with parameters. The function accepts <code>n+1</code> arguments, where the last argument (<code>inp</code>)
+is the value to match, and can return any type.</p>
+<ul>
+<li><code>(| CaseName |_|) arg1 ... argn inp</code></li>
+</ul>
+<p>Partial with parameters. The function accepts n +1 arguments, where the last argument (<code>inp</code>) is
+the value to match, and must return a value of type <code>FSharp.Core.option&lt;_&gt;</code>.</p>
+<p>Other active pattern functions are not permitted. In particular, multi-case, partial functions such as
+the following are not permitted:</p>
+<div class="highlight"><pre><span></span><code><span class="o">(|</span><span class="n">CaseName1</span><span class="o">|</span><span class="w"> </span><span class="o">...</span><span class="w"> </span><span class="o">|</span><span class="n">CaseNamen</span><span class="o">|_|)</span>
+</code></pre></div>
+<p>When an active pattern function takes arguments, the <code>pat-params</code> are interpreted as expressions
+that are passed as arguments to the active pattern function. The <code>pat-params</code> are converted to the
+syntactically identical corresponding expression forms and are passed as arguments to the active
+pattern function <code>f</code>.</p>
+<p>At runtime, the function <code>f</code> is applied to the pattern input, along with any parameters. The pattern
+matches if the active pattern function returns <code>v</code> , <code>ChoicekOfN v</code> , or Some <code>v</code> , respectively, when applied
+to the pattern input. If the pattern argument <code>pat</code> is present, it is then matched against <code>v</code>.</p>
+<p>The following example shows how to define and use a partial active pattern function:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="o">(|</span><span class="n">Positive</span><span class="o">|_|)</span><span class="w"> </span><span class="n">inp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">inp</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="n">Some</span><span class="o">(</span><span class="n">inp</span><span class="o">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">None</span>
+<span class="k">let</span><span class="w"> </span><span class="o">(|</span><span class="n">Negative</span><span class="o">|_|)</span><span class="w"> </span><span class="n">inp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">inp</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="n">Some</span><span class="o">(-</span><span class="n">inp</span><span class="o">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">None</span>
+
+<span class="k">match</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="k">with</span>
+<span class="o">|</span><span class="w"> </span><span class="n">Positive</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;positive, n = %d&quot;</span><span class="w"> </span><span class="n">n</span>
+<span class="o">|</span><span class="w"> </span><span class="n">Negative</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;negative, n = %d&quot;</span><span class="w"> </span><span class="n">n</span>
+<span class="o">|</span><span class="w"> </span><span class="o">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;zero&quot;</span>
+</code></pre></div>
+<p>The following example shows how to define and use a multi-case active pattern function:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="o">(|</span><span class="n">A</span><span class="o">|</span><span class="n">B</span><span class="o">|</span><span class="n">C</span><span class="o">|)</span><span class="w"> </span><span class="n">inp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">inp</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="k">elif</span><span class="w"> </span><span class="n">inp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">C</span>
+
+<span class="k">match</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="k">with</span>
+<span class="o">|</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;negative&quot;</span>
+<span class="o">|</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;zero&quot;</span>
+<span class="o">|</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="s">&quot;positive&quot;</span>
+</code></pre></div>
+<p>The following example shows how to define and use a parameterized active pattern function:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="o">(|</span><span class="n">MultipleOf</span><span class="o">|_|)</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="n">inp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">inp</span><span class="o">%</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="n">Some</span><span class="w"> </span><span class="o">(</span><span class="n">inp</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n</span><span class="o">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">None</span>
+
+<span class="k">match</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="k">with</span>
+<span class="o">|</span><span class="w"> </span><span class="n">MultipleOf</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;x = 4*%d&quot;</span><span class="w"> </span><span class="n">n</span>
+<span class="o">|</span><span class="w"> </span><span class="o">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;not a multiple of 4&quot;</span>
+</code></pre></div>
+<p>An active pattern function is executed only if a left-to-right, top-to-bottom reading of the entire
+pattern indicates that execution is required. For example, consider the following active patterns:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="o">(|</span><span class="n">A</span><span class="o">|_|)</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="n">failwith</span><span class="w"> </span><span class="s">&quot;x is two&quot;</span>
+<span class="w">    </span><span class="k">elif</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="n">Some</span><span class="bp">()</span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="n">None</span>
+
+<span class="k">let</span><span class="w"> </span><span class="o">(|</span><span class="n">B</span><span class="o">|_|)</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="mi">3</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="n">failwith</span><span class="w"> </span><span class="s">&quot;x is three&quot;</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">None</span>
+
+<span class="k">let</span><span class="w"> </span><span class="o">(|</span><span class="n">C</span><span class="o">|)</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">failwith</span><span class="w"> </span><span class="s">&quot;got to C&quot;</span>
+
+<span class="k">let</span><span class="w"> </span><span class="nv">f</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="k">with</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">3</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">4</span>
+</code></pre></div>
+<p>These patterns evaluate as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="n">f</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="c1">// 0</span>
+<span class="n">f</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="c1">// 1</span>
+<span class="n">f</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="c1">// failwith &quot;x is two&quot;</span>
+<span class="n">f</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="c1">// failwith &quot;x is three&quot;</span>
+<span class="n">f</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="c1">// failwith &quot;got to C&quot;</span>
+</code></pre></div>
+<p>An active pattern function may be executed multiple times against the same pattern input during
+resolution of a single overall pattern match. The precise number of times that the active pattern
+function is executed against a particular pattern input is implementation-dependent.</p>
+<h2 id="73-as-patterns">7.3 “As” Patterns</h2>
+<p>An “as” pattern is of the following form:</p>
+<div class="highlight"><pre><span></span><code>pat as ident
+</code></pre></div>
+<p>The “as” pattern defines <code>ident</code> to be equal to the pattern input and matches the pattern input
+against <code>pat</code>. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span>
+<span class="k">let</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="w"> </span><span class="n">y</span><span class="o">)</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t1</span>
+<span class="n">printfn</span><span class="w"> </span><span class="s">&quot;%d-%d-%A&quot;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="c1">// 1- 2 - (1, 2)</span>
+</code></pre></div>
+<p>This example binds the identifiers <code>x</code>, <code>y</code>, and <code>t1</code> to the values <code>1</code> , <code>2</code> , and <code>(1,2)</code>, respectively.</p>
+<h2 id="74-wildcard-patterns">7.4 Wildcard Patterns</h2>
+<p>The pattern <code>_</code> is a wildcard pattern and matches any input. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">categorize</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="k">with</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">0</span>
+</code></pre></div>
+<p>In the example, if <code>x</code> is <code>0</code>, the match returns <code>1</code>. If <code>x</code> has any other value, the match returns <code>0</code>.</p>
+<h2 id="75-disjunctive-patterns">7.5 Disjunctive Patterns</h2>
+<p>A disjunctive pattern matches an input value against one or the other of two patterns:</p>
+<div class="highlight"><pre><span></span><code>pat | pat
+</code></pre></div>
+<p>At runtime, the pattern input is matched against the first pattern. If that fails, the pattern input is
+matched against the second pattern. Both patterns must bind the same set of variables with the
+same types. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">type</span><span class="w"> </span><span class="nc">Date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Date</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">int</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">int</span>
+
+<span class="k">let</span><span class="w"> </span><span class="nv">isYearLimit</span><span class="w"> </span><span class="n">date</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">date</span><span class="w"> </span><span class="k">with</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">(</span><span class="n">Date</span><span class="w"> </span><span class="o">(</span><span class="n">year</span><span class="o">,</span><span class="w"> </span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">Date</span><span class="w"> </span><span class="o">(</span><span class="n">year</span><span class="o">,</span><span class="w"> </span><span class="mi">12</span><span class="o">,</span><span class="w"> </span><span class="mi">31</span><span class="o">))</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Some</span><span class="w"> </span><span class="n">year</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">None</span>
+
+<span class="k">let</span><span class="w"> </span><span class="nv">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">isYearLimit</span><span class="w"> </span><span class="o">(</span><span class="n">Date</span><span class="w"> </span><span class="o">(</span><span class="mi">2010</span><span class="o">,</span><span class="mi">12</span><span class="o">,</span><span class="mi">31</span><span class="o">))</span>
+</code></pre></div>
+<p>In this example, <code>result</code> is given the value <code>true</code>, because the pattern input matches the second
+pattern.</p>
+<h2 id="76-conjunctive-patterns">7.6 Conjunctive Patterns</h2>
+<p>A conjunctive pattern matches the pattern input against two patterns.</p>
+<div class="highlight"><pre><span></span><code>pat1 &amp; pat2
+</code></pre></div>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="o">(|</span><span class="n">MultipleOf</span><span class="o">|_|)</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="n">inp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">inp</span><span class="o">%</span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="n">Some</span><span class="w"> </span><span class="o">(</span><span class="n">inp</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n</span><span class="o">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">None</span>
+
+<span class="k">let</span><span class="w"> </span><span class="nv">result</span><span class="w"> </span><span class="o">=</span>
+<span class="k">match</span><span class="w"> </span><span class="mi">56</span><span class="w"> </span><span class="k">with</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">MultipleOf</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">MultipleOf</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">n</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">false</span>
+</code></pre></div>
+<p>In this example, <code>result</code> is given the value <code>22</code> (= 16 + 8), because the pattern input match matches
+both patterns.</p>
+<h2 id="77-list-patterns">7.7 List Patterns</h2>
+<p>The pattern <code>pat :: pat</code> is a union case pattern that matches the “cons” union case of F# list values.</p>
+<p>The pattern <code>[]</code> is a union case pattern that matches the “nil” union case of F# list values.</p>
+<p>The pattern <code>[ pat1 ; ... ; patn ]</code> is shorthand for a series of <code>::</code> and empty list patterns
+<code>pat1 :: ... :: patn :: []</code>.</p>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">rec</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="k">with</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="bp">[]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="n">t</span>
+
+<span class="k">let</span><span class="w"> </span><span class="nv">result1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">]</span>
+
+<span class="k">let</span><span class="w"> </span><span class="nv">result2</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="o">[</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">]</span><span class="w"> </span><span class="k">with</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">[</span><span class="n">a</span><span class="o">;</span><span class="n">b</span><span class="o">;</span><span class="n">c</span><span class="o">]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">0</span>
+</code></pre></div>
+<p>In this example, both <code>result1</code> and <code>result2</code> are given the value <code>6</code>.</p>
+<h2 id="78-type-annotated-patterns">7.8 Type-annotated Patterns</h2>
+<p>A <em>type-annotated pattern</em> specifies the type of the value to match to a pattern.</p>
+<div class="highlight"><pre><span></span><code>pat : type
+</code></pre></div>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">rec</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="n">xs</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">xs</span><span class="w"> </span><span class="k">with</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="bp">[]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">(</span><span class="n">h</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">int</span><span class="o">)</span><span class="w"> </span><span class="o">::</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="n">t</span>
+</code></pre></div>
+<p>In this example, the initial type of <code>h</code> is asserted to be equal to <code>int</code> before the pattern <code>h</code> is checked.
+Through type inference, this in turn implies that <code>xs</code> and <code>t</code> have static type <code>int list</code>, and <code>sum</code> has
+static type
+<code>int list -&gt; int</code>.</p>
+<h2 id="79-dynamic-type-test-patterns">7.9 Dynamic Type-test Patterns</h2>
+<p><em>Dynamic type-test patterns</em> have the following two forms:</p>
+<div class="highlight"><pre><span></span><code>:? type
+:? type as ident
+</code></pre></div>
+<p>A dynamic type-test pattern matches any value whose runtime type is <code>type</code> or a subtype of <code>type</code>. For
+example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">message</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nn">System</span><span class="p">.</span><span class="n">Exception</span><span class="o">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="k">with</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">:?</span><span class="w"> </span><span class="nn">System</span><span class="p">.</span><span class="n">OperationCanceledException</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;cancelled&quot;</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">:?</span><span class="w"> </span><span class="nn">System</span><span class="p">.</span><span class="n">ArgumentException</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;invalid argument&quot;</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">&quot;unknown error&quot;</span>
+</code></pre></div>
+<p>If the type-test pattern is of the form <code>:? type as ident</code>, then the value is coerced to the given type
+and <code>ident</code> is bound to the result. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">findLength</span><span class="w"> </span><span class="o">(</span><span class="n">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">obj</span><span class="o">)</span><span class="w"> </span><span class="o">=</span>
+<span class="k">match</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="k">with</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">:?</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">s</span><span class="o">.</span><span class="n">Length</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">0</span>
+</code></pre></div>
+<p>In the example, the identifier <code>s</code> is bound to the value <code>x</code> with type <code>string</code>.</p>
+<p>If the pattern input has type <code>tyin</code>, pattern checking uses the same conditions as both a dynamic type-
+test expression <code>e :? type</code> and a dynamic coercion expression <code>e :?&gt; type</code> where <code>e</code> has type <code>tyin</code>. An
+error occurs if <code>type</code> cannot be statically determined to be a subtype of the type of the pattern input.
+A warning occurs if the type test will always succeed based on <code>type</code> and the static type of the pattern
+input.</p>
+<p>A warning is issued if an expression contains a redundant dynamic type-test pattern, after any
+coercion is applied. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">match</span><span class="w"> </span><span class="n">box</span><span class="w"> </span><span class="s">&quot;3&quot;</span><span class="w"> </span><span class="k">with</span>
+<span class="o">|</span><span class="w"> </span><span class="o">:?</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">1</span>
+<span class="o">|</span><span class="w"> </span><span class="o">:?</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="c1">// a warning is reported that this rule is &quot;never matched&quot;</span>
+<span class="o">|</span><span class="w"> </span><span class="o">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">2</span>
+
+<span class="k">match</span><span class="w"> </span><span class="n">box</span><span class="w"> </span><span class="s">&quot;3&quot;</span><span class="w"> </span><span class="k">with</span>
+<span class="o">|</span><span class="w"> </span><span class="o">:?</span><span class="w"> </span><span class="nn">System</span><span class="p">.</span><span class="n">IComparable</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">1</span>
+<span class="o">|</span><span class="w"> </span><span class="o">:?</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="c1">// a warning is reported that this rule is &quot;never matched&quot;</span>
+<span class="o">|</span><span class="w"> </span><span class="o">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">2</span>
+</code></pre></div>
+<p>At runtime, a dynamic type-test pattern succeeds if and only if the corresponding dynamic type-test
+expression <code>e :? ty</code> would return true where <code>e</code> is the pattern input. The value of the pattern is bound
+to the results of a dynamic coercion expression <code>e :?&gt; ty</code>.</p>
+<h2 id="710-record-patterns">7.10 Record Patterns</h2>
+<p>The following is a <em>record pattern</em> :</p>
+<div class="highlight"><pre><span></span><code>{ long-ident1 = pat1 ; ... ; long-identn = patn }
+</code></pre></div>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">type</span><span class="w"> </span><span class="nc">Data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="n">Header</span><span class="o">:</span><span class="kt">string</span><span class="o">;</span><span class="w"> </span><span class="n">Size</span><span class="o">:</span><span class="w"> </span><span class="n">int</span><span class="o">;</span><span class="w"> </span><span class="n">Names</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="kt">list</span><span class="w"> </span><span class="o">}</span>
+
+<span class="k">let</span><span class="w"> </span><span class="nv">totalSize</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="k">with</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="n">Header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;TCP&quot;</span><span class="o">;</span><span class="w"> </span><span class="n">Size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">size</span><span class="o">;</span><span class="w"> </span><span class="n">Names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">names</span><span class="w"> </span><span class="o">}</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">names</span><span class="o">.</span><span class="n">Length</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">12</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="n">Header</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;UDP&quot;</span><span class="o">;</span><span class="w"> </span><span class="n">Size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">}</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">size</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">failwith</span><span class="w"> </span><span class="s">&quot;unknown header&quot;</span>
+</code></pre></div>
+<p>The <code>long-identi</code> are resolved in the same way as field labels for record expressions and must
+together identify a single, unique F# record type. Not all record fields for the type need to be
+specified in the pattern.</p>
+<h2 id="711-array-patterns">7.11 Array Patterns</h2>
+<p>An <em>array pattern</em> matches an array of a partciular length:</p>
+<div class="highlight"><pre><span></span><code>[| pat ; ... ; pat |]
+</code></pre></div>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">checkPackets</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="k">with</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">[|</span><span class="w"> </span><span class="s">&quot;HeaderA&quot;</span><span class="o">;</span><span class="w"> </span><span class="n">data1</span><span class="o">;</span><span class="w"> </span><span class="n">data2</span><span class="w"> </span><span class="o">|]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">(</span><span class="n">data1</span><span class="o">,</span><span class="w"> </span><span class="n">data2</span><span class="o">)</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">[|</span><span class="w"> </span><span class="s">&quot;HeaderB&quot;</span><span class="o">;</span><span class="w"> </span><span class="n">data2</span><span class="o">;</span><span class="w"> </span><span class="n">data1</span><span class="w"> </span><span class="o">|]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">(</span><span class="n">data1</span><span class="o">,</span><span class="w"> </span><span class="n">data2</span><span class="o">)</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">failwith</span><span class="w"> </span><span class="s">&quot;unknown packet&quot;</span>
+</code></pre></div>
+<h2 id="712-null-patterns">7.12 Null Patterns</h2>
+<p>The <em>null pattern</em> null matches values that are represented by the CLI value null. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">path</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="nn">System</span><span class="p">.</span><span class="nn">Environment</span><span class="p">.</span><span class="n">GetEnvironmentVariable</span><span class="o">(</span><span class="s">&quot;PATH&quot;</span><span class="o">)</span><span class="w"> </span><span class="k">with</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="k">null</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">failwith</span><span class="w"> </span><span class="s">&quot;no path set!&quot;</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">res</span>
+</code></pre></div>
+<p>Most F# types do not use <code>null</code> as a representation; consequently, the null pattern is generally used
+to check values passed in by CLI method calls and properties. For a list of F# types that use <code>null</code> as a
+representation, see <a href="../types-and-type-constraints/#548-nullness">§5.4.8</a>.</p>
+<h2 id="713-guarded-pattern-rules">7.13 Guarded Pattern Rules</h2>
+<p><em>Guarded pattern rules</em> have the following form:</p>
+<div class="highlight"><pre><span></span><code>pat when expr
+</code></pre></div>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">let</span><span class="w"> </span><span class="nv">categorize</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="k">with</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">_</span><span class="w"> </span><span class="k">when</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">_</span><span class="w"> </span><span class="k">when</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="o">|</span><span class="w"> </span><span class="o">_</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">0</span>
+</code></pre></div>
+<p>The guards on a rule are executed only after the match value matches the corresponding pattern.
+For example, the following evaluates to <code>2</code> with no output.</p>
+<div class="highlight"><pre><span></span><code><span class="k">match</span><span class="w"> </span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="w"> </span><span class="mi">2</span><span class="o">)</span><span class="w"> </span><span class="k">with</span>
+<span class="o">|</span><span class="w"> </span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="w"> </span><span class="n">x</span><span class="o">)</span><span class="w"> </span><span class="k">when</span><span class="w"> </span><span class="o">(</span><span class="n">printfn</span><span class="w"> </span><span class="s">&quot;not printed&quot;</span><span class="o">;</span><span class="w"> </span><span class="k">true</span><span class="o">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">0</span>
+<span class="o">|</span><span class="w"> </span><span class="o">(_,</span><span class="w"> </span><span class="n">y</span><span class="o">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">y</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2005-2025 F# contributors. Made available under the <a href='https://creativecommons.org/licenses/by/4.0/'>Creative Commons CC-by 4.0</a> licence.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>
