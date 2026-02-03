@@ -16,10 +16,10 @@ namespace-decl-group :=
     namespace global module-elems           -- elements within no namespace
 
 module-defn :=
-    attributesopt module accessopt ident = module-defn-body
+    attributes? module access? ident = module-defn-body
 
 module-defn-body :=
-    begin module-elemsopt end
+    begin module-elems? end
 
 module-elem :=
     module-function-or-value-defn           -- function or value definitions
@@ -31,16 +31,16 @@ module-elem :=
     compiler-directive-decl                 -- compiler directives
 
 module-function-or-value-defn :=
-    attributesopt let function-defn
-    attributesopt let value-defn
-    attributesopt let rec opt function-or-value-defns
-    attributesopt do expr
+    attributes? let function-defn
+    attributes? let value-defn
+    attributes? let rec? function-or-value-defns
+    attributes? do expr
 
 import-decl := open long-ident
 
 module-abbrev := module ident = long-ident
 
-compiler-directive-decl := # ident string ... string
+compiler-directive-decl := '#' ident string ... string
 
 module-elems := module-elem ... module-elem
 
@@ -240,7 +240,7 @@ dogCage |> Cage.getPet |> Dog.bark
 Function and value definitionsin modules introduce named values and functions.
 
 ```fsgrammar
-let rec~opt function-or-value-defn1 and ... and function-or-value-defnn
+let rec? function-or-value-defn1 and ... and function-or-value-defnn
 ```
 
 The following example defines value `x` and functions `id` and `fib`:
@@ -354,7 +354,7 @@ A value that has the `Literal` attribute is subject to the following restriction
 
 ### Type Function Definitions in Modules
 
-Value definitions within modules may have explicit generic parameters. For example, `‘T` is a generic
+Value definitions within modules may have explicit generic parameters. For example, `'T` is a generic
 parameter to the value `empty`:
 
 ```fsharp
@@ -405,13 +405,13 @@ The elaborated form of a type function is that of a function definition that tak
 type `unit`. That is, the elaborated form of
 
 ```fsgrammar
-let ident typar-defns = expr
+let ident typar-defns '=' expr
 ```
 
 is the same as the compiled form for the following declaration:
 
 ```fsgrammar
-let ident typar-defns () = expr
+let ident typar-defns '()' '=' expr
 ```
 
 References to type functions are elaborated to invocations of such a function.
@@ -486,7 +486,7 @@ attribute.
 A module abbreviation defines a local name for a module long identifier, as follows:
 
 ```fsgrammar
-module ident = long-ident
+module ident '=' long-ident
 ```
 
 For example:

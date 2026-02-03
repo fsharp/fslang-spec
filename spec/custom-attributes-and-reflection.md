@@ -8,9 +8,9 @@ describes these mechanisms for F#.
 Attributes are given by the following grammar:
 
 ```fsgrammar
-attribute := attribute-target : opt object-construction
+attribute := ( attribute-target ':' )? object-construction
 
-attribute-set := [< attribute ; ... ; attribute >]
+attribute-set := '[<' attribute ';' ... ';' attribute '>]'
 
 attributes := attribute-set ... attribute-set
 

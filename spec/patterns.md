@@ -7,63 +7,71 @@ in the subsequent table.
 
 ```fsgrammar
 rule :=
-    pat pattern-guard~opt -> expr       -- pattern, optional guard and action
+    pat pattern-guard? '->' expr            -- pattern, optional guard and action
 
 pattern-guard := when expr
 
 pat :=
-    const                               -- constant pattern
-    long-ident pat-param~opt pat~opt    -- named pattern
-    _ -- wildcard pattern
-    pat as ident                        -- "as" pattern
-    pat '|' pat                         -- disjunctive pattern
-    pat '&' pat                         -- conjunctive pattern
-    pat :: pat                          -- "cons" pattern
-    pat : type                          -- pattern with type constraint
-    pat , ... , pat                     -- tuple pattern
-    struct (pat , ... , pat)            -- struct tuple pattern
-    ( pat )                             -- parenthesized pattern
-    list-pat                            -- list pattern
-    array-pat                           -- array pattern
-    record-pat                          -- record pattern
-    :? atomic-type                      -- dynamic type test pattern
-    :? atomic-type as ident             -- dynamic type test pattern
-    null                                -- null-test pattern
-    attributes pat                      -- pattern with attributes
+    const                                   -- constant pattern
+    long-ident pat-param? pat?              -- named pattern
+    _                                       -- wildcard pattern
+    pat as ident                            -- "as" pattern
+    pat '|' pat                             -- disjunctive pattern
+    pat '&' pat                             -- conjunctive pattern
+    pat '::' pat                            -- "cons" pattern
+    pat ':' type                            -- pattern with type constraint
+    pat ',' ... ',' pat                     -- tuple pattern
+    struct '(' pat ',' ... ',' pat ')'      -- struct tuple pattern
+    '(' pat ')'                             -- parenthesized pattern
+    list-pat                                -- list pattern
+    array-pat                               -- array pattern
+    record-pat                              -- record pattern
+    ':?' atomic-type                        -- dynamic type test pattern
+    ':?' atomic-type as ident               -- dynamic type test pattern
+    null                                    -- null-test pattern
+    attributes pat                          -- pattern with attributes
 
 list-pat :=
-    [ ]
-    [ pat ; ... ; pat ]
+    '[' ']'
+    '[' pat ';' ... ';' pat ']'
 
 array-pat :=
-    [| |]
-    [| pat ; ... ; pat |]
+    '[|' '|]'
+    '[|' pat ';' ... ';' pat '|]'
 
 record-pat :=
-    { field-pat ; ... ; field-pat }
+    '{' field-pat ';' ... ';' field-pat '}'
+
+atomic-pat-pat :=
+    const
+    long-ident
+    list-pat
+    record-pat
+    array-pat
+    '(' pat ')'
+    ':?' atomic-type
+    null
+    '_'
 
 atomic-pat :=
-    pat : one of
-            const long-ident list-pat record-pat array-pat ( pat )
-            :? atomic-type
-            null _
+    pat ':' atomic-pat-pat
 
-field-pat := long-ident = pat
+field-pat := long-ident '=' pat
 
 pat-param :=
-    | const
-    | long-ident
-    | [ pat-param ; ... ; pat-param ]
-    | ( pat-param , ..., pat-param )
-    | long-ident pat-param
-    | pat-param : type
-    | <@ expr @>
-    | <@@ expr @@>
-    | null
+    '|' const
+    '|' long-ident
+    '|' '[' pat-param ';' ... ';' pat-param ']'
+    '|' '(' pat-param ',' ... ',' pat-param ')'
+    '|' long-ident pat-param
+    '|' pat-param ':' type
+    '|' '<@' expr '@>'
+    '|' '<@@' expr '@@>'
+    '|' null
 
-pats := pat , ... , pat
-field-pats := field-pat ; ... ; field-pat
-rules := '|'~opt rule '|' ... '|' rule
+pats := pat ',' ... ',' pat
+field-pats := field-pat ';' ... ';' field-pat
+rules := '|'? rule '|' ... '|' rule
 ```
 
 Patterns are elaborated to expressions through a process called _pattern match compilation_. This
@@ -107,9 +115,9 @@ strings.
 Patterns in the following forms are _named patterns_ :
 
 ```fsgrammar
-Long-ident
-Long-ident pat
-Long-ident pat-params pat
+long-ident
+long-ident pat
+long-ident pat-params pat
 ```
 
 If `long-ident` is a single identifier that does not begin with an uppercase character, it is interpreted
@@ -355,7 +363,7 @@ In the example, if `x` is `0`, the match returns `1`. If `x` has any other value
 A disjunctive pattern matches an input value against one or the other of two patterns:
 
 ```fsgrammar
-pat | pat
+pat '|' pat
 ```
 
 At runtime, the pattern input is matched against the first pattern. If that fails, the pattern input is
@@ -381,7 +389,7 @@ pattern.
 A conjunctive pattern matches the pattern input against two patterns.
 
 ```fsgrammar
-pat1 & pat2
+pat1 '&' pat2
 ```
 
 For example:
@@ -430,7 +438,7 @@ In this example, both `result1` and `result2` are given the value `6`.
 A _type-annotated pattern_ specifies the type of the value to match to a pattern.
 
 ```fsgrammar
-pat : type
+pat ':' type
 ```
 
 For example:
@@ -452,8 +460,8 @@ static type
 _Dynamic type-test patterns_ have the following two forms:
 
 ```fsgrammar
-:? type
-:? type as ident
+':?' type
+':?' type as ident
 ```
 
 A dynamic type-test pattern matches any value whose runtime type is `type` or a subtype of `type`. For
@@ -509,7 +517,7 @@ to the results of a dynamic coercion expression `e :?> ty`.
 The following is a _record pattern_ :
 
 ```fsgrammar
-{ long-ident1 = pat1 ; ... ; long-identn = patn }
+'{' long-ident1 '=' pat1 ';' ... ';' long-identn '=' patn '}'
 ```
 
 For example:
@@ -533,7 +541,7 @@ specified in the pattern.
 An _array pattern_ matches an array of a partciular length:
 
 ```fsgrammar
-[| pat ; ... ; pat |]
+'[|' pat ';' ... ';' pat '|]'
 ```
 
 For example:

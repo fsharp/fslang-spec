@@ -12,7 +12,7 @@ module-signature :=
     module ident = module-signature-body
 
 module-signature-element :=
-    val mutable~opt curried-sig     -- value signature
+    val mutable? curried-sig        -- value signature
     val value-defn                  -- literal value signature
     type type-signatures            -- type(s) signature
     exception exception-signature   -- exception signature
@@ -40,21 +40,21 @@ type-signature :=
 type-signatures := type-signature ... and ... type-signature
 
 type-signature-element :=
-    attributesopt access~opt new : uncurried-sig        -- constructor signature
-    attributesopt member acces~opt member-sig           -- member signature
-    attributesopt abstract access~opt member-sig        -- member signature
-    attributesopt override member-sig                   -- member signature
-    attributesopt default member-sig                    -- member signature
-    attributes~opt static member access~opt member-sig  -- static member signature
+    attributes? access? new : uncurried-sig             -- constructor signature
+    attributes? member access? member-sig               -- member signature
+    attributes? abstract access? member-sig             -- member signature
+    attributes? override member-sig                     -- member signature
+    attributes? default member-sig                      -- member signature
+    attributes? static member access? member-sig        -- static member signature
     interface type                                      -- interface signature
 
 abbrev-type-signature := type-name '=' type
 
 union-type-signature := type-name '=' union-type-cases type-extension-elements-
-    signature~opt
+    signature?
 
 record-type-signature := type-name '=' '{' record-fields '}' type-extension-
-    elements-signature~opt
+    elements-signature?
 
 anon-type-signature := type-name '=' begin type-elements-signature end
 
@@ -194,7 +194,7 @@ values are implicit in module signatures. A signature that contains the followin
 `[A1 ... An]` for `F`:
 
 ```fsgrammar
-val F : ty11 * ... * ty1A1 - > ... -> tyn1 * ... * tynAn - > rty
+val F : ty11 '*' ... '*' ty1A1 '->' ... '->' tyn1 '*' ... '*' tynAn '->' rty
 ```
 
 Arities in a signature must be equal to or shorter than the corresponding arities in an

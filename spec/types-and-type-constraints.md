@@ -25,60 +25,69 @@ The following describes the syntactic forms of types as they appear in programs:
 
 ```fsgrammar
 type :=
-    ( type )
-    type - > type                  -- function type
-    type * ... * type              -- tuple type
-    struct (type * ... * type)     -- struct tuple type
-    typar                          -- variable type
-    long-ident                     -- named type, such as int
-    long-ident <type-args>         -- named type, such as list<int>
-    long-ident < >                 -- named type, such as IEnumerable< >
-    type long-ident                -- named type, such as int list
-    type [ , ... , ]               -- array type
-    type typar-defns               -- type with constraints
-    typar :> type                  -- variable type with subtype constraint
-    # type                         -- anonymous type with subtype constraint
+    '(' type ')'
+    type '->' type                             -- function type
+    type '*' ... '*' type                      -- tuple type
+    struct '(' type '*' ... '*' type ')'       -- struct tuple type
+    typar                                      -- variable type
+    long-ident                                 -- named type, such as int
+    long-ident '<' type-args '>'               -- named type, such as list<int>
+    long-ident '<' '>'                         -- named type, such as IEnumerable< >
+    type long-ident                            -- named type, such as int list
+    type '[' ',' ... ',' ']'                   -- array type
+    type typar-defns                           -- type with constraints
+    typar ':>' type                            -- variable type with subtype constraint
+    '#' type                                   -- anonymous type with subtype constraint
 
-type-args := type-arg , ..., type-arg
+type-args :=
+    type-arg ',' ... ',' type-arg
 
 type-arg :=
     type                           -- type argument
     measure                        -- unit of measure argument
     static-parameter               -- static parameter
 
+atomic-type-type :=
+    '#' type
+    typar
+    '(' type ')'
+    long-ident
+    long-ident '<' type-args '>'
+
 atomic-type :=
-    type : one of
-            #type typar ( type ) long-ident long-ident <type-args>
+    type ':' atomic-type-type
+
 
 typar :=
-    _                              -- anonymous variable type
-    ' ident                        -- type variable
-    ^ ident                        -- static head-type type variable
+    '_'                                            -- anonymous variable type
+    "'" ident                                      -- type variable
+    '^' ident                                      -- static head-type type variable
 
 constraint :=
-    typar :> type                  -- coercion constraint
-    typar : null                   -- nullness constraint
-    static-typars : ( member-sig ) -- member "trait" constraint
-    typar : (new : unit -> 'T)     -- CLI default constructor constraint
-    typar : struct                 -- CLI non-Nullable struct
-    typar : not struct             -- CLI reference type
-    typar : enum< type >           -- enum decomposition constraint
-    typar : unmanaged              -- unmanaged constraint
-    typar : delegate<type, type>   -- delegate decomposition constraint
-    typar : equality
-    typar : comparison
+    typar ':>' type                                -- coercion constraint
+    typar ':' null                                 -- nullness constraint
+    static-typars ':' '(' member-sig ')'           -- member "trait" constraint
+    typar ':' '(' new ':' unit '->' "'" ident)     -- CLI default constructor constraint
+    typar ':' struct                               -- CLI non-Nullable struct
+    typar ':' not struct                           -- CLI reference type
+    typar ':' enum '<' type '>'                    -- enum decomposition constraint
+    typar ':' unmanaged                            -- unmanaged constraint
+    typar ':' delegate '<' type ',' type '>'       -- delegate decomposition constraint
+    typar ':' equality
+    typar ':' comparison
 
-typar-defn := attributes opt typar
+typar-defn :=
+    attributes? typar
 
-typar-defns := < typar-defn, ..., typar-defn typar-constraints opt >
+typar-defns :=
+    '<' typar-defn ',' ... ',' typar-defn typar-constraints? '>'
 
-typar-constraints := when constraint and ... and constraint
+typar-constraints :=
+    when constraint and ... and constraint
 
 static-typars :=
-    ^ ident
-    (^ ident or ... or ^ ident )
-
-member-sig := <see Section 10>
+    '^' ident
+    '(' '^' ident or ... or '^' ident ')'
 ```
 
 In a type instantiation, the type name and the opening angle bracket must be syntactically adjacent
@@ -179,7 +188,7 @@ equated with the `^ident` type in a type inference equation.
 A _tuple type_ has the following form:
 
 ```fsgrammar
-ty 1 * ... * tyn
+ty1 '*' ... '*' tyn
 ```
 
 The elaborated form of a tuple type is shorthand for a use of the family of F# library types
@@ -194,7 +203,7 @@ encoded form of tuple types is visible in the F# type system through runtime typ
 A _struct tuple type_ has the following form:
 
 ```fsgrammar
-struct ( ty 1 * ... * tyn )
+struct '(' ty1 '*' ... '*' tyn ')'
 ```
 
 The elaborated form of a tuple type is shorthand for a use of the family of .NET types
@@ -213,8 +222,8 @@ The "structness" (i.e. tuple type vs. struct tuple type) of tuple expressions an
 Array types have the following forms:
 
 ```fsgrammar
-ty []
-ty [ , ... , ]
+ty '[]'
+ty '[' ',' ... ',' ']'
 ```
 
 A type of the form `ty []` is a _single-dimensional array_ type, and a type of the form `ty[ , ... , ]` is a
@@ -268,7 +277,7 @@ variable. F# supports the following type constraints:
 An _explicit subtype constraint_ has the following form:
 
 ```fsgrammar
-typar :> type
+typar ':>' type
 ```
 
 During checking, `typar` is first checked as a variable type, `type` is checked as a type, and the
@@ -294,7 +303,7 @@ ensure the reporting of useful error messages.
 An _explicit nullness constraint_ has the following form:
 
 ```fsgrammar
-typar : null
+typar ':' null
 ```
 
 During checking, `typar` is checked as a variable type and the constraint is added to the current
@@ -316,7 +325,7 @@ Nullness constraints also arise from expressions of the form `null`.
 An _explicit member constraint_ has the following form:
 
 ```fsgrammar
-( typar or ... or typar ) : ( member-sig )
+'(' typar or ... or typar ')' ':' '(' member-sig ')'
 ```
 
 For example, the F# library defines the + operator with the following signature:
@@ -353,7 +362,7 @@ ensure the reporting of useful error messages.
 An _explicit default constructor constraint_ has the following form:
 
 ```fsgrammar
-typar : (new : unit -> 'T)
+typar ':' '(' new ':' unit '->' "'" ident ')'
 ```
 
 During constraint solving (see [§](inference-procedures.md#constraint-solving)), the constraint `type : (new : unit -> 'T)` is met if `type` has a
@@ -366,7 +375,7 @@ parameterless object constructor.
 An _explicit value type constraint_ has the following form:
 
 ```fsgrammar
-typar : struct
+typar ':' struct
 ```
 
 During constraint solving (see [§](inference-procedures.md#constraint-solving)), the constraint `type` : struct is met if `type` is a value type other
@@ -384,7 +393,7 @@ notably because types such as `System.Nullable<System.Nullable<_>>` and `System.
 An _explicit reference type constraint_ has the following form:
 
 ```fsgrammar
-typar : not struct
+typar ':' not struct
 ```
 
 During constraint solving (see [§](inference-procedures.md#constraint-solving)), the constraint `type : not struct` is met if `type` is a reference type.
@@ -396,7 +405,7 @@ During constraint solving (see [§](inference-procedures.md#constraint-solving))
 An _explicit enumeration constraint_ has the following form:
 
 ```fsgrammar
-typar : enum<underlying-type>
+typar ':' enum '<' underlying-type '>'
 ```
 
 During constraint solving (see [§](inference-procedures.md#constraint-solving)), the constraint `type : enum<underlying-type>` is met if `type` is a CLI
@@ -410,7 +419,7 @@ The `enum` constraint does not imply anything about subtypes. For example, an `e
 An _explicit delegate constraint_ has the following form:
 
 ```fsgrammar
-typar : delegate< tupled-arg-type , return-type>
+typar ':' delegate '<' tupled-arg-type ',' return-type '>'
 ```
 
 During constraint solving (see [§](inference-procedures.md#inference-procedures) .5), the constraint `type : delegate<tupled-arg-type, return-types>`
@@ -433,7 +442,7 @@ programmer.
 An _unmanaged constraint_ has the following form:
 
 ```fsgrammar
-typar : unmanaged
+typar ':' unmanaged
 ```
 
 During constraint solving (see [§](inference-procedures.md#constraint-solving)), the constraint `type : unmanaged` is met if `type` is unmanaged as
@@ -449,8 +458,8 @@ specified below:
 _Equality constraints_ and _comparison constraints_ have the following forms, respectively:
 
 ```fsgrammar
-typar : equality
-typar : comparison
+typar ':' equality
+typar ':' comparison
 ```
 
 During constraint solving (see [§](inference-procedures.md#constraint-solving)), the constraint `type : equality` is met if both of the following
@@ -458,7 +467,7 @@ conditions are true:
 
 - The type is a named type, and the type definition does not have, and is not inferred to have, the
   `NoEquality` attribute.
-- The type has `equality` dependencies `ty1,..., tyn`, each of which satisfies `tyi: equality`.
+- The type has `equality` dependencies `ty1 , ... , tyn`, each of which satisfies `tyi : equality`.
 
 The constraint `type : comparison` is a `comparison constraint`. Such a constraint is met if all the
 following conditions hold:
@@ -486,7 +495,7 @@ Type parameter definitions can occur in the following locations:
 - Type definitions
 - Corresponding specifications in signatures
 
-For example, the following defines the type parameter ‘T in a function definition:
+For example, the following defines the type parameter `'T` in a function definition:
 
 ```fsharp
 let id<'T> (x:'T) = x

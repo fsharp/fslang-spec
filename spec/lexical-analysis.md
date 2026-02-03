@@ -135,7 +135,7 @@ used for the name of a types, union type case, module, or namespace, the followi
 not allowed even inside double-backtick marks:
 
 ```fsgrammar
-‘.', '+', '$', '&', '[', ']', '/', '\\', '*', '\"', '`'
+'.', '+', '$', '&', '[', ']', '/', '\\', '*', '\"', '`'
 ```
 
 All input files are currently assumed to be encoded as UTF-8. See the C# specification for a list of the
@@ -178,7 +178,7 @@ The following token forms are reserved, except when they are part of a symbolic 
 
 ```fsgrammar
 token reserved-ident-formats =
-    | ident-text ( '!' | '#')
+    | ident-text ( '!' | '#' )
 ```
 
 In the remainder of this specification, we refer to the token that is generated for a keyword simply
