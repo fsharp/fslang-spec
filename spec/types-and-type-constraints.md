@@ -47,16 +47,9 @@ type-arg :=
     measure                        -- unit of measure argument
     static-parameter               -- static parameter
 
-atomic-type-type :=
-    '#' type
-    typar
-    '(' type ')'
-    long-ident
-    long-ident '<' type-args '>'
-
 atomic-type :=
-    type ':' atomic-type-type
-
+    type : one of
+            #type typar ( type ) long-ident long-ident <type-args>
 
 typar :=
     '_'                                            -- anonymous variable type
