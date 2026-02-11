@@ -73,22 +73,22 @@ F# includes the following additional syntactic forms for ML compatibility:
 ```fsgrammar
 expr :=
     | ...
-    | expr .( expr ) // array lookup
-    | expr .( expr ) <- expr // array assignment
+    | expr '.(' expr ')' // array lookup
+    | expr '.(' expr ')' '<-' expr // array assignment
 ```
 
 ```fsgrammar
 type :=
     | ...
-    | ( type ,..., type ) long-ident // generic type instantiation
+    | '(' type ',' ... ',' type ')' long-ident // generic type instantiation
 
 module-implementation :=
     | ...
-    | module ident = struct ... end
+    | module ident '=' struct ... end
 
 module-signature :=
     | ...
-    | module ident : sig ... end
+    | module ident ':' sig ... end
 ```
 
 An ML compatibility warning occurs when these constructs are used.
@@ -100,13 +100,13 @@ The following expression forms
 ```fsgrammar
 expr :=
     | ...
-    | expr.(expr) // array lookup
-    | expr.(expr) <- expr // array assignment
+    | expr '.(' expr ')' // array lookup
+    | expr '.(' expr ')' '<-' expr // array assignment
 ```
 
 Are equivalent to the following uses of library-defined operators:
 
-```fsgrammar
+```fsharp
 e1.(e2)               → (.()) e1 e2
 e1.(e2) <- e3         → (.()<-) e1 e2 e3
 ```
@@ -115,7 +115,7 @@ e1.(e2) <- e3         → (.()<-) e1 e2 e3
 
 F# defines the following two additional shortcut operators:
 
-```fsgrammar
+```fsharp
 e1 or e2                  → (or) e1 e2
 e1 & e2                   → (&) e1 e2
 ```

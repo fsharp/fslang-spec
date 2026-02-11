@@ -64,7 +64,7 @@ val vowels: char list = ['e'; 'i'; 'o'; 'u']
 
 > ['a'] @ vowels;;
 val it: char list = ['a'; 'e'; 'i'; 'o'; 'u']
-    
+
 > vowels @ ['y'];;
 val it: char list = ['e'; 'i'; 'o'; 'u'; 'y']
 ```
@@ -451,4 +451,4 @@ Regular expressions are typically used to specify tokens.
 token token-name = regexp
 ```
 
-In the grammar rules, the notation `element-name?` indicates an optional element. The notation `...` indicates repetition of the preceding non-terminal construct and the separator token. For example, `expr ',' ... ',' expr` means a sequence of one or more `expr` elements separated by commas.
+In the grammar rules, the notation `element-name?` indicates an optional element. Where the optional element requires multiple tokens, it is enclosed in parentheses `(e1 e2)?`. The notation `...` indicates repetition of the preceding non-terminal construct and the separator token. For example, `expr ',' ... ',' expr` means a sequence of one or more `expr` elements separated by commas. Literal symbols like `,` that appear in the grammer are enclosed in single quotes i.e. `','`, except the single quote character itself which is enclosed in double quotes `"'"`. Comments may be placed at the end of a line, prefixed with `--`.

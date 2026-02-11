@@ -12,65 +12,65 @@ The syntax of constants ([§](basic-grammar-elements.md#constants)) is extended 
 
 ```fsgrammar
 measure-literal-atom :=
-    long-ident                                  -- named measure e.g. kg
-    ( measure-literal-simp )                    -- parenthesized measure, such as (N m)
+    long-ident                                     -- named measure e.g. kg
+    '(' measure-literal-simp ')'                   -- parenthesized measure, such as (N m)
 
 measure-literal-power :=
     measure-literal-atom
-    measure-literal-atom ^ int32                -- power of measure, such as m^3
+    measure-literal-atom '^' int32                 -- power of measure, such as m^3
 
 measure-literal-seq :=
     measure-literal-power
     measure-literal-power measure-literal-seq
 
 measure-literal-simp :=
-    measure-literal-seq                         -- implicit product, such as m s^- 2
-    measure-literal-simp * measure-literal-simp -- product, such as m * s^3
-    measure-literal-simp / measure-literal-simp -- quotient, such as m/s^2
-    / measure-literal-simp                      -- reciprocal, such as /s
-    1                                           -- dimensionless
+    measure-literal-seq                            -- implicit product, such as m s^- 2
+    measure-literal-simp '*' measure-literal-simp  -- product, such as m * s^3
+    measure-literal-simp '/' measure-literal-simp  -- quotient, such as m/s^2
+    '/' measure-literal-simp                       -- reciprocal, such as /s
+    1                                              -- dimensionless
 
 measure-literal :=
-    _                                           -- anonymous measure
-    measure-literal-simp                        -- simple measure, such as N m
+    '_'                                            -- anonymous measure
+    measure-literal-simp                           -- simple measure, such as N m
 
 const :=
     ...
-    byte < measure-literal >                    -- 8 - bit unsigned integer constant
-    uint16 < measure-literal >                  -- 16 - bit unsigned integer constant
-    uint32 < measure-literal >                  -- 32 - bit unsigned integer constant
-    uint64 < measure-literal >                  -- 64 - bit unsigned integer constant
-    sbyte < measure-literal >                   -- 8 - bit integer constant
-    int16 < measure-literal >                   -- 16 - bit integer constant
-    int32 < measure-literal >                   -- 32 - bit integer constant
-    int64 < measure-literal >                   -- 64 - bit integer constant
-    ieee32 < measure-literal >                  -- single-precision float32 constant
-    ieee64 < measure-literal >                  -- double-precision float constant
-    decimal < measure-literal >                 -- decimal constant
+    byte '<' measure-literal '>'                   -- 8 - bit unsigned integer constant
+    uint16 '<' measure-literal '>'                 -- 16 - bit unsigned integer constant
+    uint32 '<' measure-literal '>'                 -- 32 - bit unsigned integer constant
+    uint64 '<' measure-literal '>'                 -- 64 - bit unsigned integer constant
+    sbyte '<' measure-literal '>'                  -- 8 - bit integer constant
+    int16 '<' measure-literal '>'                  -- 16 - bit integer constant
+    int32 '<' measure-literal '>'                  -- 32 - bit integer constant
+    int64 '<' measure-literal '>'                  -- 64 - bit integer constant
+    ieee32 '<' measure-literal '>'                 -- single-precision float32 constant
+    ieee64 '<' measure-literal '>'                 -- double-precision float constant
+    decimal '<' measure-literal '>'                -- decimal constant
 
 measure-atom :=
-    typar                                       -- variable measure, such as 'U
-    long-ident                                  -- named measure, such as kg
-    ( measure-simp )                            -- parenthesized measure, such as (N m)
+    typar                                          -- variable measure, such as 'U
+    long-ident                                     -- named measure, such as kg
+    '(' measure-simp ')'                           -- parenthesized measure, such as (N m)
 
 measure-power :=
     measure-atom
-    measure-atom ^ int32                        -- power of measure, such as m^3
+    measure-atom '^' int32                         -- power of measure, such as m^3
 
 measure-seq :=
     measure-power
     measure-power measure-seq
 
 measure-simp :=
-    measure-seq                                 -- implicit product, such as 'U 'V^3
-    measure-simp * measure-simp                 -- product, such as 'U * 'V
-    measure-simp / measure-simp                 -- quotient, such as 'U / 'V
-    / measure-simp                              -- reciprocal, such as /'U
-    1                                           -- dimensionless measure (no units)
+    measure-seq                                    -- implicit product, such as 'U 'V^3
+    measure-simp '*' measure-simp                  -- product, such as 'U * 'V
+    measure-simp '/' measure-simp                  -- quotient, such as 'U / 'V
+    '/' measure-simp                               -- reciprocal, such as /'U
+    1                                              -- dimensionless measure (no units)
 
 measure :=
-    _                                           -- anonymous measure
-measure-simp                                    -- simple measure, such as 'U 'V
+    '_'                                            -- anonymous measure
+    measure-simp                                   -- simple measure, such as 'U 'V
 ```
 
 Measure definitions use the special `Measure` attribute on type definitions. Measure parameters, meanwhile, use a variation on the syntax of generic parameters (see [§](units-of-measure.md#measure-parameter-definitions)) to parameterize types and members by units of measure. The primitive types `byte`, `uint16`, `uint`, `uint64`, `sbyte`, `int16`, `int`, `int64`, `float`, `float32`, `decimal`, `unativeint`, and `nativeint` have non-parameterized (dimensionless) and parameterized versions.
@@ -146,7 +146,7 @@ Constants that are annotated with units of measure are assigned a corresponding 
 After measures are parsed and checked, they are maintained in the following normalized form:
 
 ```fsgrammar
-measure-int := 1 | long-ident | measure-par | measure-int measure-int | / measure-int
+measure-int := 1 | long-ident | measure-par | measure-int measure-int | '/' measure-int
 ```
 
 Powers of measures are expanded. For example, `kg^3` is equivalent to `kg` `kg` `kg`.

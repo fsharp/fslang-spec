@@ -16,156 +16,161 @@ type-defn :=
     type-extension
 
 type-name :=
-    attributes~opt access~opt ident typar-defns~opt
+    attributes? access? ident typar-defns?
 
 abbrev-type-defn :=
     type-name = type
 
 union-type-defn :=
-    type-name '=' union-type-cases type-extension-elements~opt
+    type-name '=' union-type-cases type-extension-elements?
 
 union-type-cases :=
-    '|'~opt union-type-case '|' ... '|' union-type-case
+    '|'? union-type-case '|' ... '|' union-type-case
 
 union-type-case :=
-    attributes~opt union-type-case-data
+    attributes? union-type-case-data
 
 union-type-case-data :=
-    ident -- null union case
-    ident of union-type-field * ... * union-type-field -- n-ary union case
-    ident : uncurried-sig -- n-ary union case
+    ident                                                      -- null union case
+    ident of union-type-field '*' ... '*' union-type-field     -- n-ary union case
+    ident ':' uncurried-sig                                    -- n-ary union case
 
 union-type-field :=
-    type -- unnamed union fiels
-    ident : type -- named union field
+    type             -- unnamed union fiels
+    ident ':' type   -- named union field
 
 record-type-defn :=
-    type-name = '{' record-fields '}' type-extension-elements~opt
+    type-name '=' '{' record-fields '}' type-extension-elements?
 
 record-fields :=
-    record-field ; ... ; record-field ;~opt
+    record-field ';' ... ';' record-field ';'?
 
 record-field :=
-    attributes~opt mutable~opt access~opt ident : type
+    attributes? mutable? access? ident ':' type
 
 anon-type-defn :=
-    type-name primary-constr-args~opt object-val~opt '=' begin class-type-body end
+    type-name primary-constr-args? object-val? '=' begin class-type-body end
 
 class-type-defn :=
-    type-name primary-constr-args~opt object-val~opt '=' class class-type-body end
+    type-name primary-constr-args? object-val? '=' class class-type-body end
 
-as-defn := as ident
+as-defn :=
+    as ident
 
 class-type-body :=
-    class-inherits-decl~opt class-function-or-value-defns~opt type-defn-elements~opt
+    class-inherits-decl? class-function-or-value-defns? type-defn-elements?
 
-class-inherits-decl := inherit type expr~opt
+class-inherits-decl := inherit type expr?
 
 class-function-or-value-defn :=
-    attributes~opt static~opt let rec~opt function-or-value-defns
-    attributes~opt static~opt do expr
+    attributes? static? let rec? function-or-value-defns
+    attributes? static? do expr
 
 struct-type-defn :=
-    type-name primary-constr-args~opt as-defn~opt '=' struct struct-type-body end
+    type-name primary-constr-args? as-defn? '=' struct struct-type-body end
 
-struct-type-body := type-defn-elements
+struct-type-body :=
+    type-defn-elements
 
 interface-type-defn :=
     type-name '=' interface interface-type-body end
 
-interface-type-body := type-defn-elements
+interface-type-body :=
+    type-defn-elements
 
 exception-defn :=
-    attributes~opt exception union-type-case-data -- exception definition
-    attributes~opt exception ident = long-ident -- exception abbreviation
+    attributes? exception union-type-case-data     -- exception definition
+    attributes? exception ident = long-ident       -- exception abbreviation
 
 enum-type-defn :=
     type-name '=' enum-type-cases
 
-enum-type-cases =
-    '|'~opt enum-type-case '|' ... '|' enum-type-case
+enum-type-cases :=
+    '|'? enum-type-case '|' ... '|' enum-type-case
 
 enum-type-case :=
-    ident '=' const -- enum constant definition
+    ident '=' const                -- enum constant definition
 
 delegate-type-defn :=
     type-name '=' delegate-sig
 
 delegate-sig :=
-    delegate of uncurried-sig -- CLI delegate definition
+    delegate of uncurried-sig      -- CLI delegate definition
 
 type-extension :=
     type-name type-extension-elements
 
-type-extension-elements := with type-defn-elements end
+type-extension-elements :=
+    with type-defn-elements end
 
 type-defn-element :=
     member-defn
     interface-impl
     interface-spec
 
-type-defn-elements := type-defn-element ... type-defn-element
+type-defn-elements :=
+    type-defn-element ... type-defn-element
 
 primary-constr-args :=
-    attributes~opt access~opt ( simple-pat, ... , simple-pat )
+    attributes? access? ( simple-pat, ... , simple-pat )
 
 simple-pat :=
-    | ident
-    | simple-pat : type
+    '|' ident
+    '|' simple-pat ':' type
 
 additional-constr-defn :=
-    attributes~opt access~opt new pat as-defn = additional-constr-expr
+    attributes? access? new pat as-defn '=' additional-constr-expr
 
 additional-constr-expr :=
-    stmt ';' additional-constr-expr -- sequence construction (after)
-    additional-constr-expr then expr -- sequence construction (before)
+    stmt ';' additional-constr-expr                            -- sequence construction (after)
+    additional-constr-expr then expr                           -- sequence construction (before)
     if expr then additional-constr-expr else additional-constr-expr
     let function-or-value-defn in additional-constr-expr
     additional-constr-init-expr
 
 additional-constr-init-expr :=
-    '{' class-inherits-decl field-initializers '}' -- explicit construction
-    new type expr -- delegated construction
+    '{' class-inherits-decl field-initializers '}'             -- explicit construction
+    new type expr                                              -- delegated construction
 
 member-defn :=
-    attributes~opt static~opt member access~opt method-or-prop-defn -- concrete member
-    attributes~opt abstract member~opt access~opt member-sig -- abstract member
-    attributes~opt override access~opt method-or-prop-defn -- override member
-    attributes~opt default access~opt method-or-prop-defn -- override member
-    attributes~opt static~opt val mutable~opt access~opt ident : type -- value member
+    attributes? static? member access? method-or-prop-defn     -- concrete member
+    attributes? abstract member? access? member-sig            -- abstract member
+    attributes? override access? method-or-prop-defn           -- override member
+    attributes? default access? method-or-prop-defn            -- override member
+    attributes? static? val mutable? access? ident : type      -- value member
     additional-constr-defn -- additional constructor
 
 method-or-prop-defn :=
-    ident.~opt function-defn -- method definition
-    ident.~opt value-defn -- property definition
-    ident.~opt ident with function-or-value-defns -- property definition via get/set methods
-    member ident = exp – - auto-implemented property definition
-    member ident = exp with get – - auto-implemented property definition
-    member ident = exp with set – - auto-implemented property definition
-    member ident = exp with get,set – - auto-implemented property definition
-    member ident = exp with set,get – - auto-implemented property definition
+    (ident '.' )? function-defn                                -- method definition
+    (ident '.' )? value-defn                                   -- property definition
+    (ident '.' )? ident with function-or-value-defns           -- property definition via get/set methods
+    member ident '=' exp                                       –- auto-implemented property definition
+    member ident '=' exp with get                              –- auto-implemented property definition
+    member ident '=' exp with set                              –- auto-implemented property definition
+    member ident '=' exp with get,set                          –- auto-implemented property definition
+    member ident '=' exp with set,get                          –- auto-implemented property definition
 
 member-sig :=
-    ident typar-defns~opt : curried-sig -- method or property signature
-    ident typar-defns~opt : curried-sig with get -- property signature
-    ident typar-defns~opt : curried-sig with set -- property signature
-    ident typar-defns~opt : curried-sig with get,set -- property signature
-    ident typar-defns~opt : curried-sig with set,get -- property signature
+    ident typar-defns? ':' curried-sig                         -- method or property signature
+    ident typar-defns? ':' curried-sig with get                -- property signature
+    ident typar-defns? ':' curried-sig with set                -- property signature
+    ident typar-defns? ':' curried-sig with get,set            -- property signature
+    ident typar-defns? ':' curried-sig with set,get            -- property signature
 
 curried-sig :=
-    args-spec - > ... - > args-spec - > type
+    args-spec '->' ... '->' args-spec '->' type
 
 uncurried-sig :=
-    args-spec - > type
+    args-spec '->' type
 
 args-spec :=
-    arg-spec * ... * arg-spec
+    arg-spec '*' ... '*' arg-spec
 
 arg-spec :=
-    attributes~opt arg-name-spec~opt type
+    attributes? arg-name-spec? type
 
 arg-name-spec :=
-    ?~opt ident :
+    '?'? ident ':'
 
 interface-spec :=
     interface type
@@ -709,10 +714,10 @@ A _class type definition_ encapsulates values that are constructed by using one 
 constructors. Class types have the form:
 
 ```fsgrammar
-type type-name pat~opt as-defn~opt =
+type type-name pat? as-defn? =
     class
-        class-inherits-decl~opt
-        class-function-or-value-defns~opt
+        class-inherits-decl?
+        class-function-or-value-defns?
         type-defn-elements
     end
 ```
@@ -816,7 +821,7 @@ An `inherit` declaration specifies that the type being defined is an extension o
 declarations have the following form:
 
 ```fsgrammar
-class-inherits-decl := inherit type expr~opt
+class-inherits-decl := inherit type expr?
 ```
 
 For example:
@@ -1681,48 +1686,48 @@ type Test() =
 A _property member_ is a `method-or-prop-defn` in one of the following forms:
 
 ```fsgrammar
-static~opt member ident.~opt ident = expr
-static~opt member ident.~opt ident with get pat = expr
-static~opt member ident.~opt ident with set pat~opt pat = expr
-static~opt member ident.~opt ident with get pat = expr and set pat~opt pat = expr
-static~opt member ident.~opt ident with set pat~opt pat = expr and get pat = expr
+static? member ident.? ident = expr
+static? member ident.? ident with get pat = expr
+static? member ident.? ident with set pat? pat = expr
+static? member ident.? ident with get pat = expr and set pat? pat = expr
+static? member ident.? ident with set pat? pat = expr and get pat = expr
 ```
 
 A property member in the form
 
 ```fsgrammar
-static~opt member ident.~opt ident with get pat1 = expr1 and set pat2a pat2b~opt = expr2
+static? member ident.? ident with get pat1 = expr1 and set pat2a pat2b? = expr2
 ```
 
 is equivalent to two property members of the form:
 
 ```fsgrammar
-static~opt member ident.~opt ident with get pat1 = expr1
-static~opt member ident.~opt ident with set pat2a pat2b~opt = expr2
+static? member ident.? ident with get pat1 = expr1
+static? member ident.? ident with set pat2a pat2b? = expr2
 ```
 
 Furthermore, the following two members are equivalent:
 
 ```fsgrammar
-static~opt member ident.~opt ident = expr
-static~opt member ident.~opt ident with get() = expr
+static? member ident.? ident = expr
+static? member ident.? ident with get() = expr
 ```
 
 These two are also equivalent:
 
 ```fsgrammar
-static~opt member ident.~opt ident with set pat = expr
-static~opt member ident.~opt ident with set() pat = expr
+static? member ident.? ident with set pat = expr
+static? member ident.? ident with set() pat = expr
 ```
 
 Thus, property members may be reduced to the following two forms:
 
 ```fsgrammar
-static~opt member ident.~opt ident with get patidx = expr
-static~opt member ident.~opt ident with set patidx pat = expr
+static? member ident.? ident with get patidx = expr
+static? member ident.? ident with set patidx pat = expr
 ```
 
-The `ident.~opt` must be present if and only if the property member is an instance member. When
+The `ident.?` must be present if and only if the property member is an instance member. When
 evaluated, the identifier `ident` is bound to the “this” or “self” object parameter that is associated
 with the object within the expression `expr`.
 
@@ -1782,10 +1787,10 @@ the following are true for the declaration:
 To create a mutable property, include `with get`, `with set`,or both:
 
 ```fsgrammar
-static~opt member val access~opt ident : ty~opt = expr
-static~opt member val access~opt ident : ty~opt = expr with get
-static~opt member val access~opt ident : ty~opt = expr with set
-static~opt member val access~opt ident : ty~opt = expr with get, set
+static? member val access? ident : ty? = expr
+static? member val access? ident : ty? = expr with get
+static? member val access? ident : ty? = expr with set
+static? member val access? ident : ty? = expr with get, set
 ```
 
 Automatically implemented properties are part of the initialization of a type, so they must be
@@ -1832,10 +1837,10 @@ type MyImplementation () =
 A _method member_ is of the form:
 
 ```fsgrammar
-static~opt member ident.~opt ident pat1 ... patn = expr
+static? member ident.? ident pat1 ... patn = expr
 ```
 
-The `ident.~opt` can be present if and only if the property member is an instance member. In this case,
+The `ident.?` can be present if and only if the property member is an instance member. In this case,
 the identifier `ident` corresponds to the “this” (or “self”) variable associated with the object on which
 the member is being invoked.
 
@@ -2470,23 +2475,23 @@ type X() =
 An abstract member definition has the form
 
 ```fsgrammar
-abstract access~opt member-sig
+abstract access? member-sig
 ```
 
 where a member signature has one of the following forms
 
 ```fsgrammar
-ident typar-defns~opt : curried-sig
-ident typar-defns~opt : curried-sig with get
-ident typar-defns~opt : curried-sig with set
-ident typar-defns~opt : curried-sig with get, set
-ident typar-defns~opt : curried-sig with set, get
+ident typar-defns? ':' curried-sig
+ident typar-defns? ':' curried-sig with get
+ident typar-defns? ':' curried-sig with set
+ident typar-defns? ':' curried-sig with get, set
+ident typar-defns? ':' curried-sig with set, get
 ```
 
 and the curried signature has the form
 
 ```fsgrammar
-args-spec1 -> ... -> args-specn -> type
+args-spec1 '->' ... '->' args-specn '->' type
 ```
 
 If `n` ≥ 2, then `args-spec2 ... args-specn` must all be patterns without attribute or optional argument
@@ -2501,8 +2506,8 @@ specified, the abstract member is equivalent to two abstract members, one with `
 An _implementation member_ has the form:
 
 ```fsgrammar
-override ident. ident pat 1 ... patn = expr
-default ident. ident pat 1 ... patn = expr
+override ident '.' ident pat1 ... patn '=' expr
+default ident '.' ident pat1 ... patn '=' expr
 ```
 
 Implementation members implement dispatch slots. For example:

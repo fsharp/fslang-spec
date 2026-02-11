@@ -4,61 +4,61 @@ The expression forms and related elements are as follows:
 
 ```fsgrammar
 expr :=
-    const                               -- a constant value
-    ( expr )                            -- block expression
-    begin expr end                      -- block expression
-    long-ident-or-op                    -- lookup expression
-    expr '.' long-ident-or-op           -- dot lookup expression
-    expr expr                           -- application expression
-    expr ( expr )                       -- high precedence application
-    expr < types >                      -- type application expression
-    expr infix-op expr                  -- infix application expression
-    prefix-op expr                      -- prefix application expression
-    expr .[ expr ]                      -- indexed lookup expression
-    expr .[ slice-ranges ]              -- slice expression
-    expr <- expr                        -- assignment expression
-    expr , ... , expr                   -- tuple expression
-    struct (expr , ... , expr)          -- struct tuple expression
-    new type expr                       -- simple object expression
-    { new base-call object-members interface-impls } -- object expression
-    { field-initializers }              -- record expression
-    { expr with field-initializers }    -- record cloning expression
-    [ expr ; ... ; expr ]               -- list expression
-    [| expr ; ... ; expr |]             -- array expression
-    expr { comp-or-range-expr }         -- computation expression
-    [ comp-or-range-expr ]              -- computed list expression
-    [| comp-or-range-expr |]            -- computed array expression
-    lazy expr                           -- delayed expression
-    null                                -- the "null" value for a reference type
-    expr : type                         -- type annotation
-    expr :> type                        -- static upcast coercion
-    expr :? type                        -- dynamic type test
-    expr :?> type                       -- dynamic downcast coercion
-    upcast expr                         -- static upcast expression
-    downcast expr                       -- dynamic downcast expression
-    let function-defn in expr           -- function definition expression
-    let value-defn in expr              -- value definition expression
+    const                                   -- a constant value
+    '(' expr ')'                            -- block expression
+    begin expr end                          -- block expression
+    long-ident-or-op                        -- lookup expression
+    expr '.' long-ident-or-op               -- dot lookup expression
+    expr expr                               -- application expression
+    expr '(' expr ')'                       -- high precedence application
+    expr '<' types '>'                      -- type application expression
+    expr infix-op expr                      -- infix application expression
+    prefix-op expr                          -- prefix application expression
+    expr '.[' expr ']'                      -- indexed lookup expression
+    expr '.[' slice-ranges ']'              -- slice expression
+    expr '<-' expr                          -- assignment expression
+    expr ',' ... ',' expr                   -- tuple expression
+    struct '(' expr ',' ... ',' expr ')'    -- struct tuple expression
+    new type expr                           -- simple object expression
+    '{' new base-call object-members interface-impls '}' -- object expression
+    '{' field-initializers '}'              -- record expression
+    '{' expr with field-initializers '}'    -- record cloning expression
+    '[' expr ';' ... ';' expr ']'           -- list expression
+    '[|' expr ';' ... ';' expr '|]'         -- array expression
+    expr '{' comp-or-range-expr '}'         -- computation expression
+    '[' comp-or-range-expr ']'              -- computed list expression
+    '[|' comp-or-range-expr '|]'            -- computed array expression
+    lazy expr                               -- delayed expression
+    null                                    -- the "null" value for a reference type
+    expr ':' type                           -- type annotation
+    expr ':>' type                          -- static upcast coercion
+    expr ':?' type                          -- dynamic type test
+    expr ':?>' type                         -- dynamic downcast coercion
+    upcast expr                             -- static upcast expression
+    downcast expr                           -- dynamic downcast expression
+    let function-defn in expr               -- function definition expression
+    let value-defn in expr                  -- value definition expression
     let rec function-or-value-defns in expr -- recursive definition expression
-    use ident = expr in expr            -- deterministic disposal expression
-    use ident = fixed expr              -- pinned pointer expression
-    fun argument-pats - > expr          -- function expression
-    function rules                      -- matching function expression
-    expr ; expr                         -- sequential execution expression
-    match expr with rules               -- match expression
-    try expr with rules                 -- try/with expression
-    try expr finally expr               -- try/finally expression
+    use ident '=' expr in expr              -- deterministic disposal expression
+    use ident '=' fixed expr                -- pinned pointer expression
+    fun argument-pats '->' expr             -- function expression
+    function rules                          -- matching function expression
+    expr ';' expr                           -- sequential execution expression
+    match expr with rules                   -- match expression
+    try expr with rules                     -- try/with expression
+    try expr finally expr                   -- try/finally expression
     if expr then expr elif-branches? else-branch? -- conditional expression
-    while expr do expr done             -- while loop
-    for ident = expr to expr do expr done -- simple for loop
-    for pat in expr - or-range-expr do expr done -- enumerable for loop
-    assert expr                         -- assert expression
-    <@ expr @>                          -- quoted expression
-    <@@ expr @@>                        -- quoted expression
+    while expr do expr done                 -- while loop
+    for ident = expr to expr do expr done   -- simple for loop
+    for pat in expr-or-range-expr do expr done -- enumerable for loop
+    assert expr                             -- assert expression
+    '<@' expr '@>'                          -- quoted expression
+    '<@@' expr '@@>'                        -- quoted expression
 
-    %expr                              -- expression splice
-    %%expr                              -- weakly typed expression splice
+    '%' expr                                -- expression splice
+    '%%' expr                               -- weakly typed expression splice
 
-    (static-typars : (member-sig) expr) -– static member invocation
+    '(' static-typars ':' '(' member-sig ')' expr ')' -– static member invocation
 ```
 
 Expressions are defined in terms of patterns and other entities that are discussed later in this
@@ -98,7 +98,7 @@ argument-pats := atomic-pat ... atomic-pat
 field-initializer :=
     long-ident = expr -- field initialization
 
-field-initializers := field-initializer ; ... ; field-initializer
+field-initializers := field-initializer ';' ... ';' field-initializer
 
 object-construction :=
     type expr -- construction expression
@@ -127,43 +127,43 @@ comp-or-range-expr :=
     range-expr
 
 comp-expr :=
-    let! pat = expr in comp-expr    -- binding computation
-    let pat = expr in comp-expr
+    let! pat '=' expr in comp-expr    -- binding computation
+    let pat '=' expr in comp-expr
     do! expr in comp-expr           -- sequential computation
     do expr in comp-expr
-    use! pat = expr in comp-expr    -- auto cleanup computation
-    use pat = expr in comp-expr
+    use! pat '=' expr in comp-expr    -- auto cleanup computation
+    use pat '=' expr in comp-expr
     yield! expr                     -- yield computation
     yield expr                      -- yield result
     return! expr                    -- return computation
     return expr                     -- return result
-    if expr then comp - expr        -- control flow or imperative action
+    if expr then comp-expr        -- control flow or imperative action
     if expr then expr else comp-expr
-    match! expr with pat -> comp-expr | ... | pat -> comp-expr
-    match expr with pat -> comp-expr | ... | pat -> comp-expr
-    try comp - expr with pat -> comp-expr | ... | pat -> comp-expr
-    try comp - expr finally expr
-    while expr do comp - expr done
-    for ident = expr to expr do comp - expr done
-    for pat in expr - or-range-expr do comp - expr done
-    comp - expr ; comp - expr
+    match! expr with pat '->' comp-expr '|' ... '|' pat '->' comp-expr
+    match expr with pat '->' comp-expr '|' ... '|' pat '->' comp-expr
+    try comp-expr with pat '->' comp-expr '|' ... '|' pat '->' comp-expr
+    try comp-expr finally expr
+    while expr do comp-expr done
+    for ident '=' expr to expr do comp-expr done
+    for pat in expr-or-range-expr do comp-expr done
+    comp-expr ';' comp-expr
     expr
 
 short-comp-expr :=
-    for pat in expr-or-range-expr -> expr -- yield result
+    for pat in expr-or-range-expr '->' expr -- yield result
 
 range-expr :=
-    expr .. expr                    -- range sequence
-    expr .. expr .. expr            -- range sequence with skip
+    expr '..' expr                    -- range sequence
+    expr '..' expr '..' expr          -- range sequence with skip
 
-slice-ranges := slice-range , ... , slice-range
+slice-ranges := slice-range ',' ... ',' slice-range
 
 slice-range :=
-    expr                            -- slice of one element of dimension
-    expr ..                         -- slice from index to end
-    .. expr                         -- slice from start to index
-    expr .. expr                    -- slice from index to index
-    '*'                             -- slice from start to end
+    expr                              -- slice of one element of dimension
+    expr '..'                         -- slice from index to end
+    '..' expr                         -- slice from start to index
+    expr '..' expr                    -- slice from index to index
+    '*'                               -- slice from start to end
 ```
 
 ## Some Checking and Inference Terminology
@@ -505,13 +505,13 @@ issue a deprecation warning.
 A _copy-and-update record expression_ has the following form:
 
 ```fsgrammar
-{ expr with field-initializers }
+'{' expr with field-initializers '}'
 ```
 
 where `field-initializers` is of the following form:
 
 ```fsgrammar
-field-label1 = expr1; ...; field-labeln = exprn
+field-label1 '=' expr1 ';' ... ';' field-labeln '=' exprn
 ```
 
 Each `field-labeli` is a `long-ident`. In the following example, `data2` is defined by using such an
@@ -693,23 +693,23 @@ response to a `.Value` operation on the lazy value.
 The following expression forms are all _computation expressions_ :
 
 ```fsgrammar
-expr { for ... }
-expr { let ... }
-expr { let! ... }
-expr { use ... }
-expr { while ... }
-expr { yield ... }
-expr { yield! ... }
-expr { try ... }
-expr { return ... }
-expr { return! ... }
-expr { match! ... }
+expr '{' for ... '}'
+expr '{' let ... '}'
+expr '{' let! ... '}'
+expr '{' use ... '}'
+expr '{' while ... '}'
+expr '{' yield ... '}'
+expr '{' yield! ... '}'
+expr '{' try ... '}'
+expr '{' return ... '}'
+expr '{' return! ... '}'
+expr '{' match! ... '}'
 ```
 
 More specifically, computation expressions have the following form:
 
 ```fsgrammar
-builder-expr { cexpr }
+builder-expr '{' cexpr '}'
 ```
 
 where `cexpr` is, syntactically, the grammar of expressions with the additional constructs that are
@@ -717,7 +717,7 @@ defined in `comp-expr`. Computation expressions are used for sequences and other
 interpretations of the F# expression syntax. For a fresh variable `b`, the expression
 
 ```fsgrammar
-builder-expr { cexpr }
+builder-expr '{' cexpr '}'
 ```
 
 translates to
@@ -1404,8 +1404,8 @@ comp |> step |> step |> step |> step |> step |> step |> step |> step
 An expression in one of the following forms is a _sequence expression_ :
 
 ```fsgrammar
-seq { comp-expr }
-seq { short-comp-expr }
+seq '{' comp-expr '}'
+seq '{' short-comp-expr '}'
 ```
 
 For example:
@@ -1443,15 +1443,15 @@ elaborated directly. For details, see page 79 of the old pdf spec.
 Expressions of the following forms are _range expressions_.
 
 ```fsgrammar
-{ e1 .. e2 }
-{ e1 .. e2 .. e3 }
-seq { e1 .. e2 }
-seq { e1 .. e2 .. e3 }
+'{' e1 '..' e2 '}'
+'{' e1 '..' e2 '..' e3 '}'
+seq '{' e1 '..' e2 '}'
+seq '{' e1 '..' e2 '..' e3 '}'
 ```
 
 Range expressions generate sequences over a specified range. For example:
 
-```fsgrammar
+```fsharp
 seq { 1 .. 10 } // 1; 2; 3; 4; 5; 6; 7; 8; 9; 10
 seq { 1 .. 2 .. 10 } // 1; 3; 5; 7; 9
 ```
@@ -1459,7 +1459,7 @@ seq { 1 .. 2 .. 10 } // 1; 3; 5; 7; 9
 Range expressions involving `expr1 .. expr2` are translated to uses of the `(..)` operator, and those
 involving `expr1 .. expr1 .. expr3` are translated to uses of the `(.. ..)` operator:
 
-```fsgrammar
+```fsharp
 seq { e1 .. e2 } → ( .. ) e1 e2
 seq { e1 .. e2 .. e3 } → ( .. .. ) e1 e2 e3
 ```
@@ -1488,9 +1488,9 @@ elaborated as a simple for loop-expression ([§](expressions.md#simple-for-loop-
 A _list sequence expression_ is an expression in one of the following forms
 
 ```fsgrammar
-[ comp-expr ]
-[ short-comp-expr ]
-[ range-expr ]
+'[' comp-expr ']'
+'[' short-comp-expr ']'
+'[' range-expr ']'
 ```
 
 In all cases `[ cexpr ]` elaborates to `FSharp.Collections.Seq.toList(seq { cexpr })`.
@@ -1512,9 +1512,9 @@ let x3 = [ yield 1
 An expression in one of the following forms is an _array sequence expression_ :
 
 ```fsgrammar
-[| comp-expr |]
-[| short-comp-expr |]
-[| range-expr |]
+'[|' comp-expr '|]'
+'[|' short-comp-expr '|]'
+'[|' range-expr '|]'
 ```
 
 In all cases `[| cexpr |]` elaborates to `FSharp.Collections.Seq.toArray(seq { cexpr })`.
@@ -1680,7 +1680,7 @@ results of types `types` , the elaborated expression form is a union case `Choic
 An expression of the following form is an _object construction expression_:
 
 ```fsgrammar
-new ty ( e1 ... en )
+new ty '(' e1 ... en ')'
 ```
 
 An object construction expression constructs a new instance of a type, usually by calling a
@@ -1802,8 +1802,8 @@ r <-- "Message One"
 Expressions of the following forms are _dynamic operator expressions:_
 
 ```fsgrammar
-expr1 ? expr2
-expr1 ? expr2 <- expr3
+expr1 '?' expr2
+expr1 '?' expr2 '<-' expr3
 ```
 
 These expressions are defined by their syntactic translation:
@@ -1836,8 +1836,8 @@ Under default definitions, expressions of the following forms are _address-of ex
 _byref-address-of expression_ and _nativeptr-address-of expression,_ respectively:
 
 ```fsgrammar
-& expr
-&& expr
+'&' expr
+'&&' expr
 ```
 
 Such expressions take the address of a mutable local variable, byref-valued argument, field, array
@@ -1988,7 +1988,7 @@ type 'T[,,,] with
 An expression of the following form is a member constraint invocation expression:
 
 ```fsgrammar
-(static-typars : (member-sig) expr)
+'(' static-typars ':' '(' member-sig ')' expr ')'
 ```
 
 Type checking proceeds as follows:
@@ -2116,7 +2116,7 @@ must resolve to one of the following constructs:
 A _parenthesized expression_ has the following form:
 
 ```fsgrammar
-(expr)
+'(' expr ')'
 ```
 
 A _block expression_ has the following form:
@@ -2134,7 +2134,7 @@ The elaborated form of the expression is simply the elaborated form of `expr`.
 A _sequential execution expression_ has the following form:
 
 ```fsgrammar
-expr1 ; expr2
+expr1 ';' expr2
 ```
 
 For example:
@@ -2183,7 +2183,7 @@ if (1 + 1 = 2) then printfn "ok"
 Conditional expressions are equivalent to pattern matching on Boolean values. For example, the
 following expression forms are equivalent:
 
-```fsgrammar
+```fsharp
 if expr1 then expr2 else expr3
 match (expr1: bool) with true -> expr2 | false -> expr3
 ```
@@ -2191,7 +2191,7 @@ match (expr1: bool) with true -> expr2 | false -> expr3
 If the `else` branch is omitted, the expression is a _sequential conditional expression_ and is equivalent
 to:
 
-```fsgrammar
+```fsharp
 match (expr1: bool) with true -> expr2 | false -> ()
 ```
 
@@ -2202,15 +2202,15 @@ with the exception that the initial type of the overall expression is first asse
 Under default definitions, expressions of the following form are respectively an _shortcut and expression_ and a _shortcut or expression_ :
 
 ```fsgrammar
-expr && expr
-expr || expr
+expr '&&' expr
+expr '||' expr
 ```
 
 These expressions are defined by their syntactic translation:
 
 ```fsgrammar
-expr1 && expr2 → if expr1 then expr2 else false
-expr1 || expr2 → if expr1 then true else expr2
+expr1 '&&' expr2 → if expr1 then expr2 else false
+expr1 '||' expr2 → if expr1 then true else expr2
 ```
 
 > Note: The rules in this section apply when the following operators, as defined in the F#
@@ -2310,7 +2310,7 @@ convert v.Current to `ty2`.
 A sequence iteration of the form
 
 ```fsgrammar
-for var in expr1 .. expr2 do expr3 done
+for var in expr1 '..' expr2 do expr3 done
 ```
 
 where the type of `expr1` or `expr2` is equivalent to `int`, is elaborated as a simple for-loop expression
@@ -2321,7 +2321,7 @@ where the type of `expr1` or `expr2` is equivalent to `int`, is elaborated as a 
 An expression of the following form is a _simple for loop expression_ :
 
 ```fsgrammar
-for var = expr1 to expr2 do expr3 done
+for var '=' expr1 to expr2 do expr3 done
 ```
 
 The `done` token is optional when `e2` appears on a later line and is indented from the column position
@@ -2468,7 +2468,7 @@ A _definition expression_ has one of the following forms:
 let function-defn in expr
 let value-defn in expr
 let rec function-or-value-defns in expr
-use ident = expr1 in expr
+use ident '=' expr1 in expr
 ```
 
 Such an expression establishes a local function or value definition within the lexical scope of `expr`
@@ -2535,7 +2535,7 @@ let value-defn in expr
 where _value-defn_ has the form:
 
 ```fsgrammar
-mutable? access? pat typar-defns? return-type? = rhs-expr
+mutable? access? pat typar-defns? return-type? '=' rhs-expr
 ```
 
 Checking proceeds as follows:
@@ -2551,7 +2551,7 @@ In this case, the following rules apply:
 - If `pat` is a single value pattern `ident`, the resulting elaborated form of the entire expression is
 
     ```fsgrammar
-    let ident1 <typars1> = expr1 in
+    let ident1 '<' typars1 '>' '=' expr1 in
     body-expr
     ```
 
@@ -2560,10 +2560,10 @@ In this case, the following rules apply:
 - Otherwise, the resulting elaborated form of the entire expression is
 
     ```fsgrammar
-    let tmp <typars1 ... typars n> = expr in
-    let ident1 <typars1> = expr1 in
+    let tmp '<' typars1 ... typars n '>' '=' expr in
+    let ident1 '<' typars1 '>' '=' expr1 in
     ...
-    let identn <typarsn> = exprn in
+    let identn '<' typarsn '>' '=' exprn in
     body-expr
     ```
 
@@ -2592,7 +2592,7 @@ let function-defn in expr
 where `function-defn` has the form:
 
 ```fsgrammar
-inline? access? ident-or-op typar-defns? pat1 ... patn return-type? = rhs-expr
+inline? access? ident-or-op typar-defns? pat1 ... patn return-type? '=' rhs-expr
 ```
 
 Checking proceeds as follows:
@@ -2604,7 +2604,7 @@ Checking proceeds as follows:
 The resulting elaborated form of the entire expression is
 
 ```fsgrammar
-let ident1 < typars1 > = expr1 in
+let ident1 '<' typars1 '>' '=' expr1 in
 expr
 ```
 
@@ -2646,7 +2646,7 @@ are defined, the recursive expressions are analyzed for safety ([§](inference-p
 A _deterministic disposal expression_ has the form:
 
 ```fsgrammar
-use ident = expr1 in expr2
+use ident '=' expr1 in expr2
 ```
 
 For example:
@@ -2660,8 +2660,8 @@ let line2 = inStream.ReadLine()
 
 The expression is first checked as an expression of form `let ident = expr1 in expr2` ([§](expressions.md#value-definition-expressions)), which results in an elaborated expression of the following form:
 
-```fsgrammar
-let ident1 : ty1 = expr1 in expr2.
+```fsharp
+let ident1 : ty1 = expr1 in expr2
 ```
 
 Only one value may be defined by a deterministic disposal expression, and the definition is not
@@ -2669,7 +2669,7 @@ generalized ([§](inference-procedures.md#generalization)). The type `ty1` , is 
 dynamic value of the expression after coercion to type `obj` is non-null, the `Dispose` method is called
 on the value when the value goes out of scope. Thus the overall expression elaborates to this:
 
-```fsgrammar
+```fsharp
 let ident1 : ty1 = expr1
 try expr2
 finally (match ( ident :> obj) with
@@ -2684,7 +2684,7 @@ A _pinned pointer expression_ allows a pointer to be extracted from an expressio
 A pinned pointer expression has the following form:
 
 ```fsgrammar
-use ident = fixed expr
+use ident '=' fixed expr
 ```
 
 For example, pinning a field within an object:
@@ -2729,7 +2729,7 @@ Like all pointer-related code, the use of `fixed` is considered an unsafe featur
 A _type-annotated expression_ has the following form, where `ty` indicates the static type of `expr`:
 
 ```fsgrammar
-expr : ty
+expr ':' ty
 ```
 
 For example:
@@ -2748,7 +2748,7 @@ ensures that information from the annotation is used during the analysis of `exp
 A _static coercion expression_ — also called a flexible type constraint — has the following form:
 
 ```fsgrammar
-expr :> ty
+expr ':>' ty
 ```
 
 The expression `upcast expr` is equivalent to `expr :> _`, so the target type is the same as the initial
@@ -2769,7 +2769,7 @@ The initial type of the overall expression is `ty`. Expression `expr` is checked
 A dynamic type-test expression has the following form:
 
 ```fsgrammar
-expr :? ty
+expr ':?' ty
 ```
 
 For example:
@@ -2795,7 +2795,7 @@ Dynamic type tests are a primitive elaborated form.
 A dynamic coercion expression has the following form:
 
 ```fsgrammar
-expr :?> ty
+expr ':?>' ty
 ```
 
 The expression downcast `e1` is equivalent to `expr :?> _` , so the target type is the same as the initial
@@ -2824,9 +2824,9 @@ Dynamic coercions are a primitive elaborated form.
 An expression in one of these forms is a quoted expression:
 
 ```fsgrammar
-<@ expr @>
+'<@' expr '@>'
 
-<@@ expr @@>
+'<@@' expr '@@>'
 ```
 
 The former is a _strongly typed quoted expression_ , and the latter is a _weakly typed quoted expression_.
@@ -2886,7 +2886,7 @@ As of F# 3. 1 , the following limitations apply to quoted expressions:
 A strongly typed quoted expression has the following form:
 
 ```fsgrammar
-<@ expr @>
+'<@' expr '@>'
 ```
 
 For example:
@@ -2909,7 +2909,7 @@ type `ty`.
 A _weakly typed quoted expression_ has the following form:
 
 ```fsgrammar
-<@@ expr @@>
+'<@@' expr '@@>'
 ```
 
 Weakly typed quoted expressions are similar to strongly quoted expressions but omit any type
@@ -2932,8 +2932,8 @@ Both strongly typed and weakly typed quotations may contain expression splices i
 forms:
 
 ```fsgrammar
-%expr
-%%expr
+'%' expr
+'%%' expr
 ```
 
 These are respectively strongly typed and weakly typed splicing operators.
@@ -2943,7 +2943,7 @@ These are respectively strongly typed and weakly typed splicing operators.
 An expression of the following form is a _strongly typed expression splice_ :
 
 ```fsgrammar
-%expr
+'%' expr
 ```
 
 For example, given
@@ -2969,7 +2969,7 @@ argument and may only appear in quoted expressions.
 An expression of the following form is a _weakly typed expression splice_ :
 
 ```fsgrammar
-%%expr
+'%%' expr
 ```
 
 For example, given
@@ -3234,9 +3234,9 @@ At runtime, an elaborated function expression `(fun v1 ... vn -> expr)` is evalu
 At runtime, elaborated object expressions
 
 ```fsgrammar
-{ new ty0 args-expr? object-members
+'{' new ty0 args-expr? object-members
       interface ty1 object-members1
-      interface tyn object-membersn }
+      interface tyn object-membersn '}'
 ```
 
 is evaluated as follows:
