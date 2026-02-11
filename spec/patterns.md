@@ -42,19 +42,11 @@ array-pat :=
 record-pat :=
     '{' field-pat ';' ... ';' field-pat '}'
 
-atomic-pat-pat :=
-    const
-    long-ident
-    list-pat
-    record-pat
-    array-pat
-    '(' pat ')'
-    ':?' atomic-type
-    null
-    '_'
-
 atomic-pat :=
-    pat ':' atomic-pat-pat
+    pat : one of
+            const long-ident list-pat record-pat array-pat ( pat )
+            :? atomic-type
+            null _
 
 field-pat := long-ident '=' pat
 
