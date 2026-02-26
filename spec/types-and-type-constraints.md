@@ -48,8 +48,12 @@ type-arg :=
     static-parameter               -- static parameter
 
 atomic-type :=
-    type : one of
-            #type typar ( type ) long-ident long-ident <type-args>
+    '(' type ')'
+    struct '(' type '*' ... '*' type ')'
+    typar
+    long-ident
+    long-ident '<' type-args '>'
+    '#' atomic-type
 
 typar :=
     '_'                                            -- anonymous variable type
