@@ -61,8 +61,6 @@ pat-param :=
     '|' '<@@' expr '@@>'
     '|' null
 
-pats := pat ',' ... ',' pat
-field-pats := field-pat ';' ... ';' field-pat
 rules := '|'? rule '|' ... '|' rule
 ```
 
