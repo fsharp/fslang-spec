@@ -56,15 +56,15 @@ atomic-pat :=
 field-pat := long-ident '=' pat
 
 pat-param :=
-    '|' const
-    '|' long-ident
-    '|' '[' pat-param ';' ... ';' pat-param ']'
-    '|' '(' pat-param ',' ... ',' pat-param ')'
-    '|' long-ident pat-param
-    '|' pat-param ':' type
-    '|' '<@' expr '@>'
-    '|' '<@@' expr '@@>'
-    '|' null
+    const
+    long-ident
+    '[' pat-param ';' ... ';' pat-param ']'
+    '(' pat-param ',' ... ',' pat-param ')'
+    long-ident pat-param
+    pat-param ':' type
+    '<@' expr '@>'
+    '<@@' expr '@@>'
+    null
 
 pats := pat ',' ... ',' pat
 field-pats := field-pat ';' ... ';' field-pat
