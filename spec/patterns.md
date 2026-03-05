@@ -44,6 +44,7 @@ record-pat :=
 
 atomic-pat :=
     const
+    long-ident
     '_'
     struct '(' pat ',' ... ',' pat ')'
     '(' pat ')'
