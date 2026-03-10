@@ -318,8 +318,7 @@ Nullness constraints also arise from expressions of the form `null`.
 An _explicit member constraint_ has the following form:
 
 ```fsgrammar
-type ':' '(' member-sig ')'
-'(' type or ... or type ')' ':' '(' member-sig ')'
+static-typars ':' '(' member-sig ')'
 ```
 
 For example, the F# library defines the + operator with the following signature:
