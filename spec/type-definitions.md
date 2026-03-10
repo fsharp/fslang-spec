@@ -1334,7 +1334,7 @@ Struct unions have the following limitations:
 
 - You cannot have cyclic references to the type being defined. For example, `[<Struct>] type T = U of T` is not permitted.
 - Unlike normal F# structs, you cannot call the default constructor.
-- For multi-case struct unions, each case must have a unique name.
+- The current compiler implementation requires that all fields with the same name must be of the same type. This rule applies also to the generated 'Item' name in case of unnamed fields.
 
 ## Enum Type Definitions
 
