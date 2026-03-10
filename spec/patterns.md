@@ -43,23 +43,28 @@ record-pat :=
     '{' field-pat ';' ... ';' field-pat '}'
 
 atomic-pat :=
-    pat : one of
-            const long-ident list-pat record-pat array-pat ( pat )
-            :? atomic-type
-            null _
+    const
+    long-ident
+    '_'
+    struct '(' pat ',' ... ',' pat ')'
+    '(' pat ')'
+    list-pat
+    array-pat
+    record-pat
+    null
 
 field-pat := long-ident '=' pat
 
 pat-param :=
-    '|' const
-    '|' long-ident
-    '|' '[' pat-param ';' ... ';' pat-param ']'
-    '|' '(' pat-param ',' ... ',' pat-param ')'
-    '|' long-ident pat-param
-    '|' pat-param ':' type
-    '|' '<@' expr '@>'
-    '|' '<@@' expr '@@>'
-    '|' null
+    const
+    long-ident
+    '[' pat-param ';' ... ';' pat-param ']'
+    '(' pat-param ',' ... ',' pat-param ')'
+    long-ident pat-param
+    pat-param ':' type
+    '<@' expr '@>'
+    '<@@' expr '@@>'
+    null
 
 pats := pat ',' ... ',' pat
 field-pats := field-pat ';' ... ';' field-pat
