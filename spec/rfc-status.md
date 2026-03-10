@@ -97,3 +97,12 @@
 | F# 9.0 | FS-1140 | [Boolean Returning and Return Type Directed Partial Active Patterns](https://github.com/fsharp/fslang-design/tree/main/FSharp-9.0/FS-1140-boolean-returning-and-return-type-directed-partial-active-patterns.md) | |
 | F# 9.0 | FS-1144 | [Empty Bodied Computation Expressions](https://github.com/fsharp/fslang-design/tree/main/FSharp-9.0/FS-1144-empty-bodied-computation-expressions.md) | |
 | F# 9.0 | FS-1147 | [Non-String Directive Args](https://github.com/fsharp/fslang-design/tree/main/FSharp-9.0/FS-1147-non-string-directive-args.md) | |
+| F# 10.0 | FS-632 | [Allow object expression without overrides](https://github.com/fsharp/fslang-design/blob/main/FSharp-10.0/FS-632-Allow-object-expression-without-overrides.md) |  |
+| F# 10.0 | FS-1033 | [Deprecate places where seq can be omitted](https://github.com/fsharp/fslang-design/blob/main/FSharp-10.0/FS-1033-Deprecate-places-where-seq-can-be-omitted.md) |  |
+| F# 10.0 | FS-1104 | [Further struct representations ](https://github.com/fsharp/fslang-design/blob/main/FSharp-10.0/FS-1104-struct-representations.md) |  |
+| F# 10.0 | FS-1141 | [Allow access modifiers to auto properties getters and setters](https://github.com/fsharp/fslang-design/blob/main/FSharp-10.0/FS-1141-Allow-access-modifiers-to-auto-properties-getters-and-setters.md) |  |
+| F# 10.0 | FS-1146 | [Scoped-nowarn](https://github.com/fsharp/fslang-design/blob/main/FSharp-10.0/FS-1146-scoped-nowarn.md) |  |
+| F# 10.0 | FS-1148 | [Allow decimal constants](https://github.com/fsharp/fslang-design/blob/main/FSharp-10.0/FS-1148-allow-decimal-constants.md) |  |
+| F# 10.0 | FS-1329 | [Allow typed bindings in CE let!s without parentheses](https://github.com/fsharp/fslang-design/blob/main/FSharp-10.0/FS-1329-Allow%20typed%20bindings%20in%20CE%20let!s%20without%20parentheses.md) |  |
+| F# 10.0 | FS-1330 | [Support tailcalls in computation expressions](https://github.com/fsharp/fslang-design/blob/main/FSharp-10.0/FS-1330-support-tailcalls-in-computation-expressions.md) |  |
+
