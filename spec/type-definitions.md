@@ -115,8 +115,8 @@ primary-constr-args :=
     attributes? access? ( simple-pat, ... , simple-pat )
 
 simple-pat :=
-    '|' ident
-    '|' simple-pat ':' type
+    ident
+    simple-pat ':' type
 
 additional-constr-defn :=
     attributes? access? new pat as-defn '=' additional-constr-expr
@@ -137,25 +137,32 @@ member-defn :=
     attributes? abstract member? access? member-sig            -- abstract member
     attributes? override access? method-or-prop-defn           -- override member
     attributes? default access? method-or-prop-defn            -- override member
-    attributes? static? val mutable? access? ident : type      -- value member
-    additional-constr-defn -- additional constructor
+    attributes? static? member auto-prop-defn                  -- auto-implemented property
+    attributes? override auto-prop-defn                        -- auto-implemented property (override)
+    attributes? default auto-prop-defn                         -- auto-implemented property (default)
+    attributes? static? val mutable? access? ident ':' type    -- value member
+    additional-constr-defn                                     -- additional constructor
+
+auto-prop-defn :=
+    val access? ident ':' type? = expr                         -- read-only auto-implemented property
+    val access? ident ':' type? = expr with get                -- read-only auto-implemented property
+    val access? ident ':' type? = expr with get ',' set        -- read-write auto-implemented property
+    val access? ident ':' type? = expr with set ',' get        -- read-write auto-implemented property
 
 method-or-prop-defn :=
-    (ident '.' )? function-defn                                -- method definition
-    (ident '.' )? value-defn                                   -- property definition
-    (ident '.' )? ident with function-or-value-defns           -- property definition via get/set methods
-    member ident '=' exp                                       –- auto-implemented property definition
-    member ident '=' exp with get                              –- auto-implemented property definition
-    member ident '=' exp with set                              –- auto-implemented property definition
-    member ident '=' exp with get,set                          –- auto-implemented property definition
-    member ident '=' exp with set,get                          –- auto-implemented property definition
+    (ident '.')? ident pat1 ... patn = expr                    -- method definition
+    (ident '.')? ident = expr                                  -- property definition
+    (ident '.')? ident with get pat = expr                     -- property with getter
+    (ident '.')? ident with set pat? pat = expr                -- property with setter
+    (ident '.')? ident with get pat = expr and set pat? pat = expr   -- property with getter and setter
+    (ident '.')? ident with set pat? pat = expr and get pat = expr   -- property with setter and getter
 
 member-sig :=
     ident typar-defns? ':' curried-sig                         -- method or property signature
     ident typar-defns? ':' curried-sig with get                -- property signature
     ident typar-defns? ':' curried-sig with set                -- property signature
-    ident typar-defns? ':' curried-sig with get,set            -- property signature
-    ident typar-defns? ':' curried-sig with set,get            -- property signature
+    ident typar-defns? ':' curried-sig with get ',' set        -- property signature
+    ident typar-defns? ':' curried-sig with set ',' get        -- property signature
 
 curried-sig :=
     args-spec '->' ... '->' args-spec '->' type
@@ -758,8 +765,8 @@ Each `simple-pat` has this form:
 
 ```fsgrammar
 simple-pat :=
-    | ident
-    | simple-pat : type
+    ident
+    simple-pat ':' type
 ```
 
 Specifically, nested patterns may not be used in the primary constructor arguments. For example,
@@ -1784,13 +1791,23 @@ the following are true for the declaration:
 - The declaration omits the self-identifier.
 - The declaration includes an expression to initialize the property.
 
-To create a mutable property, include `with get`, `with set`,or both:
+To create a readable and writable property, include `with get, set` or `with set, get`. A
+read-only auto-implemented property may omit the accessor clause entirely or include `with get`
+explicitly. The `with set` accessor alone is not valid for auto-implemented properties.
 
 ```fsgrammar
-static? member val access? ident : ty? = expr
-static? member val access? ident : ty? = expr with get
-static? member val access? ident : ty? = expr with set
-static? member val access? ident : ty? = expr with get, set
+static? member val access? ident ':' type? = expr
+static? member val access? ident ':' type? = expr with get
+static? member val access? ident ':' type? = expr with get, set
+static? member val access? ident ':' type? = expr with set, get
+override val access? ident ':' type? = expr
+override val access? ident ':' type? = expr with get
+override val access? ident ':' type? = expr with get, set
+override val access? ident ':' type? = expr with set, get
+default val access? ident ':' type? = expr
+default val access? ident ':' type? = expr with get
+default val access? ident ':' type? = expr with get, set
+default val access? ident ':' type? = expr with set, get
 ```
 
 Automatically implemented properties are part of the initialization of a type, so they must be
