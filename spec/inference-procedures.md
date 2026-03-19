@@ -865,7 +865,7 @@ Two additional rules apply when checking arguments (see [§](type-definitions.md
 
     For more information on the conversions that are automatically applied to arguments, see
   [§](type-definitions.md#optional-arguments-to-method-members).
-  
+
 - If a formal parameter is an `out` parameter of type `byref<ty>`, and an actual argument type is
       not a byref type, interpret the actual parameter in the same way as type `ref<ty>`. That is, an F#
       reference cell can be passed where a `byref<ty>` is expected.
@@ -1881,11 +1881,20 @@ In addition:
 
 As a result, a byref-typed expression can occur only in these situations:
 
-- As an argument to a call to a module-defined function or class-defined function.
-
+- As an argument to a call to a module-defined function, class-defined function, or member.
 - On the right-hand-side of a value definition for a byref-typed local.
+- As the return value of a method, property, indexer, or delegate.
 
-These restrictions also apply to uses of the prefix && operator for generating native pointer values.
+These restrictions also apply to uses of the prefix `&&` operator for generating native pointer values.
+
+When a byref-typed expression is used as a return value, it is subject to additional safety rules to ensure that a method does not return a reference to variables from its own stack frame. A byref is considered **safe to return** only if it meets one of the following conditions:
+
+- It is a byref to a field in a heap-allocated class or record.
+- It is a byref-valued formal parameter passed into the current method.
+- It is a byref to a field in a struct, provided a byref to that struct itself is safe to return.
+- It is a byref returned from another method, provided all byrefs passed to that method as formal parameters are safe to return.
+
+Note that the `this` parameter (the self identifier) is **not** safe to return from struct members, because struct instance members are passed a byref to a potentially stack-allocated copy of the struct.
 
 ## Promotion of Escaping Mutable Locals to Objects
 
@@ -2001,16 +2010,16 @@ module Foo =
 type Bar() =
     // compiles as a static method taking 3 arguments
     static member Test1 (a1: int, a2: float, a3: string) = ()
-    
+
     // compiles as a static method taking 1 tupled argument
     static member Test2 (aTuple : int * float * string) = ()
-    
+
     // compiles as a static method taking 1 tupled argument
     static member Test3 ( (aTuple : int * float * string) ) = ()
-    
+
     // compiles as a static method taking 1 tupled argument
     static member Test4 ( (a1: int, a2: float, a3: string) ) = ()
-    
+
     // compiles as a static method taking 1 tupled argument
     static member Test5 (a1, a2, a3 : int * float * string) = ()
 ```
