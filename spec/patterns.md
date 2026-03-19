@@ -194,9 +194,9 @@ let Case1 = 1
 let Case2 = 100
 
 let result =
-    match 1 00 with
+    match 100 with
     | Case1 -> "Case1"
-    | Case2 -> "Case 2 "
+    | Case2 -> "Case2"
     | _ -> "Some other case"
 ```
 
