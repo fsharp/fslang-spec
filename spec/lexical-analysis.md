@@ -311,8 +311,8 @@ The following symbolic or partially symbolic character sequences are treated as 
 token symbolic-keyword =
     let! use! do! yield! return! match!
     | -> <- . : ( ) [ ] [< >] [| |] { }
-    ' # :?> :? :> .. :: := ;; ; =
-    _? ?? (*) <@ @> <@@ @@>
+    ' # :?> :? :> .. :: := ;; ; , =
+    _ ? ?? (*) <@ @> <@@ @@>
 ```
 
 The following symbols are reserved for future use:
@@ -331,24 +331,14 @@ except where the sequence of characters is a symbolic keyword ([§](lexical-anal
 regexp first-op-char = !%&*+-./<=>@^|~
 regexp op-char = first-op-char | [?:]
 
-token quote-op-left =
-    | <@ <@@
-
-token quote-op-right =
-    | @> @@>
-
 token symbolic-op =
     | ?
     | ?<-
     | first-op-char op-char *
-    | quote-op-left
-    | quote-op-right
 ```
 
 For example, `&&&` and `|||` are valid symbolic operators. Only the operators `?` and `?<-` may start with
 `?`.
-
-The `quote-op-left` and `quote-op-right` operators are used in quoted expressions ([§](expressions.md#quoted-expressions)).
 
 For details about the associativity and precedence of symbolic operators in expression forms, see
 §4.4.
