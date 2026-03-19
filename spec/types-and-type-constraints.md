@@ -83,8 +83,8 @@ typar-constraints :=
     when constraint and ... and constraint
 
 static-typars :=
-    '^' ident
-    '(' '^' ident or ... or '^' ident ')'
+    type
+    '(' type or ... or type ')'
 ```
 
 In a type instantiation, the type name and the opening angle bracket must be syntactically adjacent
@@ -322,7 +322,7 @@ Nullness constraints also arise from expressions of the form `null`.
 An _explicit member constraint_ has the following form:
 
 ```fsgrammar
-'(' typar or ... or typar ')' ':' '(' member-sig ')'
+static-typars ':' '(' member-sig ')'
 ```
 
 For example, the F# library defines the + operator with the following signature:
@@ -338,9 +338,7 @@ correspond to parameters `^a`, `^b`, and `^c`. If these are named types, then ei
 
 In addition:
 
-- Each `typar` must be a statically resolved type variable (see [§](types-and-type-constraints.md#variable-types)) in the form `^ident`. This ensures
-  that the constraint is resolved at compile time against a corresponding named type. It also
-  means that generic code cannot use this constraint unless that code is marked inline (see [§](inference-procedures.md#generalization)).
+- The types in the support set can be statically resolved type variables (see[§](types-and-type-constraints.md#variable-types)) in the form `^ident`, or concrete types. The use of statically resolved type variables ensures that the constraint is resolved at compile time against a corresponding named type. It also means that generic code cannot use this constraint unless that code is marked inline (see [§](inference-procedures.md#generalization)).
 - The `member-sig` cannot be generic; that is, it cannot include explicit type parameter definitions.
 - The conditions that govern when a type satisfies a member constraint are specified in (see [§](inference-procedures.md#solving-member-constraints)).
 
