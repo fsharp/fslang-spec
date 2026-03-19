@@ -321,7 +321,7 @@ keywords:
 | _Namespace_ | The `namespace` keyword |
 | _Module_ | The `module` keyword |
 | _Member_ | The `member`, `abstract`, `default`, or `override` keyword, if the _Member_ context is not already active, because multiple tokens may be present.<br>- or -<br>`(` is the next token after the `new` keyword. This distinguishes the member declaration `new(x) = ... from the expression new x()` |
-| _Paren(token)_ | `(`, `begin`, `struct`, `sig`, `{`, `[`, `[\|`, or `quote-op-left` |
+| _Paren(token)_ | `(`, `begin`, `struct`, `sig`, `{`, `[`, `[\|`, `<@`, or `<@@` |
 | _MatchClauses_ | The `with` keyword in a _Try_ or _Match_ context immediately after a `function` keyword. |
 | _Vanilla_ | An otherwise unprocessed keyword in a _SeqBlock_ context. |
 
@@ -347,7 +347,8 @@ The following table lists the contexts that the compiler pops and the balancing 
 | `}` | `Paren({)` |
 | `]` | `Paren([)` |
 | `\|]` | `Paren([\|)` |
-| `quote-op-right` | `Paren(quote-op-left)` |
+| `@>` | `Paren(<@)` |
+| `@@>` | `Paren(<@@)` |
 
 ### Offside Tokens, Token Insertions, and Closing Contexts
 

@@ -312,7 +312,7 @@ token symbolic-keyword =
     let! use! do! yield! return! match!
     | -> <- . : ( ) [ ] [< >] [| |] { }
     ' # :?> :? :> .. :: := ;; ; , =
-    _? ?? (*) <@ @> <@@ @@>
+    _ ? ?? (*) <@ @> <@@ @@>
 ```
 
 The following symbols are reserved for future use:
