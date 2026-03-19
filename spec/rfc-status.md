@@ -23,7 +23,7 @@
 | F# 4.1 | FS-1010 | [Add Map.count](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1010-add-map-count.md) | This specifies some details of the `FSharp.Core` library, which is not part of this spec (except for the basic items listed in [§18](https://fsharp.github.io/fslang-spec/the-f-library-fsharpcoredll/)) |
 | F# 4.1 | FS-1012 | [Caller Info Attributes](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1012-caller-info-attributes.md) | [completed](https://github.com/fsharp/fslang-spec/pull/74) |
 | F# 4.1 | FS-1013 | [Enable Reflection Functionality on Portable Profiles](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1013-enable-reflection-functionality-on-portable-profiles.md) | |
-| F# 4.1 | FS-1014 | [Struct Discriminated Unions](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1014-struct-discriminated-unions.md) | |
+| F# 4.1 | FS-1014 | [Struct Discriminated Unions](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1014-struct-discriminated-unions.md) | [completed](https://github.com/fsharp/fslang-spec/pull/90) |
 | F# 4.1 | FS-1015 | [Support for fixed](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1015-support-for-fixed.md) | [completed](https://github.com/fsharp/fslang-spec/pull/65) |
 | F# 4.1 | FS-1016 | [Unreserve Keywords](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1016-unreserve-keywords.md) | [completed](https://github.com/fsharp/fslang-spec/pull/63) |
 | F# 4.1 | FS-1017 | [Fix SRTP Constraint Parsing](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1017-fix-srtp-constraint-parsing.md) | |
