@@ -167,9 +167,9 @@ Additional grammar rules take into account the token transformations performed b
 
 ```fsgrammar
 expr +:=
-    | let function-defn $ in expr
-    | let value-defn $ in expr
-    | let rec function-or-value-defns $ in expr
+    | let function-defn $in expr
+    | let value-defn $in expr
+    | let rec function-or-value-defns $in expr
     | while expr do expr $done
     | if expr then $begin expr $end
     | for pat in expr do expr $done

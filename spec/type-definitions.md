@@ -49,10 +49,10 @@ record-field :=
     attributes? mutable? access? ident ':' type
 
 anon-type-defn :=
-    type-name primary-constr-args? object-val? '=' begin class-type-body end
+    type-name primary-constr-args? as-defn? '=' begin class-type-body end
 
 class-type-defn :=
-    type-name primary-constr-args? object-val? '=' class class-type-body end
+    type-name primary-constr-args? as-defn? '=' class class-type-body end
 
 as-defn :=
     as ident
