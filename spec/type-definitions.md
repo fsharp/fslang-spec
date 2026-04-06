@@ -3,6 +3,10 @@
 Type definitions define new named types. The grammar of type definitions is shown below.
 
 ```fsgrammar
+type-defns :=
+    type type-defn
+    type type-defn and ... and type-defn   // recursive type definition group
+
 type-defn :=
     abbrev-type-defn
     record-type-defn
