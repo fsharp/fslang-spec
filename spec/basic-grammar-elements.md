@@ -260,7 +260,7 @@ elsewhere in the table.
 | `f(x)` | Left | High-precedence application; see [§](lexical-filtering.md#high-precedence-application) |
 | `.` `?` | Left |  |
 | _prefix-op_ | Left | Applies to prefix uses of these symbols |
-| `\| rule` | Right | Pattern matching rules |
+| <code>&#124; rule</code> | Right | Pattern matching rules |
 | `f x` `lazy x` `assert x` | Left | |
 | `**OP` | Right | |
 | `*OP` `/OP` `%OP` | Left |  |
@@ -268,10 +268,10 @@ elsewhere in the table.
 | `:?` | Not associative |  |
 | `::` | Right | |
 | `^OP` `@OP` | Right | |
-| `!=OP` `<OP` `>OP` `=OP` `\|OP` `&OP` `$` | Left |  |
+| `!=OP` `<OP` `>OP` `=OP` <code>&#124;OP</code> `&OP` `$` | Left |  |
 | `:>` `:?>` | Right |  |
 | `&` `&&` | Left |  |
-| `or` `\|\|` | Left |  |
+| `or` <code>&#124;&#124;</code> | Left |  |
 | `,` | Not associative |  |
 | `:=` | Right |  |
 | `->` | Right |  |
@@ -279,7 +279,7 @@ elsewhere in the table.
 | `function`, `fun`, `match`, `try` | Not associative |  |
 | `let` | Not associative |  |
 | `;` | Right |  |
-| `\|` | Left |  |
+| <code>&#124;</code> | Left |  |
 | `when` | Right |  |
 | `as` | Right |  |
 
