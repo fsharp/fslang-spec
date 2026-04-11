@@ -274,7 +274,7 @@ elsewhere in the table.
 | `or` <code>&#124;&#124;</code> | Left |  |
 | `,` | Not associative |  |
 | `:=` | Right |  |
-| `->` | Right |  |
+| `<-` | Right |  |
 | `if` | Not associative |  |
 | `function`, `fun`, `match`, `try` | Not associative |  |
 | `let` | Not associative |  |
