@@ -637,6 +637,8 @@ type OneChoice =
 
 Union types are implicitly marked serializable unless the `AutoSerializable(false)` attribute is used.
 
+Union types are reference types unless the `Struct` attribute is used (see [§](type-definitions.md#struct-type-definitions)).
+
 ### Members in Union Types
 
 Union types may declare members ([§](type-definitions.md#members)), overrides, and interface implementations. As with all
@@ -1324,6 +1326,26 @@ Record structs have the following limitations:
 
 - Unlike normal F# structs you cannot call the default constructor
 - When marked with `[<CLIMutable>]` attribute, a default constructor is not created because it already exists implicitly
+
+[Union Type Definitions](#union-type-definitions) may also use the `[<Struct>]` attribute to change their representation from a reference type to a value type:
+
+```fsharp
+// Single case:
+[<Struct>]
+type UnionExample = U of int * int * bool
+
+// Multi-case:
+[<Struct>]
+type Shape =
+    | Circle of radius: double
+    | Square of side: int
+```
+
+Struct unions have the following limitations:
+
+- You cannot have cyclic references to the type being defined. For example, `[<Struct>] type T = U of T` is not permitted.
+- Unlike normal F# structs, you cannot call the default constructor.
+- The current compiler implementation requires that all fields with the same name must be of the same type. This rule applies also to the generated 'Item' name in case of unnamed fields.
 
 ## Enum Type Definitions
 

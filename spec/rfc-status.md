@@ -23,13 +23,13 @@
 | F# 4.1 | FS-1010 | [Add Map.count](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1010-add-map-count.md) | This specifies some details of the `FSharp.Core` library, which is not part of this spec (except for the basic items listed in [§18](https://fsharp.github.io/fslang-spec/the-f-library-fsharpcoredll/)) |
 | F# 4.1 | FS-1012 | [Caller Info Attributes](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1012-caller-info-attributes.md) | [completed](https://github.com/fsharp/fslang-spec/pull/74) |
 | F# 4.1 | FS-1013 | [Enable Reflection Functionality on Portable Profiles](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1013-enable-reflection-functionality-on-portable-profiles.md) | |
-| F# 4.1 | FS-1014 | [Struct Discriminated Unions](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1014-struct-discriminated-unions.md) | |
+| F# 4.1 | FS-1014 | [Struct Discriminated Unions](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1014-struct-discriminated-unions.md) | [completed](https://github.com/fsharp/fslang-spec/pull/90) |
 | F# 4.1 | FS-1015 | [Support for fixed](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1015-support-for-fixed.md) | [completed](https://github.com/fsharp/fslang-spec/pull/65) |
 | F# 4.1 | FS-1016 | [Unreserve Keywords](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1016-unreserve-keywords.md) | [completed](https://github.com/fsharp/fslang-spec/pull/63) |
-| F# 4.1 | FS-1017 | [Fix SRTP Constraint Parsing](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1017-fix-srtp-constraint-parsing.md) | |
+| F# 4.1 | FS-1017 | [Fix SRTP Constraint Parsing](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1017-fix-srtp-constraint-parsing.md) | [completed](https://github.com/fsharp/fslang-spec/pull/91) |
 | F# 4.1 | FS-1018 | [Adjust Extensions Method Scope](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1018-adjust-extensions-method-scope.md) | |
 | F# 4.1 | FS-1019 | [Implicitly Add the Module Suffix](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1019-implicitly-add-the-module-suffix.md) | [completed](https://github.com/fsharp/fslang-spec/pull/77) |
-| F# 4.1 | FS-1020 | [ByRef Returns](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1020-byref-returns.md) | |
+| F# 4.1 | FS-1020 | [ByRef Returns](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1020-byref-returns.md) | [completed](https://github.com/fsharp/fslang-spec/pull/92) |
 | F# 4.1 | FS-1025 | [Improve Record Type Inference](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1025-improve-record-type-inference.md) | |
 | F# 4.1 | FS-1027 | [Complete Optional DefaultParameterValue](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1027-complete-optional-defaultparametervalue.md) | [completed](https://github.com/fsharp/fslang-spec/pull/75) |
 | F# 4.1 | FS-1029 | [Implement IReadOnlyCollection in list](https://github.com/fsharp/fslang-design/tree/main/FSharp-4.1/FS-1029-Implement%20IReadOnlyCollection%20in%20list.md) | |
@@ -97,3 +97,12 @@
 | F# 9.0 | FS-1140 | [Boolean Returning and Return Type Directed Partial Active Patterns](https://github.com/fsharp/fslang-design/tree/main/FSharp-9.0/FS-1140-boolean-returning-and-return-type-directed-partial-active-patterns.md) | |
 | F# 9.0 | FS-1144 | [Empty Bodied Computation Expressions](https://github.com/fsharp/fslang-design/tree/main/FSharp-9.0/FS-1144-empty-bodied-computation-expressions.md) | |
 | F# 9.0 | FS-1147 | [Non-String Directive Args](https://github.com/fsharp/fslang-design/tree/main/FSharp-9.0/FS-1147-non-string-directive-args.md) | |
+| F# 10.0 | FS-632 | [Allow object expression without overrides](https://github.com/fsharp/fslang-design/blob/main/FSharp-10.0/FS-632-Allow-object-expression-without-overrides.md) |  |
+| F# 10.0 | FS-1033 | [Deprecate places where seq can be omitted](https://github.com/fsharp/fslang-design/blob/main/FSharp-10.0/FS-1033-Deprecate-places-where-seq-can-be-omitted.md) |  |
+| F# 10.0 | FS-1104 | [Further struct representations ](https://github.com/fsharp/fslang-design/blob/main/FSharp-10.0/FS-1104-struct-representations.md) |  |
+| F# 10.0 | FS-1141 | [Allow access modifiers to auto properties getters and setters](https://github.com/fsharp/fslang-design/blob/main/FSharp-10.0/FS-1141-Allow-access-modifiers-to-auto-properties-getters-and-setters.md) |  |
+| F# 10.0 | FS-1146 | [Scoped-nowarn](https://github.com/fsharp/fslang-design/blob/main/FSharp-10.0/FS-1146-scoped-nowarn.md) |  |
+| F# 10.0 | FS-1148 | [Allow decimal constants](https://github.com/fsharp/fslang-design/blob/main/FSharp-10.0/FS-1148-allow-decimal-constants.md) |  |
+| F# 10.0 | FS-1329 | [Allow typed bindings in CE let!s without parentheses](https://github.com/fsharp/fslang-design/blob/main/FSharp-10.0/FS-1329-Allow%20typed%20bindings%20in%20CE%20let!s%20without%20parentheses.md) |  |
+| F# 10.0 | FS-1330 | [Support tailcalls in computation expressions](https://github.com/fsharp/fslang-design/blob/main/FSharp-10.0/FS-1330-support-tailcalls-in-computation-expressions.md) |  |
+
