@@ -32,7 +32,7 @@ type :=
     typar                                      -- variable type
     long-ident                                 -- named type, such as int
     long-ident '<' type-args '>'               -- named type, such as list<int>
-    long-ident '<' ' ' '>'                     -- named type, such as IEnumerable< >
+    long-ident '<' '>'                         -- named type, such as IEnumerable< >
     type long-ident                            -- named type, such as int list
     type '[' ',' ... ',' ']'                   -- array type
     type typar-defns                           -- type with constraints

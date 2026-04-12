@@ -4,8 +4,8 @@ Type definitions define new named types. The grammar of type definitions is show
 
 ```fsgrammar
 type-defns :=
-    type type-defn
-    type type-defn and ... and type-defn   // recursive type definition group
+    attributes? type type-defn
+    attributes? type type-defn and ... and attributes? type-defn   // recursive type definition group
 
 type-defn :=
     abbrev-type-defn
