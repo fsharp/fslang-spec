@@ -3,6 +3,10 @@
 Type definitions define new named types. The grammar of type definitions is shown below.
 
 ```fsgrammar
+type-defns :=
+    attributes? type type-defn
+    attributes? type type-defn and ... and attributes? type-defn   // recursive type definition group
+
 type-defn :=
     abbrev-type-defn
     record-type-defn
@@ -49,10 +53,10 @@ record-field :=
     attributes? mutable? access? ident ':' type
 
 anon-type-defn :=
-    type-name primary-constr-args? object-val? '=' begin class-type-body end
+    type-name primary-constr-args? as-defn? '=' begin class-type-body end
 
 class-type-defn :=
-    type-name primary-constr-args? object-val? '=' class class-type-body end
+    type-name primary-constr-args? as-defn? '=' class class-type-body end
 
 as-defn :=
     as ident
